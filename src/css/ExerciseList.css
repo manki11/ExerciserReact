@@ -1,0 +1,14 @@
+.exercise-list{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
+@media (max-width: 580px) {
+    .recipe-list{
+        display: block;
+    }
+}

@@ -2,9 +2,56 @@ import React, {Component} from 'react';
 import Navbar from '../components/Navbar'
 import activity from 'lib/sugar-web/activity/activity'
 import env from 'lib/sugar-web/env'
+import ExerciseList from './ExerciseList'
 import '../css/index.css';
 
 class App extends Component {
+
+    constructor(props){
+        super(props);
+        this.state={
+            exercises: [
+                {
+                    id:0,
+                    title: 'Math Exercise',
+                    questions: "10",
+                    topics: "Algebra, Matrix, Graph",
+                    avg_score: "8"
+                },
+                {
+                    id:1,
+                    title: 'English Exercise',
+                    questions: "20",
+                    topics: "Grammar",
+                    avg_score: "15"
+                },
+                {
+                    id:2,
+                    title: 'Science Exercise',
+                    questions: "30",
+                    topics: "Biology, Physics",
+                    avg_score: "22"
+                },
+                {
+                    id:3,
+                    title: 'Math Exercise',
+                    questions: "30",
+                    topics: "Addition, Subtraction",
+                    avg_score: "27"
+                },
+                {
+                    id:4,
+                    title: 'French Exercise',
+                    questions: "50",
+                    topics: "Grammar",
+                    avg_score: "43"
+                },
+            ],
+            nextRecipeId:5,
+            isForm: false
+        };
+
+    }
 
     componentDidMount() {
         activity.setup();
@@ -42,6 +89,7 @@ class App extends Component {
         return (
             <div className="App">
                 <Navbar onStop={() => this.stopActivity()}/>
+                <ExerciseList onDelete={this.onDelete} exercises={this.state.exercises}/>
             </div>
         );
     }
