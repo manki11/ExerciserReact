@@ -2,14 +2,18 @@ import React, {Component} from 'react';
 import Exercise from '../components/Exercise'
 import '../css/ExerciseList.css'
 
-class RecipeList extends Component {
+class ExerciseList extends Component {
 
     render() {
-        const {onDelete}= this.props;
-        const exercises = this.props.exercises.map((r, index) => (<Exercise onDelete={onDelete} key={r.id} {...r}/>));
+        const {onDelete} = this.props;
+        let exercises = <p>Exercise List</p>;
+        if (this.props.exercises) {
+            exercises = this.props.exercises.map((r, index) => (
+                <Exercise onDelete={onDelete} key={r.id} {...r}/>));
+        }
 
         return (
-            <div className="recipe-list">
+            <div className="exercise-list">
                 {exercises}
             </div>
         );
@@ -17,4 +21,4 @@ class RecipeList extends Component {
 }
 
 
-export default RecipeList;
+export default ExerciseList;

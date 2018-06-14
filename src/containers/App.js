@@ -2,8 +2,13 @@ import React, {Component} from 'react';
 import Navbar from '../components/Navbar'
 import activity from 'lib/sugar-web/activity/activity'
 import env from 'lib/sugar-web/env'
-import ExerciseList from './ExerciseList'
+import {Provider} from "react-redux"
+import {configureStore} from "../store";
+import {MemoryRouter as Router} from "react-router-dom";
+import Main from "./Main";
 import '../css/index.css';
+
+const store = configureStore();
 
 class App extends Component {
 
@@ -88,8 +93,14 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <Navbar onStop={() => this.stopActivity()}/>
-                <ExerciseList onDelete={this.onDelete} exercises={this.state.exercises}/>
+                <Provider store={store}>
+                    <Router>
+                        <div className="App-container">
+                            <Navbar onStop={() => this.stopActivity()}/>
+                            <Main/>
+                        </div>
+                    </Router>
+                </Provider>
             </div>
         );
     }
