@@ -5,7 +5,7 @@ const exercises=(state=[], actions)=> {
         case GET_ALL_EXERCISES:
             return [...actions.exercise];
         case ADD_NEW_EXERCISE:
-            return [, actions.exercise,...state];
+            return [actions.exercise,...state];
         case REMOVE_EXERCISE:
             return state.filter(exercise=> exercise.id!== actions.id);
         default:

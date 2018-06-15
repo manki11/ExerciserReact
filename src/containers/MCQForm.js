@@ -1,6 +1,8 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {addNewExerciseQuestion} from "../store/actions/new_exercise";
+import {addNewExercise} from "../store/actions/exercises";
+import {withRouter} from "react-router-dom"
 import "../css/MCQForm.css"
 
 class MCQForm extends Component {
@@ -24,6 +26,10 @@ class MCQForm extends Component {
 
     handleNewEvent = event => {
         event.preventDefault();
+        this.saveCurrentForm();
+    };
+
+    saveCurrentForm= ()=> {
         let a= this.state.currentQuestion.a;
         let b= this.state.currentQuestion.b;
         let c= this.state.currentQuestion.c;
@@ -35,10 +41,10 @@ class MCQForm extends Component {
         let correctAns= a;
 
         let newQues={
-            id,
-            answers,
-            question,
-            correctAns
+            id:id,
+            answers:answers,
+            question:question,
+            correctAns:correctAns
         };
 
         this.setState({
@@ -59,6 +65,18 @@ class MCQForm extends Component {
                 correctAns: ""
             }
         });
+    };
+
+    submitExercise= ()=> {
+        let exercise={
+            id: this.props.counter+1,
+            type: "mcq",
+            questions: this.state.questions,
+            scores:[]
+        };
+
+        this.props.addNewExercise(exercise);
+        this.props.history.push('/')
 
     };
 
@@ -160,14 +178,17 @@ class MCQForm extends Component {
                                     </div>
                                 </div>
                                 <div className="row justify-content-between">
-                                    <button className="btn btn-info">
+                                    <button className={"btn btn-info"+(this.state.noOfQuestions>=1 ? '' : 'disabled')}>
                                         Previous Question
                                     </button>
                                     <div className="justify-content-end">
                                     <button type="submit" className="btn btn-info submit-button">
                                         Next Question
                                     </button>
-                                    <button className="btn btn-success disabled">
+                                    <button
+                                        className={"btn btn-success"+(this.state.noOfQuestions>=2 ? '' : 'disabled')}
+                                        onClick={this.submitExercise}
+                                    >
                                         Finish Exercise
                                     </button>
                                     </div>
@@ -182,7 +203,9 @@ class MCQForm extends Component {
 }
 
 function MapStateToProps(state) {
-    return {}
+    return {
+        counter: state.exercise_counter
+    }
 }
 
-export default connect(MapStateToProps, {addNewExerciseQuestion})(MCQForm);
+export default withRouter(connect(MapStateToProps, {addNewExerciseQuestion, addNewExercise})(MCQForm));
