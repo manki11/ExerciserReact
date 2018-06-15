@@ -13,8 +13,10 @@ class ExerciseList extends Component {
         }
 
         return (
-            <div className="exercise-list">
+            <div className="container">
+                <div className="col-md-12">
                 {exercises}
+                </div>
             </div>
         );
     }

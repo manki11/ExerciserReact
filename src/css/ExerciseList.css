@@ -7,6 +7,10 @@
     margin-top: 50px;
 }
 
+.container{
+    margin-top: 50px;
+}
+
 @media (max-width: 580px) {
     .recipe-list{
         display: block;

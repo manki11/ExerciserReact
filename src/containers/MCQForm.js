@@ -9,6 +9,7 @@ class MCQForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            title:'',
             noOfQuestions: 0,
             currentQuestionNo:-1,
             questions: [],
@@ -69,6 +70,7 @@ class MCQForm extends Component {
 
     submitExercise= ()=> {
         let exercise={
+            title: this.state.title ,
             id: this.props.counter+1,
             type: "mcq",
             questions: this.state.questions,
@@ -87,6 +89,21 @@ class MCQForm extends Component {
                     <div className="col-sm-10">
                         <div className="col-md-12">
                             <form onSubmit={this.handleNewEvent}>
+                                <div className="row">
+                                    <div className="form-group">
+                                        <label htmlFor="title">Title Of Exercise:</label>
+                                        <input
+                                            className="form-control"
+                                            type="text"
+                                            id="title"
+                                            value={this.state.title}
+                                            onChange={e => this.setState({
+                                                ...this.state,
+                                                title:e.target.value
+                                            })}
+                                        />
+                                    </div>
+                                </div>
                                 <div className="row">
                                     <div className="form-group">
                                         <label htmlFor="question">Question:</label>
