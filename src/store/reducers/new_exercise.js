@@ -10,7 +10,7 @@ const DEFAULT_STATE={
 const new_exercise=(state=DEFAULT_STATE, actions)=> {
     switch(actions.type){
         case ADD_NEW_EXERCISE_TYPE:
-            return {...state, type:actions.type};
+            return {...state, type:actions.template};
         case ADD_NEW_EXERCISE_QUES:
             return {...state, questions:[...state.questions, actions.question]};
         case ADD_NEW_EXERCISE_ID:
