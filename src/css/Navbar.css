@@ -1,17 +1,22 @@
 #main-toolbar #activity-button {
     background-image: url(../icons/activity-icon.svg);
+    border: none;
+    outline: none;
 }
 
 #main-toolbar #add-button {
     background-image: url(../icons/add.svg);
+    outline: none;
 }
 
 #main-toolbar #network-button {
     background-image: url(../icons/zoom-home.svg);
+    outline: none;
 }
 
 #private-button {
     background-image: url(../icons/zoom-home.svg);
+    outline: none;
     width: 47px;
     height: 47px;
     margin: 4px 2px;
@@ -27,6 +32,7 @@
 
 #shared-button {
     background-image: url(../icons/zoom-neighborhood.svg);
+    outline: none;
     width: 47px;
     height: 47px;
     margin: 4px 2px;

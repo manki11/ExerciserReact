@@ -40,7 +40,7 @@ class NewExerciseTemplate extends Component {
                                 </div>
                                 <div className="card-body">
                                     <h5 className="card-title">MCQ</h5>
-                                    <p className="card-text">Build an exercise with questions and answers with 4
+                                    <p className="card-text">Build an exercise with questions and 4
                                         option choices.</p>
                                     <button className="btn btn-primary" onClick={this.mcqSelected}>Choose</button>
                                 </div>
