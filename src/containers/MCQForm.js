@@ -11,7 +11,7 @@ class MCQForm extends Component {
         this.state = {
             title: '',
             noOfQuestions: 0,
-            currentQuestionNo: -1,
+            currentQuestionNo: 1,
             questions: [],
             currentQuestion: {
                 id: 1,
@@ -45,57 +45,113 @@ class MCQForm extends Component {
 
     handleNewEvent = event => {
         event.preventDefault();
-        this.saveCurrentForm();
     };
 
     saveCurrentForm = () => {
+        console.log("save question");
+
+        const {currentQuestionNo, noOfQuestions} = this.state;
         const {question, answers} = this.state.currentQuestion;
         let correctAns = answers[0];
-        let id = this.state.noOfQuestions + 1;
+        let id= currentQuestionNo;
 
-        let newQues = {
+        let Ques = {
             id: id,
             answers: answers,
             question: question,
             correctAns: correctAns
         };
 
-        this.setState({
-            ...this.state,
-            questions: [
-                ...this.state.questions,
-                newQues
-            ],
-            noOfQuestions: id,
-            currentQuestionNo: id + 1,
-            currentQuestion: {
-                id: -1,
-                question: "",
-                answers: ['', ''],
+        if (currentQuestionNo > noOfQuestions) {
+            this.setState({
+                ...this.state,
+                questions: [
+                    ...this.state.questions,
+                    Ques
+                ],
+                noOfQuestions: id,
+                currentQuestionNo: id + 1,
+                currentQuestion: {
+                    id: id + 1,
+                    question: "",
+                    answers: ['', ''],
+                }
+            });
+        }
+        else {
+            const {questions}= this.state;
+            let index= currentQuestionNo;
+            const updatedQuestions= questions.map((ques, i)=> (
+                ques.id=== index? Ques: ques
+            ));
+            if(currentQuestionNo=== noOfQuestions){
+                this.setState({
+                    ...this.state,
+                    questions: updatedQuestions,
+                    currentQuestionNo: currentQuestionNo + 1,
+                    currentQuestion: {
+                        id: currentQuestionNo + 1,
+                        question: '',
+                        answers: ['',''],
+                    }
+                });
+            }else{
+                const {question, answers}= this.state.questions[index];
+                this.setState({
+                    ...this.state,
+                    questions: updatedQuestions,
+                    currentQuestionNo: index + 1,
+                    currentQuestion: {
+                        id: index + 1,
+                        question: question,
+                        answers: answers,
+                    }
+                });
             }
-        });
+        }
     };
 
     submitExercise = () => {
+        console.log("submit exercise");
+
         let exercise = {
             title: this.state.title,
             id: this.props.counter + 1,
-            type: "mcq",
+            type: "MCQ",
             questions: this.state.questions,
             scores: []
         };
 
         this.props.addNewExercise(exercise);
         this.props.history.push('/')
-
     };
 
     previousQues = () => {
+        console.log("previous question");
 
+        const {currentQuestionNo} = this.state;
+        let previousQuestionNo = currentQuestionNo - 1;
+        console.log("cn"+ currentQuestionNo);
+        console.log("pn"+ previousQuestionNo);
+
+        let previousQuestion = this.state.questions[previousQuestionNo - 1];
+        const {id, question, answers} = previousQuestion;
+        let currentQuestion={
+            id:id,
+            question: question,
+            answers: answers
+        };
+
+        this.setState({
+            ...this.state,
+            currentQuestionNo: id,
+            currentQuestion: currentQuestion
+        })
     };
 
     render() {
         const {currentQuestion} = this.state;
+        const {id} = currentQuestion;
         let inputs = currentQuestion.answers.map((ans, i) => {
             let placeholder = 'Wrong Option';
             if (i === 0) placeholder = 'Correct Option';
@@ -141,7 +197,7 @@ class MCQForm extends Component {
                                 </div>
                                 <div className="row">
                                     <div className="form-group">
-                                        <label htmlFor="question">Question:</label>
+                                        <label htmlFor="question">{id}. Question:</label>
                                         <input
                                             className="form-control"
                                             type="text"
@@ -182,7 +238,7 @@ class MCQForm extends Component {
                                         Previous Question
                                     </button>
                                     <div className="justify-content-end">
-                                        <button type="submit" className="btn btn-info submit-button">
+                                        <button onClick={this.saveCurrentForm} className="btn btn-info submit-button">
                                             Next Question
                                         </button>
                                         <button
