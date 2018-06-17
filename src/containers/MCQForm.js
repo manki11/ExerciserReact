@@ -100,12 +100,14 @@ class MCQForm extends Component {
             let placeholder = 'Wrong Option';
             if (i === 0) placeholder = 'Correct Option';
             return (
-                <div className="row">
+                <div className="row" key={`answers-${i}`}>
                     <div className="col-md-6">
-                        <div className="form-group" key={`answers-${i}`}>
-                            <label htmlFor={`answer-${i}`}>{i + 1}</label>
+                        <div className="form-group">
+                            <label htmlFor={`answer-${i}`}>
+                                {i + 1}
+                            </label>
                             <input
-                                className="form-control"
+                                className="answers form-control"
                                 name={`answer-${i}`}
                                 type="text"
                                 value={ans}
