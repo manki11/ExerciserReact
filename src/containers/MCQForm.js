@@ -13,6 +13,12 @@ class MCQForm extends Component {
             noOfQuestions: 0,
             currentQuestionNo: 1,
             questions: [],
+            isFormValid: false,
+            errors: {
+                question: '',
+                answers: '',
+                title: ''
+            },
             currentQuestion: {
                 id: 1,
                 question: "",
@@ -50,65 +56,101 @@ class MCQForm extends Component {
     saveCurrentForm = () => {
         console.log("save question");
 
-        const {currentQuestionNo, noOfQuestions} = this.state;
-        const {question, answers} = this.state.currentQuestion;
-        let correctAns = answers[0];
-        let id= currentQuestionNo;
+        this.checkFormValidation();
 
-        let Ques = {
-            id: id,
-            answers: answers,
-            question: question,
-            correctAns: correctAns
-        };
+        if (this.state.isFormValid) {
+            const {currentQuestionNo, noOfQuestions} = this.state;
+            const {question, answers} = this.state.currentQuestion;
+            let correctAns = answers[0];
+            let id = currentQuestionNo;
 
-        if (currentQuestionNo > noOfQuestions) {
-            this.setState({
-                ...this.state,
-                questions: [
-                    ...this.state.questions,
-                    Ques
-                ],
-                noOfQuestions: id,
-                currentQuestionNo: id + 1,
-                currentQuestion: {
-                    id: id + 1,
-                    question: "",
-                    answers: ['', ''],
-                }
-            });
-        }
-        else {
-            const {questions}= this.state;
-            let index= currentQuestionNo;
-            const updatedQuestions= questions.map((ques, i)=> (
-                ques.id=== index? Ques: ques
-            ));
-            if(currentQuestionNo=== noOfQuestions){
+            let Ques = {
+                id: id,
+                answers: answers,
+                question: question,
+                correctAns: correctAns
+            };
+
+            if (currentQuestionNo > noOfQuestions) {
                 this.setState({
                     ...this.state,
-                    questions: updatedQuestions,
-                    currentQuestionNo: currentQuestionNo + 1,
+                    questions: [
+                        ...this.state.questions,
+                        Ques
+                    ],
+                    noOfQuestions: id,
+                    currentQuestionNo: id + 1,
                     currentQuestion: {
-                        id: currentQuestionNo + 1,
-                        question: '',
-                        answers: ['',''],
-                    }
-                });
-            }else{
-                const {question, answers}= this.state.questions[index];
-                this.setState({
-                    ...this.state,
-                    questions: updatedQuestions,
-                    currentQuestionNo: index + 1,
-                    currentQuestion: {
-                        id: index + 1,
-                        question: question,
-                        answers: answers,
+                        id: id + 1,
+                        question: "",
+                        answers: ['', ''],
                     }
                 });
             }
+            else {
+                const {questions} = this.state;
+                let index = currentQuestionNo;
+                const updatedQuestions = questions.map((ques, i) => (
+                    ques.id === index ? Ques : ques
+                ));
+                if (currentQuestionNo === noOfQuestions) {
+                    this.setState({
+                        ...this.state,
+                        questions: updatedQuestions,
+                        currentQuestionNo: currentQuestionNo + 1,
+                        currentQuestion: {
+                            id: currentQuestionNo + 1,
+                            question: '',
+                            answers: ['', ''],
+                        }
+                    });
+                } else {
+                    const {question, answers} = this.state.questions[index];
+                    this.setState({
+                        ...this.state,
+                        questions: updatedQuestions,
+                        currentQuestionNo: index + 1,
+                        currentQuestion: {
+                            id: index + 1,
+                            question: question,
+                            answers: answers,
+                        }
+                    });
+                }
+            }
         }
+    };
+
+    checkFormValidation = () => {
+        const {currentQuestion, title} = this.state;
+        const {question, answers} = currentQuestion;
+        let errors = {};
+        let isFormValid = true;
+
+        if (question === '') {
+            errors['question'] = 'Question field cant be empty';
+            isFormValid = false;
+        }
+
+        if (title === '') {
+            errors['title'] = "Title can't be empty";
+            isFormValid = false;
+        }
+
+        answers.map((ans, i) => {
+            if (ans === '') {
+                errors['answers'] = "Answer fields can't be empty";
+                isFormValid = false;
+            }
+        });
+
+        this.setState({
+            ...this.state,
+            errors: errors,
+            isFormValid: isFormValid
+        })
+
+
     };
 
     submitExercise = () => {
@@ -131,13 +173,13 @@ class MCQForm extends Component {
 
         const {currentQuestionNo} = this.state;
         let previousQuestionNo = currentQuestionNo - 1;
-        console.log("cn"+ currentQuestionNo);
-        console.log("pn"+ previousQuestionNo);
+        console.log("cn" + currentQuestionNo);
+        console.log("pn" + previousQuestionNo);
 
         let previousQuestion = this.state.questions[previousQuestionNo - 1];
         const {id, question, answers} = previousQuestion;
-        let currentQuestion={
-            id:id,
+        let currentQuestion = {
+            id: id,
             question: question,
             answers: answers
         };
@@ -167,6 +209,7 @@ class MCQForm extends Component {
                                 name={`answer-${i}`}
                                 type="text"
                                 value={ans}
+                                required
                                 placeholder={placeholder}
                                 onChange={this.handleChangeAns}/>
                         </div>
@@ -187,12 +230,14 @@ class MCQForm extends Component {
                                             className="form-control"
                                             type="text"
                                             id="title"
+                                            required
                                             value={this.state.title}
                                             onChange={e => this.setState({
                                                 ...this.state,
                                                 title: e.target.value
                                             })}
                                         />
+                                        <span style={{color: "red"}}>{this.state.errors["title"]}</span>
                                     </div>
                                 </div>
                                 <div className="row">
@@ -202,6 +247,7 @@ class MCQForm extends Component {
                                             className="form-control"
                                             type="text"
                                             id="question"
+                                            required
                                             value={this.state.currentQuestion.question}
                                             onChange={e => this.setState({
                                                 ...this.state,
@@ -211,9 +257,13 @@ class MCQForm extends Component {
                                                 }
                                             })}
                                         />
+                                        <span style={{color: "red"}}>{this.state.errors["question"]}</span>
                                     </div>
                                 </div>
                                 {inputs}
+                                <div>
+                                    <span style={{color: "red"}}>{this.state.errors["answers"]}</span>
+                                </div>
                                 <div className="row">
                                     <div className="form-group">
                                         <button
@@ -230,7 +280,7 @@ class MCQForm extends Component {
                                         </button>
                                     </div>
                                 </div>
-                                <div className="row justify-content-between">
+                                <div className="form-group row justify-content-between">
                                     <button
                                         className={"btn btn-info" + (this.state.noOfQuestions >= 1 ? '' : 'disabled')}
                                         onClick={this.previousQues}
