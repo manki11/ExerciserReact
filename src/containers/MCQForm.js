@@ -15,9 +15,9 @@ class MCQForm extends Component {
             questions: [],
             isFormValid: false,
             errors: {
-                question: '',
-                answers: '',
-                title: ''
+                question: false,
+                answers: false,
+                title: false
             },
             currentQuestion: {
                 id: 1,
@@ -32,7 +32,57 @@ class MCQForm extends Component {
         const ans = this.state.currentQuestion.answers.map((ans, i) => (
             i === index ? e.target.value : ans
         ));
-        this.setState({...this.state, currentQuestion: {...this.state.currentQuestion, answers: ans}})
+        let error = false;
+        if (e.target.value === '') {
+            error = true;
+        }
+        this.setState({
+            ...this.state,
+            currentQuestion: {...this.state.currentQuestion, answers: ans},
+            errors: {
+                ...this.state.errors,
+                answers: error
+            }
+        }, () => {
+            this.checkFormValidation();
+        });
+    };
+
+    handleChangeTitle = e => {
+        let error=false;
+        if(e.target.value===''){
+            error=true;
+        }
+        this.setState({
+            ...this.state,
+            title: e.target.value,
+            errors:{
+                ...this.state.errors,
+                title: error
+            }
+        }, () => {
+            this.checkFormValidation();
+        });
+    };
+
+    handleChangeQues = e => {
+        let error=false;
+        if(e.target.value===''){
+            error=true;
+        }
+        this.setState({
+            ...this.state,
+            errors:{
+                ...this.state.errors,
+                question: error
+            },
+            currentQuestion: {
+                ...this.state.currentQuestion,
+                question: e.target.value
+            }
+        }, () => {
+            this.checkFormValidation();
+        });
     };
 
     handleRemoveAns = e => {
@@ -40,13 +90,23 @@ class MCQForm extends Component {
         const {answers} = currentQuestion;
         if (answers.length > 2) {
             answers.pop();
-            this.setState({currentQuestion: {...currentQuestion, answers: answers}})
+            this.setState(
+                {currentQuestion: {...currentQuestion, answers: answers}},
+                () => {
+                    this.checkFormValidation();
+                }
+            )
         }
     };
 
     handleNewAns = e => {
         const {currentQuestion} = this.state;
-        this.setState({currentQuestion: {...currentQuestion, answers: [...this.state.currentQuestion.answers, '']}})
+        this.setState(
+            {currentQuestion: {...currentQuestion, answers: [...this.state.currentQuestion.answers, '']}},
+            () => {
+                this.checkFormValidation();
+            }
+        )
     };
 
     handleNewEvent = event => {
@@ -124,29 +184,24 @@ class MCQForm extends Component {
     checkFormValidation = () => {
         const {currentQuestion, title} = this.state;
         const {question, answers} = currentQuestion;
-        let errors = {};
         let isFormValid = true;
 
         if (question === '') {
-            errors['question'] = 'Question field cant be empty';
             isFormValid = false;
         }
 
         if (title === '') {
-            errors['title'] = "Title can't be empty";
             isFormValid = false;
         }
 
         answers.map((ans, i) => {
             if (ans === '') {
-                errors['answers'] = "Answer fields can't be empty";
                 isFormValid = false;
             }
         });
 
         this.setState({
             ...this.state,
-            errors: errors,
             isFormValid: isFormValid
         })
 
@@ -192,7 +247,7 @@ class MCQForm extends Component {
     };
 
     render() {
-        const {currentQuestion} = this.state;
+        const {currentQuestion, errors} = this.state;
         const {id} = currentQuestion;
         let inputs = currentQuestion.answers.map((ans, i) => {
             let placeholder = 'Wrong Option';
@@ -217,6 +272,20 @@ class MCQForm extends Component {
                 </div>
             )
         });
+        let title_error = '';
+        let question_error = '';
+        let answer_error = '';
+
+        if (errors['title']) {
+            title_error = <span style={{color: "red"}}>Title field can't be empty</span>;
+        }
+        if (errors['question']) {
+            question_error = <span style={{color: "red"}}>Question field can't be empty</span>;
+        }
+        if (errors['answers']) {
+            answer_error = <span style={{color: "red"}}>Answers field can't be empty</span>;
+        }
+
         return (
             <div className="container-fluid">
                 <div className="row align-items-center justify-content-center">
@@ -232,12 +301,9 @@ class MCQForm extends Component {
                                             id="title"
                                             required
                                             value={this.state.title}
-                                            onChange={e => this.setState({
-                                                ...this.state,
-                                                title: e.target.value
-                                            })}
+                                            onChange={this.handleChangeTitle}
                                         />
-                                        <span style={{color: "red"}}>{this.state.errors["title"]}</span>
+                                        {title_error}
                                     </div>
                                 </div>
                                 <div className="row">
@@ -249,20 +315,14 @@ class MCQForm extends Component {
                                             id="question"
                                             required
                                             value={this.state.currentQuestion.question}
-                                            onChange={e => this.setState({
-                                                ...this.state,
-                                                currentQuestion: {
-                                                    ...this.state.currentQuestion,
-                                                    question: e.target.value
-                                                }
-                                            })}
+                                            onChange={this.handleChangeQues}
                                         />
-                                        <span style={{color: "red"}}>{this.state.errors["question"]}</span>
+                                        {question_error}
                                     </div>
                                 </div>
                                 {inputs}
                                 <div>
-                                    <span style={{color: "red"}}>{this.state.errors["answers"]}</span>
+                                    {answer_error}
                                 </div>
                                 <div className="row">
                                     <div className="form-group">
@@ -282,18 +342,24 @@ class MCQForm extends Component {
                                 </div>
                                 <div className="form-group row justify-content-between">
                                     <button
-                                        className={"btn btn-info" + (this.state.noOfQuestions >= 1 ? '' : 'disabled')}
                                         onClick={this.previousQues}
+                                        className={"btn btn-info"}
+                                        disabled={!this.state.noOfQuestions >= 1}
                                     >
                                         Previous Question
                                     </button>
                                     <div className="justify-content-end">
-                                        <button onClick={this.saveCurrentForm} className="btn btn-info submit-button">
+                                        <button
+                                            onClick={this.saveCurrentForm}
+                                            className={"btn btn-info"}
+                                            disabled={!this.state.isFormValid}
+                                        >
                                             Next Question
                                         </button>
                                         <button
-                                            className={"btn btn-success" + (this.state.noOfQuestions >= 2 ? '' : 'disabled')}
                                             onClick={this.submitExercise}
+                                            className={"btn btn-success"}
+                                            disabled={!this.state.noOfQuestions >= 1}
                                         >
                                             Finish Exercise
                                         </button>
