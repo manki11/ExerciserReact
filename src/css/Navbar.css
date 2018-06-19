@@ -14,6 +14,12 @@
     outline: none;
 }
 
+#main-toolbar #home-button {
+    background-image: url(../icons/home.svg);
+    background-size: 80%;
+    outline: none;
+}
+
 #private-button {
     background-image: url(../icons/zoom-home.svg);
     outline: none;

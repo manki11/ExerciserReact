@@ -19,6 +19,10 @@ class Navbar extends Component {
         this.props.history.push('/new')
     };
 
+    directToHome=()=>{
+        this.props.history.push('/')
+    };
+
     static propTypes={
         onShowForm: PropTypes.func,
         onStop: PropTypes.func
@@ -27,6 +31,7 @@ class Navbar extends Component {
         return (
             <div id="main-toolbar" className="toolbar">
                 <button className="toolbutton" id="activity-button" title="My Activity"/>
+                <button className="toolbutton" id="home-button" title="Home" onClick={this.directToHome}/>
                 <button className="toolbutton" id="add-button" title="Add Exercise" onClick={this.directToNew}/>
                 <button className="toolbutton" id="network-button" title="Network"/>
                 <button className="toolbutton pull-right" id="stop-button" title="Stop" onClick={this.props.onStop}/>
