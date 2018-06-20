@@ -1,3 +1,7 @@
 .container{
     margin-top: 10%!important;
 }
+
+.exercise-div{
+    display: inline-block;
+}

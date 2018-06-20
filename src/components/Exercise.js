@@ -36,7 +36,7 @@ class Exercise extends Component {
         }
 
         return (
-            <div className="col-md-5">
+            <div className="col-md-12">
                 <div className="card">
                     <div className="exercise-card-content">
                         <h3 className="card-title">{title}</h3>

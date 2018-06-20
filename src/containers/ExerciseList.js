@@ -7,26 +7,22 @@ import {connect} from "react-redux";
 
 class ExerciseList extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
     }
 
-    onDelete=id=>{
+    onDelete = id => {
         this.props.removeExercises(id);
     };
 
-    onEdit=id=>{
-        let exercise= this.props.exercises.find(x => x.id === id);
-        if(exercise.type==='MCQ') {
-            // this.props.history.push({
-            //     pathname: '/edit/mcq',
-            //     state: {exercise: exercise}
-            // })
-            this.props.history.push('/edit/mcq', {exercise:exercise})
+    onEdit = id => {
+        let exercise = this.props.exercises.find(x => x.id === id);
+        if (exercise.type === 'MCQ') {
+            this.props.history.push('/edit/mcq', {exercise: exercise})
         }
     };
 
-    onPlay= id=>{
+    onPlay = id => {
 
     };
 
@@ -34,13 +30,15 @@ class ExerciseList extends Component {
         let exercises = <p>Exercise List</p>;
         if (this.props.exercises) {
             exercises = this.props.exercises.map((r, index) => (
-                <Exercise onDelete={this.onDelete} onPlay={this.onPlay} onEdit={this.onEdit} key={r.id} {...r}/>));
-        }
+                <div className="col-md-6 exercise-div" key={r.id}>
+                    <Exercise onDelete={this.onDelete} onPlay={this.onPlay} onEdit={this.onEdit} {...r}/>
+                </div>
+            ))}
 
         return (
             <div className="container">
                 <div className="col-md-12">
-                {exercises}
+                    {exercises}
                 </div>
             </div>
         );
