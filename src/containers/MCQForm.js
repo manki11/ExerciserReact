@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
 import {addNewExerciseQuestion} from "../store/actions/new_exercise";
-import {addNewExercise} from "../store/actions/exercises";
+import {incrementExerciseCounter} from "../store/actions/increment_counter";
+import {addNewExercise, editExercise} from "../store/actions/exercises";
 import {withRouter} from "react-router-dom"
 import "../css/MCQForm.css"
 
@@ -9,10 +10,13 @@ class MCQForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
+            edit:false,
+            id:-1,
             title: '',
             noOfQuestions: 0,
             currentQuestionNo: 1,
             questions: [],
+            scores:[],
             isFormValid: false,
             errors: {
                 question: false,
@@ -24,6 +28,28 @@ class MCQForm extends Component {
                 question: "",
                 answers: ['', ''],
             }
+        };
+    }
+
+    componentDidMount(){
+        if(this.props.location.state){
+            const {id, title, questions, scores}= this.props.location.state.exercise;
+            const currentQuestion= questions[0];
+            this.setState({
+                ...this.state,
+                id:id,
+                title:title,
+                edit:true,
+                isFormValid:true,
+                questions:questions,
+                scores:scores,
+                noOfQuestions:questions.length,
+                currentQuestion:{
+                    id:currentQuestion.id,
+                    question: currentQuestion.question,
+                    answers: currentQuestion.answers
+                }
+            });
         }
     }
 
@@ -85,7 +111,7 @@ class MCQForm extends Component {
         });
     };
 
-    handleRemoveAns = e => {
+    handleRemoveAns = () => {
         const {currentQuestion} = this.state;
         const {answers} = currentQuestion;
         if (answers.length > 2) {
@@ -99,7 +125,7 @@ class MCQForm extends Component {
         }
     };
 
-    handleNewAns = e => {
+    handleNewAns = () => {
         const {currentQuestion} = this.state;
         this.setState(
             {currentQuestion: {...currentQuestion, answers: [...this.state.currentQuestion.answers, '']}},
@@ -210,16 +236,29 @@ class MCQForm extends Component {
 
     submitExercise = () => {
         console.log("submit exercise");
+        let id= this.state.id;
+        if(this.state.id === -1){
+            id= this.props.counter;
+        }
 
         let exercise = {
             title: this.state.title,
-            id: this.props.counter + 1,
+            id:id,
             type: "MCQ",
             questions: this.state.questions,
             scores: []
         };
 
-        this.props.addNewExercise(exercise);
+        if(this.state.edit){
+            console.log(id);
+            console.log("edit");
+            this.props.editExercise(exercise);
+        }else{
+            console.log("new");
+            
+            this.props.addNewExercise(exercise);
+        }
+        this.props.incrementExerciseCounter();
         this.props.history.push('/')
     };
 
@@ -247,7 +286,7 @@ class MCQForm extends Component {
     };
 
     render() {
-        const {currentQuestion, errors} = this.state;
+        const {currentQuestion, errors, edit} = this.state;
         const {id} = currentQuestion;
         let inputs = currentQuestion.answers.map((ans, i) => {
             let placeholder = 'Wrong Option';
@@ -380,4 +419,7 @@ function MapStateToProps(state) {
     }
 }
 
-export default withRouter(connect(MapStateToProps, {addNewExerciseQuestion, addNewExercise})(MCQForm));
+export default withRouter(
+    connect(MapStateToProps,
+    {addNewExerciseQuestion, addNewExercise, incrementExerciseCounter, editExercise}
+    )(MCQForm));

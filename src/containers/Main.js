@@ -13,6 +13,7 @@ const Main= props=> {
                 <Route exact path="/" render={props=> <ExerciseList exercises={exercises} {...props}/>}/>
                 <Route exact path="/new" render={props=> <NewExerciseTemplate/>} {...props}/>
                 <Route exact path="/new/mcq" render={props=> <MCQForm/>} {...props}/>
+                <Route exact path="/edit/mcq" render={props=> <MCQForm/>} {...props}/>
             </Switch>
         </div>
     )

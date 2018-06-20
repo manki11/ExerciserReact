@@ -1,13 +1,17 @@
-import {GET_ALL_EXERCISES, REMOVE_EXERCISE,ADD_NEW_EXERCISE} from "../actionTypes";
+import {GET_ALL_EXERCISES, REMOVE_EXERCISE, ADD_NEW_EXERCISE, EDIT_EXERCISE} from "../actionTypes";
 
-const exercises=(state=[], actions)=> {
-    switch(actions.type){
+const exercises = (state = [], actions) => {
+    switch (actions.type) {
         case GET_ALL_EXERCISES:
             return [...actions.exercise];
         case ADD_NEW_EXERCISE:
-            return [actions.exercise,...state];
+            return [actions.exercise, ...state];
+        case EDIT_EXERCISE:
+            return state.map((exercise, i) => {
+                return exercise.id === actions.exercise.id ? actions.exercise : exercise
+            });
         case REMOVE_EXERCISE:
-            return state.filter(exercise=> exercise.id!== actions.id);
+            return state.filter(exercise => exercise.id !== actions.id);
         default:
             return state;
     }
