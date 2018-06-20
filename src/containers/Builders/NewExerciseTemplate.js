@@ -3,9 +3,9 @@ import {setNewExerciseType, setNewExerciseID} from "../../store/actions/new_exer
 import {withRouter} from "react-router-dom";
 import { connect } from "react-redux";
 import "../../css/NewExerciseTemplate.css"
-import mcq from "../images/mcq_image.jpg"
-import cloze from "../images/cloze_image.jpg"
-import reorder from "../images/list_reorder_image.png"
+import mcq from "../../images/mcq_image.jpg"
+import cloze from "../../images/cloze_image.jpg"
+import reorder from "../../images/list_reorder_image.png"
 
 class NewExerciseTemplate extends Component {
 
@@ -36,7 +36,8 @@ class NewExerciseTemplate extends Component {
                         <div className="col-sm-4">
                             <div className="card">
                                 <div className="card-img-container">
-                                    <img className="card-img-top" src={mcq}/>
+                                    {/*<img className="card-img-top" src={mcq}/>*/}
+                                    <div className="card-img-top background-mcq"/>
                                 </div>
                                 <div className="card-body">
                                     <h5 className="card-title">MCQ</h5>
@@ -49,7 +50,8 @@ class NewExerciseTemplate extends Component {
                         <div className="col-sm-4">
                             <div className="card">
                                 <div className="card-img-container">
-                                    <img className="card-img-top" src={cloze}/>
+                                    {/*<img className="card-img-top" src={cloze}/>*/}
+                                    <div className="card-img-top background-cloze"/>
                                 </div>
                                 <div className="card-body">
                                     <h5 className="card-title">CLOZE TEXT</h5>
@@ -62,7 +64,8 @@ class NewExerciseTemplate extends Component {
                         <div className="col-sm-4">
                             <div className="card">
                                 <div className="card-img-container">
-                                    <img className="card-img-top" src={reorder}/>
+                                    {/*<img className="card-img-top" src={reorder}/>*/}
+                                    <div className="card-img-top background-reorder"/>
                                 </div>
                                 <div className="card-body">
                                     <h5 className="card-title">Reorder List</h5>

@@ -24,3 +24,21 @@
     height: 200px;
     overflow: hidden;
 }
+
+.background-mcq{
+    background: url("../images/mcq_image.jpg");
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.background-cloze{
+    background: url("../images/cloze_image.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.background-reorder{
+    background: url("../images/list_reorder_image.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
