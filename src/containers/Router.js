@@ -2,8 +2,8 @@ import React from "react";
 import {Switch, Route, withRouter, Redirect} from "react-router-dom";
 import {connect} from "react-redux";
 import ExerciseList from "./ExerciseList";
-import MCQForm from "./MCQForm";
-import NewExerciseTemplate from "./NewExerciseTemplate";
+import MCQForm from "./Builders/MCQForm";
+import NewExerciseTemplate from "./Builders/NewExerciseTemplate";
 
 const Main= props=> {
     const {exercises}= props;
@@ -14,6 +14,7 @@ const Main= props=> {
                 <Route exact path="/new" render={props=> <NewExerciseTemplate/>} {...props}/>
                 <Route exact path="/new/mcq" render={props=> <MCQForm/>} {...props}/>
                 <Route exact path="/edit/mcq" render={props=> <MCQForm/>} {...props}/>
+                <Route exact path="/play/mcq" render={props=> <MCQForm/>} {...props}/>
             </Switch>
         </div>
     )

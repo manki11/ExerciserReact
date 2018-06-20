@@ -23,7 +23,10 @@ class ExerciseList extends Component {
     };
 
     onPlay = id => {
-
+        let exercise = this.props.exercises.find(x => x.id === id);
+        if (exercise.type === 'MCQ') {
+            this.props.history.push('/play/mcq', {exercise: exercise})
+        }
     };
 
     render() {

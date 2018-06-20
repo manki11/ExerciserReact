@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {addNewExerciseQuestion} from "../store/actions/new_exercise";
-import {incrementExerciseCounter} from "../store/actions/increment_counter";
-import {addNewExercise, editExercise} from "../store/actions/exercises";
+import {addNewExerciseQuestion} from "../../store/actions/new_exercise";
+import {incrementExerciseCounter} from "../../store/actions/increment_counter";
+import {addNewExercise, editExercise} from "../../store/actions/exercises";
 import {withRouter} from "react-router-dom"
-import "../css/MCQForm.css"
+import "../../css/MCQForm.css"
 
 class MCQForm extends Component {
     constructor(props) {

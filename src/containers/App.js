@@ -5,7 +5,7 @@ import env from 'lib/sugar-web/env'
 import {Provider} from "react-redux"
 import {configureStore} from "../store";
 import {MemoryRouter as Router} from "react-router-dom";
-import Main from "./Main";
+import Main from "./Router";
 import '../css/index.css';
 
 const store = configureStore();

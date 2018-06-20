@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import {setNewExerciseType, setNewExerciseID} from "../store/actions/new_exercise";
+import {setNewExerciseType, setNewExerciseID} from "../../store/actions/new_exercise";
 import {withRouter} from "react-router-dom";
 import { connect } from "react-redux";
-import "../css/NewExerciseTemplate.css"
+import "../../css/NewExerciseTemplate.css"
 import mcq from "../images/mcq_image.jpg"
 import cloze from "../images/cloze_image.jpg"
 import reorder from "../images/list_reorder_image.png"
