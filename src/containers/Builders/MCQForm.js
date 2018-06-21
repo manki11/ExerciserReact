@@ -286,7 +286,7 @@ class MCQForm extends Component {
     };
 
     render() {
-        const {currentQuestion, errors, edit} = this.state;
+        const {currentQuestion, errors} = this.state;
         const {id} = currentQuestion;
         let inputs = currentQuestion.answers.map((ans, i) => {
             let placeholder = 'Wrong Option';

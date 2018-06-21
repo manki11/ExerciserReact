@@ -1,0 +1,23 @@
+.form-group{
+    /*margin-top: 20px;*/
+}
+
+.choices-div{
+    display: inline-block;
+    width: 100%;
+}
+
+.choices-button{
+    width: 100%;
+}
+
+.choices-div{
+    width: 100%!important;
+    min-width: 350px;
+    display: inline-block!important;
+    margin: 10px;
+}
+
+.choices-row{
+    display: inline-block;
+}

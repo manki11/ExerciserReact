@@ -14,7 +14,7 @@ class Exercise extends Component {
     }
 
     playExercise=()=>{
-
+        this.props.onPlay(this.state.id);
     };
 
     editExercise=()=>{
