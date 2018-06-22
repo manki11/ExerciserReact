@@ -14,9 +14,12 @@ class MCQPlayer extends Component {
             questions: [],
             noOfQuestions: 1,
             currentQuestionNo: 1,
-            submitted:false,
-            selected:false,
+            submitted: false,
+            selected: false,
+            selectedAns:'',
             scores: [],
+            currentScore:0,
+            finish: false,
             currentQuestion: {
                 id: 1,
                 question: '',
@@ -31,8 +34,6 @@ class MCQPlayer extends Component {
             const {id, title, questions, scores} = this.props.location.state.exercise;
             const currentQuestion = questions[0];
             console.log(this.props.location.state.exercise);
-
-            // this.shuffleArray(currentQuestion.answers);
 
             this.setState({
                 ...this.state,
@@ -50,29 +51,88 @@ class MCQPlayer extends Component {
         }
     }
 
-    static shuffleArray(array) {
+    shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]]; // eslint-disable-line no-param-reassign
         }
     }
 
+    choiceSelected= choice=>{
+        this.setState({
+            selectedAns: choice,
+            selected: true
+        })
+    };
+
+    submitQuestion= ()=>{
+        const {currentScore}= this.state;
+        this.setState({
+            selected:false,
+            submitted: true
+        })
+    };
+
+    nextQuestion= ()=>{
+        const {currentScore,selectedAns, currentQuestion, currentQuestionNo, questions}= this.state;
+        const {correctAns}= currentQuestion;
+        let nextQuestionNo= currentQuestionNo+1;
+        let score= currentScore;
+        if(selectedAns=== correctAns) score=score+1;
+        if(nextQuestionNo>questions.length){
+            console.log("Exercise Complete"+ score);
+        }else{
+            const nextQuestion= questions[nextQuestionNo-1];
+            let answers= nextQuestion.answers;
+            this.shuffleArray(answers);
+            this.setState({
+                ...this.state,
+                currentQuestionNo: nextQuestionNo,
+                submitted: false,
+                selected: false,
+                selectedAns:'',
+                currentScore: score,
+                currentQuestion:{
+                    id: nextQuestion.id,
+                    question: nextQuestion.question,
+                    answers: answers,
+                    correctAns: nextQuestion.correctAns
+                }
+            })
+        }
+
+    };
+
     render() {
         const {currentQuestion} = this.state;
         const {id} = currentQuestion;
         let choices = currentQuestion.answers.map((ans, i) => {
-            let placeholder = 'Wrong Option';
-            let btn = 'btn-secondary';
-            if(this.state.submitted) {
-                btn = ans === currentQuestion.correctAns ? "btn-success" : "btn-danger";
+            let btn = 'btn-outline-secondary';
+            if(this.state.selectedAns=== ans){
+                btn= 'btn-secondary'
+            }
+            if (this.state.submitted) {
+                if(this.state.selectedAns=== this.state.currentQuestion.correctAns){
+                    if(ans===this.state.selectedAns){
+                        btn='btn-success';
+                    }
+                }else{
+                    if(ans=== this.state.currentQuestion.correctAns){
+                        btn='btn-success';
+                    }
+                    if(this.state.selectedAns=== ans){
+                        btn='btn-danger';
+                    }
+                }
             }
             return (
                 <div className="choices-row" key={`answers-${i}`}>
                     <div className="col-md-6 choices-div">
-                            <div
-                                className={"btn choices-button " + btn}
-                                id={`answer-${i}`}
-                            >{ans}</div>
+                        <button
+                            className={"btn choices-button " + btn}
+                            id={`answer-${i}`}
+                            onClick={(e)=>this.choiceSelected(ans)}
+                        >{ans}</button>
                     </div>
                 </div>
             )
@@ -82,34 +142,25 @@ class MCQPlayer extends Component {
                 <div className="row align-items-center justify-content-center">
                     <div className="col-sm-10">
                         <div className="col-md-12">
-                            <div className="row">
-                                <div className="form-group">
-                                    <div className="form-control" id="title">
-                                        {this.state.title}
-                                    </div>
-                                </div>
+                            <div className="jumbotron">
+                                <p className="lead">{this.state.title}</p>
+                                <hr className="my-4"/>
+                                <p>{id}. {this.state.currentQuestion.question}</p>
                             </div>
                             <div className="row">
-                                <div className="form-group">
-                                    <div className="form-control" id="question">
-                                        {id}. {this.state.currentQuestion.question}
-                                    </div>
-                                </div>
+                                {choices}
                             </div>
-                            <div className="row">
-                            {choices}
-                            </div>
-                            <div className="form-group row justify-content-between">
+                            <div className="d-flex flex-row-reverse">
                                 <div className="justify-content-end">
                                     <button
-                                        onClick={this.saveCurrentForm}
+                                        onClick={this.submitQuestion}
                                         className={"btn btn-info"}
                                         disabled={!this.state.selected}
                                     >
                                         Submit Question
                                     </button>
                                     <button
-                                        onClick={this.submitExercise}
+                                        onClick={this.nextQuestion}
                                         className={"btn btn-success"}
                                         disabled={!this.state.submitted}
                                     >

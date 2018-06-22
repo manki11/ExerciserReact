@@ -21,3 +21,17 @@
 .choices-row{
     display: inline-block;
 }
+
+@media (min-width: 576px) {
+    .jumbotron {
+        padding: 2rem 1rem!important;
+    }
+}
+
+.jumbotron{
+    margin-bottom: 1rem!important;
+}
+
+.d-flex{
+    margin-top: 1rem;
+}

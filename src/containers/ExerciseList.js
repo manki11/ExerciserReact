@@ -29,6 +29,7 @@ class ExerciseList extends Component {
         }
     };
 
+
     render() {
         let exercises = <p>Exercise List</p>;
         if (this.props.exercises) {
@@ -36,7 +37,8 @@ class ExerciseList extends Component {
                 <div className="col-md-6 exercise-div" key={r.id}>
                     <Exercise onDelete={this.onDelete} onPlay={this.onPlay} onEdit={this.onEdit} {...r}/>
                 </div>
-            ))}
+            ))
+        }
 
         return (
             <div className="container">
