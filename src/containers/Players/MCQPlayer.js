@@ -85,6 +85,8 @@ class MCQPlayer extends Component {
             const nextQuestion= questions[nextQuestionNo-1];
             let answers= nextQuestion.answers;
             this.shuffleArray(answers);
+            let finish= false;
+            if(nextQuestionNo=== questions.length) finish=true;
             this.setState({
                 ...this.state,
                 currentQuestionNo: nextQuestionNo,
@@ -92,6 +94,7 @@ class MCQPlayer extends Component {
                 selected: false,
                 selectedAns:'',
                 currentScore: score,
+                finish:finish,
                 currentQuestion:{
                     id: nextQuestion.id,
                     question: nextQuestion.question,
@@ -164,7 +167,7 @@ class MCQPlayer extends Component {
                                         className={"btn btn-success"}
                                         disabled={!this.state.submitted}
                                     >
-                                        Next Question
+                                        {!this.state.finish? 'Next Question': 'Finish'}
                                     </button>
                                 </div>
                             </div>
