@@ -245,7 +245,7 @@ class MCQForm extends Component {
             id:id,
             type: "MCQ",
             questions: this.state.questions,
-            scores: []
+            scores: this.state.scores
         };
 
         if(this.state.edit){
