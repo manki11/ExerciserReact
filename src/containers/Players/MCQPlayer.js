@@ -59,10 +59,12 @@ class MCQPlayer extends Component {
     }
 
     choiceSelected= choice=>{
-        this.setState({
-            selectedAns: choice,
-            selected: true
-        })
+        if(!this.state.submitted) {
+            this.setState({
+                selectedAns: choice,
+                selected: true
+            })
+        }
     };
 
     submitQuestion= ()=>{
