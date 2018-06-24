@@ -20,6 +20,13 @@
     outline: none;
 }
 
+#main-toolbar{
+    position: fixed; /* Set the navbar to fixed position */
+    top: 0; /* Position the navbar at the top of the page */
+    width: 100%;
+    z-index: 1000;
+}
+
 #private-button {
     background-image: url(../icons/zoom-home.svg);
     outline: none;
