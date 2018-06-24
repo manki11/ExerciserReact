@@ -381,7 +381,7 @@ class MCQForm extends Component {
                                     <button
                                         onClick={this.previousQues}
                                         className={"btn btn-info"}
-                                        disabled={!this.state.noOfQuestions >= 1}
+                                        disabled={this.state.currentQuestionNo === 1}
                                     >
                                         Previous Question
                                     </button>
