@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {Bar, Line , Pie} from 'react-chartjs-2';
+import {Bar, Line, Pie} from 'react-chartjs-2';
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import {addScore} from "../../store/actions/exercises";
@@ -26,8 +26,14 @@ class Scores extends Component {
                 scales: {
                     yAxes: [{
                         ticks: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            min: 0,
+                            max: 10
                         }
+                    }],
+                    xAxes: [{
+                        // Change here
+                        barThickness: 100
                     }]
                 }
             }
@@ -36,24 +42,35 @@ class Scores extends Component {
 
     componentDidMount() {
         if (this.props.location) {
-            const{scores, userScore}= this.props.location.state;
-            let avg=0;
-            if (scores.length)
-            {
-                let sum = scores.reduce(function(a, b) { return a + b; });
+            const {scores, userScore} = this.props.location.state;
+            let avg = 0;
+            if (scores.length) {
+                let sum = scores.reduce(function (a, b) {
+                    return a + b;
+                });
                 avg = sum / scores.length;
+                avg = Math.round(avg * 100) / 100;
                 this.setState({
                     ...this.state,
-                    chartData:{
+                    chartData: {
                         ...this.state.chartData,
-                        datasets:[{
-                            label: 'Scores',
-                            data: [avg,userScore],
-                            backgroundColor: [
-                                '#C0392B',
-                                '#2980B9',
-                            ],
-                        }]
+                        datasets: [
+                            {
+                                label: 'Scores',
+                                data: [avg, userScore],
+                                backgroundColor: [
+                                    '#C0392B',
+                                    '#C0392B',
+                                ],
+                            },
+                            {
+                                label: 'Time (Minutes)',
+                                data:[3,5],
+                                backgroundColor: [
+                                    '#2980B9',
+                                    '#2980B9',
+                                ]
+                            }]
                     }
                 })
             }

@@ -33,6 +33,7 @@ class Exercise extends Component {
                 return a + b;
             });
             avg = sum / scores.length;
+            avg= Math.round(avg * 100) / 100;
         }
 
         return (

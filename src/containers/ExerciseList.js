@@ -11,6 +11,10 @@ class ExerciseList extends Component {
         super(props);
     }
 
+    componentDidMount(){
+
+    }
+
     onDelete = id => {
         this.props.removeExercises(id);
     };
@@ -27,10 +31,6 @@ class ExerciseList extends Component {
         if (exercise.type === 'MCQ') {
             this.props.history.push('/play/mcq', {exercise: exercise})
         }
-    };
-
-    onGameOver= (id, score, scores)=>{
-
     };
 
     render() {

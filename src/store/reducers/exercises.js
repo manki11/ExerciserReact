@@ -1,6 +1,9 @@
 import {GET_ALL_EXERCISES, REMOVE_EXERCISE, ADD_NEW_EXERCISE, EDIT_EXERCISE, ADD_SCORE} from "../actionTypes";
+import exercise from "../../seed.json";
 
-const exercises = (state = [], actions) => {
+const DEFAULT_STATE=[exercise];
+
+const exercises = (state = DEFAULT_STATE, actions) => {
     switch (actions.type) {
         case GET_ALL_EXERCISES:
             return [...actions.exercise];

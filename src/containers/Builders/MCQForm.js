@@ -235,7 +235,6 @@ class MCQForm extends Component {
     };
 
     submitExercise = () => {
-        console.log("submit exercise");
         let id= this.state.id;
         if(this.state.id === -1){
             id= this.props.counter;
@@ -255,7 +254,6 @@ class MCQForm extends Component {
             this.props.editExercise(exercise);
         }else{
             console.log("new");
-            
             this.props.addNewExercise(exercise);
         }
         this.props.incrementExerciseCounter();

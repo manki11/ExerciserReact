@@ -1,0 +1,130 @@
+{
+  "title": "Capitals of the World",
+  "id": 1,
+  "type": "MCQ",
+  "questions": [
+    {
+      "id":1,
+      "question":"What is the Capital of India",
+      "correctAns":"New Delhi",
+      "answers":[
+        "New Delhi",
+        "London",
+        "Paris",
+        "New York"
+      ]
+    },
+    {
+      "id":2,
+      "question":"What is the Capital of France",
+      "correctAns":"Paris",
+      "answers":[
+        "New Delhi",
+        "London",
+        "Paris",
+        "New York"
+      ]
+    },
+    {
+      "id":3,
+      "question":"What is the Capital of UK",
+      "correctAns":"London",
+      "answers":[
+        "New Delhi",
+        "London",
+        "Paris",
+        "New York"
+      ]
+    },
+    {
+      "id":4,
+      "question":"What is the Capital of USA",
+      "correctAns":"Washington DC",
+      "answers":[
+        "Washington DC",
+        "London",
+        "Paris",
+        "New York"
+      ]
+    },
+    {
+      "id":5,
+      "question":"What is the Capital of Germany",
+      "correctAns":"Berlin",
+      "answers":[
+        "New Delhi",
+        "Berlin",
+        "Paris",
+        "New York"
+      ]
+    },
+    {
+      "id":6,
+      "question":"What is the Capital of Bangladesh",
+      "correctAns":"Dhaka",
+      "answers":[
+        "Dhaka",
+        "Berlin",
+        "Paris",
+        "Hyderabad"
+      ]
+    },
+    {
+      "id":7,
+      "question":"What is the Capital of Japan",
+      "correctAns":"Tokyo",
+      "answers":[
+        "Tokyo",
+        "London",
+        "Seoul",
+        "Hiroshima"
+      ]
+    },
+    {
+      "id":8,
+      "question":"What is the Capital of South Korea",
+      "correctAns":"Seoul",
+      "answers":[
+        "Seoul",
+        "Tokyo",
+        "Beijing",
+        "New York"
+      ]
+    },
+    {
+      "id":9,
+      "question":"What is the Capital of China",
+      "correctAns":"Beijing",
+      "answers":[
+        "Ottawa",
+        "London",
+        "Paris",
+        "Beijing"
+      ]
+    },
+    {
+      "id":10,
+      "question":"What is the Capital of Australia",
+      "correctAns":"Canberra",
+      "answers":[
+        "Canberra",
+        "London",
+        "Paris",
+        "Sydney"
+      ]
+    }
+  ],
+  "scores": [
+    10,
+    5,
+    6,
+    7,
+    8,
+    4,
+    3,
+    2,
+    5,
+    6,
+    7
+  ]
+}
