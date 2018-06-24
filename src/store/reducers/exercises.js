@@ -1,4 +1,4 @@
-import {GET_ALL_EXERCISES, REMOVE_EXERCISE, ADD_NEW_EXERCISE, EDIT_EXERCISE} from "../actionTypes";
+import {GET_ALL_EXERCISES, REMOVE_EXERCISE, ADD_NEW_EXERCISE, EDIT_EXERCISE, ADD_SCORE} from "../actionTypes";
 
 const exercises = (state = [], actions) => {
     switch (actions.type) {
@@ -12,6 +12,15 @@ const exercises = (state = [], actions) => {
             });
         case REMOVE_EXERCISE:
             return state.filter(exercise => exercise.id !== actions.id);
+        case ADD_SCORE:
+            return state.map((exercise, i)=>{
+                if(exercise.id=== actions.id){
+                    let temp= exercise;
+                    temp.scores.push(actions.score);
+                    return temp;
+                }
+                return exercise;
+            });
         default:
             return state;
     }

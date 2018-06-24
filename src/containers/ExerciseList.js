@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Exercise from '../components/Exercise';
-import {removeExercises} from '../store/actions/exercises';
+import {removeExercises, addScore} from '../store/actions/exercises';
 import '../css/ExerciseList.css';
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
@@ -27,6 +27,10 @@ class ExerciseList extends Component {
         if (exercise.type === 'MCQ') {
             this.props.history.push('/play/mcq', {exercise: exercise})
         }
+    };
+
+    onGameOver= (id, score, scores)=>{
+
     };
 
     render() {
@@ -57,5 +61,5 @@ function MapStateToProps(state) {
 
 export default withRouter(
     connect(MapStateToProps,
-        {removeExercises}
+        {removeExercises, addScore}
     )(ExerciseList));

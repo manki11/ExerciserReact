@@ -1,6 +1,7 @@
 import React, {Component} from "react";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
+import {addScore} from '../../store/actions/exercises';
 import "../../css/MCQPlayer.css"
 
 
@@ -71,21 +72,22 @@ class MCQPlayer extends Component {
     };
 
     submitQuestion= ()=>{
-        const {currentScore}= this.state;
+        const {currentScore,selectedAns, currentQuestion}= this.state;
+        const {correctAns}= currentQuestion;
+        let score= currentScore;
+        if(selectedAns=== correctAns) score=score+1;
         this.setState({
             selected:false,
-            submitted: true
+            submitted: true,
+            currentScore: score
         })
     };
 
     nextQuestion= ()=>{
-        const {currentScore,selectedAns, currentQuestion, currentQuestionNo, questions}= this.state;
-        const {correctAns}= currentQuestion;
+        const {currentQuestionNo, questions}= this.state;
         let nextQuestionNo= currentQuestionNo+1;
-        let score= currentScore;
-        if(selectedAns=== correctAns) score=score+1;
         if(nextQuestionNo>questions.length){
-            console.log("Exercise Complete"+ score);
+            this.onGameOver();
         }else{
             const nextQuestion= questions[nextQuestionNo-1];
             let answers= nextQuestion.answers;
@@ -98,7 +100,6 @@ class MCQPlayer extends Component {
                 submitted: false,
                 selected: false,
                 selectedAns:'',
-                currentScore: score,
                 finish:finish,
                 currentQuestion:{
                     id: nextQuestion.id,
@@ -109,6 +110,13 @@ class MCQPlayer extends Component {
             })
         }
 
+    };
+
+    onGameOver=()=>{
+        const {scores, currentScore, id}= this.state;
+        scores.push(currentScore);
+        this.props.addScore(id, currentScore);
+        this.props.history.push('/scores', {scores: scores, userScore: currentScore});
     };
 
     render() {
@@ -195,4 +203,4 @@ function MapStateToProps(state) {
 }
 
 export default withRouter(
-    connect(MapStateToProps)(MCQPlayer));
+    connect(MapStateToProps, {addScore})(MCQPlayer));
