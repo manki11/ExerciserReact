@@ -34,6 +34,8 @@ class MCQPlayer extends Component {
             const {id, title, questions, scores} = this.props.location.state.exercise;
             const currentQuestion = questions[0];
             console.log(this.props.location.state.exercise);
+            let finish= false;
+            if(questions.length===1) finish=true;
 
             this.setState({
                 ...this.state,
@@ -41,6 +43,7 @@ class MCQPlayer extends Component {
                 questions: questions,
                 noOfQuestions: questions.length,
                 scores: scores,
+                finish:finish,
                 currentQuestion: {
                     id: currentQuestion.id,
                     question: currentQuestion.question,
@@ -111,6 +114,9 @@ class MCQPlayer extends Component {
     render() {
         const {currentQuestion} = this.state;
         const {id} = currentQuestion;
+        if(id===1 && !this.state.submitted && !this.state.selected){
+            this.shuffleArray(currentQuestion.answers)
+        }
         let choices = currentQuestion.answers.map((ans, i) => {
             let btn = 'btn-outline-secondary';
             if(this.state.selectedAns=== ans){
