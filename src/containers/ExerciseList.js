@@ -29,7 +29,6 @@ class ExerciseList extends Component {
         }
     };
 
-
     render() {
         let exercises = <p>Exercise List</p>;
         if (this.props.exercises) {

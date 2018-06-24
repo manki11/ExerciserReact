@@ -140,6 +140,12 @@ class MCQPlayer extends Component {
                 </div>
             )
         });
+        let buttonText='Submit Question';
+        if (this.state.submitted) {
+            buttonText='Next Question';
+            if (this.state.finish) buttonText='Finish Exercise'
+        }
+
         return (
             <div className="container-fluid">
                 <div className="row align-items-center justify-content-center">
@@ -156,18 +162,14 @@ class MCQPlayer extends Component {
                             <div className="d-flex flex-row-reverse">
                                 <div className="justify-content-end">
                                     <button
-                                        onClick={this.submitQuestion}
-                                        className={"btn btn-info"}
-                                        disabled={!this.state.selected}
-                                    >
-                                        Submit Question
-                                    </button>
-                                    <button
-                                        onClick={this.nextQuestion}
+                                        onClick={()=>{
+                                            if(this.state.selected) this.submitQuestion();
+                                            else if (this.state.submitted) this.nextQuestion();
+                                        }}
                                         className={"btn btn-success"}
-                                        disabled={!this.state.submitted}
+                                        disabled={!this.state.selected && !this.state.submitted}
                                     >
-                                        {!this.state.finish? 'Next Question': 'Finish'}
+                                        {buttonText}
                                     </button>
                                 </div>
                             </div>
