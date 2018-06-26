@@ -42,14 +42,22 @@ class Scores extends Component {
 
     componentDidMount() {
         if (this.props.location) {
-            const {scores, userScore} = this.props.location.state;
-            let avg = 0;
+            const {scores, userScore, times, userTime} = this.props.location.state;
+            let avgScore = 0, avgTime=0;
             if (scores.length) {
                 let sum = scores.reduce(function (a, b) {
                     return a + b;
                 });
-                avg = sum / scores.length;
-                avg = Math.round(avg * 100) / 100;
+                avgScore = sum / scores.length;
+                avgScore = Math.round(avgScore);
+
+                let timeSum= times.reduce(function (a, b) {
+                    return a + b;
+                });
+                avgTime= timeSum/ times.length;
+                avgTime= Math.ceil(avgTime/60);
+                let time= Math.ceil(userTime/60);
+
                 this.setState({
                     ...this.state,
                     chartData: {
@@ -57,7 +65,7 @@ class Scores extends Component {
                         datasets: [
                             {
                                 label: 'Scores',
-                                data: [avg, userScore],
+                                data: [avgScore, userScore],
                                 backgroundColor: [
                                     '#C0392B',
                                     '#C0392B',
@@ -65,7 +73,7 @@ class Scores extends Component {
                             },
                             {
                                 label: 'Time (Minutes)',
-                                data:[3,5],
+                                data:[avgTime,time],
                                 backgroundColor: [
                                     '#2980B9',
                                     '#2980B9',

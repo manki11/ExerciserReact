@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
-import {addScore} from '../../store/actions/exercises';
+import {addScoreTime} from '../../store/actions/exercises';
 import "../../css/MCQPlayer.css"
 
 
@@ -9,8 +9,8 @@ class MCQPlayer extends Component {
 
     constructor(props) {
         super(props);
-
         this.state = {
+            id: -1,
             title: '',
             questions: [],
             noOfQuestions: 1,
@@ -19,6 +19,9 @@ class MCQPlayer extends Component {
             selected: false,
             selectedAns:'',
             scores: [],
+            times:[],
+            currentTime:0,
+            intervalID:-1,
             currentScore:0,
             finish: false,
             currentQuestion: {
@@ -32,27 +35,38 @@ class MCQPlayer extends Component {
 
     componentDidMount() {
         if (this.props.location.state) {
-            const {id, title, questions, scores} = this.props.location.state.exercise;
+            let intervalId = setInterval(this.timer, 1000);
+            const {id,title, questions, scores, times} = this.props.location.state.exercise;
             const currentQuestion = questions[0];
-            console.log(this.props.location.state.exercise);
+
             let finish= false;
             if(questions.length===1) finish=true;
 
+            let answers= currentQuestion.answers;
+            this.shuffleArray(answers);
+
             this.setState({
                 ...this.state,
+                id: id,
                 title: title,
                 questions: questions,
                 noOfQuestions: questions.length,
+                intervalID: intervalId,
                 scores: scores,
+                times: times,
                 finish:finish,
                 currentQuestion: {
                     id: currentQuestion.id,
                     question: currentQuestion.question,
-                    answers: currentQuestion.answers,
+                    answers: answers,
                     correctAns: currentQuestion.correctAns
                 }
             })
         }
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.state.intervalID);
     }
 
     shuffleArray(array) {
@@ -69,6 +83,13 @@ class MCQPlayer extends Component {
                 selected: true
             })
         }
+    };
+
+    timer=()=>{
+        this.setState({ currentTime: this.state.currentTime +1 });
+        let time= this.state.currentTime;
+        console.log(time);
+
     };
 
     submitQuestion= ()=>{
@@ -113,18 +134,19 @@ class MCQPlayer extends Component {
     };
 
     onGameOver=()=>{
-        const {scores, currentScore, id}= this.state;
+        const {scores, currentScore, id, currentTime, times}= this.state;
         scores.push(currentScore);
-        this.props.addScore(id, currentScore);
-        this.props.history.push('/scores', {scores: scores, userScore: currentScore});
+        times.push(currentTime);
+        this.props.addScoreTime(id, currentScore, currentTime);
+        this.props.history.push('/scores', {scores: scores, userScore: currentScore, times:times, userTime: currentTime});
     };
 
     render() {
         const {currentQuestion} = this.state;
         const {id} = currentQuestion;
-        if(id===1 && !this.state.submitted && !this.state.selected){
-            this.shuffleArray(currentQuestion.answers)
-        }
+        // if(id===1 && !this.state.submitted && !this.state.selected){
+        //     this.shuffleArray(currentQuestion.answers)
+        // }
         let choices = currentQuestion.answers.map((ans, i) => {
             let btn = 'btn-outline-secondary';
             if(this.state.selectedAns=== ans){
@@ -203,4 +225,4 @@ function MapStateToProps(state) {
 }
 
 export default withRouter(
-    connect(MapStateToProps, {addScore})(MCQPlayer));
+    connect(MapStateToProps, {addScoreTime})(MCQPlayer));

@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Exercise from '../components/Exercise';
-import {removeExercises, addScore} from '../store/actions/exercises';
+import {removeExercises} from '../store/actions/exercises';
 import '../css/ExerciseList.css';
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
@@ -61,5 +61,5 @@ function MapStateToProps(state) {
 
 export default withRouter(
     connect(MapStateToProps,
-        {removeExercises, addScore}
+        {removeExercises}
     )(ExerciseList));

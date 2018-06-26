@@ -1,4 +1,4 @@
-import {GET_ALL_EXERCISES, REMOVE_EXERCISE, ADD_NEW_EXERCISE, EDIT_EXERCISE, ADD_SCORE} from "../actionTypes";
+import {GET_ALL_EXERCISES, REMOVE_EXERCISE, ADD_NEW_EXERCISE, EDIT_EXERCISE, ADD_SCORE_TIME} from "../actionTypes";
 
 export const loadExercises= ()=> ({
     type: GET_ALL_EXERCISES
@@ -19,8 +19,9 @@ export const editExercise= (exercise)=> ({
     exercise
 });
 
-export const addScore= (id, score)=>({
-    type: ADD_SCORE,
+export const addScoreTime= (id, score, time)=>({
+    type: ADD_SCORE_TIME,
     id,
-    score
+    score,
+    time
 });

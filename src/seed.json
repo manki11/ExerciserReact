@@ -4,10 +4,10 @@
   "type": "MCQ",
   "questions": [
     {
-      "id":1,
-      "question":"What is the Capital of India",
-      "correctAns":"New Delhi",
-      "answers":[
+      "id": 1,
+      "question": "What is the Capital of India",
+      "correctAns": "New Delhi",
+      "answers": [
         "New Delhi",
         "London",
         "Paris",
@@ -15,10 +15,10 @@
       ]
     },
     {
-      "id":2,
-      "question":"What is the Capital of France",
-      "correctAns":"Paris",
-      "answers":[
+      "id": 2,
+      "question": "What is the Capital of France",
+      "correctAns": "Paris",
+      "answers": [
         "New Delhi",
         "London",
         "Paris",
@@ -26,10 +26,10 @@
       ]
     },
     {
-      "id":3,
-      "question":"What is the Capital of UK",
-      "correctAns":"London",
-      "answers":[
+      "id": 3,
+      "question": "What is the Capital of UK",
+      "correctAns": "London",
+      "answers": [
         "New Delhi",
         "London",
         "Paris",
@@ -37,10 +37,10 @@
       ]
     },
     {
-      "id":4,
-      "question":"What is the Capital of USA",
-      "correctAns":"Washington DC",
-      "answers":[
+      "id": 4,
+      "question": "What is the Capital of USA",
+      "correctAns": "Washington DC",
+      "answers": [
         "Washington DC",
         "London",
         "Paris",
@@ -48,10 +48,10 @@
       ]
     },
     {
-      "id":5,
-      "question":"What is the Capital of Germany",
-      "correctAns":"Berlin",
-      "answers":[
+      "id": 5,
+      "question": "What is the Capital of Germany",
+      "correctAns": "Berlin",
+      "answers": [
         "New Delhi",
         "Berlin",
         "Paris",
@@ -59,10 +59,10 @@
       ]
     },
     {
-      "id":6,
-      "question":"What is the Capital of Bangladesh",
-      "correctAns":"Dhaka",
-      "answers":[
+      "id": 6,
+      "question": "What is the Capital of Bangladesh",
+      "correctAns": "Dhaka",
+      "answers": [
         "Dhaka",
         "Berlin",
         "Paris",
@@ -70,10 +70,10 @@
       ]
     },
     {
-      "id":7,
-      "question":"What is the Capital of Japan",
-      "correctAns":"Tokyo",
-      "answers":[
+      "id": 7,
+      "question": "What is the Capital of Japan",
+      "correctAns": "Tokyo",
+      "answers": [
         "Tokyo",
         "London",
         "Seoul",
@@ -81,10 +81,10 @@
       ]
     },
     {
-      "id":8,
-      "question":"What is the Capital of South Korea",
-      "correctAns":"Seoul",
-      "answers":[
+      "id": 8,
+      "question": "What is the Capital of South Korea",
+      "correctAns": "Seoul",
+      "answers": [
         "Seoul",
         "Tokyo",
         "Beijing",
@@ -92,10 +92,10 @@
       ]
     },
     {
-      "id":9,
-      "question":"What is the Capital of China",
-      "correctAns":"Beijing",
-      "answers":[
+      "id": 9,
+      "question": "What is the Capital of China",
+      "correctAns": "Beijing",
+      "answers": [
         "Ottawa",
         "London",
         "Paris",
@@ -103,10 +103,10 @@
       ]
     },
     {
-      "id":10,
-      "question":"What is the Capital of Australia",
-      "correctAns":"Canberra",
-      "answers":[
+      "id": 10,
+      "question": "What is the Capital of Australia",
+      "correctAns": "Canberra",
+      "answers": [
         "Canberra",
         "London",
         "Paris",
@@ -126,5 +126,18 @@
     5,
     6,
     7
+  ],
+  "times": [
+    60,
+    80,
+    90,
+    100,
+    60,
+    57,
+    98,
+    87,
+    100,
+    120,
+    150
   ]
 }

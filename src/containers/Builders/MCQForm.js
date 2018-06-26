@@ -249,11 +249,8 @@ class MCQForm extends Component {
         };
 
         if(this.state.edit){
-            console.log(id);
-            console.log("edit");
             this.props.editExercise(exercise);
         }else{
-            console.log("new");
             this.props.addNewExercise(exercise);
         }
         this.props.incrementExerciseCounter();
@@ -265,8 +262,6 @@ class MCQForm extends Component {
 
         const {currentQuestionNo} = this.state;
         let previousQuestionNo = currentQuestionNo - 1;
-        console.log("cn" + currentQuestionNo);
-        console.log("pn" + previousQuestionNo);
 
         let previousQuestion = this.state.questions[previousQuestionNo - 1];
         const {id, question, answers} = previousQuestion;

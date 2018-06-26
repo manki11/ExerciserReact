@@ -1,4 +1,4 @@
-import {GET_ALL_EXERCISES, REMOVE_EXERCISE, ADD_NEW_EXERCISE, EDIT_EXERCISE, ADD_SCORE} from "../actionTypes";
+import {GET_ALL_EXERCISES, REMOVE_EXERCISE, ADD_NEW_EXERCISE, EDIT_EXERCISE, ADD_SCORE_TIME} from "../actionTypes";
 import exercise from "../../seed.json";
 
 const DEFAULT_STATE=[exercise];
@@ -15,11 +15,12 @@ const exercises = (state = DEFAULT_STATE, actions) => {
             });
         case REMOVE_EXERCISE:
             return state.filter(exercise => exercise.id !== actions.id);
-        case ADD_SCORE:
+        case ADD_SCORE_TIME:
             return state.map((exercise, i)=>{
                 if(exercise.id=== actions.id){
                     let temp= exercise;
                     temp.scores.push(actions.score);
+                    temp.times.push(actions.time);
                     return temp;
                 }
                 return exercise;
