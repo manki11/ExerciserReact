@@ -18,22 +18,36 @@ class Scores extends Component {
                 title: {
                     display: true,
                     text: "Your Results",
-                    fontSize: 25
+                    fontSize: 40
                 },
                 legend: {
                     position: 'right'
                 },
                 scales: {
                     yAxes: [{
+                        id: 'A',
+                        type: 'linear',
+                        position: 'left',
                         ticks: {
                             beginAtZero: true,
                             min: 0,
-                            max: 10
+                            max: 100
+                        }
+                    },{
+                        id: 'B',
+                        type: 'linear',
+                        position: 'right',
+                        ticks:{
+                            beginAtZero: true,
+                            min: 0
                         }
                     }],
                     xAxes: [{
                         // Change here
-                        barThickness: 100
+                        barThickness: 50,
+                        ticks:{
+                            fontSize: 25
+                        }
                     }]
                 }
             }
@@ -42,7 +56,7 @@ class Scores extends Component {
 
     componentDidMount() {
         if (this.props.location) {
-            const {scores, userScore, times, userTime} = this.props.location.state;
+            const {scores, userScore, times, userTime, noOfQuestions} = this.props.location.state;
             let avgScore = 0, avgTime=0;
             if (scores.length) {
                 let sum = scores.reduce(function (a, b) {
@@ -50,6 +64,9 @@ class Scores extends Component {
                 });
                 avgScore = sum / scores.length;
                 avgScore = Math.round(avgScore);
+                avgScore= avgScore / noOfQuestions * 100;
+
+                let score= userScore / noOfQuestions * 100;
 
                 let timeSum= times.reduce(function (a, b) {
                     return a + b;
@@ -64,8 +81,9 @@ class Scores extends Component {
                         ...this.state.chartData,
                         datasets: [
                             {
-                                label: 'Scores',
-                                data: [avgScore, userScore],
+                                label: 'Scores (%)',
+                                yAxisID: 'A',
+                                data: [avgScore, score],
                                 backgroundColor: [
                                     '#C0392B',
                                     '#C0392B',
@@ -73,6 +91,7 @@ class Scores extends Component {
                             },
                             {
                                 label: 'Time (Minutes)',
+                                yAxisID: 'B',
                                 data:[avgTime,time],
                                 backgroundColor: [
                                     '#2980B9',

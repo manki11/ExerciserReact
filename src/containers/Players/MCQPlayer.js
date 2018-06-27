@@ -134,11 +134,17 @@ class MCQPlayer extends Component {
     };
 
     onGameOver=()=>{
-        const {scores, currentScore, id, currentTime, times}= this.state;
+        const {scores, currentScore, id, currentTime, times, noOfQuestions}= this.state;
         scores.push(currentScore);
         times.push(currentTime);
         this.props.addScoreTime(id, currentScore, currentTime);
-        this.props.history.push('/scores', {scores: scores, userScore: currentScore, times:times, userTime: currentTime});
+        this.props.history.push('/scores', {
+            scores: scores,
+            userScore: currentScore,
+            times:times,
+            userTime: currentTime,
+            noOfQuestions: noOfQuestions
+        });
     };
 
     render() {
