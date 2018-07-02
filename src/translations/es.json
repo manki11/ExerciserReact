@@ -1,0 +1,5 @@
+{
+  "template.mcq":"Haga un ejercicio con preguntas y 4 opciones de opciones.",
+  "template.cloze":"Construya un ejercicio con preguntas que tengan espacios en blanco que llenar.",
+  "template.reorder":"Construya un ejercicio con listas mezcladas que deben ordenarse."
+}
