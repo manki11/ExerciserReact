@@ -210,7 +210,7 @@ class MCQPlayer extends Component {
                                             if(this.state.selected) this.submitQuestion();
                                             else if (this.state.submitted) this.nextQuestion();
                                         }}
-                                        className={"btn btn-success"}
+                                        className={"btn next-button"}
                                         disabled={!this.state.selected && !this.state.submitted}
                                     >
                                         {buttonText}

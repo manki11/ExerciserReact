@@ -7,7 +7,7 @@ import mcq from "../../images/mcq_image.jpg"
 import cloze from "../../images/cloze_image.jpg"
 import reorder from "../../images/list_reorder_image.png"
 
-class NewExerciseTemplate extends Component {
+class Template extends Component {
 
     constructor(props){
         super(props);
@@ -84,4 +84,4 @@ function mapStateToProps(state) {
 }
 
 
-export default withRouter(connect(mapStateToProps, {setNewExerciseType, setNewExerciseID})(NewExerciseTemplate));
+export default withRouter(connect(mapStateToProps, {setNewExerciseType, setNewExerciseID})(Template));

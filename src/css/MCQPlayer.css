@@ -35,3 +35,11 @@
 .d-flex{
     margin-top: 1rem;
 }
+
+.next-button{
+    width: 180px;
+    text-align: center;
+    align-self: center;
+    border-radius: 20px!important;
+    font-size: 15px!important;
+}

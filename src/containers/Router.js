@@ -7,7 +7,7 @@ import Scores from "./Scores/Scores"
 import MCQForm from "./Builders/MCQForm";
 import MCQPlay from "./Players/MCQPlayer";
 
-import NewExerciseTemplate from "./Builders/NewExerciseTemplate";
+import NewExerciseTemplate from "./Builders/Template";
 
 const Main= props=> {
     const {exercises}= props;
