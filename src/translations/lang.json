@@ -1,0 +1,17 @@
+{
+  "en":{
+    "template.mcq":"Build an exercise with questions and 4 option choices.",
+    "template.cloze":"Build an exercise with questions that have blanks to be filled.",
+    "template.reorder":"Build an exercise with Jumbled Lists that need to be ordered."
+  },
+  "es":{
+    "template.mcq":"Haga un ejercicio con preguntas y 4 opciones de opciones.",
+    "template.cloze":"Construya un ejercicio con preguntas que tengan espacios en blanco que llenar.",
+    "template.reorder":"Construya un ejercicio con listas mezcladas que deben ordenarse."
+  },
+  "fr":{
+    "template.mcq":"Construire un exercice avec des questions et 4 choix d'options.",
+    "template.cloze":"Construire un exercice avec des questions qui ont des blancs à remplir.",
+    "template.reorder":"Construire un exercice avec des listes de Jumbled qui doivent être commandés."
+  }
+}
