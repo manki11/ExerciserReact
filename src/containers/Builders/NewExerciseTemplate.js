@@ -36,42 +36,39 @@ class NewExerciseTemplate extends Component {
                         <div className="col-sm-4">
                             <div className="card">
                                 <div className="card-img-container">
-                                    {/*<img className="card-img-top" src={mcq}/>*/}
                                     <div className="card-img-top background-mcq"/>
                                 </div>
                                 <div className="card-body">
                                     <h5 className="card-title">MCQ</h5>
                                     <p className="card-text">Build an exercise with questions and 4
                                         option choices.</p>
-                                    <button className="btn btn-primary" onClick={this.mcqSelected}>Choose</button>
+                                    <button className="button-choose" onClick={this.mcqSelected}>Choose</button>
                                 </div>
                             </div>
                         </div>
                         <div className="col-sm-4">
                             <div className="card">
                                 <div className="card-img-container">
-                                    {/*<img className="card-img-top" src={cloze}/>*/}
                                     <div className="card-img-top background-cloze"/>
                                 </div>
                                 <div className="card-body">
                                     <h5 className="card-title">CLOZE TEXT</h5>
                                     <p className="card-text">Build an exercise with questions that have blanks to be
                                         filled.</p>
-                                    <button className="btn btn-primary" onClick={this.clozeSelected}>Choose</button>
+                                    <button className="button-choose" onClick={this.clozeSelected}>Choose</button>
                                 </div>
                             </div>
                         </div>
                         <div className="col-sm-4">
                             <div className="card">
                                 <div className="card-img-container">
-                                    {/*<img className="card-img-top" src={reorder}/>*/}
                                     <div className="card-img-top background-reorder"/>
                                 </div>
                                 <div className="card-body">
                                     <h5 className="card-title">REORDER LIST</h5>
                                     <p className="card-text">Build an exercise with Jumbled Lists that need to be
                                         ordered.</p>
-                                    <button className="btn btn-primary" onClick={this.reorderSelected}>Choose</button>
+                                    <button className="button-choose" onClick={this.reorderSelected}>Choose</button>
                                 </div>
                             </div>
                         </div>

@@ -292,7 +292,7 @@ class MCQForm extends Component {
                                 {i + 1}
                             </label>
                             <input
-                                className="answers form-control"
+                                className="answers input-ans"
                                 name={`answer-${i}`}
                                 type="text"
                                 value={ans}
@@ -328,7 +328,7 @@ class MCQForm extends Component {
                                     <div className="form-group">
                                         <label htmlFor="title">Title Of Exercise:</label>
                                         <input
-                                            className="form-control"
+                                            className="input-mcq"
                                             type="text"
                                             id="title"
                                             required
@@ -342,7 +342,7 @@ class MCQForm extends Component {
                                     <div className="form-group">
                                         <label htmlFor="question">{id}. Question:</label>
                                         <input
-                                            className="form-control"
+                                            className="input-mcq"
                                             type="text"
                                             id="question"
                                             required
@@ -361,21 +361,21 @@ class MCQForm extends Component {
                                         <button
                                             type="button"
                                             onClick={this.handleNewAns}
-                                            className="btn btn-dark">
-                                            +
+                                            className="btn button-choices-add">
+
                                         </button>
                                         <button
                                             type="button"
                                             onClick={this.handleRemoveAns}
-                                            className="btn btn-dark">
-                                            -
+                                            className="btn button-choices-sub">
+
                                         </button>
                                     </div>
                                 </div>
                                 <div className="form-group row justify-content-between">
                                     <button
                                         onClick={this.previousQues}
-                                        className={"btn btn-info"}
+                                        className={"btn button-previous"}
                                         disabled={this.state.currentQuestionNo === 1}
                                     >
                                         Previous Question
@@ -383,14 +383,14 @@ class MCQForm extends Component {
                                     <div className="justify-content-end">
                                         <button
                                             onClick={this.saveCurrentForm}
-                                            className={"btn btn-info"}
+                                            className={"btn button-next"}
                                             disabled={!this.state.isFormValid}
                                         >
                                             Next Question
                                         </button>
                                         <button
                                             onClick={this.submitExercise}
-                                            className={"btn btn-success"}
+                                            className={"btn button-finish"}
                                             disabled={!this.state.noOfQuestions >= 1}
                                         >
                                             Finish Exercise

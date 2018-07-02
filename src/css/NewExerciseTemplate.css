@@ -42,3 +42,22 @@
     background-repeat: no-repeat;
     background-size: cover;
 }
+
+.button-choose{
+    width: 50%;
+    background-color: #808080;
+    display: flex;
+    justify-content: center;
+    color: white;
+    border: 2px solid transparent;
+    border-radius: 22px;
+    line-height: 22px;
+    padding: 4px 6px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+/*.card-body{*/
+    /*display: flex;*/
+    /*justify-content: center;*/
+/*}*/
