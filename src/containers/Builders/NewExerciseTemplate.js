@@ -68,7 +68,7 @@ class NewExerciseTemplate extends Component {
                                     <div className="card-img-top background-reorder"/>
                                 </div>
                                 <div className="card-body">
-                                    <h5 className="card-title">Reorder List</h5>
+                                    <h5 className="card-title">REORDER LIST</h5>
                                     <p className="card-text">Build an exercise with Jumbled Lists that need to be
                                         ordered.</p>
                                     <button className="btn btn-primary" onClick={this.reorderSelected}>Choose</button>

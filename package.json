@@ -2,6 +2,7 @@
   "name": "exerciser",
   "version": "0.1.0",
   "private": true,
+  "homepage": ".",
   "dependencies": {
     "bootstrap": "^4.1.1",
     "chart.js": "^2.7.2",

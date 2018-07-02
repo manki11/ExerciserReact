@@ -1,21 +1,21 @@
 #main-toolbar #activity-button {
-    background-image: url(../icons/activity-icon.svg);
+    background-image: url(../icons/navbar/activity-icon.svg);
     border: none;
     outline: none;
 }
 
 #main-toolbar #add-button {
-    background-image: url(../icons/add.svg);
+    background-image: url(../icons/navbar/add.svg);
     outline: none;
 }
 
 #main-toolbar #network-button {
-    background-image: url(../icons/zoom-home.svg);
+    background-image: url(../icons/navbar/zoom-home.svg);
     outline: none;
 }
 
 #main-toolbar #home-button {
-    background-image: url(../icons/home.svg);
+    background-image: url(../icons/navbar/home.svg);
     background-size: 80%;
     outline: none;
 }
@@ -28,7 +28,7 @@
 }
 
 #private-button {
-    background-image: url(../icons/zoom-home.svg);
+    background-image: url(../icons/navbar/zoom-home.svg);
     outline: none;
     width: 47px;
     height: 47px;
@@ -44,7 +44,7 @@
 }
 
 #shared-button {
-    background-image: url(../icons/zoom-neighborhood.svg);
+    background-image: url(../icons/navbar/zoom-neighborhood.svg);
     outline: none;
     width: 47px;
     height: 47px;

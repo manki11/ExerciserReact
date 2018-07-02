@@ -44,10 +44,9 @@ class Exercise extends Component {
                         <p>Questions: {questions.length}</p>
                         <p>Type: {type}</p>
                         <p>Average Score: {avg}</p>
-                        <button type="button" className="btn btn-success" onClick={this.playExercise}>PLAY</button>
-                        <button type="button" className="btn btn-info" onClick={this.editExercise}>EDIT</button>
-                        <button type="button" className="btn btn-danger float-right" onClick={this.deleteExercise}>DELETE
-                        </button>
+                        <button type="button" className="play-button" onClick={this.playExercise}/>
+                        <button type="button" className="edit-button" onClick={this.editExercise}/>
+                        <button type="button" className="delete-button float-right" onClick={this.deleteExercise}/>
                     </div>
                 </div>
             </div>

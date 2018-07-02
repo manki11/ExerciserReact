@@ -10,29 +10,29 @@ body {
 }
 
 #main-toolbar #activity-button {
-    background-image: url(../media/activity-icon.de211134.svg);
+    background-image: url(../../static/media/activity-icon.de211134.svg);
     border: none;
     outline: none
 }
 
 #main-toolbar #add-button {
-    background-image: url(../media/add.038e3f81.svg);
+    background-image: url(../../static/media/add.038e3f81.svg);
     outline: none
 }
 
 #main-toolbar #network-button {
-    background-image: url(../media/zoom-home.e0b71aee.svg);
+    background-image: url(../../static/media/zoom-home.e0b71aee.svg);
     outline: none
 }
 
 #main-toolbar #home-button {
-    background-image: url(../media/home.655c9acf.svg);
+    background-image: url(../../static/media/home.655c9acf.svg);
     background-size: 80%;
     outline: none
 }
 
 #private-button {
-    background-image: url(../media/zoom-home.e0b71aee.svg)
+    background-image: url(../../static/media/zoom-home.e0b71aee.svg)
 }
 
 #private-button, #shared-button {
@@ -51,7 +51,7 @@ body {
 }
 
 #shared-button {
-    background-image: url(/static/media/zoom-neighborhood.f884a7c0.svg)
+    background-image: url(../../static/media/zoom-neighborhood.f884a7c0.svg)
 }
 
 .exercise-card {
@@ -193,19 +193,19 @@ div label {
 }
 
 .background-mcq {
-    background: url(../media/mcq_image.245ed5a2.jpg);
+    background: url(../../static/media/mcq_image.245ed5a2.jpg);
     background-repeat: no-repeat;
     background-size: contain
 }
 
 .background-cloze {
-    background: url(../media/cloze_image.2486e4d6.jpg);
+    background: url(../../static/media/cloze_image.2486e4d6.jpg);
     background-repeat: no-repeat;
     background-size: cover
 }
 
 .background-reorder {
-    background: url(../media/list_reorder_image.b710dd1e.png);
+    background: url(../../static/media/list_reorder_image.b710dd1e.png);
     background-repeat: no-repeat;
     background-size: cover
 }
@@ -9237,4 +9237,4 @@ a.text-dark:focus, a.text-dark:hover {
     }
 }
 
-/*# sourceMappingURL=main.dcec3ce3.css.map*/
+/*# sourceMappingURL=main.0f384493.css.map*/
