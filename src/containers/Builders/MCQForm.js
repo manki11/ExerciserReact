@@ -3,6 +3,8 @@ import {connect} from "react-redux";
 import {addNewExerciseQuestion} from "../../store/actions/new_exercise";
 import {incrementExerciseCounter} from "../../store/actions/increment_counter";
 import {addNewExercise, editExercise} from "../../store/actions/exercises";
+import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import {QUESTION,FINISH_EXERCISE,TITLE_OF_EXERCISE,CORRECT_OPTION, WRONG_OPTION,PREVIOUS,NEXT} from "../translation";
 import {withRouter} from "react-router-dom"
 import "../../css/MCQForm.css"
 
@@ -29,6 +31,8 @@ class MCQForm extends Component {
                 answers: ['', ''],
             }
         };
+
+        console.log(this.props);
     }
 
     componentDidMount(){
@@ -326,7 +330,7 @@ class MCQForm extends Component {
                             <form onSubmit={this.handleNewEvent}>
                                 <div className="row">
                                     <div className="form-group">
-                                        <label htmlFor="title">Title Of Exercise:</label>
+                                        <label htmlFor="title"><FormattedMessage id={TITLE_OF_EXERCISE}/></label>
                                         <input
                                             className="input-mcq"
                                             type="text"
@@ -340,7 +344,7 @@ class MCQForm extends Component {
                                 </div>
                                 <div className="row">
                                     <div className="form-group">
-                                        <label htmlFor="question">{id}. Question:</label>
+                                        <label htmlFor="question">{id}. <FormattedMessage id={QUESTION}/>:</label>
                                         <input
                                             className="input-mcq"
                                             type="text"
@@ -378,7 +382,7 @@ class MCQForm extends Component {
                                         className={"btn button-previous"}
                                         disabled={this.state.currentQuestionNo === 1}
                                     >
-                                        Previous Question
+                                        <FormattedMessage id={PREVIOUS}/><FormattedMessage id={QUESTION}/>
                                     </button>
                                     <div className="justify-content-end">
                                         <button
@@ -386,14 +390,14 @@ class MCQForm extends Component {
                                             className={"btn button-next"}
                                             disabled={!this.state.isFormValid}
                                         >
-                                            Next Question
+                                            <FormattedMessage id={NEXT}/><FormattedMessage id={QUESTION}/>
                                         </button>
                                         <button
                                             onClick={this.submitExercise}
                                             className={"btn button-finish"}
                                             disabled={!this.state.noOfQuestions >= 1}
                                         >
-                                            Finish Exercise
+                                            <FormattedMessage id={FINISH_EXERCISE}/>
                                         </button>
                                     </div>
                                 </div>

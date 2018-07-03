@@ -11,6 +11,7 @@ import NewExerciseTemplate from "./Builders/Template";
 
 const Main= props=> {
     const {exercises}= props;
+
     return(
         <div className="container">
             <Switch>
