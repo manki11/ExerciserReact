@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 import '../css/Exercise.css'
+import {FormattedMessage} from 'react-intl';
+import {QUESTIONS, AVERAGE_SCORE,TYPE} from "../containers/translation";
+
 
 class Exercise extends Component {
 
@@ -41,9 +44,9 @@ class Exercise extends Component {
                 <div className="card">
                     <div className="exercise-card-content">
                         <h3 className="card-title">{title}</h3>
-                        <p>Questions: {questions.length}</p>
-                        <p>Type: {type}</p>
-                        <p>Average Score: {avg}</p>
+                        <p><FormattedMessage id={QUESTIONS}/>: {questions.length}</p>
+                        <p><FormattedMessage id={TYPE}/>: {type}</p>
+                        <p><FormattedMessage id={AVERAGE_SCORE}/>: {avg}</p>
                         <button type="button" className="play-button" onClick={this.playExercise}/>
                         <button type="button" className="edit-button" onClick={this.editExercise}/>
                         <button type="button" className="delete-button float-right" onClick={this.deleteExercise}/>
