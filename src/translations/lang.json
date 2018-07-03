@@ -1,17 +1,30 @@
 {
   "en":{
-    "template.mcq":"Build an exercise with questions and 4 option choices.",
-    "template.cloze":"Build an exercise with questions that have blanks to be filled.",
-    "template.reorder":"Build an exercise with Jumbled Lists that need to be ordered."
+    "Questions":"Questions",
+    "Type":"Type",
+    "Average Score":"Average Score",
+    "Build an exercise with questions and 4 option choices.":"Build an exercise with questions and 4 option choices.",
+    "Build an exercise with questions that have blanks to be filled.":"Build an exercise with questions that have blanks to be filled.",
+    "Build an exercise with Jumbled Lists that need to be ordered.":"Build an exercise with Jumbled Lists that need to be ordered.",
+    "Choose":"Choose"
+
   },
   "es":{
-    "template.mcq":"Haga un ejercicio con preguntas y 4 opciones de opciones.",
-    "template.cloze":"Construya un ejercicio con preguntas que tengan espacios en blanco que llenar.",
-    "template.reorder":"Construya un ejercicio con listas mezcladas que deben ordenarse."
+    "Questions":"Preguntas",
+    "Type":"Tipo",
+    "Average Score":"Puntuación media",
+    "Build an exercise with questions and 4 option choices.":"Haga un ejercicio con preguntas y 4 opciones de opciones.",
+    "Build an exercise with questions that have blanks to be filled.":"Construya un ejercicio con preguntas que tengan espacios en blanco que llenar.",
+    "Build an exercise with Jumbled Lists that need to be ordered.":"Construya un ejercicio con listas mezcladas que deben ordenarse.",
+    "Choose":"Escoger"
   },
   "fr":{
-    "template.mcq":"Construire un exercice avec des questions et 4 choix d'options.",
-    "template.cloze":"Construire un exercice avec des questions qui ont des blancs à remplir.",
-    "template.reorder":"Construire un exercice avec des listes de Jumbled qui doivent être commandés."
+    "Questions":"Des questions",
+    "Type":"Type",
+    "Average Score":"Score moyen",
+    "Build an exercise with questions and 4 option choices.":"Construire un exercice avec des questions et 4 choix d'options.",
+    "Build an exercise with questions that have blanks to be filled.":"Construire un exercice avec des questions qui ont des blancs à remplir.",
+    "Build an exercise with Jumbled Lists that need to be ordered.":"Construire un exercice avec des listes de Jumbled qui doivent être commandés.",
+    "Choose":"Choisir"
   }
 }

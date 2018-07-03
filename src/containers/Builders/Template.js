@@ -6,6 +6,8 @@ import "../../css/NewExerciseTemplate.css"
 import mcq from "../../images/mcq_image.jpg"
 import cloze from "../../images/cloze_image.jpg"
 import reorder from "../../images/list_reorder_image.png"
+import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import {MCQ_TEMPLATE_STRING, CLOZE_TEMPLATE_STRING, REORDER_TEMPLATE_STRING, CHOOSE} from "../translation";
 
 class Template extends Component {
 
@@ -40,9 +42,12 @@ class Template extends Component {
                                 </div>
                                 <div className="card-body">
                                     <h5 className="card-title">MCQ</h5>
-                                    <p className="card-text">Build an exercise with questions and 4
-                                        option choices.</p>
-                                    <button className="button-choose" onClick={this.mcqSelected}>Choose</button>
+                                    <p className="card-text">
+                                        <FormattedMessage id={MCQ_TEMPLATE_STRING}/>
+                                    </p>
+                                    <button className="button-choose" onClick={this.mcqSelected}>
+                                        <FormattedMessage id={CHOOSE}/>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -53,9 +58,12 @@ class Template extends Component {
                                 </div>
                                 <div className="card-body">
                                     <h5 className="card-title">CLOZE TEXT</h5>
-                                    <p className="card-text">Build an exercise with questions that have blanks to be
-                                        filled.</p>
-                                    <button className="button-choose" onClick={this.clozeSelected}>Choose</button>
+                                    <p className="card-text">
+                                        <FormattedMessage id={CLOZE_TEMPLATE_STRING}/>
+                                    </p>
+                                    <button className="button-choose" onClick={this.clozeSelected}>
+                                        <FormattedMessage id={CHOOSE}/>
+                                    </button>
                                 </div>
                             </div>
                         </div>
@@ -66,9 +74,12 @@ class Template extends Component {
                                 </div>
                                 <div className="card-body">
                                     <h5 className="card-title">REORDER LIST</h5>
-                                    <p className="card-text">Build an exercise with Jumbled Lists that need to be
-                                        ordered.</p>
-                                    <button className="button-choose" onClick={this.reorderSelected}>Choose</button>
+                                    <p className="card-text">
+                                        <FormattedMessage id={REORDER_TEMPLATE_STRING}/>
+                                    </p>
+                                    <button className="button-choose" onClick={this.reorderSelected}>
+                                        <FormattedMessage id={CHOOSE}/>
+                                    </button>
                                 </div>
                             </div>
                         </div>

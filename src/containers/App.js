@@ -4,7 +4,14 @@ import activity from 'lib/sugar-web/activity/activity'
 import env from 'lib/sugar-web/env'
 import {Provider} from "react-redux"
 import {configureStore} from "../store";
+import {IntlProvider} from "react-intl";
 import {MemoryRouter as Router} from "react-router-dom";
+import { addLocaleData } from "react-intl";
+import messages from "../translations/lang"
+import locale_en from 'react-intl/locale-data/en';
+import locale_fr from 'react-intl/locale-data/fr';
+import locale_es from 'react-intl/locale-data/es';
+
 import Main from "./Router";
 import '../css/index.css';
 
@@ -12,8 +19,19 @@ const store = configureStore();
 
 class App extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
+
+        this.messages={
+            'en': messages['en'],
+            'fr': messages['fr'],
+            'es': messages['es']
+        };
+
+        addLocaleData([...locale_en, ...locale_fr, ...locale_es]);
+
+        this.language = navigator.language.split(/[-_]/)[0];
+
     }
 
     componentDidMount() {
@@ -29,7 +47,7 @@ class App extends Component {
             // let language = environment.user ? environment.user.language : defaultLanguage;
             // webL10n.language.code = language;
             // console.log(language);
-            
+
 
             // Load from datastore
             if (!environment.objectId) {
@@ -46,7 +64,7 @@ class App extends Component {
         })
     }
 
-    stopActivity(){
+    stopActivity() {
 
     }
 
@@ -54,12 +72,14 @@ class App extends Component {
         return (
             <div className="App">
                 <Provider store={store}>
-                    <Router>
-                        <div className="App-container">
-                            <Navbar onStop={() => this.stopActivity()}/>
-                            <Main/>
-                        </div>
-                    </Router>
+                    <IntlProvider locale={this.language} messages={this.messages[this.language]}>
+                        <Router>
+                            <div className="App-container">
+                                <Navbar onStop={() => this.stopActivity()}/>
+                                <Main/>
+                            </div>
+                        </Router>
+                    </IntlProvider>
                 </Provider>
             </div>
         );
