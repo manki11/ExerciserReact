@@ -15,7 +15,11 @@
     "Correct Option":"Correct Option",
     "Wrong Option":"Wrong Option",
     "Submit Question":"Submit Question",
-    "Next Question":"Next Question"
+    "Next Question":"Next Question",
+    "Average":"Average",
+    "Your Results":"Your Results",
+    "Scores":"Scores (%)",
+    "Time":"Time (Minutes)"
   },
   "es":{
     "Questions":"Preguntas",
@@ -33,7 +37,11 @@
     "Correct Option":"Opción correcta",
     "Wrong Option":"Opción incorrecta",
     "Submit Question":"Enviar pregunta",
-    "Next Question":"Próxima pregunta"
+    "Next Question":"Próxima pregunta",
+    "Average":"Promedio",
+    "Your Results":"Tus resultados",
+    "Scores":"Puntuaciones (%)",
+    "Time":"Hora (Minutos)"
   },
   "fr":{
     "Questions":"Des questions",
@@ -51,6 +59,10 @@
     "Correct Option":"Option correcte",
     "Wrong Option":"Mauvaise option",
     "Submit Question":"Envoyer une question",
-    "Next Question":"Question suivante"
+    "Next Question":"Question suivante",
+    "Average":"Moyenne",
+    "Your Results":"Vos résultats",
+    "Scores":"Scores (%)",
+    "Time":"Temps (Minutes)"
   }
 }

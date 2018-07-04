@@ -32,4 +32,12 @@ export const NEXT_QUESTION="Next Question";
 
 
 
+// SCORES VIEW
+export const AVERAGE="Average";
+export const YOUR_RESULTS="Your Results";
+export const SCORES="Scores";
+export const TIME="Time";
+
+
+
 

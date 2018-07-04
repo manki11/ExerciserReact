@@ -7,6 +7,9 @@ import Scores from "./Scores/Scores"
 import MCQForm from "./Builders/MCQForm";
 import MCQPlay from "./Players/MCQPlayer";
 
+import {injectIntl, intlShape, FormattedRelative} from 'react-intl';
+
+
 import NewExerciseTemplate from "./Builders/Template";
 
 const Main= props=> {
@@ -34,4 +37,4 @@ function MapStateToProps(state) {
     }
 }
 
-export default withRouter(connect(MapStateToProps)(Main));
+export default injectIntl(withRouter(connect(MapStateToProps)(Main)));

@@ -3,21 +3,30 @@ import {Bar, Line, Pie} from 'react-chartjs-2';
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import {addScore} from "../../store/actions/exercises";
+import {injectIntl, intlShape, FormattedRelative} from 'react-intl';
+import {SCORES, TIME, YOUR_RESULTS, AVERAGE} from "../translation";
 
 
 class Scores extends Component {
 
     constructor(props) {
         super(props);
+
+        let {intl}= this.props;
+        this.intl= intl;
+
         this.state = {
             chartData: {
-                labels: ['Average', 'User'],
+                labels: [
+                    intl.formatMessage({id: AVERAGE}),
+                    "User"
+                ],
                 datasets: []
             },
             options: {
                 title: {
                     display: true,
-                    text: "Your Results",
+                    text: intl.formatMessage({id: YOUR_RESULTS}),
                     fontSize: 40
                 },
                 legend: {
@@ -80,7 +89,7 @@ class Scores extends Component {
                     ...this.state.chartData,
                     datasets: [
                         {
-                            label: 'Scores (%)',
+                            label: this.intl.formatMessage({id: SCORES}),
                             yAxisID: 'A',
                             data: [avgScore, score],
                             backgroundColor: [
@@ -89,7 +98,7 @@ class Scores extends Component {
                             ],
                         },
                         {
-                            label: 'Time (Minutes)',
+                            label: this.intl.formatMessage({id: TIME}),
                             yAxisID: 'B',
                             data: [avgTime, time],
                             backgroundColor: [
@@ -119,5 +128,5 @@ function MapStateToProps(state) {
     return {}
 }
 
-export default withRouter(
-    connect(MapStateToProps, {})(Scores));
+export default injectIntl(withRouter(
+    connect(MapStateToProps, {})(Scores)));
