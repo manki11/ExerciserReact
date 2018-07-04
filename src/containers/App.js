@@ -42,13 +42,6 @@ class App extends Component {
         env.getEnvironment(function (err, environment) {
             currentenv = environment;
 
-            // Set current language to Sugarizer
-            // let defaultLanguage = (typeof chrome != 'undefined' && chrome.app && chrome.app.runtime) ? chrome.i18n.getUILanguage() : navigator.language;
-            // let language = environment.user ? environment.user.language : defaultLanguage;
-            // webL10n.language.code = language;
-            // console.log(language);
-
-
             // Load from datastore
             if (!environment.objectId) {
                 console.log("New instance");

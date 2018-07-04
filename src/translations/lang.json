@@ -13,7 +13,9 @@
     "Next":"Next",
     "Finish Exercise":"Finish Exercise",
     "Correct Option":"Correct Option",
-    "Wrong Option":"Wrong Option"
+    "Wrong Option":"Wrong Option",
+    "Submit Question":"Submit Question",
+    "Next Question":"Next Question"
   },
   "es":{
     "Questions":"Preguntas",
@@ -29,7 +31,9 @@
     "Next":"Siguiente",
     "Finish Exercise":"Terminar el ejercicio",
     "Correct Option":"Opción correcta",
-    "Wrong Option":"Opción incorrecta"
+    "Wrong Option":"Opción incorrecta",
+    "Submit Question":"Enviar pregunta",
+    "Next Question":"Próxima pregunta"
   },
   "fr":{
     "Questions":"Des questions",
@@ -45,6 +49,8 @@
     "Next":"Prochain",
     "Finish Exercise":"Finir l'exercice",
     "Correct Option":"Option correcte",
-    "Wrong Option":"Mauvaise option"
+    "Wrong Option":"Mauvaise option",
+    "Submit Question":"Envoyer une question",
+    "Next Question":"Question suivante"
   }
 }

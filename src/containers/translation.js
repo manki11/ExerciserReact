@@ -24,3 +24,12 @@ export const CORRECT_OPTION="Correct Option";
 export const WRONG_OPTION="Wrong Option";
 
 
+
+// PLAYER VIEW
+
+export const SUBMIT_QUESTION="Submit Question";
+export const NEXT_QUESTION="Next Question";
+
+
+
+

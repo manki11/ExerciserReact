@@ -3,6 +3,8 @@ import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import {addScoreTime} from '../../store/actions/exercises';
 import "../../css/MCQPlayer.css"
+import {SUBMIT_QUESTION, NEXT_QUESTION, FINISH_EXERCISE} from "../translation";
+import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
 
 
 class MCQPlayer extends Component {
@@ -87,9 +89,6 @@ class MCQPlayer extends Component {
 
     timer=()=>{
         this.setState({ currentTime: this.state.currentTime +1 });
-        let time= this.state.currentTime;
-        console.log(time);
-
     };
 
     submitQuestion= ()=>{
@@ -150,9 +149,7 @@ class MCQPlayer extends Component {
     render() {
         const {currentQuestion} = this.state;
         const {id} = currentQuestion;
-        // if(id===1 && !this.state.submitted && !this.state.selected){
-        //     this.shuffleArray(currentQuestion.answers)
-        // }
+
         let choices = currentQuestion.answers.map((ans, i) => {
             let btn = 'btn-outline-secondary';
             if(this.state.selectedAns=== ans){
@@ -184,10 +181,11 @@ class MCQPlayer extends Component {
                 </div>
             )
         });
-        let buttonText='Submit Question';
+
+        let buttonText=<FormattedMessage id={SUBMIT_QUESTION}/>;
         if (this.state.submitted) {
-            buttonText='Next Question';
-            if (this.state.finish) buttonText='Finish Exercise'
+            buttonText=<FormattedMessage id={NEXT_QUESTION}/>;
+            if (this.state.finish) buttonText= <FormattedMessage id={FINISH_EXERCISE}/>;
         }
 
         return (
