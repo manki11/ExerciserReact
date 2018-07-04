@@ -286,8 +286,8 @@ class MCQForm extends Component {
         const {currentQuestion, errors} = this.state;
         const {id} = currentQuestion;
         let inputs = currentQuestion.answers.map((ans, i) => {
-            let placeholder = 'Wrong Option';
-            if (i === 0) placeholder = 'Correct Option';
+            let placeholder_string = WRONG_OPTION;
+            if (i === 0) placeholder_string = CORRECT_OPTION;
             return (
                 <div className="row" key={`answers-${i}`}>
                     <div className="col-md-6">
@@ -295,14 +295,16 @@ class MCQForm extends Component {
                             <label htmlFor={`answer-${i}`}>
                                 {i + 1}
                             </label>
-                            <input
-                                className="answers input-ans"
-                                name={`answer-${i}`}
-                                type="text"
-                                value={ans}
-                                required
-                                placeholder={placeholder}
-                                onChange={this.handleChangeAns}/>
+                            <FormattedMessage id={placeholder_string}>
+                                {placeholder => <input
+                                    className="answers input-ans"
+                                    name={`answer-${i}`}
+                                    type="text"
+                                    value={ans}
+                                    required
+                                    placeholder={placeholder}
+                                    onChange={this.handleChangeAns}/>}
+                            </FormattedMessage>
                         </div>
                     </div>
                 </div>
@@ -382,7 +384,7 @@ class MCQForm extends Component {
                                         className={"btn button-previous"}
                                         disabled={this.state.currentQuestionNo === 1}
                                     >
-                                        <FormattedMessage id={PREVIOUS}/><FormattedMessage id={QUESTION}/>
+                                        <FormattedMessage id={PREVIOUS}/> <FormattedMessage id={QUESTION}/>
                                     </button>
                                     <div className="justify-content-end">
                                         <button
@@ -390,7 +392,7 @@ class MCQForm extends Component {
                                             className={"btn button-next"}
                                             disabled={!this.state.isFormValid}
                                         >
-                                            <FormattedMessage id={NEXT}/><FormattedMessage id={QUESTION}/>
+                                            <FormattedMessage id={NEXT}/> <FormattedMessage id={QUESTION}/>
                                         </button>
                                         <button
                                             onClick={this.submitExercise}
