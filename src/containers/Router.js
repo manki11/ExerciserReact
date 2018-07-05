@@ -11,6 +11,7 @@ import {injectIntl, intlShape, FormattedRelative} from 'react-intl';
 
 
 import NewExerciseTemplate from "./Builders/Template";
+import CLOZEForm from "./Builders/CLOZEForm";
 
 const Main= props=> {
     const {exercises}= props;
@@ -26,6 +27,10 @@ const Main= props=> {
                 <Route exact path="/new/mcq" render={props=> <MCQForm/>} {...props}/>
                 <Route exact path="/edit/mcq" render={props=> <MCQForm/>} {...props}/>
                 <Route exact path="/play/mcq" render={props=> <MCQPlay/>} {...props}/>
+
+                // CLOZE
+                <Route exact path="/new/cloze" render={props=> <CLOZEForm/>} {...props}/>
+
             </Switch>
         </div>
     )

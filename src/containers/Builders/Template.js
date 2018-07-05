@@ -22,7 +22,7 @@ class Template extends Component {
 
     clozeSelected=()=> {
         this.props.setNewExerciseType("cloze");
-        this.props.history.push('/')
+        this.props.history.push('/new/cloze')
     };
 
     reorderSelected=()=>{

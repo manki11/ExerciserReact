@@ -3,7 +3,7 @@ import {connect} from "react-redux";
 import {addNewExerciseQuestion} from "../../store/actions/new_exercise";
 import {incrementExerciseCounter} from "../../store/actions/increment_counter";
 import {addNewExercise, editExercise} from "../../store/actions/exercises";
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {QUESTION,FINISH_EXERCISE,TITLE_OF_EXERCISE,CORRECT_OPTION, WRONG_OPTION,PREVIOUS,NEXT} from "../translation";
 import {withRouter} from "react-router-dom"
 import "../../css/MCQForm.css"
@@ -262,8 +262,6 @@ class MCQForm extends Component {
     };
 
     previousQues = () => {
-        console.log("previous question");
-
         const {currentQuestionNo} = this.state;
         let previousQuestionNo = currentQuestionNo - 1;
 
