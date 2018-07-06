@@ -34,6 +34,9 @@ class ExerciseList extends Component {
         if (exercise.type === 'MCQ') {
             this.props.history.push('/play/mcq', {exercise: exercise})
         }
+        if (exercise.type === 'CLOZE') {
+            this.props.history.push('/play/cloze', {exercise: exercise})
+        }
     };
 
     render() {
