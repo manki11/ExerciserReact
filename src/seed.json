@@ -1,4 +1,4 @@
-{
+[{
   "title": "Capitals of the World",
   "id": 1,
   "type": "MCQ",
@@ -140,4 +140,49 @@
     120,
     150
   ]
-}
+},
+  {
+    "title": "Capitals of the World",
+    "id": 2,
+    "type": "CLOZE",
+    "question": "Fill the capitals of the world",
+    "clozetext": "The capital of France is _1_ . The capital of India is _2_ . The capital of Spain is _3_ . The capital of Italy is _4_ . The capital of Bangladesh is _5_ . The capital of US is _6_ . The capital of Portugal is _7_ . The capital of Mexico is _8_ . The capital of Russia is _9_ . The capital of Australia is _10_ .",
+    "answers": [
+      "Paris",
+      "New Delhi",
+      "Madrid",
+      "Rome",
+      "Dhaka",
+      "Washington DC",
+      "Lisbon",
+      "Mexico City",
+      "Moscow",
+      "Canberra"
+    ],
+    "scores": [
+      10,
+      5,
+      6,
+      7,
+      8,
+      8,
+      3,
+      10,
+      10,
+      9,
+      7
+    ],
+    "times": [
+      60,
+      80,
+      90,
+      100,
+      60,
+      57,
+      98,
+      87,
+      100,
+      120,
+      150
+    ]
+  }]

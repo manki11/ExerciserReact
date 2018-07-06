@@ -18,6 +18,7 @@ class MCQForm extends Component {
             currentQuestionNo: 1,
             questions: [],
             scores:[],
+            times:[],
             isFormValid: false,
             errors: {
                 question: false,
@@ -36,7 +37,7 @@ class MCQForm extends Component {
 
     componentDidMount(){
         if(this.props.location.state){
-            const {id, title, questions, scores}= this.props.location.state.exercise;
+            const {id, title, questions, scores, times}= this.props.location.state.exercise;
             const currentQuestion= questions[0];
             this.setState({
                 ...this.state,
@@ -46,6 +47,7 @@ class MCQForm extends Component {
                 isFormValid:true,
                 questions:questions,
                 scores:scores,
+                times: times,
                 noOfQuestions:questions.length,
                 currentQuestion:{
                     id:currentQuestion.id,
@@ -246,15 +248,16 @@ class MCQForm extends Component {
             id:id,
             type: "MCQ",
             questions: this.state.questions,
-            scores: this.state.scores
+            scores: this.state.scores,
+            times: this.state.times
         };
 
         if(this.state.edit){
             this.props.editExercise(exercise);
         }else{
             this.props.addNewExercise(exercise);
+            this.props.incrementExerciseCounter();
         }
-        this.props.incrementExerciseCounter();
         this.props.history.push('/')
     };
 

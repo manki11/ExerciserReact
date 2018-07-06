@@ -30,6 +30,9 @@ const Main= props=> {
 
                 // CLOZE
                 <Route exact path="/new/cloze" render={props=> <CLOZEForm/>} {...props}/>
+                <Route exact path="/edit/cloze" render={props=> <CLOZEForm/>} {...props}/>
+                {/*<Route exact path="/play/cloze" render={props=> <CLPlay/>} {...props}/>*/}
+
 
             </Switch>
         </div>

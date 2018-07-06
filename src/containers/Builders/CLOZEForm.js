@@ -25,6 +25,7 @@ class CLOZEForm extends Component {
             question: '',
             clozetext: '',
             scores: [],
+            times:[],
             isFormValid: false,
             answers: [''],
             errors: {
@@ -34,6 +35,24 @@ class CLOZEForm extends Component {
                 cloze: false
             }
         };
+    }
+
+    componentDidMount(){
+        if(this.props.location.state){
+            const {id, title, question, scores, times, clozetext, answers}= this.props.location.state.exercise;
+            this.setState({
+                ...this.state,
+                id:id,
+                title:title,
+                edit:true,
+                isFormValid:true,
+                question:question,
+                scores:scores,
+                times: times,
+                clozetext:clozetext,
+                answers: answers
+            });
+        }
     }
 
     handleChangeAns = e => {
@@ -173,18 +192,22 @@ class CLOZEForm extends Component {
             title: this.state.title,
             id:id,
             type: "CLOZE",
+            times:this.state.times,
             question: this.state.question,
             clozetext: this.state.clozetext,
             answers: this.state.answers,
             scores: this.state.scores
         };
 
+
+        console.log(exercise);
+
         if(this.state.edit){
             this.props.editExercise(exercise);
         }else{
             this.props.addNewExercise(exercise);
+            this.props.incrementExerciseCounter();
         }
-        this.props.incrementExerciseCounter();
         this.props.history.push('/')
     };
 
@@ -276,7 +299,7 @@ class CLOZEForm extends Component {
                                                 value={this.state.clozetext}
                                                 onChange={this.handleChangeCloze}
                                             />
-                                            {question_error}
+                                            {cloze_error}
                                         </div>
                                     </div>
                                     {inputs}

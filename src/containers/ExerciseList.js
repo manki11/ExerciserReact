@@ -24,6 +24,9 @@ class ExerciseList extends Component {
         if (exercise.type === 'MCQ') {
             this.props.history.push('/edit/mcq', {exercise: exercise})
         }
+        if (exercise.type === 'CLOZE') {
+            this.props.history.push('/edit/cloze', {exercise: exercise})
+        }
     };
 
     onPlay = id => {
