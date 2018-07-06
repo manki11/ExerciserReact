@@ -34,7 +34,6 @@ export const SUBMIT_QUESTION="Submit Question";
 export const NEXT_QUESTION="Next Question";
 
 
-
 // SCORES VIEW
 export const AVERAGE="Average";
 export const YOUR_RESULTS="Your Results";

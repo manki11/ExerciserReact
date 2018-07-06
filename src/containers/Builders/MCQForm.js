@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {addNewExerciseQuestion} from "../../store/actions/new_exercise";
 import {incrementExerciseCounter} from "../../store/actions/increment_counter";
 import {addNewExercise, editExercise} from "../../store/actions/exercises";
 import {FormattedMessage} from 'react-intl';
@@ -416,5 +415,5 @@ function MapStateToProps(state) {
 
 export default withRouter(
     connect(MapStateToProps,
-    {addNewExerciseQuestion, addNewExercise, incrementExerciseCounter, editExercise}
+    {addNewExercise, incrementExerciseCounter, editExercise}
     )(MCQForm));

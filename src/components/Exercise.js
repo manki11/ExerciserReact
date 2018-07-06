@@ -29,7 +29,7 @@ class Exercise extends Component {
     };
 
     render() {
-        const {title, type, questions, scores, id} = this.props;
+        const {title, type, questions, scores, answers} = this.props;
         let avg = 0;
         if (scores.length > 0) {
             let sum = scores.reduce(function (a, b) {
@@ -39,12 +39,16 @@ class Exercise extends Component {
             avg= Math.round(avg * 100) / 100;
         }
 
+        let length=0;
+        if(type === "MCQ") length= questions.length;
+        if (type=== "CLOZE") length= answers.length;
+
         return (
             <div className="col-md-12">
                 <div className="card">
                     <div className="exercise-card-content">
                         <h3 className="card-title">{title}</h3>
-                        <p><FormattedMessage id={QUESTIONS}/>: {questions.length}</p>
+                        <p><FormattedMessage id={QUESTIONS}/>: {length}</p>
                         <p><FormattedMessage id={TYPE}/>: {type}</p>
                         <p><FormattedMessage id={AVERAGE_SCORE}/>: {avg}</p>
                         <button type="button" className="play-button" onClick={this.playExercise}/>

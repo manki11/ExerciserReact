@@ -1,12 +1,8 @@
 import React, {Component} from 'react';
-import {setNewExerciseType, setNewExerciseID} from "../../store/actions/new_exercise";
 import {withRouter} from "react-router-dom";
 import { connect } from "react-redux";
 import "../../css/NewExerciseTemplate.css"
-import mcq from "../../images/mcq_image.jpg"
-import cloze from "../../images/cloze_image.jpg"
-import reorder from "../../images/list_reorder_image.png"
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {MCQ_TEMPLATE_STRING, CLOZE_TEMPLATE_STRING, REORDER_TEMPLATE_STRING, CHOOSE} from "../translation";
 
 class Template extends Component {
@@ -16,17 +12,14 @@ class Template extends Component {
     }
 
     mcqSelected= ()=>{
-        this.props.setNewExerciseType("mcq");
         this.props.history.push('/new/mcq')
     };
 
     clozeSelected=()=> {
-        this.props.setNewExerciseType("cloze");
         this.props.history.push('/new/cloze')
     };
 
     reorderSelected=()=>{
-        this.props.setNewExerciseType("reorder");
         this.props.history.push('/')
     };
 
@@ -95,4 +88,4 @@ function mapStateToProps(state) {
 }
 
 
-export default withRouter(connect(mapStateToProps, {setNewExerciseType, setNewExerciseID})(Template));
+export default withRouter(connect(mapStateToProps)(Template));

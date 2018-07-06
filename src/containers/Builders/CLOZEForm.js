@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {addNewExerciseQuestion} from "../../store/actions/new_exercise";
 import {incrementExerciseCounter} from "../../store/actions/increment_counter";
 import {addNewExercise, editExercise} from "../../store/actions/exercises";
 import {FormattedMessage} from 'react-intl';
@@ -164,6 +163,31 @@ class CLOZEForm extends Component {
         event.preventDefault();
     };
 
+    submitExercise = () => {
+        let id= this.state.id;
+        if(this.state.id === -1){
+            id= this.props.counter;
+        }
+
+        let exercise = {
+            title: this.state.title,
+            id:id,
+            type: "CLOZE",
+            question: this.state.question,
+            clozetext: this.state.clozetext,
+            answers: this.state.answers,
+            scores: this.state.scores
+        };
+
+        if(this.state.edit){
+            this.props.editExercise(exercise);
+        }else{
+            this.props.addNewExercise(exercise);
+        }
+        this.props.incrementExerciseCounter();
+        this.props.history.push('/')
+    };
+
     render() {
         const {errors, answers} = this.state;
         let inputs = answers.map((ans, i) => {
@@ -192,6 +216,7 @@ class CLOZEForm extends Component {
         let title_error = '';
         let question_error = '';
         let answer_error = '';
+        let cloze_error='';
 
         if (errors['title']) {
             title_error = <span style={{color: "red"}}>Title field can't be empty</span>;
@@ -201,6 +226,9 @@ class CLOZEForm extends Component {
         }
         if (errors['answers']) {
             answer_error = <span style={{color: "red"}}>Answers field can't be empty</span>;
+        }
+        if (errors['cloze']) {
+            cloze_error = <span style={{color: "red"}}>Cloze field can't be empty</span>;
         }
         return (
             <div>
@@ -301,5 +329,5 @@ function MapStateToProps(state) {
 
 export default withRouter(
     connect(MapStateToProps,
-        {addNewExerciseQuestion, addNewExercise, incrementExerciseCounter, editExercise}
+        {addNewExercise, incrementExerciseCounter, editExercise}
     )(CLOZEForm));
