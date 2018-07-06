@@ -234,8 +234,6 @@ class MCQForm extends Component {
             ...this.state,
             isFormValid: isFormValid
         })
-
-
     };
 
     submitExercise = () => {

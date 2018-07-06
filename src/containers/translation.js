@@ -23,6 +23,8 @@ export const FINISH_EXERCISE="Finish Exercise";
 export const CORRECT_OPTION="Correct Option";
 export const WRONG_OPTION="Wrong Option";
 
+// CLOZE FORM
+export const CLOZE="Cloze";
 
 
 // PLAYER VIEW
