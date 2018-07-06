@@ -10,7 +10,8 @@ import {
     FINISH_EXERCISE,
     QUESTION,
     TITLE_OF_EXERCISE,
-    CLOZE
+    CLOZE,
+    CLOZE_TEXT, NEXT, PREVIOUS
 } from "../translation";
 
 class CLOZEForm extends Component {
@@ -238,7 +239,7 @@ class CLOZEForm extends Component {
                                     </div>
                                     <div className="row">
                                         <div className="form-group">
-                                            <label htmlFor="cloze-text"><FormattedMessage id={CLOZE}/>:</label>
+                                            <label htmlFor="cloze-text"><FormattedMessage id={CLOZE_TEXT}/>:</label>
                                             <textarea
                                                 className="input-mcq"
                                                 rows="5"
@@ -271,6 +272,7 @@ class CLOZEForm extends Component {
                                         </div>
                                     </div>
                                     <div className="form-group row justify-content-between">
+                                        <br/>
                                         <div className="justify-content-end">
                                             <button
                                                 onClick={this.submitExercise}

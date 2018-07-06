@@ -25,6 +25,7 @@ export const WRONG_OPTION="Wrong Option";
 
 // CLOZE FORM
 export const CLOZE="Cloze";
+export const CLOZE_TEXT="Cloze Text";
 
 
 // PLAYER VIEW
