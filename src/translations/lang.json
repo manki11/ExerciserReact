@@ -20,7 +20,8 @@
     "Your Results":"Your Results",
     "Scores":"Scores (%)",
     "Time":"Time (Minutes)",
-    "Cloze":"Cloze"
+    "Cloze":"Cloze",
+    "Cloze Text":"Cloze Text"
   },
   "es":{
     "Questions":"Preguntas",
@@ -42,7 +43,9 @@
     "Average":"Promedio",
     "Your Results":"Tus resultados",
     "Scores":"Puntuaciones (%)",
-    "Time":"Hora (Minutos)"
+    "Time":"Hora (Minutos)",
+    "Cloze":"Cloze",
+    "Cloze Text":"prueba cloze"
   },
   "fr":{
     "Questions":"Des questions",
@@ -64,6 +67,8 @@
     "Average":"Moyenne",
     "Your Results":"Vos résultats",
     "Scores":"Scores (%)",
-    "Time":"Temps (Minutes)"
+    "Time":"Temps (Minutes)",
+    "Cloze":"Cloze",
+    "Cloze Text":"test de cloze"
   }
 }

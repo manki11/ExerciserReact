@@ -10,7 +10,7 @@ import {
     QUESTION,
     TITLE_OF_EXERCISE,
     CLOZE,
-    CLOZE_TEXT, NEXT, PREVIOUS
+    CLOZE_TEXT,
 } from "../translation";
 
 class CLOZEForm extends Component {

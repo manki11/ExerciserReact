@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {addScoreTime} from '../../store/actions/exercises';
 import "../../css/MCQPlayer.css"
 import {SUBMIT_QUESTION, NEXT_QUESTION, FINISH_EXERCISE} from "../translation";
-import {FormattedMessage, FormattedHTMLMessage} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
 
 class MCQPlayer extends Component {
