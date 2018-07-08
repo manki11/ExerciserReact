@@ -3,6 +3,8 @@ import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import {addScoreTime} from '../../store/actions/exercises';
 import "../../css/CLOZEPlayer.css"
+import Select from 'react-select';
+import 'react-select/dist/react-select.css';
 import {SUBMIT_QUESTION, FINISH_EXERCISE} from "../translation";
 import {FormattedMessage} from 'react-intl';
 
@@ -18,6 +20,7 @@ class CLOZEPlayer extends Component {
             cloze: [],
             answers: [],
             userans: [],
+            options: [],
             submitted: false,
             finish: false,
             scores: [],
@@ -36,6 +39,14 @@ class CLOZEPlayer extends Component {
 
             let cloze = clozetext.split(' ');
 
+            let options = [];
+            answers.map((ans, i) => {
+                options.push({
+                    value: ans,
+                    label: ans
+                })
+            });
+
             this.setState({
                 ...this.state,
                 id: id,
@@ -46,6 +57,7 @@ class CLOZEPlayer extends Component {
                 answers: answers,
                 userans: userans,
                 cloze: cloze,
+                options: options,
                 intervalId: intervalId
             })
         }
@@ -55,16 +67,25 @@ class CLOZEPlayer extends Component {
         clearInterval(this.state.intervalID);
     }
 
-    handleChangeAns = e => {
-        const index = Number(e.target.name.split('-')[1]);
+    handleChangeAns = (text, name) => {
+        const index = Number(name.split('-')[1]);
+        console.log(text);
+
+        let value = '';
+        if (text === null) {
+            value = ''
+        } else {
+            value = text.value
+        }
+
         const ans = this.state.userans.map((ans, i) => (
-            i === index-1 ? e.target.value : ans
+            i === index - 1 ? value : ans
         ));
         this.setState({
             ...this.state,
-            userans:ans
-        },()=>{
-            console.log(this.state.userans);
+            userans: ans
+        }, () => {
+            // console.log(this.state.userans);
         });
     };
 
@@ -73,25 +94,27 @@ class CLOZEPlayer extends Component {
     };
 
     render() {
-
         let clozetext = this.state.cloze.map((text, i) => {
             if (text[0] === '_' && (text[2] === '_' || text[3] === '_')) {
-                let no= text[1];
-                if (text[2]!=='_') no= no*10+ text[2];
+                let no = text[1];
+                if (text[2] !== '_') no = no * 10 + text[2];
                 return (
-                    <input
+                    <Select
                         key={`answer-${no}`}
                         className="answers input-ans"
                         name={`answer-${no}`}
-                        value={this.state.userans[no-1]}
+                        value={this.state.userans[no - 1]}
+                        placeholder=''
                         required
-                        onChange={this.handleChangeAns}
+                        onChange={value => this.handleChangeAns(value, `answer-${no}`)}
+                        options={this.state.options}
                     />
                 )
+            } else {
+                return (
+                    <span key={`cloze-${i}`}>{text}&nbsp;</span>
+                )
             }
-            return (
-                <span key={`cloze-${i}`}>{text}&nbsp;</span>
-            )
         });
 
 
@@ -103,9 +126,9 @@ class CLOZEPlayer extends Component {
                             <p className="lead">{this.state.title}</p>
                             <hr className="my-4"/>
                             <p>{this.state.question}</p>
-                            <p>
+                            <div>
                                 {clozetext}
-                            </p>
+                            </div>
                         </div>
                         <div className="d-flex flex-row-reverse">
                             <div className="justify-content-end">
