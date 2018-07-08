@@ -7,3 +7,7 @@
     min-width: 180px;
     padding: 0 !important;
 }
+
+.Select-placeholder{
+    border-radius: 15px!important;
+}
