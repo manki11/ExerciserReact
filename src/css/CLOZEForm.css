@@ -13,3 +13,13 @@
     border-radius: 22px;
     outline: 0;
 }
+
+.input-ans{
+    display: block;
+    font-size: 15px;
+    padding: 6px 20px!important;
+    max-height: 30px;
+    border-radius: 10px;
+    border-width: 0px;
+    min-width: 180px;
+}

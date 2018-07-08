@@ -5,14 +5,15 @@ import ExerciseList from "./ExerciseList";
 import Scores from "./Scores/Scores"
 
 import MCQForm from "./Builders/MCQForm";
+import CLOZEForm from "./Builders/CLOZEForm";
+
 import MCQPlay from "./Players/MCQPlayer";
+import CLOZEPlay from "./Players/CLOZEPlayer";
 
 import {injectIntl, intlShape, FormattedRelative} from 'react-intl';
 
 
 import NewExerciseTemplate from "./Builders/Template";
-import CLOZEForm from "./Builders/CLOZEForm";
-
 const Main= props=> {
     const {exercises}= props;
 
@@ -31,7 +32,7 @@ const Main= props=> {
                 // CLOZE
                 <Route exact path="/new/cloze" render={props=> <CLOZEForm/>} {...props}/>
                 <Route exact path="/edit/cloze" render={props=> <CLOZEForm/>} {...props}/>
-                {/*<Route exact path="/play/cloze" render={props=> <CLPlay/>} {...props}/>*/}
+                <Route exact path="/play/cloze" render={props=> <CLOZEPlay/>} {...props}/>
 
 
             </Switch>
