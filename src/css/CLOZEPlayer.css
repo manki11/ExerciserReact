@@ -11,3 +11,21 @@
 .Select-placeholder{
     border-radius: 15px!important;
 }
+
+
+.wrong{
+    padding: 4px 8px;
+    border-radius: 10px;
+    background-color: orangered;
+}
+
+.right{
+    padding: 4px 8px;
+    border-radius: 10px;
+    background-color: lime;
+}
+
+.cloze-span{
+    display: inline-block;
+    margin: 10px 0;
+}

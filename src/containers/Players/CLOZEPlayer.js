@@ -20,10 +20,11 @@ class CLOZEPlayer extends Component {
             cloze: [],
             answers: [],
             userans: [],
+            checkans:[],
             options: [],
             submitted: false,
-            finish: false,
             scores: [],
+            score: 0,
             times: [],
             currentTime: 0,
             intervalID: -1
@@ -37,6 +38,8 @@ class CLOZEPlayer extends Component {
 
             let userans = answers.map(() => " ");
 
+            let checkans= answers.map(()=> false);
+
             let cloze = clozetext.split(' ');
 
             let options = [];
@@ -46,6 +49,8 @@ class CLOZEPlayer extends Component {
                     label: ans
                 })
             });
+
+            this.shuffleArray(options);
 
             this.setState({
                 ...this.state,
@@ -58,8 +63,16 @@ class CLOZEPlayer extends Component {
                 userans: userans,
                 cloze: cloze,
                 options: options,
-                intervalId: intervalId
+                intervalId: intervalId,
+                checkans: checkans
             })
+        }
+    }
+
+    shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]]; // eslint-disable-line no-param-reassign
         }
     }
 
@@ -89,30 +102,83 @@ class CLOZEPlayer extends Component {
         });
     };
 
+    submitExercise= ()=>{
+        const {userans, answers}= this.state;
+        let checkans=[];
+        let score=0;
+        for(let i=0;i<answers.length;i++){
+            if(answers[i]=== userans[i]){
+                checkans.push(true);
+                score++;
+            }else{
+                checkans.push(false)
+            }
+        }
+
+        this.setState({
+            ...this.state,
+            submitted: true,
+            checkans:checkans,
+            score: score
+        })
+    };
+
+    finishExercise= ()=> {
+        const {scores, score, id, currentTime, times, answers}= this.state;
+        let noOfQuestions= answers.length;
+        scores.push(score);
+        times.push(currentTime);
+
+        this.props.addScoreTime(id, score, currentTime);
+
+        this.props.history.push('/scores', {
+            scores: scores,
+            userScore: score,
+            times:times,
+            userTime: currentTime,
+            noOfQuestions: noOfQuestions
+        });
+    };
+
     timer = () => {
         this.setState({currentTime: this.state.currentTime + 1});
     };
 
     render() {
+        let buttonText=<FormattedMessage id={SUBMIT_QUESTION}/>;
+        if(this.state.submitted) buttonText=<FormattedMessage id={FINISH_EXERCISE}/>
+
         let clozetext = this.state.cloze.map((text, i) => {
             if (text[0] === '_' && (text[2] === '_' || text[3] === '_')) {
                 let no = text[1];
-                if (text[2] !== '_') no = no * 10 + text[2];
-                return (
-                    <Select
-                        key={`answer-${no}`}
-                        className="answers input-ans"
-                        name={`answer-${no}`}
-                        value={this.state.userans[no - 1]}
-                        placeholder=''
-                        required
-                        onChange={value => this.handleChangeAns(value, `answer-${no}`)}
-                        options={this.state.options}
-                    />
-                )
+                if (text[2] !== '_') no = no + text[2];
+
+                let ans= 'wrong';
+                if(this.state.checkans[no-1]) ans='right';
+
+                if(!this.state.submitted) {
+                    return (
+                        <Select
+                            key={`answer-${no}`}
+                            className="answers input-ans"
+                            name={`answer-${no}`}
+                            value={this.state.userans[no - 1]}
+                            placeholder=''
+                            onChange={value => this.handleChangeAns(value, `answer-${no}`)}
+                            options={this.state.options}
+                        />
+                    )
+                }else{
+                    let useranswer= this.state.userans[no-1];
+                    if(useranswer=== " ") useranswer= "______";
+
+                    return(
+                        <span className={"cloze-span checked-ans "+ ans} key={`cloze-${i}`}>{useranswer}</span>
+                    )
+                }
             } else {
                 return (
-                    <span key={`cloze-${i}`}>{text}&nbsp;</span>
+                    <span className="cloze-span" key={`cloze-${i}`}>{text}&nbsp;</span>
                 )
             }
         });
@@ -132,16 +198,15 @@ class CLOZEPlayer extends Component {
                         </div>
                         <div className="d-flex flex-row-reverse">
                             <div className="justify-content-end">
-                                {/*<button*/}
-                                {/*onClick={()=>{*/}
-                                {/*if(this.state.selected) this.submitQuestion();*/}
-                                {/*else if (this.state.submitted) this.nextQuestion();*/}
-                                {/*}}*/}
-                                {/*className={"btn next-button"}*/}
-                                {/*disabled={!this.state.selected && !this.state.submitted}*/}
-                                {/*>*/}
-                                {/*{buttonText}*/}
-                                {/*</button>*/}
+                                <button
+                                onClick={()=>{
+                                if(this.state.submitted) this.finishExercise();
+                                else this.submitExercise();
+                                }}
+                                className={"btn next-button"}
+                                >
+                                {buttonText}
+                                </button>
                             </div>
                         </div>
                     </div>

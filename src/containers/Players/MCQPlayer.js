@@ -107,7 +107,7 @@ class MCQPlayer extends Component {
         const {currentQuestionNo, questions}= this.state;
         let nextQuestionNo= currentQuestionNo+1;
         if(nextQuestionNo>questions.length){
-            this.onGameOver();
+            this.exerciseFinish();
         }else{
             const nextQuestion= questions[nextQuestionNo-1];
             let answers= nextQuestion.answers;
@@ -132,7 +132,7 @@ class MCQPlayer extends Component {
 
     };
 
-    onGameOver=()=>{
+    exerciseFinish=()=>{
         const {scores, currentScore, id, currentTime, times, noOfQuestions}= this.state;
         scores.push(currentScore);
         times.push(currentTime);
