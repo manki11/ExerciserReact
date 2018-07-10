@@ -82,7 +82,6 @@ class CLOZEPlayer extends Component {
 
     handleChangeAns = (text, name) => {
         const index = Number(name.split('-')[1]);
-        console.log(text);
 
         let value = '';
         if (text === null) {

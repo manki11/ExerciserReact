@@ -146,8 +146,6 @@ class MCQForm extends Component {
     };
 
     saveCurrentForm = () => {
-        console.log("save question");
-
         this.checkFormValidation();
 
         if (this.state.isFormValid) {
@@ -166,9 +164,7 @@ class MCQForm extends Component {
                 question: question,
                 correctAns: correct
             };
-            
-            console.log(Ques);
-            
+
 
             if (currentQuestionNo > noOfQuestions) {
                 this.setState({
