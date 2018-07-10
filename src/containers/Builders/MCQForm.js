@@ -52,7 +52,8 @@ class MCQForm extends Component {
                 currentQuestion:{
                     id:currentQuestion.id,
                     question: currentQuestion.question,
-                    answers: currentQuestion.answers
+                    answers: currentQuestion.answers,
+                    correctAns: currentQuestion.correctAns
                 }
             });
         }
@@ -151,16 +152,23 @@ class MCQForm extends Component {
 
         if (this.state.isFormValid) {
             const {currentQuestionNo, noOfQuestions} = this.state;
-            const {question, answers} = this.state.currentQuestion;
-            let correctAns = answers[0];
+            const {question, answers, correctAns} = this.state.currentQuestion;
+            // let correctAns = answers[0];
             let id = currentQuestionNo;
+
+            let correct= answers[0];
+            if(this.state.edit) correct= correctAns
+
 
             let Ques = {
                 id: id,
                 answers: answers,
                 question: question,
-                correctAns: correctAns
+                correctAns: correct
             };
+            
+            console.log(Ques);
+            
 
             if (currentQuestionNo > noOfQuestions) {
                 this.setState({
@@ -181,6 +189,7 @@ class MCQForm extends Component {
             else {
                 const {questions} = this.state;
                 let index = currentQuestionNo;
+                
                 const updatedQuestions = questions.map((ques, i) => (
                     ques.id === index ? Ques : ques
                 ));
@@ -196,7 +205,18 @@ class MCQForm extends Component {
                         }
                     });
                 } else {
-                    const {question, answers} = this.state.questions[index];
+                    const {question, answers, correctAns} = this.state.questions[index];
+                    // console.log(this.state.questions[index]);
+                    // console.log(answers);
+                    // console.log(correctAns);
+
+                    let correct= correctAns;
+
+                    if(correctAns===''){
+                        correct= answers[0];
+                    }
+                    
+
                     this.setState({
                         ...this.state,
                         questions: updatedQuestions,
@@ -205,7 +225,10 @@ class MCQForm extends Component {
                             id: index + 1,
                             question: question,
                             answers: answers,
+                            correctAns: correct
                         }
+                    },()=>{
+                        // console.log(this.state.currentQuestion);
                     });
                 }
             }
