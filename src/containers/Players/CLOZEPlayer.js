@@ -182,7 +182,6 @@ class CLOZEPlayer extends Component {
             }
         });
 
-
         return (
             <div className="container-fluid">
                 <div className="row align-items-center justify-content-center">

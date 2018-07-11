@@ -150,19 +150,16 @@ class MCQForm extends Component {
 
         if (this.state.isFormValid) {
             const {currentQuestionNo, noOfQuestions} = this.state;
-            const {question, answers, correctAns} = this.state.currentQuestion;
-            // let correctAns = answers[0];
+            const {question, answers} = this.state.currentQuestion;
+
+            let correctAns = answers[0];
             let id = currentQuestionNo;
-
-            let correct= answers[0];
-            if(this.state.edit) correct= correctAns
-
 
             let Ques = {
                 id: id,
                 answers: answers,
                 question: question,
-                correctAns: correct
+                correctAns: correctAns
             };
 
 

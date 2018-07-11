@@ -20,9 +20,9 @@
         "question": "What is the Capital of France",
         "correctAns": "Paris",
         "answers": [
+          "Paris",
           "New Delhi",
           "London",
-          "Paris",
           "New York"
         ]
       },
@@ -31,8 +31,8 @@
         "question": "What is the Capital of UK",
         "correctAns": "London",
         "answers": [
-          "New Delhi",
           "London",
+          "New Delhi",
           "Paris",
           "New York"
         ]
@@ -53,8 +53,8 @@
         "question": "What is the Capital of Germany",
         "correctAns": "Berlin",
         "answers": [
-          "New Delhi",
           "Berlin",
+          "New Delhi",
           "Paris",
           "New York"
         ]
@@ -97,10 +97,10 @@
         "question": "What is the Capital of China",
         "correctAns": "Beijing",
         "answers": [
+          "Beijing",
           "Ottawa",
           "London",
-          "Paris",
-          "Beijing"
+          "Paris"
         ]
       },
       {
