@@ -40,7 +40,9 @@ class CLOZEPlayer extends Component {
 
             let checkans= answers.map(()=> false);
 
-            let cloze = clozetext.split(' ');
+            let cloze = clozetext.split('\n').join(' </br> ').split(' ');
+            console.log(cloze);
+            
 
             let options = [];
             answers.map((ans, i) => {
@@ -147,7 +149,10 @@ class CLOZEPlayer extends Component {
         let buttonText=<FormattedMessage id={SUBMIT_QUESTION}/>;
         if(this.state.submitted) buttonText=<FormattedMessage id={FINISH_EXERCISE}/>
 
+
         let clozetext = this.state.cloze.map((text, i) => {
+            if(text==='</br>') return(<span key={`break${i}`}><br/></span>)
+            
             if (text[0] === '_' && (text[2] === '_' || text[3] === '_')) {
                 let no = text[1];
                 if (text[2] !== '_') no = no + text[2];
