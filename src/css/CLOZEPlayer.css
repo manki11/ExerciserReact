@@ -11,6 +11,10 @@
     border-radius: 15px!important;
 }
 
+.Select{
+    padding: 0!important;
+}
+
 
 .wrong{
     padding: 4px 8px;
