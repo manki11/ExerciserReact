@@ -17,10 +17,11 @@ class CLOZEPlayer extends Component {
             id: -1,
             title: '',
             question: '',
+            writeIn: "OPTIONS",
             cloze: [],
             answers: [],
             userans: [],
-            checkans:[],
+            checkans: [],
             options: [],
             submitted: false,
             scores: [],
@@ -34,15 +35,15 @@ class CLOZEPlayer extends Component {
     componentDidMount() {
         if (this.props.location.state) {
             let intervalId = setInterval(this.timer, 1000);
-            const {id, title, question, scores, times, answers, clozetext} = this.props.location.state.exercise;
+            const {id, title, question, scores, times, answers, clozetext, writeIn} = this.props.location.state.exercise;
 
-            let userans = answers.map(() => " ");
+            let userans = answers.map(() => "");
 
-            let checkans= answers.map(()=> false);
+            let checkans = answers.map(() => false);
 
             let cloze = clozetext.split('\n').join(' </br> ').split(' ');
             console.log(cloze);
-            
+
 
             let options = [];
             answers.map((ans, i) => {
@@ -66,7 +67,8 @@ class CLOZEPlayer extends Component {
                 cloze: cloze,
                 options: options,
                 intervalId: intervalId,
-                checkans: checkans
+                checkans: checkans,
+                writeIn: writeIn
             })
         }
     }
@@ -82,8 +84,9 @@ class CLOZEPlayer extends Component {
         clearInterval(this.state.intervalID);
     }
 
-    handleChangeAns = (text, name) => {
+    handleChangeAnsSelect = (text, name) => {
         const index = Number(name.split('-')[1]);
+
 
         let value = '';
         if (text === null) {
@@ -103,15 +106,31 @@ class CLOZEPlayer extends Component {
         });
     };
 
-    submitExercise= ()=>{
-        const {userans, answers}= this.state;
-        let checkans=[];
-        let score=0;
-        for(let i=0;i<answers.length;i++){
-            if(answers[i]=== userans[i]){
+    handleChangeAnsInput = (e) => {
+        const index = Number(e.target.name.split('-')[1]);
+        const ans = this.state.userans.map((ans, i) => (
+            i === index-1 ? e.target.value : ans
+        ));
+        this.setState({
+            ...this.state,
+            userans:ans
+        },()=>{
+            console.log(this.state.userans);
+        });
+    };
+
+    submitExercise = () => {
+        const {userans, answers} = this.state;
+        let checkans = [];
+        let score = 0;
+        for (let i = 0; i < answers.length; i++) {
+            console.log(answers[i]);
+            console.log(userans[i]);
+
+            if (answers[i].toLowerCase() === userans[i].toLowerCase()) {
                 checkans.push(true);
                 score++;
-            }else{
+            } else {
                 checkans.push(false)
             }
         }
@@ -119,14 +138,14 @@ class CLOZEPlayer extends Component {
         this.setState({
             ...this.state,
             submitted: true,
-            checkans:checkans,
+            checkans: checkans,
             score: score
         })
     };
 
-    finishExercise= ()=> {
-        const {scores, score, id, currentTime, times, answers}= this.state;
-        let noOfQuestions= answers.length;
+    finishExercise = () => {
+        const {scores, score, id, currentTime, times, answers} = this.state;
+        let noOfQuestions = answers.length;
         scores.push(score);
         times.push(currentTime);
 
@@ -135,7 +154,7 @@ class CLOZEPlayer extends Component {
         this.props.history.push('/scores', {
             scores: scores,
             userScore: score,
-            times:times,
+            times: times,
             userTime: currentTime,
             noOfQuestions: noOfQuestions
         });
@@ -146,38 +165,51 @@ class CLOZEPlayer extends Component {
     };
 
     render() {
-        let buttonText=<FormattedMessage id={SUBMIT_QUESTION}/>;
-        if(this.state.submitted) buttonText=<FormattedMessage id={FINISH_EXERCISE}/>
+        let buttonText = <FormattedMessage id={SUBMIT_QUESTION}/>;
+        if (this.state.submitted) buttonText = <FormattedMessage id={FINISH_EXERCISE}/>
 
 
         let clozetext = this.state.cloze.map((text, i) => {
-            if(text==='</br>') return(<span key={`break${i}`}><br/></span>)
-            
+            if (text === '</br>') return (<span key={`break${i}`}><br/></span>)
+
             if (text[0] === '_' && (text[2] === '_' || text[3] === '_')) {
                 let no = text[1];
                 if (text[2] !== '_') no = no + text[2];
 
-                let ans= 'wrong';
-                if(this.state.checkans[no-1]) ans='right';
+                let ans = 'wrong';
+                if (this.state.checkans[no - 1]) ans = 'right';
 
-                if(!this.state.submitted) {
+                if (!this.state.submitted) {
+                    if (this.state.writeIn === "OPTIONS") {
+                        return (
+                            <Select
+                                key={`answer-${no}`}
+                                className="answers input-ans"
+                                name={`answer-${no}`}
+                                value={this.state.userans[no - 1]}
+                                placeholder=''
+                                onChange={value => this.handleChangeAnsSelect(value, `answer-${no}`)}
+                                options={this.state.options}
+                            />
+                        )
+                    }else{
+                        return(
+                            <input
+                                key={`answer-${no}`}
+                                className="answers input-ans"
+                                name={`answer-${no}`}
+                                value={this.state.userans[no - 1]}
+                                placeholder=''
+                                onChange={this.handleChangeAnsInput}
+                            />
+                        )
+                    }
+                } else {
+                    let useranswer = this.state.userans[no - 1];
+                    if (useranswer === "") useranswer = "___________________";
+
                     return (
-                        <Select
-                            key={`answer-${no}`}
-                            className="answers input-ans"
-                            name={`answer-${no}`}
-                            value={this.state.userans[no - 1]}
-                            placeholder=''
-                            onChange={value => this.handleChangeAns(value, `answer-${no}`)}
-                            options={this.state.options}
-                        />
-                    )
-                }else{
-                    let useranswer= this.state.userans[no-1];
-                    if(useranswer=== " ") useranswer= "______";
-
-                    return(
-                        <span className={"cloze-span checked-ans "+ ans} key={`cloze-${i}`}>{useranswer}</span>
+                        <span className={"cloze-span checked-ans " + ans} key={`cloze-${i}`}>{useranswer}</span>
                     )
                 }
             } else {
@@ -202,13 +234,13 @@ class CLOZEPlayer extends Component {
                         <div className="d-flex flex-row-reverse">
                             <div className="justify-content-end">
                                 <button
-                                onClick={()=>{
-                                if(this.state.submitted) this.finishExercise();
-                                else this.submitExercise();
-                                }}
-                                className={"btn next-button"}
+                                    onClick={() => {
+                                        if (this.state.submitted) this.finishExercise();
+                                        else this.submitExercise();
+                                    }}
+                                    className={"btn next-button"}
                                 >
-                                {buttonText}
+                                    {buttonText}
                                 </button>
                             </div>
                         </div>

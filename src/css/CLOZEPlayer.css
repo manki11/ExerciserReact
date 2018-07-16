@@ -7,6 +7,14 @@
     min-width: 180px;
 }
 
+.checked-ans{
+    font-size: 15px;
+    max-height: 30px!important;
+    border-radius: 10px;
+    border-width: 0;
+    min-width: 180px;
+}
+
 .Select-placeholder{
     border-radius: 15px!important;
 }

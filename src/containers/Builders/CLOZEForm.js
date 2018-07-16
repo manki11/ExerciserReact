@@ -25,9 +25,10 @@ class CLOZEForm extends Component {
             question: '',
             clozetext: '',
             scores: [],
-            times:[],
+            times: [],
             isFormValid: false,
             answers: [''],
+            writeIn: "OPTIONS",
             errors: {
                 question: false,
                 answers: false,
@@ -37,20 +38,21 @@ class CLOZEForm extends Component {
         };
     }
 
-    componentDidMount(){
-        if(this.props.location.state){
-            const {id, title, question, scores, times, clozetext, answers}= this.props.location.state.exercise;
+    componentDidMount() {
+        if (this.props.location.state) {
+            const {id, title, question, scores, times, clozetext, answers, writeIn} = this.props.location.state.exercise;
             this.setState({
                 ...this.state,
-                id:id,
-                title:title,
-                edit:true,
-                isFormValid:true,
-                question:question,
-                scores:scores,
+                id: id,
+                title: title,
+                edit: true,
+                isFormValid: true,
+                question: question,
+                scores: scores,
                 times: times,
-                clozetext:clozetext,
-                answers: answers
+                clozetext: clozetext,
+                answers: answers,
+                writeIn: writeIn
             });
         }
     }
@@ -151,7 +153,7 @@ class CLOZEForm extends Component {
     };
 
     checkFormValidation = () => {
-        const {title,question, answers, clozetext} = this.state;
+        const {title, question, answers, clozetext} = this.state;
         let isFormValid = true;
 
         if (question === '') {
@@ -183,28 +185,29 @@ class CLOZEForm extends Component {
     };
 
     submitExercise = () => {
-        let id= this.state.id;
-        if(this.state.id === -1){
-            id= this.props.counter;
+        let id = this.state.id;
+        if (this.state.id === -1) {
+            id = this.props.counter;
         }
 
         let exercise = {
             title: this.state.title,
-            id:id,
+            id: id,
             type: "CLOZE",
-            times:this.state.times,
+            times: this.state.times,
             question: this.state.question,
             clozetext: this.state.clozetext,
             answers: this.state.answers,
-            scores: this.state.scores
+            scores: this.state.scores,
+            writeIn: this.state.writeIn
         };
 
 
         console.log(exercise);
 
-        if(this.state.edit){
+        if (this.state.edit) {
             this.props.editExercise(exercise);
-        }else{
+        } else {
             this.props.addNewExercise(exercise);
             this.props.incrementExerciseCounter();
         }
@@ -228,7 +231,7 @@ class CLOZEForm extends Component {
                                     type="text"
                                     value={ans}
                                     required
-                                    placeholder={`${placeholder} ${i+1}`}
+                                    placeholder={`${placeholder} ${i + 1}`}
                                     onChange={this.handleChangeAns}/>}
                             </FormattedMessage>
                         </div>
@@ -239,7 +242,7 @@ class CLOZEForm extends Component {
         let title_error = '';
         let question_error = '';
         let answer_error = '';
-        let cloze_error='';
+        let cloze_error = '';
 
         if (errors['title']) {
             title_error = <span style={{color: "red"}}>Title field can't be empty</span>;
@@ -286,6 +289,24 @@ class CLOZEForm extends Component {
                                                 onChange={this.handleChangeQues}
                                             />
                                             {question_error}
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="form-group">
+                                            <tbody>
+                                            <tr>
+                                                <td><input type="radio" name="writeIn"
+                                                           value= {"WRITEIN"}
+                                                           checked={this.state.writeIn === "WRITEIN"}
+                                                           required
+                                                           onChange={(e)=> {this.setState({writeIn:e.target.value})}}/>Write In</td>
+                                                <td><input type="radio" name="writeIn"
+                                                           value= {"OPTIONS"}
+                                                           checked={this.state.writeIn === "OPTIONS"}
+                                                           required
+                                                           onChange={(e)=> {this.setState({writeIn:e.target.value})}}/>Options</td>
+                                            </tr>
+                                            </tbody>
                                         </div>
                                     </div>
                                     <div className="row">
