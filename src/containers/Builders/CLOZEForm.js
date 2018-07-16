@@ -11,6 +11,9 @@ import {
     TITLE_OF_EXERCISE,
     CLOZE,
     CLOZE_TEXT,
+    BLANK_TYPE,
+    WRITE_IN,
+    OPTIONS
 } from "../translation";
 
 class CLOZEForm extends Component {
@@ -293,20 +296,31 @@ class CLOZEForm extends Component {
                                     </div>
                                     <div className="row">
                                         <div className="form-group">
-                                            <tbody>
-                                            <tr>
-                                                <td><input type="radio" name="writeIn"
-                                                           value= {"WRITEIN"}
-                                                           checked={this.state.writeIn === "WRITEIN"}
-                                                           required
-                                                           onChange={(e)=> {this.setState({writeIn:e.target.value})}}/>Write In</td>
-                                                <td><input type="radio" name="writeIn"
-                                                           value= {"OPTIONS"}
-                                                           checked={this.state.writeIn === "OPTIONS"}
-                                                           required
-                                                           onChange={(e)=> {this.setState({writeIn:e.target.value})}}/>Options</td>
-                                            </tr>
-                                            </tbody>
+                                            <label><FormattedMessage id={BLANK_TYPE}/>:</label>
+                                            <div className="form-check">
+                                                <input type="radio" name="writeIn"
+                                                       value={"WRITEIN"}
+                                                       checked={this.state.writeIn === "WRITEIN"}
+                                                       required
+                                                       onChange={(e) => {
+                                                           this.setState({writeIn: e.target.value})
+                                                       }}/>
+                                                <label className="form-check-label">
+                                                    <FormattedMessage id={WRITE_IN}/>
+                                                </label>
+                                            </div>
+                                            <div className="form-check">
+                                                <input type="radio" name="writeIn"
+                                                       value={"OPTIONS"}
+                                                       checked={this.state.writeIn === "OPTIONS"}
+                                                       required
+                                                       onChange={(e) => {
+                                                           this.setState({writeIn: e.target.value})
+                                                       }}/>
+                                                <label className="form-check-label">
+                                                    <FormattedMessage id={OPTIONS}/>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="row">

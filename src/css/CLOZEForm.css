@@ -23,3 +23,7 @@
     border-width: 0px;
     min-width: 180px;
 }
+
+td{
+    display: block;
+}

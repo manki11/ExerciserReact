@@ -20,5 +20,8 @@
   "Scores":"Scores (%)",
   "Time":"Temps (Minutes)",
   "Cloze":"Cloze",
-  "Cloze Text":"test de cloze"
+  "Cloze Text":"test de cloze",
+  "Blank Type": "type blanc",
+  "Write In": "Inscrire",
+  "Options": "Options"
 }

@@ -22,12 +22,6 @@ class App extends Component {
     constructor(props) {
         super(props);
 
-        this.messages={
-            'en': messages['en'],
-            'fr': messages['fr'],
-            'es': messages['es']
-        };
-
         addLocaleData([...locale_en, ...locale_fr, ...locale_es]);
 
         this.language = navigator.language.split(/[-_]/)[0];
@@ -65,7 +59,7 @@ class App extends Component {
         return (
             <div className="App">
                 <Provider store={store}>
-                    <IntlProvider locale={this.language} messages={this.messages[this.language]}>
+                    <IntlProvider locale={this.language} messages={messages[this.language]}>
                         <Router>
                             <div className="App-container">
                                 <Navbar onStop={() => this.stopActivity()}/>
