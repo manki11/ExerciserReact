@@ -35,13 +35,13 @@ class CLOZEPlayer extends Component {
     componentDidMount() {
         if (this.props.location.state) {
             let intervalId = setInterval(this.timer, 1000);
-            const {id, title, question, scores, times, answers, clozetext, writeIn} = this.props.location.state.exercise;
+            const {id, title, question, scores, times, answers, clozeText, writeIn} = this.props.location.state.exercise;
 
             let userans = answers.map(() => "");
 
             let checkans = answers.map(() => false);
 
-            let cloze = clozetext.split('\n').join(' </br> ').split(' ');
+            let cloze = clozeText.split('\n').join(' </br> ').split(' ');
             console.log(cloze);
 
 

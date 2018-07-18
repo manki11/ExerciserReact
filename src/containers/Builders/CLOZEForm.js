@@ -26,9 +26,10 @@ class CLOZEForm extends Component {
             id: -1,
             title: '',
             question: '',
-            clozetext: '',
+            clozeText: '',
             scores: [],
             times: [],
+            nextBlank: 1,
             isFormValid: false,
             answers: [''],
             writeIn: "OPTIONS",
@@ -43,7 +44,8 @@ class CLOZEForm extends Component {
 
     componentDidMount() {
         if (this.props.location.state) {
-            const {id, title, question, scores, times, clozetext, answers, writeIn} = this.props.location.state.exercise;
+            const {id, title, question, scores, times, clozeText, answers, writeIn} = this.props.location.state.exercise;
+            let nextBlank= answers.length+1;
             this.setState({
                 ...this.state,
                 id: id,
@@ -53,9 +55,10 @@ class CLOZEForm extends Component {
                 question: question,
                 scores: scores,
                 times: times,
-                clozetext: clozetext,
+                clozeText: clozeText,
                 answers: answers,
-                writeIn: writeIn
+                writeIn: writeIn,
+                nextBlank: nextBlank
             });
         }
     }
@@ -117,6 +120,14 @@ class CLOZEForm extends Component {
 
     handleChangeCloze = e => {
         let error = false;
+        let nextBlank= 1;
+
+        // let index= e.target.getSelectionStart();
+        // console.log(e);
+        
+
+        this.findNextBlank(e.target.value);
+
         if (e.target.value === '') {
             error = true;
         }
@@ -126,10 +137,46 @@ class CLOZEForm extends Component {
                 ...this.state.errors,
                 cloze: error
             },
-            clozetext: e.target.value
+            clozeText: e.target.value,
+            nextBlank: nextBlank
         }, () => {
             this.checkFormValidation();
         });
+    };
+
+    handleKeyDown(event) {
+        if (event.keyCode) {
+            let start = event.target.selectionStart;
+            console.log(start);
+        }
+    }
+
+    findNextBlank= clozeText => {
+        let cloze= clozeText.split(' ');
+        let blanks=[];
+        let nextBlank=1;
+
+        for(let i=0; i< cloze.length;i++){
+            let text= cloze[i];
+            if(text[0]==='_'){
+                if (text[2] === '_') {
+                    blanks[text[1]]= true;
+                } else {
+                    blanks[text[1] + text[2]]= true;
+                }
+            }
+        }
+
+        for(let i=1;i< blanks.length; i++){
+            if(!blanks[i]){
+                nextBlank=i;
+                break;
+            }
+            if(i=== blanks.length-1) nextBlank=blanks.length;
+        }
+        
+        console.log(nextBlank);
+        
     };
 
     handleRemoveAns = () => {
@@ -156,7 +203,7 @@ class CLOZEForm extends Component {
     };
 
     checkFormValidation = () => {
-        const {title, question, answers, clozetext} = this.state;
+        const {title, question, answers, clozeText} = this.state;
         let isFormValid = true;
 
         if (question === '') {
@@ -167,7 +214,7 @@ class CLOZEForm extends Component {
             isFormValid = false;
         }
 
-        if (clozetext === '') {
+        if (clozeText === '') {
             isFormValid = false;
         }
 
@@ -199,7 +246,7 @@ class CLOZEForm extends Component {
             type: "CLOZE",
             times: this.state.times,
             question: this.state.question,
-            clozetext: this.state.clozetext,
+            clozeText: this.state.clozeText,
             answers: this.state.answers,
             scores: this.state.scores,
             writeIn: this.state.writeIn
@@ -331,7 +378,8 @@ class CLOZEForm extends Component {
                                                 rows="5"
                                                 id="cloze-text"
                                                 required
-                                                value={this.state.clozetext}
+                                                onKeyDown={this.handleKeyDown.bind(this)}
+                                                value={this.state.clozeText}
                                                 onChange={this.handleChangeCloze}
                                             />
                                             {cloze_error}
