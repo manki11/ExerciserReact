@@ -65,11 +65,6 @@ class CLOZEForm extends Component {
             });
         }
     }
-    
-    componentDidUpdate() {
-        console.log("UPDATED");
-        console.log(this.state);
-    }
 
     handleChangeAns = e => {
         const index = Number(e.target.name.split('-')[1]);
@@ -127,8 +122,6 @@ class CLOZEForm extends Component {
     };
 
     handleChangeCloze = e => {
-        console.log("change text is called");
-
         let error = false;
 
         if (e.target.value === '') {
@@ -153,18 +146,12 @@ class CLOZEForm extends Component {
     handleKeyDown = (event) => {
         if (event.keyCode) {
             let pos = event.target.selectionStart;
-            console.log("key index "+pos);
-            
             this.setState({cursorPos: pos})
         }
     };
 
     findNextBlank = (clozeText) => {
-        console.log("find new blank is called");
-
         let cloze= clozeText.split(' ');
-        console.log("inside blank "+ clozeText);
-
         let blanks=[];
         let blank_no=1;
 
@@ -189,9 +176,6 @@ class CLOZEForm extends Component {
                 break;
             }
         }
-
-        console.log("the final nextBlank is::"+ blank_no);
-
         return blank_no
     };
 
@@ -284,9 +268,6 @@ class CLOZEForm extends Component {
         console.log("add blank is called");
 
         const {clozeText, nextBlank, cursorPos}= this.state;
-        // console.log(clozeText);
-        // console.log("the blank is "+nextBlank);
-        // console.log(this.state);
 
         String.prototype.splice = function(idx, rem, str) {
             return this.slice(0, idx) + str + this.slice(idx + Math.abs(rem));

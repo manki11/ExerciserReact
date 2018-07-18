@@ -3,7 +3,15 @@ import {connect} from "react-redux";
 import {incrementExerciseCounter} from "../../store/actions/increment_counter";
 import {addNewExercise, editExercise} from "../../store/actions/exercises";
 import {FormattedMessage} from 'react-intl';
-import {QUESTION,FINISH_EXERCISE,TITLE_OF_EXERCISE,CORRECT_OPTION, WRONG_OPTION,PREVIOUS,NEXT} from "../translation";
+import {
+    QUESTION,
+    FINISH_EXERCISE,
+    TITLE_OF_EXERCISE,
+    CORRECT_OPTION,
+    WRONG_OPTION,
+    PREVIOUS,
+    NEXT
+} from "../translation";
 import {withRouter} from "react-router-dom"
 import "../../css/MCQForm.css"
 
@@ -11,14 +19,14 @@ class MCQForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            edit:false,
-            id:-1,
+            edit: false,
+            id: -1,
             title: '',
             noOfQuestions: 0,
             currentQuestionNo: 1,
             questions: [],
-            scores:[],
-            times:[],
+            scores: [],
+            times: [],
             isFormValid: false,
             errors: {
                 question: false,
@@ -31,26 +39,24 @@ class MCQForm extends Component {
                 answers: ['', ''],
             }
         };
-
-        console.log(this.props);
     }
 
-    componentDidMount(){
-        if(this.props.location.state){
-            const {id, title, questions, scores, times}= this.props.location.state.exercise;
-            const currentQuestion= questions[0];
+    componentDidMount() {
+        if (this.props.location.state) {
+            const {id, title, questions, scores, times} = this.props.location.state.exercise;
+            const currentQuestion = questions[0];
             this.setState({
                 ...this.state,
-                id:id,
-                title:title,
-                edit:true,
-                isFormValid:true,
-                questions:questions,
-                scores:scores,
+                id: id,
+                title: title,
+                edit: true,
+                isFormValid: true,
+                questions: questions,
+                scores: scores,
                 times: times,
-                noOfQuestions:questions.length,
-                currentQuestion:{
-                    id:currentQuestion.id,
+                noOfQuestions: questions.length,
+                currentQuestion: {
+                    id: currentQuestion.id,
                     question: currentQuestion.question,
                     answers: currentQuestion.answers,
                     correctAns: currentQuestion.correctAns
@@ -81,14 +87,14 @@ class MCQForm extends Component {
     };
 
     handleChangeTitle = e => {
-        let error=false;
-        if(e.target.value===''){
-            error=true;
+        let error = false;
+        if (e.target.value === '') {
+            error = true;
         }
         this.setState({
             ...this.state,
             title: e.target.value,
-            errors:{
+            errors: {
                 ...this.state.errors,
                 title: error
             }
@@ -98,13 +104,13 @@ class MCQForm extends Component {
     };
 
     handleChangeQues = e => {
-        let error=false;
-        if(e.target.value===''){
-            error=true;
+        let error = false;
+        if (e.target.value === '') {
+            error = true;
         }
         this.setState({
             ...this.state,
-            errors:{
+            errors: {
                 ...this.state.errors,
                 question: error
             },
@@ -182,7 +188,7 @@ class MCQForm extends Component {
             else {
                 const {questions} = this.state;
                 let index = currentQuestionNo;
-                
+
                 const updatedQuestions = questions.map((ques, i) => (
                     ques.id === index ? Ques : ques
                 ));
@@ -203,12 +209,12 @@ class MCQForm extends Component {
                     // console.log(answers);
                     // console.log(correctAns);
 
-                    let correct= correctAns;
+                    let correct = correctAns;
 
-                    if(correctAns===''){
-                        correct= answers[0];
+                    if (correctAns === '') {
+                        correct = answers[0];
                     }
-                    
+
 
                     this.setState({
                         ...this.state,
@@ -220,7 +226,7 @@ class MCQForm extends Component {
                             answers: answers,
                             correctAns: correct
                         }
-                    },()=>{
+                    }, () => {
                         // console.log(this.state.currentQuestion);
                     });
                 }
@@ -254,23 +260,23 @@ class MCQForm extends Component {
     };
 
     submitExercise = () => {
-        let id= this.state.id;
-        if(this.state.id === -1){
-            id= this.props.counter;
+        let id = this.state.id;
+        if (this.state.id === -1) {
+            id = this.props.counter;
         }
 
         let exercise = {
             title: this.state.title,
-            id:id,
+            id: id,
             type: "MCQ",
             questions: this.state.questions,
             scores: this.state.scores,
             times: this.state.times
         };
 
-        if(this.state.edit){
+        if (this.state.edit) {
             this.props.editExercise(exercise);
-        }else{
+        } else {
             this.props.addNewExercise(exercise);
             this.props.incrementExerciseCounter();
         }
@@ -434,5 +440,5 @@ function MapStateToProps(state) {
 
 export default withRouter(
     connect(MapStateToProps,
-    {addNewExercise, incrementExerciseCounter, editExercise}
+        {addNewExercise, incrementExerciseCounter, editExercise}
     )(MCQForm));

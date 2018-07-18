@@ -42,8 +42,6 @@ class CLOZEPlayer extends Component {
             let checkans = answers.map(() => false);
 
             let cloze = clozeText.split('\n').join(' </br> ').split(' ');
-            console.log(cloze);
-
 
             let options = [];
             answers.map((ans, i) => {
@@ -124,9 +122,6 @@ class CLOZEPlayer extends Component {
         let checkans = [];
         let score = 0;
         for (let i = 0; i < answers.length; i++) {
-            console.log(answers[i]);
-            console.log(userans[i]);
-
             if (answers[i].toLowerCase() === userans[i].toLowerCase()) {
                 checkans.push(true);
                 score++;
