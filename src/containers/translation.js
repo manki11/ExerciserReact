@@ -29,6 +29,8 @@ export const CLOZE_TEXT="Cloze Text";
 export const BLANK_TYPE="Blank Type";
 export const WRITE_IN="Write In";
 export const OPTIONS="Options";
+export const ADD_BLANK="Add Blank";
+
 
 
 // PLAYER VIEW

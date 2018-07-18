@@ -13,7 +13,8 @@ import {
     CLOZE_TEXT,
     BLANK_TYPE,
     WRITE_IN,
-    OPTIONS
+    OPTIONS,
+    ADD_BLANK
 } from "../translation";
 
 class CLOZEForm extends Component {
@@ -30,6 +31,7 @@ class CLOZEForm extends Component {
             scores: [],
             times: [],
             nextBlank: 1,
+            cursorPos:0,
             isFormValid: false,
             answers: [''],
             writeIn: "OPTIONS",
@@ -46,6 +48,7 @@ class CLOZEForm extends Component {
         if (this.props.location.state) {
             const {id, title, question, scores, times, clozeText, answers, writeIn} = this.props.location.state.exercise;
             let nextBlank= answers.length+1;
+            console.log(nextBlank);
             this.setState({
                 ...this.state,
                 id: id,
@@ -61,6 +64,11 @@ class CLOZEForm extends Component {
                 nextBlank: nextBlank
             });
         }
+    }
+    
+    componentDidUpdate() {
+        console.log("UPDATED");
+        console.log(this.state);
     }
 
     handleChangeAns = e => {
@@ -119,18 +127,16 @@ class CLOZEForm extends Component {
     };
 
     handleChangeCloze = e => {
+        console.log("change text is called");
+
         let error = false;
-        let nextBlank= 1;
-
-        // let index= e.target.getSelectionStart();
-        // console.log(e);
-        
-
-        this.findNextBlank(e.target.value);
 
         if (e.target.value === '') {
             error = true;
         }
+
+        let nextBlank = this.findNextBlank(e.target.value);
+
         this.setState({
             ...this.state,
             errors: {
@@ -144,17 +150,23 @@ class CLOZEForm extends Component {
         });
     };
 
-    handleKeyDown(event) {
+    handleKeyDown = (event) => {
         if (event.keyCode) {
-            let start = event.target.selectionStart;
-            console.log(start);
+            let pos = event.target.selectionStart;
+            console.log("key index "+pos);
+            
+            this.setState({cursorPos: pos})
         }
-    }
+    };
 
-    findNextBlank= clozeText => {
+    findNextBlank = (clozeText) => {
+        console.log("find new blank is called");
+
         let cloze= clozeText.split(' ');
+        console.log("inside blank "+ clozeText);
+
         let blanks=[];
-        let nextBlank=1;
+        let blank_no=1;
 
         for(let i=0; i< cloze.length;i++){
             let text= cloze[i];
@@ -169,14 +181,18 @@ class CLOZEForm extends Component {
 
         for(let i=1;i< blanks.length; i++){
             if(!blanks[i]){
-                nextBlank=i;
+                blank_no=i;
                 break;
             }
-            if(i=== blanks.length-1) nextBlank=blanks.length;
+            if(i=== blanks.length-1) {
+                blank_no=blanks.length;
+                break;
+            }
         }
-        
-        console.log(nextBlank);
-        
+
+        console.log("the final nextBlank is::"+ blank_no);
+
+        return blank_no
     };
 
     handleRemoveAns = () => {
@@ -264,6 +280,28 @@ class CLOZEForm extends Component {
         this.props.history.push('/')
     };
 
+    addBlank = () => {
+        console.log("add blank is called");
+
+        const {clozeText, nextBlank, cursorPos}= this.state;
+        // console.log(clozeText);
+        // console.log("the blank is "+nextBlank);
+        // console.log(this.state);
+
+        String.prototype.splice = function(idx, rem, str) {
+            return this.slice(0, idx) + str + this.slice(idx + Math.abs(rem));
+        };
+
+
+        let updatedCloze= clozeText.splice(cursorPos, 0, ` _${nextBlank}_ `);
+
+        let blank = this.findNextBlank(updatedCloze);
+
+        this.setState({clozeText: updatedCloze, nextBlank: blank}, ()=>{
+            console.log("add blank is finished");
+        })
+    };
+
     render() {
         const {errors, answers} = this.state;
         let inputs = answers.map((ans, i) => {
@@ -293,6 +331,9 @@ class CLOZEForm extends Component {
         let question_error = '';
         let answer_error = '';
         let cloze_error = '';
+        
+        // console.log("render"+this.state.nextBlank);
+        
 
         if (errors['title']) {
             title_error = <span style={{color: "red"}}>Title field can't be empty</span>;
@@ -372,13 +413,23 @@ class CLOZEForm extends Component {
                                     </div>
                                     <div className="row">
                                         <div className="form-group">
+                                            <div className="cloze row  justify-content-between">
                                             <label htmlFor="cloze-text"><FormattedMessage id={CLOZE_TEXT}/>:</label>
+                                            <div className="justify-content-end">
+                                                <button
+                                                    onClick={this.addBlank}
+                                                    className={"btn button-finish"}
+                                                >
+                                                    <FormattedMessage id={ADD_BLANK}/>
+                                                </button>
+                                            </div>
+                                            </div>
                                             <textarea
                                                 className="input-mcq"
                                                 rows="5"
                                                 id="cloze-text"
                                                 required
-                                                onKeyDown={this.handleKeyDown.bind(this)}
+                                                onKeyDown={this.handleKeyDown}
                                                 value={this.state.clozeText}
                                                 onChange={this.handleChangeCloze}
                                             />
