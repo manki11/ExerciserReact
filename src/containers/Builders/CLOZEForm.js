@@ -297,7 +297,11 @@ class CLOZEForm extends Component {
 
         let blank = this.findNextBlank(updatedCloze);
 
-        this.setState({clozeText: updatedCloze, nextBlank: blank}, ()=>{
+        this.setState({
+            clozeText: updatedCloze,
+            nextBlank: blank,
+            cursorPos: cursorPos+5
+        }, ()=>{
             console.log("add blank is finished");
         })
     };
