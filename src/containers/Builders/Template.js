@@ -20,7 +20,7 @@ class Template extends Component {
     };
 
     reorderSelected=()=>{
-        this.props.history.push('/')
+        this.props.history.push('/new/reorder')
     };
 
     render() {

@@ -6,6 +6,7 @@ import Scores from "./Scores/Scores"
 
 import MCQForm from "./Builders/MCQForm";
 import CLOZEForm from "./Builders/CLOZEForm";
+import REORDERForm from "./Builders/REORDERForm"
 
 import MCQPlay from "./Players/MCQPlayer";
 import CLOZEPlay from "./Players/CLOZEPlayer";
@@ -34,6 +35,10 @@ const Main= props=> {
                 <Route exact path="/edit/cloze" render={props=> <CLOZEForm/>} {...props}/>
                 <Route exact path="/play/cloze" render={props=> <CLOZEPlay/>} {...props}/>
 
+                // REORDER
+                <Route exact path="/new/reorder" render={props=> <REORDERForm/>} {...props}/>
+                <Route exact path="/edit/reorder" render={props=> <REORDERForm/>} {...props}/>
+                {/*<Route exact path="/play/cloze" render={props=> <CLOZEPlay/>} {...props}/>*/}
 
             </Switch>
         </div>
