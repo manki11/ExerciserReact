@@ -134,6 +134,7 @@ class MCQPlayer extends Component {
 
     exerciseFinish=()=>{
         const {scores, currentScore, id, currentTime, times, noOfQuestions}= this.state;
+        let exercise= this.props.location.state.exercise;
         scores.push(currentScore);
         times.push(currentTime);
         this.props.addScoreTime(id, currentScore, currentTime);
@@ -142,7 +143,9 @@ class MCQPlayer extends Component {
             userScore: currentScore,
             times:times,
             userTime: currentTime,
-            noOfQuestions: noOfQuestions
+            noOfQuestions: noOfQuestions,
+            exercise: exercise,
+            type: "MCQ"
         });
     };
 

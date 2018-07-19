@@ -140,6 +140,7 @@ class CLOZEPlayer extends Component {
 
     finishExercise = () => {
         const {scores, score, id, currentTime, times, answers} = this.state;
+        let exercise= this.props.location.state.exercise;
         let noOfQuestions = answers.length;
         scores.push(score);
         times.push(currentTime);
@@ -151,7 +152,9 @@ class CLOZEPlayer extends Component {
             userScore: score,
             times: times,
             userTime: currentTime,
-            noOfQuestions: noOfQuestions
+            noOfQuestions: noOfQuestions,
+            exercise: exercise,
+            type:"CLOZE"
         });
     };
 

@@ -1,0 +1,30 @@
+.button-redo{
+    width: 60px;
+    height: 60px;
+    background-image: url("../icons/exercise/redo.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 30px;
+}
+
+.button-redo:hover{
+    background-color: limegreen;
+    border: 2px solid transparent;
+}
+
+button{
+    margin-right: 10px!important;
+    background-color: #808080;
+    color: white;
+    border: 2px solid transparent;
+    border-radius: 22px;
+    line-height: 22px;
+    padding: 2px 4px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+.button-container{
+    display: flex;
+    justify-content: center;
+}

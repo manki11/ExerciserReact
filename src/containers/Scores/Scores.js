@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {addScore} from "../../store/actions/exercises";
 import {injectIntl, intlShape, FormattedRelative} from 'react-intl';
 import {SCORES, TIME, YOUR_RESULTS, AVERAGE} from "../translation";
+import "../../css/Scores.css"
 
 
 class Scores extends Component {
@@ -12,8 +13,8 @@ class Scores extends Component {
     constructor(props) {
         super(props);
 
-        let {intl}= this.props;
-        this.intl= intl;
+        let {intl} = this.props;
+        this.intl = intl;
 
         this.state = {
             chartData: {
@@ -111,10 +112,22 @@ class Scores extends Component {
         }
     }
 
+    redo = () => {
+        const {type, exercise} = this.props.location.state;
+        if (type === 'MCQ') {
+            this.props.history.push('/play/mcq', {exercise: exercise})
+        }
+        if (type === 'CLOZE') {
+            this.props.history.push('/play/cloze', {exercise: exercise})
+        }
+    };
 
     render() {
         return (
             <div>
+                <div className="row button-container">
+                    <button className="button-redo" onClick={this.redo}/>
+                </div>
                 <Bar
                     data={this.state.chartData}
                     options={this.state.options}
