@@ -187,5 +187,47 @@
       120,
       150
     ]
+  },
+  {
+    "title": "Continents",
+    "id": 3,
+    "type": "REORDER",
+    "question": "Reorder the continents from largest to smallest",
+    "list": [
+      "Asia",
+      "Africa",
+      "North America",
+      "South America",
+      "Antartica",
+      "Europe",
+      "Australia"
+    ],
+    "scores": [
+      5,
+      5,
+      6,
+      7,
+      1,
+      2,
+      3,
+      1,
+      1,
+      7,
+      7
+    ],
+    "times": [
+      60,
+      80,
+      90,
+      100,
+      60,
+      57,
+      98,
+      87,
+      100,
+      120,
+      150
+    ]
   }
+
 ]

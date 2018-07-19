@@ -104,81 +104,6 @@ class CLOZEForm extends Component {
         });
     };
 
-    handleChangeQues = e => {
-        let error = false;
-        if (e.target.value === '') {
-            error = true;
-        }
-        this.setState({
-            ...this.state,
-            errors: {
-                ...this.state.errors,
-                question: error
-            },
-            question: e.target.value
-        }, () => {
-            this.checkFormValidation();
-        });
-    };
-
-    handleChangeCloze = e => {
-        let error = false;
-
-        if (e.target.value === '') {
-            error = true;
-        }
-
-        let nextBlank = this.findNextBlank(e.target.value);
-
-        this.setState({
-            ...this.state,
-            errors: {
-                ...this.state.errors,
-                cloze: error
-            },
-            clozeText: e.target.value,
-            nextBlank: nextBlank
-        }, () => {
-            this.checkFormValidation();
-        });
-    };
-
-    handleKeyDown = (event) => {
-        if (event.keyCode) {
-            let pos = event.target.selectionStart;
-            this.setState({cursorPos: pos})
-        }
-    };
-
-    findNextBlank = (clozeText) => {
-        let cloze= clozeText.split(' ');
-        let blanks=[];
-        let blank_no=1;
-
-        for(let i=0; i< cloze.length;i++){
-            let text= cloze[i];
-            if(text[0]==='_'){
-                if (text[2] === '_') {
-                    blanks[text[1]]= true;
-                } else {
-                    blanks[text[1] + text[2]]= true;
-                }
-            }
-        }
-
-        for(let i=1;i< blanks.length; i++){
-            if(!blanks[i]){
-                blank_no=i;
-                break;
-            }
-            if(i=== blanks.length-1) {
-                blank_no=blanks.length;
-                break;
-            }
-        }
-        return blank_no
-    };
-
     handleRemoveAns = () => {
         const {answers} = this.state;
         if (answers.length > 1) {
@@ -200,6 +125,23 @@ class CLOZEForm extends Component {
                 this.checkFormValidation();
             }
         )
+    };
+
+    handleChangeQues = e => {
+        let error = false;
+        if (e.target.value === '') {
+            error = true;
+        }
+        this.setState({
+            ...this.state,
+            errors: {
+                ...this.state.errors,
+                question: error
+            },
+            question: e.target.value
+        }, () => {
+            this.checkFormValidation();
+        });
     };
 
     checkFormValidation = () => {
@@ -264,6 +206,64 @@ class CLOZEForm extends Component {
         this.props.history.push('/')
     };
 
+    handleChangeCloze = e => {
+        let error = false;
+
+        if (e.target.value === '') {
+            error = true;
+        }
+
+        let nextBlank = this.findNextBlank(e.target.value);
+
+        this.setState({
+            ...this.state,
+            errors: {
+                ...this.state.errors,
+                cloze: error
+            },
+            clozeText: e.target.value,
+            nextBlank: nextBlank
+        }, () => {
+            this.checkFormValidation();
+        });
+    };
+
+    handleKeyDown = (event) => {
+        if (event.keyCode) {
+            let pos = event.target.selectionStart;
+            this.setState({cursorPos: pos})
+        }
+    };
+
+    findNextBlank = (clozeText) => {
+        let cloze= clozeText.split(' ');
+        let blanks=[];
+        let blank_no=1;
+
+        for(let i=0; i< cloze.length;i++){
+            let text= cloze[i];
+            if(text[0]==='_'){
+                if (text[2] === '_') {
+                    blanks[text[1]]= true;
+                } else {
+                    blanks[text[1] + text[2]]= true;
+                }
+            }
+        }
+
+        for(let i=1;i< blanks.length; i++){
+            if(!blanks[i]){
+                blank_no=i;
+                break;
+            }
+            if(i=== blanks.length-1) {
+                blank_no=blanks.length;
+                break;
+            }
+        }
+        return blank_no
+    };
+
     addBlank = () => {
         console.log("add blank is called");
 
@@ -312,6 +312,7 @@ class CLOZEForm extends Component {
                 </div>
             )
         });
+
         let title_error = '';
         let question_error = '';
         let answer_error = '';

@@ -27,6 +27,9 @@ class ExerciseList extends Component {
         if (exercise.type === 'CLOZE') {
             this.props.history.push('/edit/cloze', {exercise: exercise})
         }
+        if (exercise.type === 'REORDER') {
+            this.props.history.push('/edit/reorder', {exercise: exercise})
+        }
     };
 
     onPlay = id => {

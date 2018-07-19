@@ -4,12 +4,302 @@ import {incrementExerciseCounter} from "../../store/actions/increment_counter";
 import {addNewExercise, editExercise} from "../../store/actions/exercises";
 import {FormattedMessage} from 'react-intl';
 import {withRouter} from "react-router-dom"
+import {
+    CLOZE,
+    FINISH_EXERCISE,
+    OPTIONS,
+    QUESTION,
+    TITLE_OF_EXERCISE,
+    WRITE_IN
+} from "../translation";
 
 class REORDERForm extends Component{
 
+    constructor(props){
+        super(props);
+
+        this.state={
+            edit: false,
+            id: -1,
+            title: '',
+            question: '',
+            list: [''],
+            scores: [],
+            times: [],
+            isFormValid: false,
+            errors: {
+                question: false,
+                list: false,
+                title: false,
+            }
+        }
+    }
+
+    componentDidMount() {
+        if (this.props.location.state) {
+            const {id, title, question, scores, times, list} = this.props.location.state.exercise;
+            this.setState({
+                ...this.state,
+                id: id,
+                title: title,
+                edit: true,
+                isFormValid: true,
+                question: question,
+                scores: scores,
+                times: times,
+                list:list
+            });
+        }
+    }
+
+    handleChangeAns = e => {
+        const index = Number(e.target.name.split('-')[1]);
+        const newlist = this.state.list.map((item, i) => (
+            i === index ? e.target.value : item
+        ));
+        let error = false;
+        if (e.target.value === '') {
+            error = true;
+        }
+        this.setState({
+            ...this.state,
+            list: newlist,
+            errors: {
+                ...this.state.errors,
+                list: error
+            }
+        }, () => {
+            this.checkFormValidation();
+        });
+    };
+
+    handleChangeTitle = e => {
+        let error = false;
+        if (e.target.value === '') {
+            error = true;
+        }
+        this.setState({
+            ...this.state,
+            title: e.target.value,
+            errors: {
+                ...this.state.errors,
+                title: error
+            }
+        }, () => {
+            this.checkFormValidation();
+        });
+    };
+
+    handleRemoveAns = () => {
+        const {list} = this.state;
+        if (list.length > 1) {
+            list.pop();
+            this.setState(
+                {list: list},
+                () => {
+                    this.checkFormValidation();
+                }
+            )
+        }
+    };
+
+    handleNewAns = () => {
+        this.setState(
+            {list: [...this.state.list, '']},
+            () => {
+                this.checkFormValidation();
+            }
+        )
+    };
+
+    handleChangeQues = e => {
+        let error = false;
+        if (e.target.value === '') {
+            error = true;
+        }
+        this.setState({
+            ...this.state,
+            errors: {
+                ...this.state.errors,
+                question: error
+            },
+            question: e.target.value
+        }, () => {
+            this.checkFormValidation();
+        });
+    };
+
+    checkFormValidation = () => {
+        const {title, question, list} = this.state;
+        let isFormValid = true;
+
+        if (question === '') {
+            isFormValid = false;
+        }
+
+        if (title === '') {
+            isFormValid = false;
+        }
+
+        list.map((item, i) => {
+            if (item === '') {
+                isFormValid = false;
+            }
+        });
+
+        this.setState({
+            ...this.state,
+            isFormValid: isFormValid
+        })
+    };
+
+    handleNewEvent = event => {
+        event.preventDefault();
+    };
+
+    submitExercise = () => {
+        let id = this.state.id;
+        if (this.state.id === -1) {
+            id = this.props.counter;
+        }
+
+        let exercise = {
+            title: this.state.title,
+            id: id,
+            type: "REORDER",
+            times: this.state.times,
+            question: this.state.question,
+            list: this.state.list,
+            scores: this.state.scores,
+        };
+
+        console.log(exercise);
+
+        if (this.state.edit) {
+            this.props.editExercise(exercise);
+        } else {
+            this.props.addNewExercise(exercise);
+            this.props.incrementExerciseCounter();
+        }
+        this.props.history.push('/')
+    };
+
     render() {
+
+        const {errors, list}= this.state;
+
+        let lists = list.map((ans, i) => {
+            return (
+                <div className="row" key={`answers-${i}`}>
+                    <div className="col-md-6">
+                        <div className="form-group">
+                            <label htmlFor={`answer-${i}`}>
+                                {i + 1}
+                            </label>
+                            <FormattedMessage id={CLOZE}>
+                                {placeholder => <input
+                                    className="answers input-ans"
+                                    name={`answer-${i}`}
+                                    type="text"
+                                    value={ans}
+                                    required
+                                    placeholder={`${placeholder} ${i + 1}`}
+                                    onChange={this.handleChangeAns}/>}
+                            </FormattedMessage>
+                        </div>
+                    </div>
+                </div>
+            )
+        });
+
+        let title_error = '';
+        let question_error = '';
+        let list_error = '';
+
+        if (errors['title']) {
+            title_error = <span style={{color: "red"}}>Title field can't be empty</span>;
+        }
+        if (errors['question']) {
+            question_error = <span style={{color: "red"}}>Question field can't be empty</span>;
+        }
+        if (errors['list']) {
+            list_error = <span style={{color: "red"}}>List field can't be empty</span>;
+        }
+
+
         return (
-            <div>REORDER FORM</div>
+            <div>
+                <div className="container-fluid">
+                    <div className="row align-items-center justify-content-center">
+                        <div className="col-sm-10">
+                            <div className="col-md-12">
+                                <form onSubmit={this.handleNewEvent}>
+                                    <div className="row">
+                                        <div className="form-group">
+                                            <label htmlFor="title"><FormattedMessage id={TITLE_OF_EXERCISE}/></label>
+                                            <input
+                                                className="input-mcq"
+                                                type="text"
+                                                id="title"
+                                                required
+                                                value={this.state.title}
+                                                onChange={this.handleChangeTitle}
+                                            />
+                                            {title_error}
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="form-group">
+                                            <label htmlFor="question"><FormattedMessage id={QUESTION}/>:</label>
+                                            <input
+                                                className="input-mcq"
+                                                type="text"
+                                                id="question"
+                                                required
+                                                value={this.state.question}
+                                                onChange={this.handleChangeQues}
+                                            />
+                                            {question_error}
+                                        </div>
+                                    </div>
+                                    {lists}
+                                    <div>
+                                        {list_error}
+                                    </div>
+                                    <div className="row">
+                                        <div className="form-group">
+                                            <button
+                                                type="button"
+                                                onClick={this.handleNewAns}
+                                                className="btn button-choices-add">
+
+                                            </button>
+                                            <button
+                                                type="button"
+                                                onClick={this.handleRemoveAns}
+                                                className="btn button-choices-sub">
+
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="form-group row justify-content-between">
+                                        <br/>
+                                        <div className="justify-content-end">
+                                            <button
+                                                onClick={this.submitExercise}
+                                                className={"btn button-finish"}
+                                                disabled={!this.state.isFormValid}
+                                            >
+                                                <FormattedMessage id={FINISH_EXERCISE}/>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         )
     }
 

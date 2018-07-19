@@ -29,7 +29,7 @@ class Exercise extends Component {
     };
 
     render() {
-        const {title, type, questions, scores, answers} = this.props;
+        const {title, type, questions, scores, answers, list} = this.props;
         let avg = 0;
         if (scores.length > 0) {
             let sum = scores.reduce(function (a, b) {
@@ -42,6 +42,7 @@ class Exercise extends Component {
         let length=0;
         if(type === "MCQ") length= questions.length;
         if (type=== "CLOZE") length= answers.length;
+        if( type==="REORDER") length= list.length;
 
         return (
             <div className="col-md-12">
