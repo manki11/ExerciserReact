@@ -125,13 +125,13 @@ class Scores extends Component {
     render() {
         return (
             <div>
-                <div className="row button-container">
-                    <button className="button-redo" onClick={this.redo}/>
-                </div>
                 <Bar
                     data={this.state.chartData}
                     options={this.state.options}
                 />
+                <div className="row button-container">
+                    <button className="button-redo" onClick={this.redo}/>
+                </div>
             </div>
         )
     }
