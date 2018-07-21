@@ -10,6 +10,7 @@ import REORDERForm from "./Builders/REORDERForm"
 
 import MCQPlay from "./Players/MCQPlayer";
 import CLOZEPlay from "./Players/CLOZEPlayer";
+import REORDERPlay from "./Players/REORDERPlayer"
 
 import {injectIntl, intlShape, FormattedRelative} from 'react-intl';
 
@@ -38,7 +39,7 @@ const Main= props=> {
                 // REORDER
                 <Route exact path="/new/reorder" render={props=> <REORDERForm/>} {...props}/>
                 <Route exact path="/edit/reorder" render={props=> <REORDERForm/>} {...props}/>
-                {/*<Route exact path="/play/cloze" render={props=> <CLOZEPlay/>} {...props}/>*/}
+                <Route exact path="/play/reorder" render={props=> <REORDERPlay/>} {...props}/>
 
             </Switch>
         </div>
