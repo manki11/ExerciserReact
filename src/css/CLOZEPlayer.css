@@ -38,5 +38,9 @@
 
 .cloze-span{
     display: inline-block;
-    margin: 10px 0;
+    margin-bottom: 15px;
+}
+
+div{
+    line-height: 2;
 }

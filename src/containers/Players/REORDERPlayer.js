@@ -24,7 +24,7 @@ class REORDERPlayer extends Component {
             score: 0,
             times: [],
             currentTime: 0,
-            intervalID: -1
+            intervalID: -1,
         }
     }
 
@@ -50,6 +50,7 @@ class REORDERPlayer extends Component {
                 checkAns: checkAns
             })
         }
+
     }
 
     timer = () => {
@@ -67,17 +68,17 @@ class REORDERPlayer extends Component {
         }
         return array;
     }
-    
-    onListChange= (list) => {
-        list= list.map((li,i)=>{
+
+    onListChange = (list) => {
+        list = list.map((li, i) => {
             return li.content
         });
-        this.setState({userAns:list});
+        this.setState({userAns: list});
         console.log(list);
-        
+
     };
 
-    submitExercise= ()=>{
+    submitExercise = () => {
         const {userAns, list} = this.state;
         let checkAns = [];
         let score = 0;
@@ -98,9 +99,9 @@ class REORDERPlayer extends Component {
         })
     };
 
-    finishExercise= ()=> {
+    finishExercise = () => {
         const {scores, score, id, currentTime, times, list} = this.state;
-        let exercise= this.props.location.state.exercise;
+        let exercise = this.props.location.state.exercise;
         let noOfQuestions = list.length;
         scores.push(score);
         times.push(currentTime);
@@ -114,25 +115,25 @@ class REORDERPlayer extends Component {
             userTime: currentTime,
             noOfQuestions: noOfQuestions,
             exercise: exercise,
-            type:"REORDER"
+            type: "REORDER"
         });
     };
 
     render() {
 
-        const {checkAns, userAns}= this.state;
+        const {checkAns, userAns} = this.state;
 
         let buttonText = <FormattedMessage id={SUBMIT_QUESTION}/>;
         if (this.state.submitted) buttonText = <FormattedMessage id={FINISH_EXERCISE}/>;
 
-        let list= (<DragList list={this.state.userAns} onChange={this.onListChange}/>);
-        if(this.state.submitted){
-            list= checkAns.map((bool,i)=>{
-                let className='btn-danger';
-                if(bool) className='btn-success';
+        let list = (<DragList list={this.state.userAns} onChange={this.onListChange}/>);
+        if (this.state.submitted) {
+            list = checkAns.map((bool, i) => {
+                let className = 'btn-danger';
+                if (bool) className = 'btn-success';
 
-                return(
-                    <div className={"list-item "+ className} key={`list-item${i}`}>
+                return (
+                    <div className={"list-item " + className} key={`list-item${i}`}>
                         {userAns[i]}
                     </div>
                 )

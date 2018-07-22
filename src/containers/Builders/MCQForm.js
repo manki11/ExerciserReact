@@ -16,6 +16,7 @@ import {withRouter} from "react-router-dom"
 import "../../css/MCQForm.css"
 
 class MCQForm extends Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -430,6 +431,7 @@ class MCQForm extends Component {
             </div>
         )
     }
+
 }
 
 function MapStateToProps(state) {

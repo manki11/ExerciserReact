@@ -42,7 +42,11 @@ class CLOZEPlayer extends Component {
 
             let checkans = answers.map(() => false);
 
-            let cloze = clozeText.split('\n').join(' </br> ').split(' ');
+            let cloze= clozeText.split('\n').join(' <br/> ').split(/(_[0-9]*_)/);
+            console.log(cloze);
+
+
+            // let cloze = clozeText.split('\n').join(' </br> ').split(' ');
 
             let options = [];
             answers.map((ans, i) => {
@@ -169,7 +173,7 @@ class CLOZEPlayer extends Component {
 
 
         let clozetext = this.state.cloze.map((text, i) => {
-            if (text === '</br>') return (<span key={`break${i}`}><br/></span>)
+            // if (text === '</br>') return (<span key={`break${i}`}><br/></span>)
 
             if (text[0] === '_' && (text[2] === '_' || text[3] === '_')) {
                 let no = text[1];
@@ -212,8 +216,13 @@ class CLOZEPlayer extends Component {
                     )
                 }
             } else {
+                let final= text.split(/( )/).map((item, key) => {
+                    if(item === '<br/>')
+                        return <span key={key}><br /></span>
+                    return <span key={key}>{item}</span>
+                });
                 return (
-                    <span className="cloze-span" key={`cloze-${i}`}>{text}&nbsp;</span>
+                    final
                 )
             }
         });
