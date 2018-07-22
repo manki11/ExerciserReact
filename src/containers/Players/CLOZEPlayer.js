@@ -10,6 +10,7 @@ import {FormattedMessage} from 'react-intl';
 
 
 class CLOZEPlayer extends Component {
+
     constructor(props) {
         super(props);
 

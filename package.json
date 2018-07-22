@@ -8,6 +8,7 @@
     "chart.js": "^2.7.2",
     "html-loader": "^0.5.5",
     "react": "^16.4.0",
+    "react-beautiful-dnd": "^8.0.5",
     "react-chartjs-2": "^2.7.2",
     "react-dom": "^16.4.0",
     "react-intl": "^2.4.0",
