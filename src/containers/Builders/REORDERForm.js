@@ -13,12 +13,12 @@ import {
     WRITE_IN
 } from "../translation";
 
-class REORDERForm extends Component{
+class REORDERForm extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
-        this.state={
+        this.state = {
             edit: false,
             id: -1,
             title: '',
@@ -47,7 +47,7 @@ class REORDERForm extends Component{
                 question: question,
                 scores: scores,
                 times: times,
-                list:list
+                list: list
             });
         }
     }
@@ -110,6 +110,21 @@ class REORDERForm extends Component{
                 this.checkFormValidation();
             }
         )
+    };
+
+    changeOrder= (curr, next) => {
+        const {list}= this.state;
+
+        if(next> list.length-1 || next<0) return;
+        let newList= list.slice();
+        let temp= newList[curr];
+        newList[curr]= newList[next];
+        newList[next]= temp;
+        
+        console.log(newList);
+        
+
+        this.setState({list: newList})
     };
 
     handleChangeQues = e => {
@@ -186,26 +201,27 @@ class REORDERForm extends Component{
 
     render() {
 
-        const {errors, list}= this.state;
+        const {errors, list} = this.state;
 
         let lists = list.map((ans, i) => {
             return (
                 <div className="row" key={`answers-${i}`}>
                     <div className="col-md-6">
-                        <div className="form-group">
+                        <div className="form-group item">
                             <label htmlFor={`answer-${i}`}>
                                 {i + 1}
                             </label>
-                            <FormattedMessage id={CLOZE}>
-                                {placeholder => <input
-                                    className="answers input-ans"
-                                    name={`answer-${i}`}
-                                    type="text"
-                                    value={ans}
-                                    required
-                                    placeholder={`${placeholder} ${i + 1}`}
-                                    onChange={this.handleChangeAns}/>}
-                            </FormattedMessage>
+                            <input
+                                className="answers input-ans"
+                                name={`answer-${i}`}
+                                type="text"
+                                value={ans}
+                                required
+                                placeholder={`Item ${i + 1}`}
+                                onChange={this.handleChangeAns}
+                            />
+                            <button className="up-down-button up-button" onClick={()=>this.changeOrder(i,i-1)}/>
+                            <button className="up-down-button down-button" onClick={()=>this.changeOrder(i,i+1)}/>
                         </div>
                     </div>
                 </div>

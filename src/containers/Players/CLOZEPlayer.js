@@ -45,9 +45,6 @@ class CLOZEPlayer extends Component {
             let cloze= clozeText.split('\n').join(' <br/> ').split(/(_[0-9]*_)/);
             console.log(cloze);
 
-
-            // let cloze = clozeText.split('\n').join(' </br> ').split(' ');
-
             let options = [];
             answers.map((ans, i) => {
                 options.push({

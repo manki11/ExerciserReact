@@ -31,3 +31,38 @@ td{
 .cloze{
     margin-bottom: 10px;
 }
+
+button{
+    margin-right: 10px!important;
+    background-color: #808080;
+    color: white;
+    border: none!important;
+    border-radius: 22px;
+    line-height: 22px;
+    padding: 2px 4px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    outline: none!important;
+}
+
+.up-down-button{
+    width: 30px;
+    height: 30px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 20px;
+    margin: 0 10px;
+}
+
+.item{
+    display: flex;
+    align-items: center;
+}
+
+.up-button{
+    background-image: url("../icons/exercise/up.svg");
+}
+
+.down-button{
+    background-image: url("../icons/exercise/down.svg");
+}

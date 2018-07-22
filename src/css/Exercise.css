@@ -24,6 +24,15 @@ button{
     -webkit-user-select: none;
 }
 
+.play-button{
+    width: 40px;
+    height: 40px;
+    background-image: url("../icons/exercise/play-button.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 20px;
+}
+
 .exercise-card-content {
     padding: 16px;
 }
@@ -50,14 +59,7 @@ button{
     border-radius: 20px;
 }
 
-.play-button{
-    width: 40px;
-    height: 40px;
-    background-image: url("../icons/exercise/play-button.svg");
-    background-repeat: no-repeat;
-    background-size: contain;
-    border-radius: 20px;
-}
+
 
 .play-button:hover{
     background-color: limegreen;
