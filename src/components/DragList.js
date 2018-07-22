@@ -27,16 +27,16 @@ const getItemStyle = (isDragging, draggableStyle) => ({
     margin: `0 0 ${grid}px 0`,
 
     // change background colour if dragging
-    background: isDragging ? 'lightgreen' : 'grey',
+    background: isDragging ? 'lightgreen' : 'white',
+    borderRadius:'10px',
+    textAlign:'center',
 
     // styles we need to apply on draggables
     ...draggableStyle,
 });
 
 const getListStyle = isDraggingOver => ({
-    background: isDraggingOver ? 'lightblue' : 'lightgrey',
-    padding: grid,
-    width: 250,
+    padding: grid
 });
 
 export default class DragList extends Component {
@@ -49,7 +49,7 @@ export default class DragList extends Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if(nextProps.list !== this.props.list) {
+        if(this.state.items.length===0) {
             let list = nextProps.list;
             list = list.map((li, i) => {
                 return {
@@ -57,8 +57,6 @@ export default class DragList extends Component {
                     content: li
                 }
             });
-            console.log(list);
-
             this.setState({items: list});
         }
     }
@@ -77,6 +75,8 @@ export default class DragList extends Component {
 
         this.setState({
             items,
+        }, ()=>{
+            this.props.onChange(this.state.items)
         });
     }
 

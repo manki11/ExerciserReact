@@ -120,6 +120,9 @@ class Scores extends Component {
         if (type === 'CLOZE') {
             this.props.history.push('/play/cloze', {exercise: exercise})
         }
+        if (type === 'REORDER') {
+            this.props.history.push('/play/reorder', {exercise: exercise})
+        }
     };
 
     render() {

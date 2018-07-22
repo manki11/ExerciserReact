@@ -5,6 +5,7 @@ import {addScoreTime} from '../../store/actions/exercises';
 import {SUBMIT_QUESTION, FINISH_EXERCISE} from "../translation";
 import {FormattedMessage} from 'react-intl';
 import DragList from "../../components/DragList";
+import "../../css/REORDERPlayer.css"
 
 class REORDERPlayer extends Component {
 
@@ -36,9 +37,6 @@ class REORDERPlayer extends Component {
 
             let checkAns = list.map(() => false);
 
-            console.log(list);
-
-
             this.setState({
                 ...this.state,
                 id: id,
@@ -67,15 +65,110 @@ class REORDERPlayer extends Component {
             const j = Math.floor(Math.random() * (i + 1));
             [array[i], array[j]] = [array[j], array[i]]; // eslint-disable-line no-param-reassign
         }
+        return array;
     }
+    
+    onListChange= (list) => {
+        list= list.map((li,i)=>{
+            return li.content
+        });
+        this.setState({userAns:list});
+        console.log(list);
+        
+    };
 
+    submitExercise= ()=>{
+        const {userAns, list} = this.state;
+        let checkAns = [];
+        let score = 0;
+        for (let i = 0; i < list.length; i++) {
+            if (list[i].toLowerCase() === userAns[i].toLowerCase()) {
+                checkAns.push(true);
+                score++;
+            } else {
+                checkAns.push(false)
+            }
+        }
+
+        this.setState({
+            ...this.state,
+            submitted: true,
+            checkAns: checkAns,
+            score: score
+        })
+    };
+
+    finishExercise= ()=> {
+        const {scores, score, id, currentTime, times, list} = this.state;
+        let exercise= this.props.location.state.exercise;
+        let noOfQuestions = list.length;
+        scores.push(score);
+        times.push(currentTime);
+
+        this.props.addScoreTime(id, score, currentTime);
+
+        this.props.history.push('/scores', {
+            scores: scores,
+            userScore: score,
+            times: times,
+            userTime: currentTime,
+            noOfQuestions: noOfQuestions,
+            exercise: exercise,
+            type:"REORDER"
+        });
+    };
 
     render() {
+
+        const {checkAns, userAns}= this.state;
+
+        let buttonText = <FormattedMessage id={SUBMIT_QUESTION}/>;
+        if (this.state.submitted) buttonText = <FormattedMessage id={FINISH_EXERCISE}/>;
+
+        let list= (<DragList list={this.state.userAns} onChange={this.onListChange}/>);
+        if(this.state.submitted){
+            list= checkAns.map((bool,i)=>{
+                let className='btn-danger';
+                if(bool) className='btn-success';
+
+                return(
+                    <div className={"list-item "+ className} key={`list-item${i}`}>
+                        {userAns[i]}
+                    </div>
+                )
+            })
+        }
 
         return (
             <div className="container">
                 <div>
-                    <DragList list={this.state.list}/>
+                    <div className="container-fluid">
+                        <div className="row align-items-center justify-content-center">
+                            <div className="col-sm-10">
+                                <div className="jumbotron">
+                                    <p className="lead">{this.state.title}</p>
+                                    <hr className="my-4"/>
+                                    <p>{this.state.question}</p>
+                                    <div>
+                                        {list}
+                                    </div>
+                                </div>
+                                <div className="d-flex flex-row-reverse">
+                                    <div className="justify-content-end">
+                                        <button
+                                            onClick={() => {
+                                                if (this.state.submitted) this.finishExercise();
+                                                else this.submitExercise();
+                                            }}
+                                            className={"btn next-button"}
+                                        >
+                                            {buttonText}
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         )

@@ -1,0 +1,11 @@
+.container{
+    margin-bottom: 50px;
+}
+
+.list-item{
+    user-select: none;
+    padding: 16px;
+    margin: 0 0 8px 0;
+    border-radius:10px;
+    text-align:center;
+}
