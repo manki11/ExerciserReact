@@ -147,7 +147,7 @@
     "id": 2,
     "type": "CLOZE",
     "question": "Fill the capitals of the world",
-    "clozeText": "The capital of France is _1_ .\nThe capital of India is _2_ .\n The capital of Spain is _3_ .\n The capital of Italy is _4_ .\n The capital of Bangladesh is _5_ .\n The capital of US is _6_ .\n The capital of Portugal is _7_ .\n The capital of Mexico is _8_ .\n The capital of Russia is _9_ .\n The capital of Australia is _10_ .",
+    "clozeText": "The capital of France is -1- .\nThe capital of India is -2- .\n The capital of Spain is -3- .\n The capital of Italy is -4- .\n The capital of Bangladesh is -5- .\n The capital of US is -6- .\n The capital of Portugal is -7- .\n The capital of Mexico is -8- .\n The capital of Russia is -9- .\n The capital of Australia is -10- .",
     "answers": [
       "Paris",
       "New Delhi",

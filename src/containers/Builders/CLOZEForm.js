@@ -195,7 +195,7 @@ class CLOZEForm extends Component {
         };
 
 
-        console.log(exercise);
+        // console.log(exercise);
 
         if (this.state.edit) {
             this.props.editExercise(exercise);
@@ -242,8 +242,8 @@ class CLOZEForm extends Component {
 
         for(let i=0; i< cloze.length;i++){
             let text= cloze[i];
-            if(text[0]==='_'){
-                if (text[2] === '_') {
+            if(text[0]==='-'){
+                if (text[2] === '-') {
                     blanks[text[1]]= true;
                 } else {
                     blanks[text[1] + text[2]]= true;
@@ -265,8 +265,6 @@ class CLOZEForm extends Component {
     };
 
     addBlank = () => {
-        console.log("add blank is called");
-
         const {clozeText, nextBlank, cursorPos}= this.state;
 
         String.prototype.splice = function(idx, rem, str) {
@@ -274,7 +272,7 @@ class CLOZEForm extends Component {
         };
 
 
-        let updatedCloze= clozeText.splice(cursorPos, 0, ` _${nextBlank}_ `);
+        let updatedCloze= clozeText.splice(cursorPos, 0, ` -${nextBlank}- `);
 
         let blank = this.findNextBlank(updatedCloze);
 
@@ -283,7 +281,7 @@ class CLOZEForm extends Component {
             nextBlank: blank,
             cursorPos: cursorPos+5
         }, ()=>{
-            console.log("add blank is finished");
+            // console.log("add blank is finished");
         })
     };
 

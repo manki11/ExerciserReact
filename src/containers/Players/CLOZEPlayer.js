@@ -42,8 +42,7 @@ class CLOZEPlayer extends Component {
 
             let checkans = answers.map(() => false);
 
-            let cloze= clozeText.split('\n').join(' <br/> ').split(/(_[0-9]*_)/);
-            console.log(cloze);
+            let cloze= clozeText.split('\n').join(' <br/> ').split(/(-[0-9]*-)/);
 
             let options = [];
             answers.map((ans, i) => {
@@ -115,7 +114,7 @@ class CLOZEPlayer extends Component {
             ...this.state,
             userans:ans
         },()=>{
-            console.log(this.state.userans);
+            // console.log(this.state.userans);
         });
     };
 
@@ -172,9 +171,9 @@ class CLOZEPlayer extends Component {
         let clozetext = this.state.cloze.map((text, i) => {
             // if (text === '</br>') return (<span key={`break${i}`}><br/></span>)
 
-            if (text[0] === '_' && (text[2] === '_' || text[3] === '_')) {
+            if (text[0] === '-' && (text[2] === '-' || text[3] === '-')) {
                 let no = text[1];
-                if (text[2] !== '_') no = no + text[2];
+                if (text[2] !== '-') no = no + text[2];
 
                 let ans = 'wrong';
                 if (this.state.checkans[no - 1]) ans = 'right';

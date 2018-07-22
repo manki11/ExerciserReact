@@ -36,7 +36,7 @@ button{
     margin-right: 10px!important;
     background-color: #808080;
     color: white;
-    border: none!important;
+    border: 2px transparent solid;
     border-radius: 22px;
     line-height: 22px;
     padding: 2px 4px;
@@ -50,6 +50,7 @@ button{
     height: 30px;
     background-repeat: no-repeat;
     background-size: contain;
+    border: none!important;
     border-radius: 20px;
     margin: 0 10px;
 }

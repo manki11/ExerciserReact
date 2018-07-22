@@ -121,7 +121,7 @@ class REORDERForm extends Component {
         newList[curr]= newList[next];
         newList[next]= temp;
         
-        console.log(newList);
+        // console.log(newList);
         
 
         this.setState({list: newList})
@@ -188,7 +188,7 @@ class REORDERForm extends Component {
             scores: this.state.scores,
         };
 
-        console.log(exercise);
+        // console.log(exercise);
 
         if (this.state.edit) {
             this.props.editExercise(exercise);
