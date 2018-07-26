@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import Navbar from '../components/Navbar'
 import activity from 'lib/sugar-web/activity/activity'
 import env from 'lib/sugar-web/env'
-import {Provider} from "react-redux"
+import {connect} from "react-redux"
 import {IntlProvider} from "react-intl";
 import {MemoryRouter as Router} from "react-router-dom";
 import {addLocaleData} from "react-intl";
@@ -13,6 +13,7 @@ import locale_es from 'react-intl/locale-data/es';
 
 import Main from "./Router";
 import '../css/index.css';
+import {setExercises} from "../store/actions/exercises";
 
 class Sugarizer extends Component {
 
@@ -65,4 +66,11 @@ class Sugarizer extends Component {
     }
 }
 
-export default Sugarizer;
+function MapStateToProps(state) {
+    return {
+        counter: state.exercise_counter,
+        exercises: state.exercises
+    }
+}
+
+export default connect(MapStateToProps,{setExercises})(Sugarizer);

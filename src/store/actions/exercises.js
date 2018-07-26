@@ -1,7 +1,8 @@
-import {GET_ALL_EXERCISES, REMOVE_EXERCISE, ADD_NEW_EXERCISE, EDIT_EXERCISE, ADD_SCORE_TIME} from "../actionTypes";
+import {SET_ALL_EXERCISES, REMOVE_EXERCISE, ADD_NEW_EXERCISE, EDIT_EXERCISE, ADD_SCORE_TIME} from "../actionTypes";
 
-export const loadExercises= ()=> ({
-    type: GET_ALL_EXERCISES
+export const setExercises= (exercises)=> ({
+    type: SET_ALL_EXERCISES,
+    exercises
 });
 
 export const removeExercises= (id)=> ({
