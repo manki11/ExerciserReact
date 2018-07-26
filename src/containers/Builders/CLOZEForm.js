@@ -205,7 +205,7 @@ class CLOZEForm extends Component {
         }
 
         if(bool)
-            this.props.history.push('/play/cloze', {exercise: exercise});
+            this.props.history.push('/play/cloze', {exercise: exercise, edit:true});
         else
             this.props.history.push('/')
     };

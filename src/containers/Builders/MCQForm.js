@@ -283,7 +283,7 @@ class MCQForm extends Component {
         }
 
         if(bool)
-            this.props.history.push('/play/mcq', {exercise: exercise});
+            this.props.history.push('/play/mcq', {exercise: exercise, edit: true});
         else
             this.props.history.push('/')    };
 

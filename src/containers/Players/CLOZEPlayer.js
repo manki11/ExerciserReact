@@ -28,6 +28,7 @@ class CLOZEPlayer extends Component {
             scores: [],
             score: 0,
             times: [],
+            goBackToEdit: false,
             currentTime: 0,
             intervalID: -1
         }
@@ -38,11 +39,14 @@ class CLOZEPlayer extends Component {
             let intervalId = setInterval(this.timer, 1000);
             const {id, title, question, scores, times, answers, clozeText, writeIn} = this.props.location.state.exercise;
 
+            let goBackToEdit = false;
+            if (this.props.location.state.edit) goBackToEdit = true;
+
             let userans = answers.map(() => "");
 
             let checkans = answers.map(() => false);
 
-            let cloze= clozeText.split('\n').join(' <br/> ').split(/(-[0-9]*-)/);
+            let cloze = clozeText.split('\n').join(' <br/> ').split(/(-[0-9]*-)/);
 
             let options = [];
             answers.map((ans, i) => {
@@ -67,7 +71,8 @@ class CLOZEPlayer extends Component {
                 options: options,
                 intervalId: intervalId,
                 checkans: checkans,
-                writeIn: writeIn
+                writeIn: writeIn,
+                goBackToEdit: goBackToEdit
             })
         }
     }
@@ -108,12 +113,12 @@ class CLOZEPlayer extends Component {
     handleChangeAnsInput = (e) => {
         const index = Number(e.target.name.split('-')[1]);
         const ans = this.state.userans.map((ans, i) => (
-            i === index-1 ? e.target.value : ans
+            i === index - 1 ? e.target.value : ans
         ));
         this.setState({
             ...this.state,
-            userans:ans
-        },()=>{
+            userans: ans
+        }, () => {
             // console.log(this.state.userans);
         });
     };
@@ -140,23 +145,26 @@ class CLOZEPlayer extends Component {
     };
 
     finishExercise = () => {
-        const {scores, score, id, currentTime, times, answers} = this.state;
-        let exercise= this.props.location.state.exercise;
+        const {scores, score, id, currentTime, times, answers, goBackToEdit} = this.state;
+        let exercise = this.props.location.state.exercise;
         let noOfQuestions = answers.length;
         scores.push(score);
         times.push(currentTime);
 
         this.props.addScoreTime(id, score, currentTime);
 
-        this.props.history.push('/scores', {
-            scores: scores,
-            userScore: score,
-            times: times,
-            userTime: currentTime,
-            noOfQuestions: noOfQuestions,
-            exercise: exercise,
-            type:"CLOZE"
-        });
+        if (goBackToEdit)
+            this.props.history.push('/edit/cloze', {exercise: exercise});
+        else
+            this.props.history.push('/scores', {
+                scores: scores,
+                userScore: score,
+                times: times,
+                userTime: currentTime,
+                noOfQuestions: noOfQuestions,
+                exercise: exercise,
+                type: "CLOZE"
+            });
     };
 
     timer = () => {
@@ -191,8 +199,8 @@ class CLOZEPlayer extends Component {
                                 options={this.state.options}
                             />
                         )
-                    }else{
-                        return(
+                    } else {
+                        return (
                             <input
                                 key={`answer-${no}`}
                                 className="answers input-ans"
@@ -212,9 +220,9 @@ class CLOZEPlayer extends Component {
                     )
                 }
             } else {
-                let final= text.split(/( )/).map((item, key) => {
-                    if(item === '<br/>')
-                        return <span key={key}><br /></span>
+                let final = text.split(/( )/).map((item, key) => {
+                    if (item === '<br/>')
+                        return <span key={key}><br/></span>
                     return <span key={key}>{item}</span>
                 });
                 return (

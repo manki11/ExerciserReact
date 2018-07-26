@@ -22,7 +22,9 @@ class REORDERPlayer extends Component {
             submitted: false,
             scores: [],
             score: 0,
+            goBackToEdit: false,
             times: [],
+
             currentTime: 0,
             intervalID: -1,
         }
@@ -32,6 +34,9 @@ class REORDERPlayer extends Component {
         if (this.props.location.state) {
             let intervalId = setInterval(this.timer, 1000);
             const {id, title, question, scores, times, list} = this.props.location.state.exercise;
+
+            let goBackToEdit = false;
+            if (this.props.location.state.edit) goBackToEdit = true;
 
             let userAns = this.shuffleArray(list.slice());
 
@@ -46,6 +51,7 @@ class REORDERPlayer extends Component {
                 times: times,
                 list: list,
                 userAns: userAns,
+                goBackToEdit: goBackToEdit,
                 intervalId: intervalId,
                 checkAns: checkAns
             })
@@ -100,7 +106,7 @@ class REORDERPlayer extends Component {
     };
 
     finishExercise = () => {
-        const {scores, score, id, currentTime, times, list} = this.state;
+        const {scores, score, id, currentTime, times, list, goBackToEdit} = this.state;
         let exercise = this.props.location.state.exercise;
         let noOfQuestions = list.length;
         scores.push(score);
@@ -108,15 +114,18 @@ class REORDERPlayer extends Component {
 
         this.props.addScoreTime(id, score, currentTime);
 
-        this.props.history.push('/scores', {
-            scores: scores,
-            userScore: score,
-            times: times,
-            userTime: currentTime,
-            noOfQuestions: noOfQuestions,
-            exercise: exercise,
-            type: "REORDER"
-        });
+        if (goBackToEdit)
+            this.props.history.push('/edit/reorder', {exercise: exercise});
+        else
+            this.props.history.push('/scores', {
+                scores: scores,
+                userScore: score,
+                times: times,
+                userTime: currentTime,
+                noOfQuestions: noOfQuestions,
+                exercise: exercise,
+                type: "REORDER"
+            });
     };
 
     render() {

@@ -196,13 +196,12 @@ class REORDERForm extends Component {
         }
 
         if(bool)
-            this.props.history.push('/play/reorder', {exercise: exercise});
+            this.props.history.push('/play/reorder', {exercise: exercise, edit: true});
         else
             this.props.history.push('/')
     };
 
     render() {
-
         const {errors, list} = this.state;
 
         let lists = list.map((ans, i) => {
