@@ -10,7 +10,7 @@ import {
     CORRECT_OPTION,
     WRONG_OPTION,
     PREVIOUS,
-    NEXT
+    NEXT, TEST_EXERCISE
 } from "../translation";
 import {withRouter} from "react-router-dom"
 import "../../css/MCQForm.css"
@@ -260,7 +260,7 @@ class MCQForm extends Component {
         })
     };
 
-    submitExercise = () => {
+    submitExercise = (bool) => {
         let id = this.state.id;
         if (this.state.id === -1) {
             id = this.props.counter;
@@ -281,8 +281,11 @@ class MCQForm extends Component {
             this.props.addNewExercise(exercise);
             this.props.incrementExerciseCounter();
         }
-        this.props.history.push('/')
-    };
+
+        if(bool)
+            this.props.history.push('/play/mcq', {exercise: exercise});
+        else
+            this.props.history.push('/')    };
 
     previousQues = () => {
         const {currentQuestionNo} = this.state;
@@ -415,14 +418,23 @@ class MCQForm extends Component {
                                         >
                                             <FormattedMessage id={NEXT}/> <FormattedMessage id={QUESTION}/>
                                         </button>
-                                        <button
-                                            onClick={this.submitExercise}
-                                            className={"btn button-finish"}
-                                            disabled={!this.state.noOfQuestions >= 1}
-                                        >
-                                            <FormattedMessage id={FINISH_EXERCISE}/>
-                                        </button>
                                     </div>
+                                </div>
+                                <div className="form-group row justify-content-between">
+                                    <button
+                                        onClick={()=>this.submitExercise(false)}
+                                        className={"btn button-finish"}
+                                        disabled={!this.state.noOfQuestions >= 1}
+                                    >
+                                        <FormattedMessage id={FINISH_EXERCISE}/>
+                                    </button>
+                                    <button
+                                        onClick={()=> this.submitExercise(true)}
+                                        className={"btn button-finish"}
+                                        disabled={!this.state.noOfQuestions >= 1}
+                                    >
+                                        <FormattedMessage id={TEST_EXERCISE}/>
+                                    </button>
                                 </div>
                             </form>
                         </div>

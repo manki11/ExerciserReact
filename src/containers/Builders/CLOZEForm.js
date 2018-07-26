@@ -14,7 +14,7 @@ import {
     BLANK_TYPE,
     WRITE_IN,
     OPTIONS,
-    ADD_BLANK
+    ADD_BLANK, TEST_EXERCISE
 } from "../translation";
 
 class CLOZEForm extends Component {
@@ -176,7 +176,7 @@ class CLOZEForm extends Component {
         event.preventDefault();
     };
 
-    submitExercise = () => {
+    submitExercise = (bool) => {
         let id = this.state.id;
         if (this.state.id === -1) {
             id = this.props.counter;
@@ -203,7 +203,11 @@ class CLOZEForm extends Component {
             this.props.addNewExercise(exercise);
             this.props.incrementExerciseCounter();
         }
-        this.props.history.push('/')
+
+        if(bool)
+            this.props.history.push('/play/cloze', {exercise: exercise});
+        else
+            this.props.history.push('/')
     };
 
     handleChangeCloze = e => {
@@ -444,11 +448,18 @@ class CLOZEForm extends Component {
                                         <br/>
                                         <div className="justify-content-end">
                                             <button
-                                                onClick={this.submitExercise}
+                                                onClick={()=>this.submitExercise(false)}
                                                 className={"btn button-finish"}
                                                 disabled={!this.state.isFormValid}
                                             >
                                                 <FormattedMessage id={FINISH_EXERCISE}/>
+                                            </button>
+                                            <button
+                                                onClick={()=>this.submitExercise(true)}
+                                                className={"btn button-finish"}
+                                                disabled={!this.state.isFormValid}
+                                            >
+                                                <FormattedMessage id={TEST_EXERCISE}/>
                                             </button>
                                         </div>
                                     </div>

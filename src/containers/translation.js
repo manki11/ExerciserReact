@@ -15,6 +15,7 @@ export const CHOOSE="Choose";
 
 export const TITLE_OF_EXERCISE="Title of Exercise";
 export const QUESTION="Question";
+export const TEST_EXERCISE="Test Exercise";
 
 // MCQ FORM
 export const PREVIOUS="Previous";
