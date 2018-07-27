@@ -14,6 +14,8 @@ import locale_es from 'react-intl/locale-data/es';
 import Main from "./Router";
 import '../css/index.css';
 import {setExercises} from "../store/actions/exercises";
+import {setExerciseCounter} from "../store/actions/increment_counter";
+import exercises from "../store/reducers/exercises";
 
 class Sugarizer extends Component {
 
@@ -26,6 +28,7 @@ class Sugarizer extends Component {
     }
 
     componentDidMount() {
+        const {setExercises, setExerciseCounter}= this.props;
         activity.setup();
 
         let currentenv;
@@ -40,8 +43,9 @@ class Sugarizer extends Component {
                 activity.getDatastoreObject().loadAsText(function (error, metadata, data) {
                     if (error === null && data !== null) {
                         console.log("object found!");
-                        let state = JSON.parse(data);
-                        temp.setState(state);
+                        let json = JSON.parse(data);
+                        setExercises(json.exercises);
+                        setExerciseCounter(json.counter);
                     }
                 });
             }
@@ -49,7 +53,22 @@ class Sugarizer extends Component {
     }
 
     stopActivity() {
+        const {counter, exercises}= this.props;
 
+        let json= {
+            counter: counter,
+            exercises: exercises
+        };
+
+        let jsonData = JSON.stringify(json);
+        activity.getDatastoreObject().setDataAsText(jsonData);
+        activity.getDatastoreObject().save(function (error) {
+            if (error === null) {
+                console.log("write done.");
+            } else {
+                console.log("write failed.");
+            }
+        });
     }
 
     render() {
@@ -73,4 +92,4 @@ function MapStateToProps(state) {
     }
 }
 
-export default connect(MapStateToProps,{setExercises})(Sugarizer);
+export default connect(MapStateToProps,{setExercises, setExerciseCounter})(Sugarizer);
