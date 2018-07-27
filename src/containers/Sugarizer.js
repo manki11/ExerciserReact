@@ -15,7 +15,6 @@ import Main from "./Router";
 import '../css/index.css';
 import {setExercises} from "../store/actions/exercises";
 import {setExerciseCounter} from "../store/actions/increment_counter";
-import exercises from "../store/reducers/exercises";
 
 class Sugarizer extends Component {
 

@@ -31,7 +31,7 @@ class CLOZEForm extends Component {
             scores: [],
             times: [],
             nextBlank: 1,
-            cursorPos:0,
+            cursorPos: 0,
             isFormValid: false,
             answers: [''],
             writeIn: "OPTIONS",
@@ -47,7 +47,7 @@ class CLOZEForm extends Component {
     componentDidMount() {
         if (this.props.location.state) {
             const {id, title, question, scores, times, clozeText, answers, writeIn} = this.props.location.state.exercise;
-            let nextBlank= answers.length+1;
+            let nextBlank = answers.length + 1;
             console.log(nextBlank);
             this.setState({
                 ...this.state,
@@ -204,8 +204,8 @@ class CLOZEForm extends Component {
             this.props.incrementExerciseCounter();
         }
 
-        if(bool)
-            this.props.history.push('/play/cloze', {exercise: exercise, edit:true});
+        if (bool)
+            this.props.history.push('/play/cloze', {exercise: exercise, edit: true});
         else
             this.props.history.push('/')
     };
@@ -239,29 +239,34 @@ class CLOZEForm extends Component {
         }
     };
 
-    findNextBlank = (clozeText) => {
-        let cloze= clozeText.split(' ');
-        let blanks=[];
-        let blank_no=1;
+    handleMouseDown = (event) => {
+        let pos = event.target.selectionStart;
+        this.setState({cursorPos: pos})
+    };
 
-        for(let i=0; i< cloze.length;i++){
-            let text= cloze[i];
-            if(text[0]==='-'){
+    findNextBlank = (clozeText) => {
+        let cloze = clozeText.split(' ');
+        let blanks = [];
+        let blank_no = 1;
+
+        for (let i = 0; i < cloze.length; i++) {
+            let text = cloze[i];
+            if (text[0] === '-') {
                 if (text[2] === '-') {
-                    blanks[text[1]]= true;
+                    blanks[text[1]] = true;
                 } else {
-                    blanks[text[1] + text[2]]= true;
+                    blanks[text[1] + text[2]] = true;
                 }
             }
         }
 
-        for(let i=1;i< blanks.length; i++){
-            if(!blanks[i]){
-                blank_no=i;
+        for (let i = 1; i < blanks.length; i++) {
+            if (!blanks[i]) {
+                blank_no = i;
                 break;
             }
-            if(i=== blanks.length-1) {
-                blank_no=blanks.length;
+            if (i === blanks.length - 1) {
+                blank_no = blanks.length;
                 break;
             }
         }
@@ -269,22 +274,22 @@ class CLOZEForm extends Component {
     };
 
     addBlank = () => {
-        const {clozeText, nextBlank, cursorPos}= this.state;
+        const {clozeText, nextBlank, cursorPos} = this.state;
 
-        String.prototype.splice = function(idx, rem, str) {
+        String.prototype.splice = function (idx, rem, str) {
             return this.slice(0, idx) + str + this.slice(idx + Math.abs(rem));
         };
 
 
-        let updatedCloze= clozeText.splice(cursorPos, 0, ` -${nextBlank}- `);
+        let updatedCloze = clozeText.splice(cursorPos, 0, ` -${nextBlank}- `);
 
         let blank = this.findNextBlank(updatedCloze);
 
         this.setState({
             clozeText: updatedCloze,
             nextBlank: blank,
-            cursorPos: cursorPos+5
-        }, ()=>{
+            cursorPos: cursorPos + 5
+        }, () => {
             // console.log("add blank is finished");
         })
     };
@@ -319,9 +324,9 @@ class CLOZEForm extends Component {
         let question_error = '';
         let answer_error = '';
         let cloze_error = '';
-        
+
         // console.log("render"+this.state.nextBlank);
-        
+
 
         if (errors['title']) {
             title_error = <span style={{color: "red"}}>Title field can't be empty</span>;
@@ -402,15 +407,15 @@ class CLOZEForm extends Component {
                                     <div className="row">
                                         <div className="form-group">
                                             <div className="cloze row  justify-content-between">
-                                            <label htmlFor="cloze-text"><FormattedMessage id={CLOZE_TEXT}/>:</label>
-                                            <div className="justify-content-end">
-                                                <button
-                                                    onClick={this.addBlank}
-                                                    className={"btn button-finish"}
-                                                >
-                                                    <FormattedMessage id={ADD_BLANK}/>
-                                                </button>
-                                            </div>
+                                                <label htmlFor="cloze-text"><FormattedMessage id={CLOZE_TEXT}/>:</label>
+                                                <div className="justify-content-end">
+                                                    <button
+                                                        onClick={this.addBlank}
+                                                        className={"btn button-finish"}
+                                                    >
+                                                        <FormattedMessage id={ADD_BLANK}/>
+                                                    </button>
+                                                </div>
                                             </div>
                                             <textarea
                                                 className="input-mcq"
@@ -418,6 +423,7 @@ class CLOZEForm extends Component {
                                                 id="cloze-text"
                                                 required
                                                 onKeyDown={this.handleKeyDown}
+                                                onBlur={this.handleMouseDown}
                                                 value={this.state.clozeText}
                                                 onChange={this.handleChangeCloze}
                                             />
@@ -448,14 +454,14 @@ class CLOZEForm extends Component {
                                         <br/>
                                         <div className="justify-content-end">
                                             <button
-                                                onClick={()=>this.submitExercise(false)}
+                                                onClick={() => this.submitExercise(false)}
                                                 className={"btn button-finish"}
                                                 disabled={!this.state.isFormValid}
                                             >
                                                 <FormattedMessage id={FINISH_EXERCISE}/>
                                             </button>
                                             <button
-                                                onClick={()=>this.submitExercise(true)}
+                                                onClick={() => this.submitExercise(true)}
                                                 className={"btn button-finish"}
                                                 disabled={!this.state.isFormValid}
                                             >
