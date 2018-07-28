@@ -32,6 +32,10 @@ class Exercise extends Component {
         this.props.onShare(this.state.id, !this.props.shared);
     };
 
+    result=()=>{
+
+    }
+
     render() {
         const {title, type, questions, scores, answers, list, isShared, isHost, shared} = this.props;
 
@@ -48,6 +52,7 @@ class Exercise extends Component {
         let edit= (<button type="button" className="edit-button" onClick={this.editExercise}/>);
         let cross= (<button type="button" className="delete-button float-right" onClick={this.deleteExercise}/>);
         let share="";
+        let results="";
 
         if(isShared && !isHost){
             edit="";
@@ -56,7 +61,10 @@ class Exercise extends Component {
 
         if(isShared && isHost){
             let bg= "non-shared-exercise";
-            if(shared) bg="shared-exercise"
+            if(shared) {
+                bg="shared-exercise"
+                results=(<button type="button" className={"result-button"} onClick={this.result}/>);
+            }
             share=(<button type="button" className={"share-button "+ bg} onClick={this.shareExercise}/>);
         }
 
@@ -79,6 +87,7 @@ class Exercise extends Component {
                         {edit}
                         {cross}
                         {share}
+                        {results}
                     </div>
                 </div>
             </div>

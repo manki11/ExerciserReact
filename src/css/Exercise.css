@@ -37,6 +37,15 @@ button:focus{
     border-radius: 20px;
 }
 
+.result-button{
+    width: 40px;
+    height: 40px;
+    background-image: url("../icons/exercise/result.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 20px;
+}
+
 .shared-exercise, .shared-exercise:hover{
     background-color: lightskyblue;
     border: 2px solid transparent;
@@ -96,5 +105,10 @@ button:focus{
 
 .delete-button:hover{
     background-color: red;
+    border: 2px solid transparent;
+}
+
+.result-button:hover{
+    background-color: green;
     border: 2px solid transparent;
 }
