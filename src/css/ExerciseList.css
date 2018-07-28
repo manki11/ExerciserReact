@@ -7,3 +7,27 @@
 }
 
 
+.user{
+    width: 50px;
+    height: 50px;
+    background-image: url("../icons/exercise/user.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 30px;
+}
+
+.user-container{
+    position: absolute;
+    top: 100px;
+    right: 50px;
+}
+
+.badge-notify{
+    background:red;
+    position:relative;
+    color: white;
+    font-size: 15px!important;
+    top: -40px;
+    left: -30px;
+}
+

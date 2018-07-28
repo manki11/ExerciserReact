@@ -25,7 +25,6 @@ import '../css/index.css';
 import {setExercises} from "../store/actions/exercises";
 import {setExerciseCounter} from "../store/actions/increment_counter";
 import {setIsHost, setIsShared} from "../store/actions/presence";
-import isHost from "../store/reducers/presence/isHost";
 
 
 class Sugarizer extends Component {

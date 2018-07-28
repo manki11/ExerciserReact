@@ -3,6 +3,7 @@ import Exercise from '../components/Exercise';
 import {removeExercises, editExercise} from '../store/actions/exercises';
 import {addSharedExercise, removeSharedExercise} from "../store/actions/presence";
 import '../css/ExerciseList.css';
+import ReactTooltip from "react-tooltip"
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 
@@ -12,12 +13,12 @@ class ExerciseList extends Component {
         super(props);
     }
 
-    componentDidMount(){
+    componentDidMount() {
 
     }
 
-    componentWillReceiveProps(){
-        if(this.props.isShared && this.props.isHost){
+    componentWillReceiveProps() {
+        if (this.props.isShared && this.props.isHost) {
             this.props.onUpdate();
         }
     }
@@ -39,14 +40,14 @@ class ExerciseList extends Component {
         }
     };
 
-    onShare= (id, shared) => {
+    onShare = (id, shared) => {
         let exercise = this.props.exercises.find(x => x.id === id);
-        exercise= {...exercise, shared:shared};
+        exercise = {...exercise, shared: shared};
         this.props.editExercise(exercise);
 
-        if(shared){
+        if (shared) {
             this.props.addSharedExercise(exercise);
-        }else{
+        } else {
             this.props.removeSharedExercise(id);
         }
     };
@@ -65,7 +66,7 @@ class ExerciseList extends Component {
     };
 
     render() {
-        const {isHost, isShared}= this.props;
+        const {isHost, isShared} = this.props;
         let exercises = <p>Exercise List</p>;
         if (this.props.exercises) {
             exercises = this.props.exercises.map((r, index) => (
@@ -84,6 +85,13 @@ class ExerciseList extends Component {
 
         return (
             <div className="container">
+                <div className="user-container">
+                    <button data-tip data-for="users" className="user"/>
+                    <span className="badge badge-notify">3</span>
+                </div>
+                <ReactTooltip id="users" place="bottom" type="dark" effect="solid">
+
+                </ReactTooltip>
                 <div className="col-md-12">
                     {exercises}
                 </div>
@@ -103,5 +111,5 @@ function MapStateToProps(state) {
 
 export default withRouter(
     connect(MapStateToProps,
-        {removeExercises, editExercise,addSharedExercise,removeSharedExercise}
+        {removeExercises, editExercise, addSharedExercise, removeSharedExercise}
     )(ExerciseList));
