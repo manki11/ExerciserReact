@@ -11,7 +11,7 @@ class Exercise extends Component {
         const {id, types}= this.props;
 
         this.state={
-            id: id
+            id: id,
         }
 
     }
@@ -28,8 +28,13 @@ class Exercise extends Component {
         this.props.onDelete(this.state.id);
     };
 
+    shareExercise=()=>{
+        this.props.onShare(this.state.id, !this.props.shared);
+    };
+
     render() {
-        const {title, type, questions, scores, answers, list} = this.props;
+        const {title, type, questions, scores, answers, list, isShared, isHost, shared} = this.props;
+
         let avg = 0;
         if (scores.length > 0) {
             let sum = scores.reduce(function (a, b) {
@@ -38,6 +43,24 @@ class Exercise extends Component {
             avg = sum / scores.length;
             avg= Math.round(avg * 100) / 100;
         }
+
+        let play= (<button type="button" className="play-button" onClick={this.playExercise}/>);
+        let edit= (<button type="button" className="edit-button" onClick={this.editExercise}/>);
+        let cross= (<button type="button" className="delete-button float-right" onClick={this.deleteExercise}/>);
+        let share="";
+
+        if(isShared && !isHost){
+            edit="";
+            cross="";
+        }
+
+        if(isShared && isHost){
+            let bg= "non-shared-exercise";
+            if(shared) bg="shared-exercise"
+            share=(<button type="button" className={"share-button "+ bg} onClick={this.shareExercise}/>);
+        }
+
+
 
         let length=0;
         if(type === "MCQ") length= questions.length;
@@ -52,9 +75,10 @@ class Exercise extends Component {
                         <p><FormattedMessage id={QUESTIONS}/>: {length}</p>
                         <p><FormattedMessage id={TYPE}/>: {type}</p>
                         <p><FormattedMessage id={AVERAGE_SCORE}/>: {avg}</p>
-                        <button type="button" className="play-button" onClick={this.playExercise}/>
-                        <button type="button" className="edit-button" onClick={this.editExercise}/>
-                        <button type="button" className="delete-button float-right" onClick={this.deleteExercise}/>
+                        {play}
+                        {edit}
+                        {cross}
+                        {share}
                     </div>
                 </div>
             </div>

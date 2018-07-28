@@ -1,21 +1,31 @@
 import React, {Component} from 'react';
-import Navbar from '../components/Navbar'
-import activity from 'lib/sugar-web/activity/activity'
-import env from 'lib/sugar-web/env'
 import {connect} from "react-redux"
-import {IntlProvider} from "react-intl";
 import {MemoryRouter as Router} from "react-router-dom";
+
+// Localization Dependencies
+import {IntlProvider} from "react-intl";
 import {addLocaleData} from "react-intl";
 import messages from "../translations/lang"
-import presencepalette from 'lib/sugar-web/graphics/presencepalette'
 import locale_en from 'react-intl/locale-data/en';
 import locale_fr from 'react-intl/locale-data/fr';
 import locale_es from 'react-intl/locale-data/es';
 
+// Sugarizer Dependencies
+import activity from 'lib/sugar-web/activity/activity'
+import env from 'lib/sugar-web/env'
+import presencepalette from 'lib/sugar-web/graphics/presencepalette'
+
+//Components
 import Main from "./Router";
+import Navbar from '../components/Navbar'
+
 import '../css/index.css';
+
+// actions
 import {setExercises} from "../store/actions/exercises";
 import {setExerciseCounter} from "../store/actions/increment_counter";
+import {setIsHost, setIsShared} from "../store/actions/presence";
+
 
 class Sugarizer extends Component {
 
@@ -26,12 +36,12 @@ class Sugarizer extends Component {
 
         this.language = navigator.language.split(/[-_]/)[0];
 
-        this.isHost= false;
-        this.presence= null;
+        this.isHost = false;
+        this.presence = null;
     }
 
     componentDidMount() {
-        const {setExercises, setExerciseCounter}= this.props;
+        const {setExercises, setExerciseCounter, setIsHost, setIsShared} = this.props;
         activity.setup();
 
         let currentenv;
@@ -55,18 +65,19 @@ class Sugarizer extends Component {
         });
 
         let palette = new presencepalette.PresencePalette(document.getElementById("network-button"), undefined);
-        palette.addEventListener('shared', function() {
+        palette.addEventListener('shared', function () {
             palette.popDown();
             console.log("Want to share");
-            temp.isHost = activity.getPresenceObject(function(error, network) {
+            temp.isHost = activity.getPresenceObject(function (error, network) {
                 if (error) {
                     console.log("Sharing error");
                     return;
                 }
-                network.createSharedActivity('org.sugarlabs.Demo', function(groupId) {
+                network.createSharedActivity('org.sugarlabs.Demo', function (groupId) {
                     console.log("Activity shared");
-                    temp.isHost= true;
-                    console.log("after sharing:"+ temp.isHost);
+                    setIsHost(true);
+                    setIsShared(true);
+                    console.log("after sharing:" + temp.isHost);
                 });
                 network.onDataReceived(temp.onNetworkDataReceived);
                 network.onSharedActivityUserChanged(temp.onNetworkUserChanged);
@@ -92,7 +103,7 @@ class Sugarizer extends Component {
         // }
     };
 
-    onNetworkUserChanged(msg){
+    onNetworkUserChanged(msg) {
         // if (this.isHost) {
         //     console.log("sending state");
         //     let isHost= this.isHost;
@@ -105,13 +116,13 @@ class Sugarizer extends Component {
         //         }
         //     });
         // }
-        console.log("User "+msg.user.name+" "+(msg.move === 1 ? "join": "leave"));
+        console.log("User " + msg.user.name + " " + (msg.move === 1 ? "join" : "leave"));
     };
 
     stopActivity() {
-        const {counter, exercises}= this.props;
+        const {counter, exercises} = this.props;
 
-        let json= {
+        let json = {
             counter: counter,
             exercises: exercises
         };
@@ -148,4 +159,9 @@ function MapStateToProps(state) {
     }
 }
 
-export default connect(MapStateToProps,{setExercises, setExerciseCounter})(Sugarizer);
+export default connect(MapStateToProps, {
+    setExercises,
+    setExerciseCounter,
+    setIsHost,
+    setIsShared
+})(Sugarizer);

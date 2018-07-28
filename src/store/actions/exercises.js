@@ -12,7 +12,7 @@ export const removeExercises= (id)=> ({
 
 export const addNewExercise= (exercise)=> ({
     type: ADD_NEW_EXERCISE,
-    exercise
+    exercise: {...exercise, shared:false}
 });
 
 export const editExercise= (exercise)=> ({
