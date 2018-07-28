@@ -25,6 +25,7 @@ import '../css/index.css';
 import {setExercises} from "../store/actions/exercises";
 import {setExerciseCounter} from "../store/actions/increment_counter";
 import {setIsHost, setIsShared} from "../store/actions/presence";
+import isHost from "../store/reducers/presence/isHost";
 
 
 class Sugarizer extends Component {
@@ -38,6 +39,8 @@ class Sugarizer extends Component {
 
         this.isHost = false;
         this.presence = null;
+        this.onNetworkDataReceived= this.onNetworkDataReceived.bind(this);
+        this.onNetworkUserChanged= this.onNetworkUserChanged.bind(this);
     }
 
     componentDidMount() {
@@ -62,22 +65,33 @@ class Sugarizer extends Component {
                     }
                 });
             }
+
+            if (environment.sharedId) {
+                console.log("Shared instance");
+                temp.presence = activity.getPresenceObject(function(error, network) {
+                    setIsShared(true);
+                    network.onDataReceived(temp.onNetworkDataReceived);
+                    network.onSharedActivityUserChanged(temp.onNetworkUserChanged);
+                });
+            }
         });
 
         let palette = new presencepalette.PresencePalette(document.getElementById("network-button"), undefined);
         palette.addEventListener('shared', function () {
             palette.popDown();
             console.log("Want to share");
-            temp.isHost = activity.getPresenceObject(function (error, network) {
+            temp.presence = activity.getPresenceObject(function (error, network) {
                 if (error) {
                     console.log("Sharing error");
                     return;
                 }
-                network.createSharedActivity('org.sugarlabs.Demo', function (groupId) {
+                network.createSharedActivity('org.sugarlabs.Exerciser', function (groupId) {
                     console.log("Activity shared");
                     setIsHost(true);
                     setIsShared(true);
-                    console.log("after sharing:" + temp.isHost);
+                    temp.isHost= true;
+                    console.log("after sharing:");
+                    console.log(temp.isHost);
                 });
                 network.onDataReceived(temp.onNetworkDataReceived);
                 network.onSharedActivityUserChanged(temp.onNetworkUserChanged);
@@ -86,37 +100,68 @@ class Sugarizer extends Component {
     }
 
     onNetworkDataReceived(msg) {
-        // if (this.isHost.getUserInfo().networkId === msg.user.networkId) {
-        //     return;
-        // }
-        // switch (msg.content.action) {
-        //     case 'init':
-        //         console.log("initial message");
-        //         console.log(msg.content.data);
-        //         this.setState(msg.content.data);
-        //         break;
-        //     case 'update':
-        //         console.log("update message");
-        //         console.log(msg.content.data);
-        //         this.setState(msg.content.data);
-        //         break;
-        // }
+        console.log("data recieved");
+        console.log("props are");
+
+        if (this.presence.getUserInfo().networkId === msg.user.networkId) {
+            console.log("fuck");
+            return;
+        }
+        switch (msg.content.action) {
+            case 'init':
+                console.log("initial message");
+                console.log(msg.content.data);
+                this.props.setExercises(msg.content.data.shared_exercises);
+                break;
+            case 'update':
+                console.log("update message");
+                console.log(msg.content.data);
+                this.props.setExercises(msg.content.data.shared_exercises);
+                break;
+        }
     };
 
-    onNetworkUserChanged(msg) {
-        // if (this.isHost) {
-        //     console.log("sending state");
-        //     let isHost= this.isHost;
-        //     let state= this.state;
-        //     isHost.sendMessage(isHost.getSharedInfo().id, {
-        //         user: isHost.getUserInfo(),
-        //         content: {
-        //             action: 'init',
-        //             data: state
-        //         }
-        //     });
-        // }
+    onNetworkUserChanged(msg){
+        if (this.isHost) {
+            console.log("data sent init");
+            console.log("props are");
+            console.log(this.presence);
+
+            const{shared_exercises}= this.props;
+            let data={
+                shared_exercises:shared_exercises
+            };
+            let presence= this.presence;
+            let isHost= this.isHost;
+            presence.sendMessage(presence.getSharedInfo().id, {
+                user: presence.getUserInfo(),
+                content: {
+                    action: 'init',
+                    data: data
+                }
+            });
+        }
         console.log("User " + msg.user.name + " " + (msg.move === 1 ? "join" : "leave"));
+    };
+
+    onExerciseUpdate=() =>{
+        console.log("data updated");
+        console.log("props are");
+        console.log(this.props);
+
+        const{shared_exercises}= this.props;
+        let data={
+            shared_exercises:shared_exercises
+        };
+        let presence= this.presence;
+        let isHost= this.isHost;
+        presence.sendMessage(presence.getSharedInfo().id, {
+            user: presence.getUserInfo(),
+            content: {
+                action: 'update',
+                data: data
+            }
+        });
     };
 
     stopActivity() {
@@ -144,7 +189,7 @@ class Sugarizer extends Component {
                 <Router>
                     <div className="App-container">
                         <Navbar onStop={() => this.stopActivity()}/>
-                        <Main/>
+                        <Main onUpdate={this.onExerciseUpdate}/>
                     </div>
                 </Router>
             </IntlProvider>
@@ -155,7 +200,9 @@ class Sugarizer extends Component {
 function MapStateToProps(state) {
     return {
         counter: state.exercise_counter,
-        exercises: state.exercises
+        exercises: state.exercises,
+        shared_exercises: state.shared_exercises,
+        isHost: state.isHost
     }
 }
 

@@ -16,6 +16,12 @@ class ExerciseList extends Component {
 
     }
 
+    componentWillReceiveProps(){
+        if(this.props.isShared && this.props.isHost){
+            this.props.onUpdate();
+        }
+    }
+
     onDelete = id => {
         this.props.removeExercises(id);
     };
@@ -39,9 +45,9 @@ class ExerciseList extends Component {
         this.props.editExercise(exercise);
 
         if(shared){
-            this.props.addSharedExercise(exercise)
+            this.props.addSharedExercise(exercise);
         }else{
-            this.props.removeSharedExercise(id)
+            this.props.removeSharedExercise(id);
         }
     };
 
@@ -90,7 +96,8 @@ function MapStateToProps(state) {
     return {
         counter: state.exercise_counter,
         isHost: state.isHost,
-        isShared: state.isShared
+        isShared: state.isShared,
+        exercises: state.exercises
     }
 }
 

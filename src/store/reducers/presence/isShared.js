@@ -1,6 +1,6 @@
 import {IS_SHARED} from "../../actionTypes";
 
-const isShared=(state = true, action)=> {
+const isShared=(state = false, action)=> {
     switch (action.type) {
         case IS_SHARED:
             return true;

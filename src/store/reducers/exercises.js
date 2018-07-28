@@ -1,7 +1,7 @@
 import {SET_ALL_EXERCISES, REMOVE_EXERCISE, ADD_NEW_EXERCISE, EDIT_EXERCISE, ADD_SCORE_TIME} from "../actionTypes";
 import exercise from "../../seed.json";
 
-const DEFAULT_STATE=exercise;
+const DEFAULT_STATE=[];
 
 const exercises = (state = DEFAULT_STATE, actions) => {
     switch (actions.type) {

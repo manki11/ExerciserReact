@@ -17,12 +17,12 @@ import {injectIntl, intlShape, FormattedRelative} from 'react-intl';
 
 import NewExerciseTemplate from "./Builders/Template";
 const Main= props=> {
-    const {exercises}= props;
+    const {onUpdate}= props;
 
     return(
         <div className="container">
             <Switch>
-                <Route exact path="/" render={props=> <ExerciseList exercises={exercises} {...props}/>}/>
+                <Route exact path="/" render={props=> <ExerciseList onUpdate={onUpdate} {...props}/>}/>
                 <Route exact path="/new" render={props=> <NewExerciseTemplate/>} {...props}/>
                 <Route exact path="/scores" render={props=> <Scores/>} {...props}/>
 
@@ -48,7 +48,7 @@ const Main= props=> {
 
 function MapStateToProps(state) {
     return {
-        exercises: state.exercises,
+
     }
 }
 
