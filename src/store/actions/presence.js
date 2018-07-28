@@ -1,13 +1,11 @@
 import {IS_HOST, IS_SHARED, GET_SHARED_EXERCISES, ADD_SHARED_EXERCISE} from "../actionTypes";
 
-export const setIsHost= (isHost)=> ({
+export const setIsHost= ()=> ({
     type: IS_HOST,
-    isHost
 });
 
-export const setIsShared= (isShared)=> ({
+export const setIsShared= ()=> ({
     type: IS_SHARED,
-    isShared
 });
 
 export const getSharedExercises= ()=>({

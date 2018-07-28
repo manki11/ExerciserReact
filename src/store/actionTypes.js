@@ -12,7 +12,7 @@ export const REMOVE_EXERCISE= "REMOVE_EXERCISE";
 export const INCREMENT_ID= "INCREMENT_ID";
 export const SET_COUNTER= "SET_COUNTER";
 
-// presence
+// isHost
 export const IS_HOST="IS_HOST";
 export const IS_SHARED="IS_SHARED";
 export const ADD_SHARED_EXERCISE="ADD_SHARED_EXERCISE";

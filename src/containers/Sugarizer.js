@@ -7,6 +7,7 @@ import {IntlProvider} from "react-intl";
 import {MemoryRouter as Router} from "react-router-dom";
 import {addLocaleData} from "react-intl";
 import messages from "../translations/lang"
+import presencepalette from 'lib/sugar-web/graphics/presencepalette'
 import locale_en from 'react-intl/locale-data/en';
 import locale_fr from 'react-intl/locale-data/fr';
 import locale_es from 'react-intl/locale-data/es';
@@ -57,7 +58,7 @@ class Sugarizer extends Component {
         palette.addEventListener('shared', function() {
             palette.popDown();
             console.log("Want to share");
-            temp.presence = activity.getPresenceObject(function(error, network) {
+            temp.isHost = activity.getPresenceObject(function(error, network) {
                 if (error) {
                     console.log("Sharing error");
                     return;
@@ -74,7 +75,7 @@ class Sugarizer extends Component {
     }
 
     onNetworkDataReceived(msg) {
-        // if (this.presence.getUserInfo().networkId === msg.user.networkId) {
+        // if (this.isHost.getUserInfo().networkId === msg.user.networkId) {
         //     return;
         // }
         // switch (msg.content.action) {
@@ -94,10 +95,10 @@ class Sugarizer extends Component {
     onNetworkUserChanged(msg){
         // if (this.isHost) {
         //     console.log("sending state");
-        //     let presence= this.presence;
+        //     let isHost= this.isHost;
         //     let state= this.state;
-        //     presence.sendMessage(presence.getSharedInfo().id, {
-        //         user: presence.getUserInfo(),
+        //     isHost.sendMessage(isHost.getSharedInfo().id, {
+        //         user: isHost.getUserInfo(),
         //         content: {
         //             action: 'init',
         //             data: state
