@@ -24,6 +24,9 @@ class Sugarizer extends Component {
         addLocaleData([...locale_en, ...locale_fr, ...locale_es]);
 
         this.language = navigator.language.split(/[-_]/)[0];
+
+        this.isHost= false;
+        this.presence= null;
     }
 
     componentDidMount() {
@@ -48,8 +51,61 @@ class Sugarizer extends Component {
                     }
                 });
             }
-        })
+        });
+
+        let palette = new presencepalette.PresencePalette(document.getElementById("network-button"), undefined);
+        palette.addEventListener('shared', function() {
+            palette.popDown();
+            console.log("Want to share");
+            temp.presence = activity.getPresenceObject(function(error, network) {
+                if (error) {
+                    console.log("Sharing error");
+                    return;
+                }
+                network.createSharedActivity('org.sugarlabs.Demo', function(groupId) {
+                    console.log("Activity shared");
+                    temp.isHost= true;
+                    console.log("after sharing:"+ temp.isHost);
+                });
+                network.onDataReceived(temp.onNetworkDataReceived);
+                network.onSharedActivityUserChanged(temp.onNetworkUserChanged);
+            });
+        });
     }
+
+    onNetworkDataReceived(msg) {
+        // if (this.presence.getUserInfo().networkId === msg.user.networkId) {
+        //     return;
+        // }
+        // switch (msg.content.action) {
+        //     case 'init':
+        //         console.log("initial message");
+        //         console.log(msg.content.data);
+        //         this.setState(msg.content.data);
+        //         break;
+        //     case 'update':
+        //         console.log("update message");
+        //         console.log(msg.content.data);
+        //         this.setState(msg.content.data);
+        //         break;
+        // }
+    };
+
+    onNetworkUserChanged(msg){
+        // if (this.isHost) {
+        //     console.log("sending state");
+        //     let presence= this.presence;
+        //     let state= this.state;
+        //     presence.sendMessage(presence.getSharedInfo().id, {
+        //         user: presence.getUserInfo(),
+        //         content: {
+        //             action: 'init',
+        //             data: state
+        //         }
+        //     });
+        // }
+        console.log("User "+msg.user.name+" "+(msg.move === 1 ? "join": "leave"));
+    };
 
     stopActivity() {
         const {counter, exercises}= this.props;
