@@ -24,7 +24,7 @@ import '../css/index.css';
 // actions
 import {setExercises} from "../store/actions/exercises";
 import {setExerciseCounter} from "../store/actions/increment_counter";
-import {setIsHost, setIsShared} from "../store/actions/presence";
+import {setIsHost, setIsShared, addUser, removeUser} from "../store/actions/presence";
 
 
 class Sugarizer extends Component {
@@ -140,6 +140,9 @@ class Sugarizer extends Component {
                 }
             });
         }
+
+        if(msg.move === 1) this.props.addUser(msg.user.name);
+        else this.props.removeUser(msg.user.name);
         console.log("User " + msg.user.name + " " + (msg.move === 1 ? "join" : "leave"));
     };
 
@@ -209,5 +212,7 @@ export default connect(MapStateToProps, {
     setExercises,
     setExerciseCounter,
     setIsHost,
-    setIsShared
+    setIsShared,
+    addUser,
+    removeUser
 })(Sugarizer);

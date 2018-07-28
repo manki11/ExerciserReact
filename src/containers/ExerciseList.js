@@ -66,8 +66,10 @@ class ExerciseList extends Component {
     };
 
     render() {
-        const {isHost, isShared} = this.props;
+        const {isHost, isShared, users} = this.props;
         let exercises = <p>Exercise List</p>;
+        let userList = "";
+        let userAdmin = "";
         if (this.props.exercises) {
             exercises = this.props.exercises.map((r, index) => (
                 <div className="col-md-6 exercise-div" key={r.id}>
@@ -83,15 +85,29 @@ class ExerciseList extends Component {
             ))
         }
 
+        if (this.props.isShared && this.props.isHost) {
+            console.log(users);
+            
+            userList = users.map((user, index) => (
+                <p key={index}>{user}</p>
+            ));
+
+            userAdmin = (
+                <div>
+                    <div className="user-container">
+                        <button data-tip data-for="users" className="user"/>
+                        <span className="badge badge-notify">{users.length}</span>
+                    </div>
+                    <ReactTooltip id="users" place="bottom" type="dark" effect="solid">
+                        {userList}
+                    </ReactTooltip>
+                </div>
+            )
+        }
+
         return (
             <div className="container">
-                <div className="user-container">
-                    <button data-tip data-for="users" className="user"/>
-                    <span className="badge badge-notify">3</span>
-                </div>
-                <ReactTooltip id="users" place="bottom" type="dark" effect="solid">
-
-                </ReactTooltip>
+                {userAdmin}
                 <div className="col-md-12">
                     {exercises}
                 </div>
@@ -105,7 +121,8 @@ function MapStateToProps(state) {
         counter: state.exercise_counter,
         isHost: state.isHost,
         isShared: state.isShared,
-        exercises: state.exercises
+        exercises: state.exercises,
+        users: state.users
     }
 }
 

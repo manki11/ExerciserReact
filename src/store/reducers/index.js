@@ -4,6 +4,7 @@ import exercise_counter from "./exercise_counter"
 import isHost from "./presence/isHost";
 import isShared from "./presence/isShared";
 import sharedExercises from "./presence/sharedExercises"
+import users from "./presence/users";
 
 
 const rootReducer = combineReducers({
@@ -11,7 +12,8 @@ const rootReducer = combineReducers({
     exercise_counter,
     isHost: isHost,
     isShared: isShared,
-    shared_exercises: sharedExercises
+    shared_exercises: sharedExercises,
+    users: users
 });
 
 export default rootReducer;
