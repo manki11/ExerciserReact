@@ -6,6 +6,7 @@ import '../css/ExerciseList.css';
 import ReactTooltip from "react-tooltip"
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
+import UserIcon from "../components/UserIcon";
 
 class ExerciseList extends Component {
 
@@ -87,18 +88,35 @@ class ExerciseList extends Component {
 
         if (this.props.isShared && this.props.isHost) {
             console.log(users);
-            
+
             userList = users.map((user, index) => (
-                <p key={index}>{user}</p>
+                <div className="user-list col-sm-12 row" key={index}>
+                    <span className="user-icon col-sm-4">
+                        <UserIcon
+                            width="90%"
+                            height="90%"
+                            stroke_color={user.colorvalue.stroke}
+                            fill_color={user.colorvalue.fill}/>
+                    </span>
+                    <span className="user-text col-sm-8">
+                        {user.name}
+                    </span>
+                </div>
             ));
 
             userAdmin = (
                 <div>
                     <div className="user-container">
-                        <button data-tip data-for="users" className="user"/>
+                        <button data-tip data-for="users" data-event='click' className="user">
+                            <UserIcon
+                                width="100%"
+                                height="100%"
+                                stroke_color="#FF00FF"
+                                fill_color="#00FF00"/>
+                        </button>
                         <span className="badge badge-notify">{users.length}</span>
                     </div>
-                    <ReactTooltip id="users" place="bottom" type="dark" effect="solid">
+                    <ReactTooltip className="tooltip-react" id="users" place="bottom" type="dark" effect="solid">
                         {userList}
                     </ReactTooltip>
                 </div>

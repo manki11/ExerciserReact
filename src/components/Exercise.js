@@ -62,10 +62,12 @@ class Exercise extends Component {
         if(isShared && isHost){
             let bg= "non-shared-exercise";
             if(shared) {
-                bg="shared-exercise"
+                bg="shared-exercise";
                 results=(<button type="button" className={"result-button"} onClick={this.result}/>);
             }
             share=(<button type="button" className={"share-button "+ bg} onClick={this.shareExercise}/>);
+            edit="";
+            cross="";
         }
 
 

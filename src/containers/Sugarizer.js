@@ -122,9 +122,8 @@ class Sugarizer extends Component {
 
     onNetworkUserChanged(msg){
         if (this.isHost) {
-            console.log("data sent init");
-            console.log("props are");
-            console.log(this.presence);
+            console.log(msg.user);
+
 
             const{shared_exercises}= this.props;
             let data={
@@ -141,8 +140,8 @@ class Sugarizer extends Component {
             });
         }
 
-        if(msg.move === 1) this.props.addUser(msg.user.name);
-        else this.props.removeUser(msg.user.name);
+        if(msg.move === 1) this.props.addUser(msg.user);
+        else this.props.removeUser(msg.user);
         console.log("User " + msg.user.name + " " + (msg.move === 1 ? "join" : "leave"));
     };
 
