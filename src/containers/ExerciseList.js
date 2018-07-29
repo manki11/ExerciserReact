@@ -89,8 +89,11 @@ class ExerciseList extends Component {
         if (this.props.isShared && this.props.isHost) {
             console.log(users);
 
-            userList = users.map((user, index) => (
-                <div className="user-list col-sm-12 row" key={index}>
+            userList = users.map((user, index) => {
+                console.log(user);
+                
+                return (
+                    <div className="user-list col-sm-12 row" key={index}>
                     <span className="user-icon col-sm-4">
                         <UserIcon
                             width="90%"
@@ -98,11 +101,22 @@ class ExerciseList extends Component {
                             stroke_color={user.colorvalue.stroke}
                             fill_color={user.colorvalue.fill}/>
                     </span>
-                    <span className="user-text col-sm-8">
+                        <span className="user-text col-sm-8">
                         {user.name}
                     </span>
-                </div>
-            ));
+                    </div>
+                )
+            });
+
+            let stroke = "#000000";
+            let fill = "#FFFFFF";
+
+            console.log(current_user);
+            if (current_user) {
+                stroke = current_user.colorvalue.stroke;
+                fill = current_user.colorvalue.fill;
+                console.log(stroke);
+            }
 
             userAdmin = (
                 <div>
@@ -111,8 +125,8 @@ class ExerciseList extends Component {
                             <UserIcon
                                 width="100%"
                                 height="100%"
-                                stroke_color={current_user.colorvalue.stroke}
-                                fill_color={current_user.colorvalue.fill}/>
+                                stroke_color={stroke}
+                                fill_color={fill}/>
                         </button>
                         <span className="badge badge-notify">{users.length}</span>
                     </div>
@@ -124,13 +138,15 @@ class ExerciseList extends Component {
         }
 
         return (
+
             <div className="container">
                 {userAdmin}
                 <div className="col-md-12">
                     {exercises}
                 </div>
             </div>
-        );
+        )
+            ;
     }
 }
 

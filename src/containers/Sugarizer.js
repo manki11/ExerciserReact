@@ -52,8 +52,14 @@ class Sugarizer extends Component {
         env.getEnvironment(function (err, environment) {
             currentenv = environment;
 
-            setUser(currentenv.user);
-
+            if(environment){
+                let user={
+                    name: environment.user.name,
+                    colorvalue: environment.user.colorvalue
+                };
+                setUser(user);
+            }
+            
             // Load from datastore
             if (!environment.objectId) {
                 console.log("New instance");
@@ -102,11 +108,8 @@ class Sugarizer extends Component {
     }
 
     onNetworkDataReceived(msg) {
-        console.log("data recieved");
-        console.log("props are");
 
         if (this.presence.getUserInfo().networkId === msg.user.networkId) {
-            console.log("fuck");
             return;
         }
         switch (msg.content.action) {
