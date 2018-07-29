@@ -67,7 +67,7 @@ class ExerciseList extends Component {
     };
 
     render() {
-        const {isHost, isShared, users} = this.props;
+        const {isHost, isShared, users, current_user} = this.props;
         let exercises = <p>Exercise List</p>;
         let userList = "";
         let userAdmin = "";
@@ -111,8 +111,8 @@ class ExerciseList extends Component {
                             <UserIcon
                                 width="100%"
                                 height="100%"
-                                stroke_color="#FF00FF"
-                                fill_color="#00FF00"/>
+                                stroke_color={current_user.colorvalue.stroke}
+                                fill_color={current_user.colorvalue.fill}/>
                         </button>
                         <span className="badge badge-notify">{users.length}</span>
                     </div>
@@ -140,7 +140,8 @@ function MapStateToProps(state) {
         isHost: state.isHost,
         isShared: state.isShared,
         exercises: state.exercises,
-        users: state.users
+        users: state.users,
+        current_user: state.current_user
     }
 }
 

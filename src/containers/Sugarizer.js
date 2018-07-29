@@ -23,6 +23,7 @@ import '../css/index.css';
 
 // actions
 import {setExercises} from "../store/actions/exercises";
+import {setUser} from "../store/actions/sugarizer";
 import {setExerciseCounter} from "../store/actions/increment_counter";
 import {setIsHost, setIsShared, addUser, removeUser} from "../store/actions/presence";
 
@@ -43,13 +44,15 @@ class Sugarizer extends Component {
     }
 
     componentDidMount() {
-        const {setExercises, setExerciseCounter, setIsHost, setIsShared} = this.props;
+        const {setExercises, setExerciseCounter, setIsHost, setIsShared, setUser} = this.props;
         activity.setup();
 
         let currentenv;
         let temp = this;
         env.getEnvironment(function (err, environment) {
             currentenv = environment;
+
+            setUser(currentenv.user);
 
             // Load from datastore
             if (!environment.objectId) {
@@ -213,5 +216,6 @@ export default connect(MapStateToProps, {
     setIsHost,
     setIsShared,
     addUser,
+    setUser,
     removeUser
 })(Sugarizer);
