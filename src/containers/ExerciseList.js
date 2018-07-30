@@ -66,6 +66,11 @@ class ExerciseList extends Component {
         }
     };
 
+    presenceResult= id => {
+        let exercise = this.props.shared_exercises.find(x => x.id === id);
+        this.props.history.push('/presence/scores',{exercise: exercise})
+    };
+
     render() {
         const {isHost, isShared, users, current_user} = this.props;
         let exercises = <p>Exercise List</p>;
@@ -81,6 +86,7 @@ class ExerciseList extends Component {
                         isHost={isHost}
                         isShared={isShared}
                         onShare={this.onShare}
+                        presenceResult={this.presenceResult}
                         {...r}/>
                 </div>
             ))
@@ -111,8 +117,7 @@ class ExerciseList extends Component {
             let stroke = "#000000";
             let fill = "#FFFFFF";
 
-            console.log(current_user);
-            if (current_user) {
+            if (current_user.colorvalue) {
                 stroke = current_user.colorvalue.stroke;
                 fill = current_user.colorvalue.fill;
                 console.log(stroke);
@@ -156,6 +161,7 @@ function MapStateToProps(state) {
         isHost: state.isHost,
         isShared: state.isShared,
         exercises: state.exercises,
+        shared_exercises: state.shared_exercises,
         users: state.users,
         current_user: state.current_user
     }

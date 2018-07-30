@@ -91,6 +91,10 @@ button:focus{
     border-radius: 20px;
 }
 
+button:disabled{
+    background-color: lightgrey!important;
+}
+
 
 
 .play-button:hover{

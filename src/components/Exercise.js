@@ -33,7 +33,7 @@ class Exercise extends Component {
     };
 
     result = () => {
-
+        this.props.presenceResult(this.state.id)
     };
 
     render() {
@@ -47,8 +47,8 @@ class Exercise extends Component {
         }
 
         let play = (<button type="button" className="play-button" onClick={this.playExercise}/>);
-        let edit = (<button type="button" className="edit-button" onClick={this.editExercise}/>);
-        let cross = (<button type="button" className="delete-button float-right" onClick={this.deleteExercise}/>);
+        let edit = (<button type="button" disabled={shared} className="edit-button" onClick={this.editExercise}/>);
+        let cross = (<button type="button" disabled={shared} className="delete-button float-right" onClick={this.deleteExercise}/>);
         let share = "";
         let results = "";
 
@@ -64,10 +64,6 @@ class Exercise extends Component {
                 results = (<button type="button" className={"result-button"} onClick={this.result}/>);
             }
             share = (<button type="button" className={"share-button " + bg} onClick={this.shareExercise}/>);
-            if (shared) {
-                edit = "";
-                cross = "";
-            }
         }
 
 
