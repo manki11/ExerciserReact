@@ -63,15 +63,16 @@ class Scores extends Component {
 
     componentDidMount() {
         if (this.props.location) {
-            const {userScore, userTime, noOfQuestions} = this.props.location.state;
+
+            const {userScore, userTime, noOfQuestions, exercise} = this.props.location.state;
             const {stroke, fill}= this.props.current_user.colorvalue;
-            console.log(this.props.current_user);
-            console.log(stroke);
-            
-            
 
             let score = userScore / noOfQuestions * 100;
             let time = Math.ceil(userTime / 60);
+
+            if(this.props.isShared){
+                this.props.onSharedResult(exercise.id, score, time);
+            }
 
             this.setState({
                 ...this.state,
@@ -121,11 +122,13 @@ class Scores extends Component {
             </div>
         )
     }
+
 }
 
 function MapStateToProps(state) {
     return {
-        current_user: state.current_user
+        current_user: state.current_user,
+        isShared: state.isShared
     }
 }
 

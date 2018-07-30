@@ -25,7 +25,7 @@ import '../css/index.css';
 import {setExercises} from "../store/actions/exercises";
 import {setUser} from "../store/actions/sugarizer";
 import {setExerciseCounter} from "../store/actions/increment_counter";
-import {setIsHost, setIsShared, addUser, removeUser} from "../store/actions/presence";
+import {setIsHost, setIsShared, addUser, removeUser, addSharedResult} from "../store/actions/presence";
 
 
 class Sugarizer extends Component {
@@ -124,6 +124,12 @@ class Sugarizer extends Component {
                 console.log(msg.content.data);
                 this.props.setExercises(msg.content.data.shared_exercises);
                 break;
+            case 'result':
+                if(this.isHost){
+                    console.log("result message");
+                    console.log(msg.content.result);
+                    this.props.addSharedResult(msg.content.result);
+                }
         }
     };
 
@@ -153,10 +159,6 @@ class Sugarizer extends Component {
     };
 
     onExerciseUpdate=() =>{
-        console.log("data updated");
-        console.log("props are");
-        console.log(this.props);
-
         const{shared_exercises}= this.props;
         let data={
             shared_exercises:shared_exercises
@@ -172,12 +174,29 @@ class Sugarizer extends Component {
         });
     };
 
+    onExerciseResult = (id, score, time)=>{
+        let presence= this.presence;
+        console.log("result sent");
+        presence.sendMessage(presence.getSharedInfo().id, {
+            user: presence.getUserInfo(),
+            content:{
+                action: 'result',
+                result: {
+                    user: presence.getUserInfo(),
+                    id:id,
+                    score: score,
+                    time: time
+                }
+            }
+        });
+    };
+
     stopActivity() {
         const {counter, exercises} = this.props;
 
         let json = {
             counter: counter,
-            exercises: exercises
+            exercises: exercises,
         };
 
         let jsonData = JSON.stringify(json);
@@ -197,12 +216,16 @@ class Sugarizer extends Component {
                 <Router>
                     <div className="App-container">
                         <Navbar onStop={() => this.stopActivity()}/>
-                        <Main onUpdate={this.onExerciseUpdate}/>
+                        <Main
+                            onUpdate={this.onExerciseUpdate}
+                            onSharedResult={this.onExerciseResult}
+                        />
                     </div>
                 </Router>
             </IntlProvider>
         );
     }
+
 }
 
 function MapStateToProps(state) {
@@ -221,5 +244,6 @@ export default connect(MapStateToProps, {
     setIsShared,
     addUser,
     setUser,
-    removeUser
+    removeUser,
+    addSharedResult
 })(Sugarizer);
