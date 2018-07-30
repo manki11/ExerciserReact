@@ -58,6 +58,7 @@ class Sugarizer extends Component {
                     colorvalue: environment.user.colorvalue
                 };
                 setUser(user);
+                temp.language= environment.user.language;
             }
             
             // Load from datastore
