@@ -19,7 +19,6 @@ class Scores extends Component {
         this.state = {
             chartData: {
                 labels: [
-                    intl.formatMessage({id: AVERAGE}),
                     "User"
                 ],
                 datasets: []
@@ -53,7 +52,6 @@ class Scores extends Component {
                         }
                     }],
                     xAxes: [{
-                        // Change here
                         barThickness: 50,
                         ticks: {
                             fontSize: 25
@@ -66,22 +64,10 @@ class Scores extends Component {
 
     componentDidMount() {
         if (this.props.location) {
-            const {scores, userScore, times, userTime, noOfQuestions} = this.props.location.state;
-            let avgScore = 0, avgTime = 0;
-            let sum = scores.reduce(function (a, b) {
-                return a + b;
-            });
-            avgScore = sum / scores.length;
-            avgScore = Math.round(avgScore);
-            avgScore = avgScore / noOfQuestions * 100;
+            const {userScore, userTime, noOfQuestions} = this.props.location.state;
+            const {stroke, fill}= this.props.current_user.colorvalue;
 
             let score = userScore / noOfQuestions * 100;
-
-            let timeSum = times.reduce(function (a, b) {
-                return a + b;
-            });
-            avgTime = timeSum / times.length;
-            avgTime = Math.ceil(avgTime / 60);
             let time = Math.ceil(userTime / 60);
 
             this.setState({
@@ -92,19 +78,17 @@ class Scores extends Component {
                         {
                             label: this.intl.formatMessage({id: SCORES}),
                             yAxisID: 'A',
-                            data: [avgScore, score],
+                            data: [score],
                             backgroundColor: [
-                                '#C0392B',
-                                '#C0392B',
+                                {fill},
                             ],
                         },
                         {
                             label: this.intl.formatMessage({id: TIME}),
                             yAxisID: 'B',
-                            data: [avgTime, time],
+                            data: [time],
                             backgroundColor: [
-                                '#2980B9',
-                                '#2980B9',
+                                {stroke},
                             ]
                         }]
                 }
@@ -141,7 +125,9 @@ class Scores extends Component {
 }
 
 function MapStateToProps(state) {
-    return {}
+    return {
+        current_user: state.current_user
+    }
 }
 
 export default injectIntl(withRouter(
