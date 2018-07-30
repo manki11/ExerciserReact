@@ -67,10 +67,14 @@ class Scores extends Component {
             const {userScore, userTime, noOfQuestions, exercise} = this.props.location.state;
             const {stroke, fill}= this.props.current_user.colorvalue;
 
-            let score = userScore / noOfQuestions * 100;
+            let score = Math.ceil(userScore / noOfQuestions * 100);
             let time = Math.ceil(userTime / 60);
 
-            if(this.props.isShared){
+            console.log("hi sending from scores");
+            console.log(this.props.isShared);
+
+
+            if (this.props.isShared) {
                 this.props.onSharedResult(exercise.id, score, time);
             }
 
