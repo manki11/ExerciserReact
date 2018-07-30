@@ -117,14 +117,14 @@ class PresenceScores extends Component {
                 ...this.state,
                 chartScores:{
                     chartData: {
-                        labels:[users],
+                        labels:users,
                         datasets: [
                             {
                                 label: this.intl.formatMessage({id: SCORES}),
                                 yAxisID: 'A',
-                                data: [scores],
-                                backgroundColor: [fills],
-                                borderColor:[strokes],
+                                data: scores,
+                                backgroundColor: fills,
+                                borderColor:strokes,
                                 borderWidth: 5
                             }]
                     }
