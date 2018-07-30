@@ -15,12 +15,11 @@ class Scores extends Component {
 
         let {intl} = this.props;
         this.intl = intl;
+        const {name}= this.props.current_user;
 
         this.state = {
             chartData: {
-                labels: [
-                    "User"
-                ],
+                labels: [name],
                 datasets: []
             },
             options: {
@@ -66,6 +65,10 @@ class Scores extends Component {
         if (this.props.location) {
             const {userScore, userTime, noOfQuestions} = this.props.location.state;
             const {stroke, fill}= this.props.current_user.colorvalue;
+            console.log(this.props.current_user);
+            console.log(stroke);
+            
+            
 
             let score = userScore / noOfQuestions * 100;
             let time = Math.ceil(userTime / 60);
@@ -79,17 +82,13 @@ class Scores extends Component {
                             label: this.intl.formatMessage({id: SCORES}),
                             yAxisID: 'A',
                             data: [score],
-                            backgroundColor: [
-                                {fill},
-                            ],
+                            backgroundColor: [fill],
                         },
                         {
                             label: this.intl.formatMessage({id: TIME}),
                             yAxisID: 'B',
                             data: [time],
-                            backgroundColor: [
-                                {stroke},
-                            ]
+                            backgroundColor: [stroke]
                         }]
                 }
             })
