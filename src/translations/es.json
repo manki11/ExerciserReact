@@ -1,8 +1,8 @@
 {
-  "Questions":"Preguntas",
+  "{number} Questions":"{number} Preguntas",
   "Type":"Tipo",
-  "Average Score":"Puntuación media",
-  "Build an exercise with questions and 4 option choices.":"Haga un ejercicio con preguntas y 4 opciones de opciones.",
+  "Best Score":"Mejor puntuación",
+  "Build an exercise with questions and option choices.":"Haga un ejercicio con preguntas y opciones de opciones.",
   "Build an exercise with questions that have blanks to be filled.":"Construya un ejercicio con preguntas que tengan espacios en blanco que llenar.",
   "Build an exercise with Jumbled Lists that need to be ordered.":"Construya un ejercicio con listas mezcladas que deben ordenarse.",
   "Choose":"Escoger",

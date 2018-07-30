@@ -52,7 +52,7 @@ class Sugarizer extends Component {
         env.getEnvironment(function (err, environment) {
             currentenv = environment;
 
-            if(environment){
+            if(environment.user){
                 let user={
                     name: environment.user.name,
                     colorvalue: environment.user.colorvalue

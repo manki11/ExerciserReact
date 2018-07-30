@@ -1,8 +1,8 @@
 {
-  "Questions":"Questions",
+  "{number} Questions":"{number} Questions",
   "Type":"Type",
-  "Average Score":"Average Score",
-  "Build an exercise with questions and 4 option choices.":"Build an exercise with questions and 4 option choices.",
+  "Best Score":"Best Score",
+  "Build an exercise with questions and option choices.":"Build an exercise with questions and option choices.",
   "Build an exercise with questions that have blanks to be filled.":"Build an exercise with questions that have blanks to be filled.",
   "Build an exercise with Jumbled Lists that need to be ordered.":"Build an exercise with Jumbled Lists that need to be ordered.",
   "Choose":"Choose",

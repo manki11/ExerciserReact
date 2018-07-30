@@ -1,8 +1,8 @@
 {
-  "Questions":"Des questions",
+  "{number} Questions":"{number} Des questions",
   "Type":"Type",
-  "Average Score":"Score moyen",
-  "Build an exercise with questions and 4 option choices.":"Construire un exercice avec des questions et 4 choix d'options.",
+  "Best Score":"Meilleur score",
+  "Build an exercise with questions and option choices.":"Construire un exercice avec des questions et choix d'options.",
   "Build an exercise with questions that have blanks to be filled.":"Construire un exercice avec des questions qui ont des blancs à remplir.",
   "Build an exercise with Jumbled Lists that need to be ordered.":"Construire un exercice avec des listes de Jumbled qui doivent être commandés.",
   "Choose":"Choisir",

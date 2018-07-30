@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../css/Exercise.css'
 import {FormattedMessage} from 'react-intl';
-import {QUESTIONS, AVERAGE_SCORE, TYPE} from "../containers/translation";
+import {QUESTIONS, BEST_SCORE} from "../containers/translation";
 
 
 class Exercise extends Component {
@@ -34,18 +34,16 @@ class Exercise extends Component {
 
     result = () => {
 
-    }
+    };
 
     render() {
         const {title, type, questions, scores, answers, list, isShared, isHost, shared} = this.props;
 
-        let avg = 0;
+        let highest = 0;
         if (scores.length > 0) {
-            let sum = scores.reduce(function (a, b) {
-                return a + b;
-            });
-            avg = sum / scores.length;
-            avg = Math.round(avg * 100) / 100;
+            scores.map((score) => {
+                if (highest < score) highest = score;
+            })
         }
 
         let play = (<button type="button" className="play-button" onClick={this.playExercise}/>);
@@ -83,9 +81,9 @@ class Exercise extends Component {
                 <div className="card">
                     <div className="exercise-card-content">
                         <h3 className="card-title">{title}</h3>
-                        <p><FormattedMessage id={QUESTIONS}/>: {length}</p>
-                        <p><FormattedMessage id={TYPE}/>: {type}</p>
-                        <p><FormattedMessage id={AVERAGE_SCORE}/>: {avg}</p>
+                        <p><FormattedMessage id={QUESTIONS} values={{number: length}}/></p>
+                        <p>{type}</p>
+                        <p><FormattedMessage id={BEST_SCORE}/>:{highest}</p>
                         {play}
                         {edit}
                         {cross}
@@ -96,6 +94,7 @@ class Exercise extends Component {
             </div>
         );
     }
+
 }
 
 export default Exercise;

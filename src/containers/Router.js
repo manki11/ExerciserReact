@@ -16,6 +16,7 @@ import {injectIntl, intlShape, FormattedRelative} from 'react-intl';
 
 
 import NewExerciseTemplate from "./Builders/Template";
+import PresenceScores from "./Scores/PresenceScores";
 const Main= props=> {
     const {onUpdate}= props;
 
@@ -40,6 +41,8 @@ const Main= props=> {
                 <Route exact path="/new/reorder" render={props=> <REORDERForm/>} {...props}/>
                 <Route exact path="/edit/reorder" render={props=> <REORDERForm/>} {...props}/>
                 <Route exact path="/play/reorder" render={props=> <REORDERPlay/>} {...props}/>
+
+                <Route exact path="/presence/scores" render={props=> <PresenceScores/>} {...props}/>
 
             </Switch>
         </div>
