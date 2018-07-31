@@ -1,0 +1,26 @@
+.score-button{
+    width: 40px;
+    height: 40px;
+    background-image: url("../icons/exercise/percent.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 20px;
+}
+
+.score-button:hover{
+    background-color: lightskyblue!important;
+    border: 2px solid transparent!important;
+}
+
+.time-button{
+    width: 40px;
+    height: 40px;
+    background-image: url("../icons/exercise/clock.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 20px;
+}
+
+.active{
+    background-color: deepskyblue;
+}
