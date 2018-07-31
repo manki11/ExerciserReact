@@ -21,6 +21,11 @@
     border-radius: 20px;
 }
 
+.time-button:hover{
+    background-color: lightskyblue!important;
+    border: 2px solid transparent!important;
+}
+
 .active{
     background-color: deepskyblue;
 }
