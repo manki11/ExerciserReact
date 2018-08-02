@@ -167,12 +167,11 @@ class ExerciseList extends Component {
         }
 
         return (
-
             <div>
                 {userIcon}
                 {userAdmin}
                 <div className="exercise-list-container">
-                    <div className="col-md-12">
+                    <div className="col-md-10 mx-auto">
                         {exercises}
                     </div>
                 </div>
