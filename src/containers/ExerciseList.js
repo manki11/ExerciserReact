@@ -124,7 +124,7 @@ class ExerciseList extends Component {
                     <div className="user-list col-sm-12 row" key={index}>
                         <div className="user-icon col-sm-4">
                             <UserIcon
-                                width="40%"
+                                width="60%"
                                 height="80%"
                                 stroke_color={user.colorvalue.stroke}
                                 fill_color={user.colorvalue.fill}/>

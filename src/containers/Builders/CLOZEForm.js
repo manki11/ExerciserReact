@@ -341,7 +341,7 @@ class CLOZEForm extends Component {
             cloze_error = <span style={{color: "red"}}>Cloze field can't be empty</span>;
         }
         return (
-            <div>
+            <div className="container">
                 <div className="container-fluid">
                     <div className="row align-items-center justify-content-center">
                         <div className="col-sm-10">

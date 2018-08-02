@@ -349,6 +349,7 @@ class MCQForm extends Component {
         }
 
         return (
+            <div className="container">
             <div className="container-fluid">
                 <div className="row align-items-center justify-content-center">
                     <div className="col-sm-10">
@@ -440,6 +441,7 @@ class MCQForm extends Component {
                         </div>
                     </div>
                 </div>
+            </div>
             </div>
         )
     }

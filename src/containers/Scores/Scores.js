@@ -115,6 +115,7 @@ class Scores extends Component {
 
     render() {
         return (
+            <div className="container">
             <div className="container-fluid">
                 <Bar
                     data={this.state.chartData}
@@ -123,6 +124,7 @@ class Scores extends Component {
                 <div className="row button-container">
                     <button className="button-redo" onClick={this.redo}/>
                 </div>
+            </div>
             </div>
         )
     }

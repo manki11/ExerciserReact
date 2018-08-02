@@ -26,7 +26,7 @@ class Template extends Component {
     render() {
         return (
             <div className="container">
-                <div className="container">
+                <div className="col-md-10 mx-auto">
                     <div className="d-flex h-100">
                         <div className="row justify-content-center align-self-center">
                             <div className="col-sm-4">
