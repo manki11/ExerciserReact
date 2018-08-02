@@ -115,7 +115,7 @@ class Scores extends Component {
 
     render() {
         return (
-            <div>
+            <div className="container-fluid">
                 <Bar
                     data={this.state.chartData}
                     options={this.state.options}

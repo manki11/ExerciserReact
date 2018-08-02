@@ -226,7 +226,7 @@ class PresenceScores extends Component {
             chart= (<Bar data={this.state.chartTimes.chartData} options={this.state.chartTimes.options}/>);
 
         return (
-            <div>
+            <div className="container-fluid">
                 <div className="row">
                     {score}
                     {time}

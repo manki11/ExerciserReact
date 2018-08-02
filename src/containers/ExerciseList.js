@@ -3,7 +3,6 @@ import Exercise from '../components/Exercise';
 import {removeExercises, editExercise} from '../store/actions/exercises';
 import {addSharedExercise, removeSharedExercise} from "../store/actions/presence";
 import '../css/ExerciseList.css';
-import {slide as Menu} from 'react-burger-menu'
 import UserList from "../components/UserList"
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
