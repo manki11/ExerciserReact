@@ -3,7 +3,8 @@ import Exercise from '../components/Exercise';
 import {removeExercises, editExercise} from '../store/actions/exercises';
 import {addSharedExercise, removeSharedExercise} from "../store/actions/presence";
 import '../css/ExerciseList.css';
-import ReactTooltip from "react-tooltip"
+import {slide as Menu} from 'react-burger-menu'
+import UserList from "../components/UserList"
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import UserIcon from "../components/UserIcon";
@@ -12,7 +13,20 @@ class ExerciseList extends Component {
 
     constructor(props) {
         super(props);
+        this.state={
+            menuOpen: false
+        }
     }
+
+    handleStateChange = (state) => {
+        console.log("state change");
+        this.setState({menuOpen: state.isOpen})
+    };
+
+    toggleMenu = () => {
+        console.log("button click");
+        this.setState({menuOpen: !this.state.menuOpen})
+    };
 
     componentDidMount() {
 
@@ -66,9 +80,9 @@ class ExerciseList extends Component {
         }
     };
 
-    presenceResult= id => {
+    presenceResult = id => {
         let exercise = this.props.shared_exercises.find(x => x.id === id);
-        this.props.history.push('/presence/scores',{exercise: exercise})
+        this.props.history.push('/presence/scores', {exercise: exercise})
     };
 
     render() {
@@ -92,62 +106,75 @@ class ExerciseList extends Component {
             ))
         }
 
+        let stroke = "#000000";
+        let fill = "#FFFFFF";
+
+        if (current_user.colorvalue) {
+            stroke = current_user.colorvalue.stroke;
+            fill = current_user.colorvalue.fill;
+        }
+
+        let userIcon="";
+
         if (this.props.isShared && this.props.isHost) {
             console.log(users);
 
             userList = users.map((user, index) => {
                 console.log(user);
-                
                 return (
                     <div className="user-list col-sm-12 row" key={index}>
-                    <span className="user-icon col-sm-4">
-                        <UserIcon
-                            width="90%"
-                            height="90%"
-                            stroke_color={user.colorvalue.stroke}
-                            fill_color={user.colorvalue.fill}/>
-                    </span>
-                        <span className="user-text col-sm-8">
-                        {user.name}
-                    </span>
+                        <div className="user-icon col-sm-4">
+                            <UserIcon
+                                width="40%"
+                                height="80%"
+                                stroke_color={user.colorvalue.stroke}
+                                fill_color={user.colorvalue.fill}/>
+                        </div>
+                        <div className="user-text col-sm-8">
+                            {user.name}
+                        </div>
                     </div>
                 )
             });
 
-            let stroke = "#000000";
-            let fill = "#FFFFFF";
+            userIcon = (
+                <div className="user-container">
+                    <button className="user" onClick={() => this.toggleMenu()}>
+                        <UserIcon
+                            width="100%"
+                            height="100%"
+                            stroke_color={stroke}
+                            fill_color={fill}/>
+                    </button>
+                    <span className="badge badge-notify">{users.length}</span>
+                </div>
+            );
 
-            if (current_user.colorvalue) {
-                stroke = current_user.colorvalue.stroke;
-                fill = current_user.colorvalue.fill;
-                console.log(stroke);
-            }
+            console.log("menu"+this.state.menuOpen);
+
 
             userAdmin = (
                 <div>
-                    <div className="user-container">
-                        <button data-tip data-for="users" data-event='click' className="user">
-                            <UserIcon
-                                width="100%"
-                                height="100%"
-                                stroke_color={stroke}
-                                fill_color={fill}/>
-                        </button>
-                        <span className="badge badge-notify">{users.length}</span>
-                    </div>
-                    <ReactTooltip className="tooltip-react" id="users" place="bottom" type="dark" effect="solid">
-                        {userList}
-                    </ReactTooltip>
+                    <UserList
+                        isOpen={this.state.menuOpen}
+                        onStateChange={(state) => this.handleStateChange(state)}
+                        userList={userList}
+                        stroke={stroke}
+                        fill={fill}
+                    />
                 </div>
             )
         }
 
         return (
 
-            <div className="container">
+            <div>
+                {userIcon}
                 {userAdmin}
-                <div className="col-md-12">
-                    {exercises}
+                <div className="exercise-list-container">
+                    <div className="col-md-12">
+                        {exercises}
+                    </div>
                 </div>
             </div>
         )

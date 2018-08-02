@@ -21,7 +21,7 @@ const Main= props=> {
     const {onUpdate, onSharedResult}= props;
 
     return(
-        <div className="container">
+        <div>
             <Switch>
                 <Route exact path="/" render={props=> <ExerciseList onUpdate={onUpdate} {...props}/>}/>
                 <Route exact path="/new" render={props=> <NewExerciseTemplate/>} {...props}/>

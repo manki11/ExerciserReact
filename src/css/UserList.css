@@ -1,7 +1,38 @@
-.exercise-div{
+/* Position and sizing of burger button */
+.bm-burger-button {
+    position: fixed;
+    width: 36px;
+    height: 30px;
+    right: 50px;
+    top: 100px;
+}
+
+/* Color/shape of burger icon bars */
+.bm-burger-bars {
+    background: #373a47;
+}
+
+/* General sidebar styles */
+.bm-menu {
+    padding: 2.5em 1.5em 0;
+    font-size: 1.15em;
+}
+
+/* Wrapper for item list */
+.bm-item-list {
+    color: #b8b7ad;
+    padding: 0.8em;
+}
+
+/* Individual item */
+.bm-item {
     display: inline-block;
 }
 
+/* Styling of overlay */
+.bm-overlay {
+    background: rgba(0, 0, 0, 0.3);
+}
 
 .user{
     width: 70px;
@@ -20,6 +51,7 @@
     max-width: 50px;
     padding: 0!important;
     max-height: 50px;
+    display: inline-block;
 }
 
 .user-container{
@@ -32,14 +64,10 @@
 .user-text{
     min-height: 40px!important;
     margin-bottom: 10px;
-    font-size: 20px;
-    vertical-align: center;
-}
-
-.tooltip-react{
-    max-width: 200px;
-    padding-left: 0;
-    padding-right: 0;
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 25px
 }
 
 .badge-notify{
@@ -58,9 +86,3 @@
     line-height: 50px;
     height: 100%;
 }
-
-.exercise-list-container{
-    margin: 0!important;
-    padding: 3%!important;
-}
-
