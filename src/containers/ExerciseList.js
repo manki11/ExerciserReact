@@ -138,13 +138,7 @@ class ExerciseList extends Component {
 
             userIcon = (
                 <div className="user-container">
-                    <button className="user" onClick={() => this.toggleMenu()}>
-                        <UserIcon
-                            width="100%"
-                            height="100%"
-                            stroke_color={stroke}
-                            fill_color={fill}/>
-                    </button>
+                    <button className="user user-list-button" onClick={() => this.toggleMenu()}/>
                     <span className="badge badge-notify">{users.length}</span>
                 </div>
             );

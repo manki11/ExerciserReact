@@ -3,14 +3,6 @@
 }
 
 
-.user{
-    width: 70px;
-    height: 70px;
-    background-repeat: no-repeat;
-    border-radius: 30px;
-    background-color: transparent;
-}
-
 .user:hover{
     background-color: transparent;
     border-color: transparent;
@@ -47,8 +39,8 @@
     position:relative;
     color: white;
     font-size: 15px!important;
-    top: -50px;
-    left: -30px;
+    top: -45px;
+    left: -25px;
 }
 
 .user-list{
@@ -62,5 +54,15 @@
 .exercise-list-container{
     margin: 0!important;
     padding: 3%!important;
+}
+
+.user-list-button{
+    width: 50px;
+    height: 50px;
+    background-image: url("../icons/navbar/zoom-neighborhood.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 25px;
+    background-color: black!important;
 }
 
