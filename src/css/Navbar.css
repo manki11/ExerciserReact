@@ -52,7 +52,7 @@
     border-radius: 5.5px;
 }
 
-.main-toolbar{
+.toolbar{
     position: fixed;
     z-index: 1000;
     width: 100%;

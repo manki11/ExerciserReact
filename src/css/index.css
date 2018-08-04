@@ -29,6 +29,6 @@ body {
 }
 
 .main-container{
-    overflow-x: scroll;
+    overflow-y: auto;
     margin-top: 50px;
 }
