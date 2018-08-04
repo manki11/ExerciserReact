@@ -28,7 +28,7 @@
 .background-mcq{
     background: url("../images/mcq_image.jpg");
     background-repeat: no-repeat;
-    background-size: contain;
+    background-size: cover;
 }
 
 .background-cloze{

@@ -12,7 +12,8 @@ import MCQPlay from "./Players/MCQPlayer";
 import CLOZEPlay from "./Players/CLOZEPlayer";
 import REORDERPlay from "./Players/REORDERPlayer"
 
-import {injectIntl, intlShape, FormattedRelative} from 'react-intl';
+import {injectIntl} from 'react-intl';
+import '../css/index.css';
 
 
 import NewExerciseTemplate from "./Builders/Template";
@@ -21,7 +22,7 @@ const Main= props=> {
     const {onUpdate, onSharedResult}= props;
 
     return(
-        <div>
+        <div className="main-container">
             <Switch>
                 <Route exact path="/" render={props=> <ExerciseList onUpdate={onUpdate} {...props}/>}/>
                 <Route exact path="/new" render={props=> <NewExerciseTemplate/>} {...props}/>
