@@ -75,7 +75,7 @@ class Exercise extends Component {
             localized_type= MCQ;
         }
         if (type === "CLOZE") {
-            ength = answers.length;
+            length = answers.length;
             localized_type= CLOZE_TEXT;
         }
         if (type === "REORDER") {

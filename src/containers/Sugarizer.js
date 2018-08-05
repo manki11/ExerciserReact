@@ -167,7 +167,6 @@ class Sugarizer extends Component {
 
     onExerciseResult = (id, score, time)=>{
         let presence= this.presence;
-        // console.log("result sent");
         presence.sendMessage(presence.getSharedInfo().id, {
             user: presence.getUserInfo(),
             content:{

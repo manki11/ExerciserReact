@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import {addScore} from "../../store/actions/exercises";
 import {injectIntl} from 'react-intl';
 import {SCORES, TIME, YOUR_RESULTS} from "../translation";
+import "../../css/PresenceScores.css"
 import "../../css/Scores.css"
 
 
@@ -15,90 +16,135 @@ class Scores extends Component {
 
         let {intl} = this.props;
         this.intl = intl;
-        const {name}= this.props.current_user;
 
         this.state = {
-            chartData: {
-                labels: [name],
-                datasets: []
-            },
-            options: {
-                title: {
-                    display: true,
-                    text: intl.formatMessage({id: YOUR_RESULTS}),
-                    fontSize: 40
-                },
-                legend: {
-                    position: 'right'
-                },
-                scales: {
-                    yAxes: [{
-                        id: 'A',
-                        type: 'linear',
-                        position: 'left',
-                        ticks: {
-                            beginAtZero: true,
-                            min: 0,
-                            max: 100
-                        }
-                    }, {
-                        id: 'B',
-                        type: 'linear',
-                        position: 'right',
-                        ticks: {
-                            beginAtZero: true,
-                            min: 0,
-                            max: 10,
-                            gridLines: {
-                                drawTicks: false,
+            score: true,
+            time: false,
+            chartScores: {
+                chartData: {},
+                options: {
+                    title: {
+                        display: true,
+                        text: intl.formatMessage({id: YOUR_RESULTS}),
+                        fontSize: 40
+                    },
+                    legend: {
+                        display: false,
+                        position: 'right'
+                    },
+                    scales: {
+                        yAxes: [{
+                            id: 'A',
+                            type: 'linear',
+                            position: 'left',
+                            ticks: {
+                                beginAtZero: true,
+                                min: 0,
+                                max: 100
                             }
-                        }
-                    }],
-                    xAxes: [{
-                        barThickness: 50,
-                        ticks: {
-                            fontSize: 25
-                        }
-                    }]
+                        }],
+                        xAxes: [{
+                            barThickness: 30,
+                            ticks: {
+                                fontSize: 15
+                            }
+                        }]
+                    }
                 }
+            },
+            chartTimes: {
+                chartData: {},
+                options: {
+                    title: {
+                        display: true,
+                        text: intl.formatMessage({id: YOUR_RESULTS}),
+                        fontSize: 40
+                    },
+                    legend: {
+                        display: false,
+                        position: 'right'
+                    },
+                    scales: {
+                        yAxes: [{
+                            id: 'A',
+                            type: 'linear',
+                            position: 'left',
+                            ticks: {
+                                beginAtZero: true,
+                                min: 0,
+                                max: 10,
+                                gridLines: {
+                                    drawTicks: false,
+                                }
+                            }
+                        }],
+                        xAxes: [{
+                            barThickness: 30,
+                            ticks: {
+                                fontSize: 15
+                            }
+                        }]
+                    }
+                }
+
             }
         }
     }
 
     componentDidMount() {
         if (this.props.location) {
+            this.setChart();
+        }
+    }
 
-            const {userScore, userTime, noOfQuestions, exercise} = this.props.location.state;
-            const {stroke, fill}= this.props.current_user.colorvalue;
+    setChart = () => {
+        const {userScore, userTime, noOfQuestions, exercise} = this.props.location.state;
+        const {stroke, fill} = this.props.current_user.colorvalue;
 
-            let score = Math.ceil(userScore / noOfQuestions * 100);
-            let time = Math.ceil(userTime / 60);
+        let score = Math.ceil(userScore / noOfQuestions * 100);
+        let time = Math.ceil(userTime / 60);
 
-            if (this.props.isShared) {
-                this.props.onSharedResult(exercise.id, score, time);
-            }
+        if (this.props.isShared) {
+            this.props.onSharedResult(exercise.id, score, time);
+        }
+        const {name} = this.props.current_user;
 
-            this.setState({
-                ...this.state,
+        this.setState({
+            ...this.state,
+            chartScores: {
+                ...this.state.chartScores,
                 chartData: {
-                    ...this.state.chartData,
+                    labels: [name],
                     datasets: [
                         {
                             label: this.intl.formatMessage({id: SCORES}),
                             yAxisID: 'A',
                             data: [score],
-                            backgroundColor: [fill],
-                        },
-                        {
-                            label: this.intl.formatMessage({id: TIME}),
-                            yAxisID: 'B',
-                            data: [time],
-                            backgroundColor: [stroke]
+                            backgroundColor: fill,
+                            borderColor: stroke,
+                            borderWidth: 5
                         }]
                 }
-            })
-        }
-    }
+            },
+            chartTimes: {
+                ...this.state.chartTimes,
+                chartData: {
+                    labels: [name],
+                    datasets: [
+                        {
+                            label: this.intl.formatMessage({id: TIME}),
+                            yAxisID: 'A',
+                            data: [time],
+                            backgroundColor: fill,
+                            borderColor: stroke,
+                            borderWidth: 5
+                        }]
+                }
+            }
+
+        })
+
+    };
 
     redo = () => {
         const {type, exercise} = this.props.location.state;
@@ -113,18 +159,52 @@ class Scores extends Component {
         }
     };
 
+    score = () => {
+        this.setState({
+            score: true,
+            time: false
+        }, () => {
+            this.setChart();
+        })
+    };
+
+    time = () => {
+        this.setState({
+            score: false,
+            time: true
+        }, () => {
+            this.setChart();
+        })
+    };
+
     render() {
+        let score_active = "";
+        let time_active = "";
+
+        if (this.state.score)
+            score_active = "active";
+        else
+            time_active = "active";
+
+        let score = (<button type="button" className={"score-button " + score_active} onClick={this.score}/>);
+        let time = (<button type="button" className={"time-button " + time_active} onClick={this.time}/>);
+
+        let chart = "";
+
+        if (this.state.score)
+            chart = (<Bar data={this.state.chartScores.chartData} options={this.state.chartScores.options}/>);
+        else
+            chart = (<Bar data={this.state.chartTimes.chartData} options={this.state.chartTimes.options}/>);
+
         return (
             <div className="container">
-            <div className="container-fluid">
-                <Bar
-                    data={this.state.chartData}
-                    options={this.state.options}
-                />
-                <div className="row button-container">
-                    <button className="button-redo" onClick={this.redo}/>
+                <div className="container-fluid">
+                    <div className="row">
+                        {score}
+                        {time}
+                        {chart}
+                    </div>
                 </div>
-            </div>
             </div>
         )
     }
