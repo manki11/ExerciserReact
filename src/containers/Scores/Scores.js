@@ -3,8 +3,8 @@ import {Bar, Line, Pie} from 'react-chartjs-2';
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import {addScore} from "../../store/actions/exercises";
-import {injectIntl, intlShape, FormattedRelative} from 'react-intl';
-import {SCORES, TIME, YOUR_RESULTS, AVERAGE} from "../translation";
+import {injectIntl} from 'react-intl';
+import {SCORES, TIME, YOUR_RESULTS} from "../translation";
 import "../../css/Scores.css"
 
 
@@ -47,7 +47,11 @@ class Scores extends Component {
                         position: 'right',
                         ticks: {
                             beginAtZero: true,
-                            min: 0
+                            min: 0,
+                            max: 10,
+                            gridLines: {
+                                drawTicks: false,
+                            }
                         }
                     }],
                     xAxes: [{
