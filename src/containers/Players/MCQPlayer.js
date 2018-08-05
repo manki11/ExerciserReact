@@ -202,7 +202,7 @@ class MCQPlayer extends Component {
         }
 
         return (
-            <div className="container-fluid">
+            <div className="container">
                 <div className="row align-items-center justify-content-center">
                     <div className="col-sm-10">
                         <div className="col-md-12">
