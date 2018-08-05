@@ -3,7 +3,15 @@ import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import "../../css/NewExerciseTemplate.css"
 import {FormattedMessage} from 'react-intl';
-import {MCQ_TEMPLATE_STRING, CLOZE_TEMPLATE_STRING, REORDER_TEMPLATE_STRING, CHOOSE} from "../translation";
+import {
+    MCQ_TEMPLATE_STRING,
+    CLOZE_TEMPLATE_STRING,
+    REORDER_TEMPLATE_STRING,
+    CHOOSE,
+    CLOZE_TEXT,
+    MCQ,
+    REORDER_LIST, TITLE_OF_EXERCISE
+} from "../translation";
 
 class Template extends Component {
 
@@ -35,7 +43,7 @@ class Template extends Component {
                                         <div className="card-img-top background-mcq"/>
                                     </div>
                                     <div className="card-body">
-                                        <h5 className="card-title">MCQ</h5>
+                                        <h5 className="card-title"><FormattedMessage id={MCQ}/></h5>
                                         <p className="card-text">
                                             <FormattedMessage id={MCQ_TEMPLATE_STRING}/>
                                         </p>
@@ -51,7 +59,7 @@ class Template extends Component {
                                         <div className="card-img-top background-cloze"/>
                                     </div>
                                     <div className="card-body">
-                                        <h5 className="card-title">CLOZE TEXT</h5>
+                                        <h5 className="card-title"><FormattedMessage id={CLOZE_TEXT}/></h5>
                                         <p className="card-text">
                                             <FormattedMessage id={CLOZE_TEMPLATE_STRING}/>
                                         </p>
@@ -67,7 +75,7 @@ class Template extends Component {
                                         <div className="card-img-top background-reorder"/>
                                     </div>
                                     <div className="card-body">
-                                        <h5 className="card-title">REORDER LIST</h5>
+                                        <h5 className="card-title"><FormattedMessage id={REORDER_LIST}/></h5>
                                         <p className="card-text">
                                             <FormattedMessage id={REORDER_TEMPLATE_STRING}/>
                                         </p>

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../css/Exercise.css'
 import {FormattedMessage} from 'react-intl';
-import {QUESTIONS, BEST_SCORE} from "../containers/translation";
+import {QUESTIONS, BEST_SCORE, MCQ, REORDER_LIST, CLOZE_TEXT} from "../containers/translation";
 
 
 class Exercise extends Component {
@@ -68,9 +68,20 @@ class Exercise extends Component {
 
 
         let length = 0;
-        if (type === "MCQ") length = questions.length;
-        if (type === "CLOZE") length = answers.length;
-        if (type === "REORDER") length = list.length;
+        let localized_type="";
+
+        if (type === "MCQ") {
+            length = questions.length;
+            localized_type= MCQ;
+        }
+        if (type === "CLOZE") {
+            ength = answers.length;
+            localized_type= CLOZE_TEXT;
+        }
+        if (type === "REORDER") {
+            length = list.length;
+            localized_type= REORDER_LIST;
+        }
 
         return (
             <div className="col-md-12">
@@ -78,7 +89,7 @@ class Exercise extends Component {
                     <div className="exercise-card-content">
                         <h3 className="card-title">{title}</h3>
                         <p><FormattedMessage id={QUESTIONS} values={{number: length}}/></p>
-                        <p>{type}</p>
+                        <p><FormattedMessage id={localized_type}/></p>
                         <p><FormattedMessage id={BEST_SCORE}/>:{highest}</p>
                         {play}
                         {edit}
