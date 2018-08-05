@@ -63,11 +63,11 @@ class Sugarizer extends Component {
             
             // Load from datastore
             if (!environment.objectId) {
-                console.log("New instance");
+                // console.log("New instance");
             } else {
                 activity.getDatastoreObject().loadAsText(function (error, metadata, data) {
                     if (error === null && data !== null) {
-                        console.log("object found!");
+                        // console.log("object found!");
                         let json = JSON.parse(data);
                         setExercises(json.exercises);
                         setExerciseCounter(json.counter);
@@ -76,7 +76,7 @@ class Sugarizer extends Component {
             }
 
             if (environment.sharedId) {
-                console.log("Shared instance");
+                // console.log("Shared instance");
                 temp.presence = activity.getPresenceObject(function(error, network) {
                     setIsShared(true);
                     network.onDataReceived(temp.onNetworkDataReceived);
@@ -88,19 +88,18 @@ class Sugarizer extends Component {
         let palette = new presencepalette.PresencePalette(document.getElementById("network-button"), undefined);
         palette.addEventListener('shared', function () {
             palette.popDown();
-            console.log("Want to share");
+            // console.log("Want to share");
             temp.presence = activity.getPresenceObject(function (error, network) {
                 if (error) {
-                    console.log("Sharing error");
+                    // console.log("Sharing error");
                     return;
                 }
                 network.createSharedActivity('org.sugarlabs.Exerciser', function (groupId) {
-                    console.log("Activity shared");
+                    // console.log("Activity shared");
                     setIsHost(true);
                     setIsShared(true);
                     temp.isHost= true;
-                    console.log("after sharing:");
-                    console.log(temp.isHost);
+                    // console.log("after sharing:");
                 });
                 network.onDataReceived(temp.onNetworkDataReceived);
                 network.onSharedActivityUserChanged(temp.onNetworkUserChanged);
@@ -115,19 +114,13 @@ class Sugarizer extends Component {
         }
         switch (msg.content.action) {
             case 'init':
-                console.log("initial message");
-                console.log(msg.content.data);
                 this.props.setExercises(msg.content.data.shared_exercises);
                 break;
             case 'update':
-                console.log("update message");
-                console.log(msg.content.data);
                 this.props.setExercises(msg.content.data.shared_exercises);
                 break;
             case 'result':
                 if(this.isHost){
-                    console.log("result message");
-                    console.log(msg.content.result);
                     this.props.addSharedResult(msg.content.result);
                 }
         }
@@ -135,8 +128,6 @@ class Sugarizer extends Component {
 
     onNetworkUserChanged(msg){
         if (this.isHost) {
-            console.log(msg.user);
-
 
             const{shared_exercises}= this.props;
             let data={
@@ -155,7 +146,7 @@ class Sugarizer extends Component {
 
         if(msg.move === 1) this.props.addUser(msg.user);
         else this.props.removeUser(msg.user);
-        console.log("User " + msg.user.name + " " + (msg.move === 1 ? "join" : "leave"));
+        // console.log("User " + msg.user.name + " " + (msg.move === 1 ? "join" : "leave"));
     };
 
     onExerciseUpdate=() =>{
@@ -176,7 +167,7 @@ class Sugarizer extends Component {
 
     onExerciseResult = (id, score, time)=>{
         let presence= this.presence;
-        console.log("result sent");
+        // console.log("result sent");
         presence.sendMessage(presence.getSharedInfo().id, {
             user: presence.getUserInfo(),
             content:{
@@ -203,9 +194,9 @@ class Sugarizer extends Component {
         activity.getDatastoreObject().setDataAsText(jsonData);
         activity.getDatastoreObject().save(function (error) {
             if (error === null) {
-                console.log("write done.");
+                // console.log("write done.");
             } else {
-                console.log("write failed.");
+                // console.log("write failed.");
             }
         });
     }

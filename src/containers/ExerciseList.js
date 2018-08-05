@@ -18,12 +18,10 @@ class ExerciseList extends Component {
     }
 
     handleStateChange = (state) => {
-        console.log("state change");
         this.setState({menuOpen: state.isOpen})
     };
 
     toggleMenu = () => {
-        console.log("button click");
         this.setState({menuOpen: !this.state.menuOpen})
     };
 
@@ -116,10 +114,8 @@ class ExerciseList extends Component {
         let userIcon="";
 
         if (this.props.isShared && this.props.isHost) {
-            console.log(users);
 
             userList = users.map((user, index) => {
-                console.log(user);
                 return (
                     <div className="user-list col-sm-12 row" key={index}>
                         <div className="user-icon col-sm-4">
@@ -142,9 +138,6 @@ class ExerciseList extends Component {
                     <span className="badge badge-notify">{users.length}</span>
                 </div>
             );
-
-            console.log("menu"+this.state.menuOpen);
-
 
             userAdmin = (
                 <div>

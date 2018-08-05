@@ -206,9 +206,6 @@ class MCQForm extends Component {
                     });
                 } else {
                     const {question, answers, correctAns} = this.state.questions[index];
-                    // console.log(this.state.questions[index]);
-                    // console.log(answers);
-                    // console.log(correctAns);
 
                     let correct = correctAns;
 
@@ -228,7 +225,7 @@ class MCQForm extends Component {
                             correctAns: correct
                         }
                     }, () => {
-                        // console.log(this.state.currentQuestion);
+
                     });
                 }
             }

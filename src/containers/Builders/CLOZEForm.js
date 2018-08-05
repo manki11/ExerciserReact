@@ -48,7 +48,7 @@ class CLOZEForm extends Component {
         if (this.props.location.state) {
             const {id, title, question, scores, times, clozeText, answers, writeIn} = this.props.location.state.exercise;
             let nextBlank = answers.length + 1;
-            console.log(nextBlank);
+
             this.setState({
                 ...this.state,
                 id: id,
@@ -195,8 +195,6 @@ class CLOZEForm extends Component {
         };
 
 
-        // console.log(exercise);
-
         if (this.state.edit) {
             this.props.editExercise(exercise);
         } else {
@@ -290,7 +288,7 @@ class CLOZEForm extends Component {
             nextBlank: blank,
             cursorPos: cursorPos + 5
         }, () => {
-            // console.log("add blank is finished");
+
         })
     };
 
@@ -324,9 +322,6 @@ class CLOZEForm extends Component {
         let question_error = '';
         let answer_error = '';
         let cloze_error = '';
-
-        // console.log("render"+this.state.nextBlank);
-
 
         if (errors['title']) {
             title_error = <span style={{color: "red"}}>Title field can't be empty</span>;

@@ -1,8 +1,6 @@
 import {SET_ALL_EXERCISES, REMOVE_EXERCISE, ADD_NEW_EXERCISE, EDIT_EXERCISE, ADD_SCORE_TIME} from "../actionTypes";
 
 export const setExercises = (exercises) => {
-    console.log("setting");
-    console.log(exercises);
     return {
         type: SET_ALL_EXERCISES,
         exercises

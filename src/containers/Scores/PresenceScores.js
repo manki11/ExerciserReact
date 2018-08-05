@@ -123,7 +123,6 @@ class PresenceScores extends Component {
 
     setChart=()=>{
         const {exercise} = this.props.location.state;
-        console.log(exercise.shared_results);
         const {score, time}= this.state;
 
         const {shared_results} = exercise;
@@ -137,8 +136,6 @@ class PresenceScores extends Component {
         if (score) shared_results.sort(this.compare_score);
         else  shared_results.sort(this.compare_time);
 
-        console.log("score "+ score);
-        console.log("time "+  time);
 
         shared_results.map((result, index) => {
             users.push(result.user.name);

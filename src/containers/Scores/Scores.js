@@ -74,10 +74,6 @@ class Scores extends Component {
             let score = Math.ceil(userScore / noOfQuestions * 100);
             let time = Math.ceil(userTime / 60);
 
-            console.log("hi sending from scores");
-            console.log(this.props.isShared);
-
-
             if (this.props.isShared) {
                 this.props.onSharedResult(exercise.id, score, time);
             }

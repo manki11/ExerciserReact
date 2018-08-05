@@ -80,7 +80,6 @@ class REORDERPlayer extends Component {
             return li.content
         });
         this.setState({userAns: list});
-        // console.log(list);
 
     };
 

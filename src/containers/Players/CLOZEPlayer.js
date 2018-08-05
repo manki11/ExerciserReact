@@ -106,7 +106,7 @@ class CLOZEPlayer extends Component {
             ...this.state,
             userans: ans
         }, () => {
-            // console.log(this.state.userans);
+
         });
     };
 
@@ -119,7 +119,7 @@ class CLOZEPlayer extends Component {
             ...this.state,
             userans: ans
         }, () => {
-            // console.log(this.state.userans);
+
         });
     };
 
