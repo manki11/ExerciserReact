@@ -157,6 +157,7 @@ class PresenceScores extends Component {
                         labels: users,
                         datasets: [
                             {
+                                label: this.intl.formatMessage({id: SCORES}),
                                 yAxisID: 'A',
                                 data: scores,
                                 backgroundColor: fills,
@@ -175,6 +176,7 @@ class PresenceScores extends Component {
                         labels: users,
                         datasets: [
                             {
+                                label: this.intl.formatMessage({id: TIME}),
                                 yAxisID: 'A',
                                 data: times,
                                 backgroundColor: fills,
