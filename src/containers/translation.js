@@ -2,6 +2,7 @@
 export const QUESTIONS="{number} Questions";
 export const TYPE="Type";
 export const BEST_SCORE="Best Score";
+export const QUESTION_SINGULAR="{number} Question";
 
 
 // TEMPLATE VIEW
