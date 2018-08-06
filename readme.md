@@ -55,6 +55,11 @@ Restart Sugarizer
 4. Push to the branch (`git push origin feature/feature_name`)
 5. Create a new Pull Request
 
+## LICENSE
+
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+
+This repository is Licensed under ```Apache v2``` license.
 
 
 
