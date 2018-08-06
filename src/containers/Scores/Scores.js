@@ -204,6 +204,9 @@ class Scores extends Component {
                         {time}
                         {chart}
                     </div>
+                    <div className="row button-container">
+                        <button className="button-redo" onClick={this.redo}/>
+                    </div>
                 </div>
             </div>
         )

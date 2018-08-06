@@ -10,7 +10,8 @@ import {
     CORRECT_OPTION,
     WRONG_OPTION,
     PREVIOUS,
-    NEXT, TEST_EXERCISE
+    NEXT,
+    TEST_EXERCISE
 } from "../translation";
 import {withRouter} from "react-router-dom"
 import "../../css/MCQForm.css"

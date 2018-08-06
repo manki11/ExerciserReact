@@ -182,7 +182,7 @@ class Sugarizer extends Component {
     };
 
     stopActivity() {
-        const {counter, exercises} = this.props;
+        const {counter, exercises,setIsHost, setIsShared} = this.props;
 
         let json = {
             counter: counter,
