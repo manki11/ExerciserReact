@@ -46,6 +46,16 @@ export const YOUR_RESULTS="Your Results";
 export const SCORES="Scores";
 export const TIME="Time";
 
+// NAVBAR
+export const MY_ACTIVITY="My Activity";
+export const HOME="Home";
+export const ADD_EXERCISE="Add Exercise";
+export const NETWORK="Network";
+export const STOP="Stop";
+
+
+
+
 
 
 
