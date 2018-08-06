@@ -33,6 +33,7 @@ class REORDERForm extends Component {
         }
     }
 
+    // in case of edit load the exercise
     componentDidMount() {
         if (this.props.location.state) {
             const {id, title, question, scores, times, list} = this.props.location.state.exercise;

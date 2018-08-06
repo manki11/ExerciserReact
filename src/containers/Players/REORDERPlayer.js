@@ -30,6 +30,7 @@ class REORDERPlayer extends Component {
         }
     }
 
+    // load the exercise from props
     componentDidMount() {
         if (this.props.location.state) {
             let intervalId = setInterval(this.timer, 1000);
@@ -83,6 +84,7 @@ class REORDERPlayer extends Component {
 
     };
 
+    // submit the exercise ( calculate score and time ) show correct/ wrong ans
     submitExercise = () => {
         const {userAns, list} = this.state;
         let checkAns = [];
@@ -104,6 +106,7 @@ class REORDERPlayer extends Component {
         })
     };
 
+    // redirect to scores screen/ edit screen
     finishExercise = () => {
         const {scores, score, id, currentTime, times, list, goBackToEdit} = this.state;
         let exercise = this.props.location.state.exercise;

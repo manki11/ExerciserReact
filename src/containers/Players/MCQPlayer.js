@@ -37,6 +37,7 @@ class MCQPlayer extends Component {
         }
     }
 
+    // load the exercise from props
     componentDidMount() {
         if (this.props.location.state) {
             let intervalId = setInterval(this.timer, 1000);
@@ -93,10 +94,12 @@ class MCQPlayer extends Component {
         }
     };
 
+    // to measure time
     timer = () => {
         this.setState({currentTime: this.state.currentTime + 1});
     };
 
+    // submit the exercise ( calculate score and time ) show correct/ wrong ans
     submitQuestion = () => {
         const {currentScore, selectedAns, currentQuestion} = this.state;
         const {correctAns} = currentQuestion;
@@ -109,11 +112,12 @@ class MCQPlayer extends Component {
         })
     };
 
+    // move to next question
     nextQuestion = () => {
         const {currentQuestionNo, questions} = this.state;
         let nextQuestionNo = currentQuestionNo + 1;
         if (nextQuestionNo > questions.length) {
-            this.exerciseFinish();
+            this.finishExercise();
         } else {
             const nextQuestion = questions[nextQuestionNo - 1];
             let answers = nextQuestion.answers;
@@ -138,7 +142,8 @@ class MCQPlayer extends Component {
 
     };
 
-    exerciseFinish = () => {
+    // redirect to scores screen/ edit screen
+    finishExercise = () => {
         const {scores, currentScore, id, currentTime, times, noOfQuestions, goBackToEdit} = this.state;
         let exercise = this.props.location.state.exercise;
         scores.push(currentScore);

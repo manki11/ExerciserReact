@@ -16,22 +16,27 @@ class Exercise extends Component {
 
     }
 
+    // when play button is clicked
     playExercise = () => {
         this.props.onPlay(this.state.id);
     };
 
+    // when edit button is clicked
     editExercise = () => {
         this.props.onEdit(this.state.id);
     };
 
+    // when delete button is clicked
     deleteExercise = () => {
         this.props.onDelete(this.state.id);
     };
 
+    // when shared button is clicked
     shareExercise = () => {
         this.props.onShare(this.state.id, !this.props.shared);
     };
 
+    // when result button is clicked during presence
     result = () => {
         this.props.presenceResult(this.state.id)
     };

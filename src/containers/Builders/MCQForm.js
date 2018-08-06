@@ -43,6 +43,7 @@ class MCQForm extends Component {
         };
     }
 
+    // in case of edit load the exercise
     componentDidMount() {
         if (this.props.location.state) {
             const {id, title, questions, scores, times} = this.props.location.state.exercise;
@@ -153,6 +154,7 @@ class MCQForm extends Component {
         event.preventDefault();
     };
 
+    // save current question
     saveCurrentForm = () => {
         this.checkFormValidation();
 
@@ -233,6 +235,7 @@ class MCQForm extends Component {
         }
     };
 
+    // check if current form is valid
     checkFormValidation = () => {
         const {currentQuestion, title} = this.state;
         const {question, answers} = currentQuestion;
@@ -258,6 +261,7 @@ class MCQForm extends Component {
         })
     };
 
+    // submit exercise
     submitExercise = (bool) => {
         let id = this.state.id;
         if (this.state.id === -1) {
@@ -285,6 +289,7 @@ class MCQForm extends Component {
         else
             this.props.history.push('/')    };
 
+    // move to previous question
     previousQues = () => {
         const {currentQuestionNo} = this.state;
         let previousQuestionNo = currentQuestionNo - 1;

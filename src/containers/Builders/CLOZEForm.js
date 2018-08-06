@@ -44,6 +44,7 @@ class CLOZEForm extends Component {
         };
     }
 
+    // in case of edit load the exercise
     componentDidMount() {
         if (this.props.location.state) {
             const {id, title, question, scores, times, clozeText, answers, writeIn} = this.props.location.state.exercise;
@@ -144,6 +145,7 @@ class CLOZEForm extends Component {
         });
     };
 
+    // to check for validation
     checkFormValidation = () => {
         const {title, question, answers, clozeText} = this.state;
         let isFormValid = true;
@@ -176,6 +178,7 @@ class CLOZEForm extends Component {
         event.preventDefault();
     };
 
+    // submit and exercise and redirect
     submitExercise = (bool) => {
         let id = this.state.id;
         if (this.state.id === -1) {
@@ -242,6 +245,7 @@ class CLOZEForm extends Component {
         this.setState({cursorPos: pos})
     };
 
+    // to find next blank number in cloze text
     findNextBlank = (clozeText) => {
         let cloze = clozeText.split(' ');
         let blanks = [];
@@ -271,6 +275,7 @@ class CLOZEForm extends Component {
         return blank_no
     };
 
+    // to add a blank dynamically
     addBlank = () => {
         const {clozeText, nextBlank, cursorPos} = this.state;
 

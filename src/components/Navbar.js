@@ -16,10 +16,12 @@ class Navbar extends Component {
         this.intl = intl;
     }
 
+    // redirect to new exercise template
     directToNew=()=>{
         this.props.history.push('/new')
     };
 
+    // redirect to home screen
     directToHome=()=>{
         this.props.history.push('/')
     };
