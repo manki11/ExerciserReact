@@ -2,8 +2,8 @@
 
 ### GSoC 2018 project for Sugar Labs
 
-###### Student: [Mankirat Singh](https://github.com/manki11)
-###### Mentor : [Lionel LASKE](https://github.com/llaske)
+Student: [Mankirat Singh](https://github.com/manki11)<br/>
+Mentor : [Lionel LASKE](https://github.com/llaske)
 
 The Sugarizer Exerciser Activity is an Academic focused Activity for the Sugarizer Platform. It provides Teachers to build interactive Exercises for students, using multiple templates, and share them with their Students using the sugarizer-server.
 
