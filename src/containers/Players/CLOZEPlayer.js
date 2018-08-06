@@ -232,7 +232,7 @@ class CLOZEPlayer extends Component {
         });
 
         return (
-            <div className="container-fluid">
+            <div className="container cloze-container">
                 <div className="row align-items-center justify-content-center">
                     <div className="col-sm-10">
                         <div className="jumbotron">
