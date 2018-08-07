@@ -20,7 +20,7 @@ export const QUESTION="Question";
 export const TEST_EXERCISE="Test Exercise";
 
 // MCQ FORM
-export const PREVIOUS="Previous";
+export const PREVIOUS_QUESTION="Previous Question";
 export const NEXT="Next";
 export const FINISH_EXERCISE="Finish Exercise";
 export const CORRECT_OPTION="Correct Option";

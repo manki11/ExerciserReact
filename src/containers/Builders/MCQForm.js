@@ -9,8 +9,8 @@ import {
     TITLE_OF_EXERCISE,
     CORRECT_OPTION,
     WRONG_OPTION,
-    PREVIOUS,
-    NEXT,
+    NEXT_QUESTION,
+    PREVIOUS_QUESTION,
     TEST_EXERCISE
 } from "../translation";
 import {withRouter} from "react-router-dom"
@@ -412,7 +412,7 @@ class MCQForm extends Component {
                                         className={"btn button-previous"}
                                         disabled={this.state.currentQuestionNo === 1}
                                     >
-                                        <FormattedMessage id={PREVIOUS}/> <FormattedMessage id={QUESTION}/>
+                                        <FormattedMessage id={PREVIOUS_QUESTION}/>
                                     </button>
                                     <div className="justify-content-end">
                                         <button
@@ -420,7 +420,7 @@ class MCQForm extends Component {
                                             className={"btn button-next"}
                                             disabled={!this.state.isFormValid}
                                         >
-                                            <FormattedMessage id={NEXT}/> <FormattedMessage id={QUESTION}/>
+                                            <FormattedMessage id={NEXT_QUESTION}/>
                                         </button>
                                     </div>
                                 </div>
