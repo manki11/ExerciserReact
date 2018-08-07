@@ -21,7 +21,7 @@ class REORDERForm extends Component {
             id: -1,
             title: '',
             question: '',
-            list: [''],
+            list: ['',''],
             scores: [],
             times: [],
             isFormValid: false,
@@ -91,7 +91,7 @@ class REORDERForm extends Component {
 
     handleRemoveAns = () => {
         const {list} = this.state;
-        if (list.length > 1) {
+        if (list.length > 2) {
             list.pop();
             this.setState(
                 {list: list},
