@@ -21,7 +21,7 @@
   "Your Results":"Votre score",
   "Scores":"Scores (%)",
   "Time":"Temps (Minutes)",
-  "Cloze":"Cloze",
+  "Cloze":"Trou No",
   "Cloze Text":"Texte à trous",
   "Blank Type": "Type des trous",
   "Write In": "A taper",
@@ -30,9 +30,9 @@
   "Test Exercise":"Tester l'exercice",
   "MCQ":"QCM",
   "Reorder List":"Liste à ordonner",
-  "My Activity":"My Activity",
-  "Home":"Home",
-  "Add Exercise":"Add Exercise",
-  "Network":"Network",
+  "My Activity":"Mon Activité",
+  "Home":"Accueil",
+  "Add Exercise":"Créer un exercise",
+  "Network":"Réseau",
   "Stop":"Stop"
 }
