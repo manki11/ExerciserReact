@@ -34,6 +34,12 @@ export const WRITE_IN="Write In";
 export const OPTIONS="Options";
 export const ADD_BLANK="Add Blank";
 
+export const TITLE_ERROR="Title field can't be empty";
+export const QUESTION_ERROR="Question field can't be empty";
+export const ANSWER_ERROR="Answer field can't be empty";
+export const CLOZE_ERROR="Cloze field can't be empty";
+export const LIST_ERROR="List field can't be empty";
+
 
 // PLAYER VIEW
 

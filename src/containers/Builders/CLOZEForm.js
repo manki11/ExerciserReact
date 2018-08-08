@@ -14,7 +14,12 @@ import {
     BLANK_TYPE,
     WRITE_IN,
     OPTIONS,
-    ADD_BLANK, TEST_EXERCISE
+    ADD_BLANK,
+    TEST_EXERCISE,
+    CLOZE_ERROR,
+    ANSWER_ERROR,
+    QUESTION_ERROR,
+    TITLE_ERROR
 } from "../translation";
 
 class CLOZEForm extends Component {
@@ -329,16 +334,16 @@ class CLOZEForm extends Component {
         let cloze_error = '';
 
         if (errors['title']) {
-            title_error = <span style={{color: "red"}}>Title field can't be empty</span>;
+            title_error = <span style={{color: "red"}}><FormattedMessage id={TITLE_ERROR}/></span>;
         }
         if (errors['question']) {
-            question_error = <span style={{color: "red"}}>Question field can't be empty</span>;
+            question_error = <span style={{color: "red"}}><FormattedMessage id={QUESTION_ERROR}/></span>;
         }
         if (errors['answers']) {
-            answer_error = <span style={{color: "red"}}>Answers field can't be empty</span>;
+            answer_error = <span style={{color: "red"}}><FormattedMessage id={ANSWER_ERROR}/></span>;
         }
         if (errors['cloze']) {
-            cloze_error = <span style={{color: "red"}}>Cloze field can't be empty</span>;
+            cloze_error = <span style={{color: "red"}}><FormattedMessage id={CLOZE_ERROR}/></span>;
         }
         return (
             <div className="container">

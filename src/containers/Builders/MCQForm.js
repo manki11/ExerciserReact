@@ -11,7 +11,10 @@ import {
     WRONG_OPTION,
     NEXT_QUESTION,
     PREVIOUS_QUESTION,
-    TEST_EXERCISE
+    TEST_EXERCISE,
+    TITLE_ERROR,
+    QUESTION_ERROR,
+    ANSWER_ERROR
 } from "../translation";
 import {withRouter} from "react-router-dom"
 import "../../css/MCQForm.css"
@@ -342,13 +345,13 @@ class MCQForm extends Component {
         let answer_error = '';
 
         if (errors['title']) {
-            title_error = <span style={{color: "red"}}>Title field can't be empty</span>;
+            title_error = <span style={{color: "red"}}><FormattedMessage id={TITLE_ERROR}/></span>;
         }
         if (errors['question']) {
-            question_error = <span style={{color: "red"}}>Question field can't be empty</span>;
+            question_error = <span style={{color: "red"}}><FormattedMessage id={QUESTION_ERROR}/></span>;
         }
         if (errors['answers']) {
-            answer_error = <span style={{color: "red"}}>Answers field can't be empty</span>;
+            answer_error = <span style={{color: "red"}}><FormattedMessage id={ANSWER_ERROR}/></span>;
         }
 
         return (

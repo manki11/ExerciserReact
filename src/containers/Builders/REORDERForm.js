@@ -8,7 +8,10 @@ import {
     FINISH_EXERCISE,
     QUESTION,
     TITLE_OF_EXERCISE,
-    TEST_EXERCISE
+    TEST_EXERCISE,
+    QUESTION_ERROR,
+    ANSWER_ERROR,
+    LIST_ERROR, TITLE_ERROR
 } from "../translation";
 
 class REORDERForm extends Component {
@@ -232,13 +235,13 @@ class REORDERForm extends Component {
         let list_error = '';
 
         if (errors['title']) {
-            title_error = <span style={{color: "red"}}>Title field can't be empty</span>;
+            title_error = <span style={{color: "red"}}><FormattedMessage id={TITLE_ERROR}/></span>;
         }
         if (errors['question']) {
-            question_error = <span style={{color: "red"}}>Question field can't be empty</span>;
+            question_error = <span style={{color: "red"}}><FormattedMessage id={QUESTION_ERROR}/></span>;
         }
         if (errors['list']) {
-            list_error = <span style={{color: "red"}}>List field can't be empty</span>;
+            list_error = <span style={{color: "red"}}><FormattedMessage id={LIST_ERROR}/></span>;
         }
 
 
