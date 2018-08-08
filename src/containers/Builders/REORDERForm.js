@@ -10,8 +10,8 @@ import {
     TITLE_OF_EXERCISE,
     TEST_EXERCISE,
     QUESTION_ERROR,
-    ANSWER_ERROR,
-    LIST_ERROR, TITLE_ERROR
+    ITEM,
+    LIST_ERROR, TITLE_ERROR, CLOZE
 } from "../translation";
 
 class REORDERForm extends Component {
@@ -213,15 +213,17 @@ class REORDERForm extends Component {
                             <label htmlFor={`answer-${i}`}>
                                 {i + 1}
                             </label>
-                            <input
-                                className="answers input-ans"
-                                name={`answer-${i}`}
-                                type="text"
-                                value={ans}
-                                required
-                                placeholder={`Item ${i + 1}`}
-                                onChange={this.handleChangeAns}
-                            />
+                            <FormattedMessage id={ITEM} values={{number:(i + 1)}}>
+                                {placeholder => <input
+                                    className="answers input-ans"
+                                    name={`answer-${i}`}
+                                    type="text"
+                                    value={ans}
+                                    required
+                                    placeholder={`${placeholder}`}
+                                    onChange={this.handleChangeAns}
+                                />}
+                            </FormattedMessage>
                             <button className="up-down-button up-button" onClick={()=>this.changeOrder(i,i-1)}/>
                             <button className="up-down-button down-button" onClick={()=>this.changeOrder(i,i+1)}/>
                         </div>

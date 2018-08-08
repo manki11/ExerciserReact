@@ -40,6 +40,9 @@ export const ANSWER_ERROR="Answer field can't be empty";
 export const CLOZE_ERROR="Cloze field can't be empty";
 export const LIST_ERROR="List field can't be empty";
 
+// REORDER FORM
+export const ITEM="Item {number}";
+
 
 // PLAYER VIEW
 
