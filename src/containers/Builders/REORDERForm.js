@@ -174,6 +174,7 @@ class REORDERForm extends Component {
 
     submitExercise = (bool) => {
         let id = this.state.id;
+
         if (this.state.id === -1) {
             id = this.props.counter;
         }
