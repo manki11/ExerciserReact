@@ -27,7 +27,7 @@ export const CORRECT_OPTION="Correct Option";
 export const WRONG_OPTION="Wrong Option";
 
 // CLOZE FORM
-export const CLOZE="Cloze";
+export const CLOZE="Cloze {number}";
 export const CLOZE_TEXT="Cloze Text";
 export const BLANK_TYPE="Blank Type";
 export const WRITE_IN="Write In";

@@ -21,7 +21,7 @@
   "Your Results":"Tus resultados",
   "Scores":"Puntuaciones (%)",
   "Time":"Hora (Minutos)",
-  "Cloze":"Cloze",
+  "Cloze {number}":"Cloze {number}",
   "Cloze Text":"prueba cloze",
   "Blank Type": "tipo en blanco",
   "Write In": "Escribir en",

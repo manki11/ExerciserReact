@@ -11,7 +11,7 @@ import {
     TEST_EXERCISE,
     QUESTION_ERROR,
     ITEM,
-    LIST_ERROR, TITLE_ERROR, CLOZE
+    LIST_ERROR, TITLE_ERROR,
 } from "../translation";
 
 class REORDERForm extends Component {

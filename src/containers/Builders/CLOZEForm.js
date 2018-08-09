@@ -312,14 +312,14 @@ class CLOZEForm extends Component {
                             <label htmlFor={`answer-${i}`}>
                                 {i + 1}
                             </label>
-                            <FormattedMessage id={CLOZE}>
+                            <FormattedMessage id={CLOZE} values={{number:(i+1)}}>
                                 {placeholder => <input
                                     className="answers input-ans"
                                     name={`answer-${i}`}
                                     type="text"
                                     value={ans}
                                     required
-                                    placeholder={`${placeholder} ${i + 1}`}
+                                    placeholder={`${placeholder}`}
                                     onChange={this.handleChangeAns}/>}
                             </FormattedMessage>
                         </div>
