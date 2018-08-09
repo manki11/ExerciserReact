@@ -21,7 +21,7 @@
   "Your Results":"Votre score",
   "Scores":"Scores (%)",
   "Time":"Temps (Minutes)",
-  "Cloze":"Trou No",
+  "Cloze {number}":"Cloze {number}",
   "Cloze Text":"Texte à trous",
   "Blank Type": "Type des trous",
   "Write In": "A taper",

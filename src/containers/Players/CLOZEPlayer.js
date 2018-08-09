@@ -154,11 +154,10 @@ class CLOZEPlayer extends Component {
         scores.push(score);
         times.push(currentTime);
 
-        this.props.addScoreTime(id, score, currentTime);
-
         if (goBackToEdit)
             this.props.history.push('/edit/cloze', {exercise: exercise});
-        else
+        else {
+            this.props.addScoreTime(id, score, currentTime);
             this.props.history.push('/scores', {
                 scores: scores,
                 userScore: score,
@@ -168,6 +167,7 @@ class CLOZEPlayer extends Component {
                 exercise: exercise,
                 type: "CLOZE"
             });
+        }
     };
 
     timer = () => {

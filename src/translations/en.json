@@ -21,7 +21,7 @@
   "Your Results":"Your Results",
   "Scores":"Scores (%)",
   "Time":"Time (Minutes)",
-  "Cloze":"Cloze",
+  "Cloze {number}":"Cloze {number}",
   "Cloze Text":"Cloze Text",
   "Blank Type": "Blank Type",
   "Write In": "Write In",

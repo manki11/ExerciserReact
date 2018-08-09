@@ -148,11 +148,11 @@ class MCQPlayer extends Component {
         let exercise = this.props.location.state.exercise;
         scores.push(currentScore);
         times.push(currentTime);
-        this.props.addScoreTime(id, currentScore, currentTime);
 
         if (goBackToEdit)
             this.props.history.push('/edit/mcq', {exercise: exercise});
-        else
+        else {
+            this.props.addScoreTime(id, currentScore, currentTime);
             this.props.history.push('/scores', {
                 scores: scores,
                 userScore: currentScore,
@@ -162,6 +162,7 @@ class MCQPlayer extends Component {
                 exercise: exercise,
                 type: "MCQ"
             });
+        }
     };
 
     render() {

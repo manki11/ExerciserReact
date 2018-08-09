@@ -114,11 +114,10 @@ class REORDERPlayer extends Component {
         scores.push(score);
         times.push(currentTime);
 
-        this.props.addScoreTime(id, score, currentTime);
-
         if (goBackToEdit)
             this.props.history.push('/edit/reorder', {exercise: exercise});
-        else
+        else {
+            this.props.addScoreTime(id, score, currentTime);
             this.props.history.push('/scores', {
                 scores: scores,
                 userScore: score,
@@ -128,6 +127,7 @@ class REORDERPlayer extends Component {
                 exercise: exercise,
                 type: "REORDER"
             });
+        }
     };
 
     render() {
