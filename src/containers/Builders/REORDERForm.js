@@ -8,7 +8,10 @@ import {
     FINISH_EXERCISE,
     QUESTION,
     TITLE_OF_EXERCISE,
-    TEST_EXERCISE
+    TEST_EXERCISE,
+    QUESTION_ERROR,
+    ITEM,
+    LIST_ERROR, TITLE_ERROR, CLOZE
 } from "../translation";
 
 class REORDERForm extends Component {
@@ -210,15 +213,17 @@ class REORDERForm extends Component {
                             <label htmlFor={`answer-${i}`}>
                                 {i + 1}
                             </label>
-                            <input
-                                className="answers input-ans"
-                                name={`answer-${i}`}
-                                type="text"
-                                value={ans}
-                                required
-                                placeholder={`Item ${i + 1}`}
-                                onChange={this.handleChangeAns}
-                            />
+                            <FormattedMessage id={ITEM} values={{number:(i + 1)}}>
+                                {placeholder => <input
+                                    className="answers input-ans"
+                                    name={`answer-${i}`}
+                                    type="text"
+                                    value={ans}
+                                    required
+                                    placeholder={`${placeholder}`}
+                                    onChange={this.handleChangeAns}
+                                />}
+                            </FormattedMessage>
                             <button className="up-down-button up-button" onClick={()=>this.changeOrder(i,i-1)}/>
                             <button className="up-down-button down-button" onClick={()=>this.changeOrder(i,i+1)}/>
                         </div>
@@ -232,13 +237,13 @@ class REORDERForm extends Component {
         let list_error = '';
 
         if (errors['title']) {
-            title_error = <span style={{color: "red"}}>Title field can't be empty</span>;
+            title_error = <span style={{color: "red"}}><FormattedMessage id={TITLE_ERROR}/></span>;
         }
         if (errors['question']) {
-            question_error = <span style={{color: "red"}}>Question field can't be empty</span>;
+            question_error = <span style={{color: "red"}}><FormattedMessage id={QUESTION_ERROR}/></span>;
         }
         if (errors['list']) {
-            list_error = <span style={{color: "red"}}>List field can't be empty</span>;
+            list_error = <span style={{color: "red"}}><FormattedMessage id={LIST_ERROR}/></span>;
         }
 
 

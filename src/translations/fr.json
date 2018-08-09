@@ -34,5 +34,11 @@
   "Home":"Accueil",
   "Add Exercise":"Créer un exercise",
   "Network":"Réseau",
-  "Stop":"Stop"
+  "Stop":"Stop",
+  "Title field can't be empty":"Title field can't be vide",
+  "Question field can't be empty":"Question field can't be vide",
+  "Answer field can't be empty":"Answer field can't be vide",
+  "Cloze field can't be empty":"Cloze field can't be vide",
+  "List field can't be empty":"List field can't be vide",
+  "Item {number}":"élément {number}"
 }
