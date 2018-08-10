@@ -151,12 +151,12 @@ class CLOZEPlayer extends Component {
         const {scores, score, id, currentTime, times, answers, goBackToEdit} = this.state;
         let exercise = this.props.location.state.exercise;
         let noOfQuestions = answers.length;
-        scores.push(score);
-        times.push(currentTime);
 
         if (goBackToEdit)
             this.props.history.push('/edit/cloze', {exercise: exercise});
         else {
+            scores.push(score);
+            times.push(currentTime);
             this.props.addScoreTime(id, score, currentTime);
             this.props.history.push('/scores', {
                 scores: scores,
