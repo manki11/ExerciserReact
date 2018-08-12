@@ -57,7 +57,11 @@
     -webkit-user-select: none;
 }
 
-/*.card-body{*/
-    /*display: flex;*/
-    /*justify-content: center;*/
-/*}*/
+.template-container{
+    height: 100%;
+    padding-top: 5%;
+}
+
+.card-body{
+    min-height: 250px;
+}

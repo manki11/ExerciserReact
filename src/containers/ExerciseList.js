@@ -153,7 +153,7 @@ class ExerciseList extends Component {
         }
 
         return (
-            <div>
+            <div className="home-container">
                 {userIcon}
                 {userAdmin}
                 <div className="exercise-list-container">

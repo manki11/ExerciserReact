@@ -33,56 +33,54 @@ class Template extends Component {
 
     render() {
         return (
-            <div className="container-fluid">
+            <div className="template-container">
                 <div className="col-md-10 mx-auto">
-                    <div className="d-flex h-100">
-                        <div className="row justify-content-center align-self-center">
-                            <div className="col-sm-4">
-                                <div className="card">
-                                    <div className="card-img-container">
-                                        <div className="card-img-top background-mcq"/>
-                                    </div>
-                                    <div className="card-body">
-                                        <h5 className="card-title"><FormattedMessage id={MCQ}/></h5>
-                                        <p className="card-text">
-                                            <FormattedMessage id={MCQ_TEMPLATE_STRING}/>
-                                        </p>
-                                        <button className="button-choose" onClick={this.mcqSelected}>
-                                            <FormattedMessage id={CHOOSE}/>
-                                        </button>
-                                    </div>
+                    <div className="row justify-content-center align-self-center">
+                        <div className="col-sm-4">
+                            <div className="card">
+                                <div className="card-img-container">
+                                    <div className="card-img-top background-mcq"/>
+                                </div>
+                                <div className="card-body">
+                                    <h5 className="card-title"><FormattedMessage id={MCQ}/></h5>
+                                    <p className="card-text">
+                                        <FormattedMessage id={MCQ_TEMPLATE_STRING}/>
+                                    </p>
+                                    <button className="button-choose" onClick={this.mcqSelected}>
+                                        <FormattedMessage id={CHOOSE}/>
+                                    </button>
                                 </div>
                             </div>
-                            <div className="col-sm-4">
-                                <div className="card">
-                                    <div className="card-img-container">
-                                        <div className="card-img-top background-cloze"/>
-                                    </div>
-                                    <div className="card-body">
-                                        <h5 className="card-title"><FormattedMessage id={CLOZE_TEXT}/></h5>
-                                        <p className="card-text">
-                                            <FormattedMessage id={CLOZE_TEMPLATE_STRING}/>
-                                        </p>
-                                        <button className="button-choose" onClick={this.clozeSelected}>
-                                            <FormattedMessage id={CHOOSE}/>
-                                        </button>
-                                    </div>
+                        </div>
+                        <div className="col-sm-4">
+                            <div className="card">
+                                <div className="card-img-container">
+                                    <div className="card-img-top background-cloze"/>
+                                </div>
+                                <div className="card-body">
+                                    <h5 className="card-title"><FormattedMessage id={CLOZE_TEXT}/></h5>
+                                    <p className="card-text">
+                                        <FormattedMessage id={CLOZE_TEMPLATE_STRING}/>
+                                    </p>
+                                    <button className="button-choose" onClick={this.clozeSelected}>
+                                        <FormattedMessage id={CHOOSE}/>
+                                    </button>
                                 </div>
                             </div>
-                            <div className="col-sm-4">
-                                <div className="card">
-                                    <div className="card-img-container">
-                                        <div className="card-img-top background-reorder"/>
-                                    </div>
-                                    <div className="card-body">
-                                        <h5 className="card-title"><FormattedMessage id={REORDER_LIST}/></h5>
-                                        <p className="card-text">
-                                            <FormattedMessage id={REORDER_TEMPLATE_STRING}/>
-                                        </p>
-                                        <button className="button-choose" onClick={this.reorderSelected}>
-                                            <FormattedMessage id={CHOOSE}/>
-                                        </button>
-                                    </div>
+                        </div>
+                        <div className="col-sm-4">
+                            <div className="card">
+                                <div className="card-img-container">
+                                    <div className="card-img-top background-reorder"/>
+                                </div>
+                                <div className="card-body">
+                                    <h5 className="card-title"><FormattedMessage id={REORDER_LIST}/></h5>
+                                    <p className="card-text">
+                                        <FormattedMessage id={REORDER_TEMPLATE_STRING}/>
+                                    </p>
+                                    <button className="button-choose" onClick={this.reorderSelected}>
+                                        <FormattedMessage id={CHOOSE}/>
+                                    </button>
                                 </div>
                             </div>
                         </div>

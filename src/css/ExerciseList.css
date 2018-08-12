@@ -54,6 +54,7 @@
 .exercise-list-container{
     margin: 0!important;
     padding: 3%!important;
+    height: 100%;
 }
 
 .user-list-button{
@@ -64,5 +65,9 @@
     background-size: contain;
     border-radius: 25px;
     background-color: black!important;
+}
+
+.home-container{
+    height: 100%;
 }
 
