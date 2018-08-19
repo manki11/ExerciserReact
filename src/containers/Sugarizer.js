@@ -59,6 +59,10 @@ class Sugarizer extends Component {
                 };
                 setUser(user);
                 temp.language= environment.user.language;
+                // setting default lang
+                if(!messages[temp.language]){
+                    temp.language= 'en';
+                }
             }
             
             // Load from datastore
