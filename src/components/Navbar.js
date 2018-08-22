@@ -13,7 +13,6 @@ class Navbar extends Component {
         super(props);
 
         let {intl} = this.props;
-        this.intl = intl;
     }
 
     // redirect to new exercise template
@@ -27,30 +26,38 @@ class Navbar extends Component {
     };
 
     render() {
+        let {intl} = this.props;
+
+        let activityTitle= intl.formatMessage({id: MY_ACTIVITY});
+        let homeTitle= intl.formatMessage({id: HOME});
+        let addTitle= intl.formatMessage({id: ADD_EXERCISE});
+        let networkTitle= intl.formatMessage({id: NETWORK});
+        let stopTitle= intl.formatMessage({id: STOP});
+
         return (
             <div id="main-toolbar" className="toolbar">
                 <button
                     className="toolbutton"
                     id="activity-button"
-                    title={this.intl.formatMessage({id: MY_ACTIVITY})}/>
+                    title={activityTitle}/>
                 <button
                     className="toolbutton"
                     id="home-button"
-                    title={this.intl.formatMessage({id: HOME})}
+                    title={homeTitle}
                     onClick={this.directToHome}/>
                 <button
                     className="toolbutton"
                     id="add-button"
-                    title={this.intl.formatMessage({id: ADD_EXERCISE})}
+                    title={addTitle}
                     onClick={this.directToNew}/>
                 <button
                     className="toolbutton"
                     id="network-button"
-                    title={this.intl.formatMessage({id: NETWORK})}/>
+                    title={networkTitle}/>
                 <button
                     className="toolbutton pull-right"
                     id="stop-button"
-                    title={this.intl.formatMessage({id: STOP})}
+                    title={stopTitle}
                     onClick={this.props.onStop}/>
             </div>
         );
