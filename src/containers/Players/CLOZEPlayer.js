@@ -50,11 +50,23 @@ class CLOZEPlayer extends Component {
             let cloze = clozeText.split('\n').join(' <br/> ').split(/(-[0-9]*-)/);
 
             let options = [];
+            let deduplanswer = [];
+            let temp = this;
             answers.map((ans, i) => {
-                options.push({
-                    value: ans,
-                    label: ans
-                })
+                if (temp.state.writeIn === "OPTIONS") {
+                    if (deduplanswer.indexOf(ans) == -1) {
+                        deduplanswer.push(ans);
+                        options.push({
+                            value: ans,
+                            label: ans
+                        });
+                    }
+                } else {
+                    options.push({
+                        value: ans,
+                        label: ans
+                    })
+                }
             });
 
             this.shuffleArray(options);
@@ -272,4 +284,3 @@ function MapStateToProps(state) {
 
 export default withRouter(
     connect(MapStateToProps, {addScoreTime})(CLOZEPlayer));
-
