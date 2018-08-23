@@ -39,3 +39,43 @@ body {
     flex-grow: 1;
     height: 100%;
 }
+
+.list-background {
+	background-color: lightblue;
+}
+
+.template-background {
+	background-color: lightyellow;
+}
+
+.score-background {
+	background-color: white;
+}
+
+.pscore-background {
+	background-color: white;
+}
+
+.mcq-play-background {
+	background-color: white;
+}
+
+.mcq-form-background {
+	background-color: white;
+}
+
+.cloze-play-background {
+	background-color: white;
+}
+
+.cloze-form-background {
+	background-color: white;
+}
+
+.reorder-play-background {
+	background-color: white;
+}
+
+.reorder-form-background {
+	background-color: white;
+}
