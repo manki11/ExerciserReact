@@ -130,7 +130,7 @@ class CLOZEPlayer extends Component {
         let checkans = [];
         let score = 0;
         for (let i = 0; i < answers.length; i++) {
-            if (answers[i].toLowerCase() === userans[i].toLowerCase()) {
+            if (answers[i].toLowerCase().trim() === userans[i].toLowerCase().trim()) {
                 checkans.push(true);
                 score++;
             } else {
