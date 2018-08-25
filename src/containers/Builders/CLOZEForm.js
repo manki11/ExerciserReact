@@ -170,6 +170,9 @@ class CLOZEForm extends Component {
             isFormValid = false;
         }
 
+        for (var i = 0 ; i < answers.length ; i++) {
+            answers[i] = answers[i].trim();
+        }
         answers.map((ans, i) => {
             if (ans === '') {
                 isFormValid = false;

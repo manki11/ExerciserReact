@@ -129,7 +129,7 @@ class CLOZEPlayer extends Component {
     handleChangeAnsInput = (e) => {
         const index = Number(e.target.name.split('-')[1]);
         const ans = this.state.userans.map((ans, i) => (
-            i === index - 1 ? e.target.value : ans
+            (i === index - 1 ? e.target.value : ans).trim()
         ));
         this.setState({
             ...this.state,
