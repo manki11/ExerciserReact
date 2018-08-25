@@ -50,11 +50,18 @@ class CLOZEPlayer extends Component {
             let cloze = clozeText.split('\n').join(' <br/> ').split(/(-[0-9]*-)/);
 
             let options = [];
-            answers.map((ans, i) => {
-                options.push({
-                    value: ans,
-                    label: ans
-                })
+
+            // array to remove duplicate answers
+            let noduplicates= [];
+            
+            answers.map((ans, i)=> {
+                if(noduplicates.indexOf(ans)===-1){
+                    noduplicates.push(ans);
+                    options.push({
+                        value: ans,
+                        label: ans
+                    })
+                }
             });
 
             this.shuffleArray(options);
