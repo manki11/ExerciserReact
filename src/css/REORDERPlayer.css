@@ -9,3 +9,11 @@
     border-radius:10px;
     text-align:center;
 }
+
+.jumbotron {
+    background-color: #dfdfdf !important;
+}
+
+.lead {
+    font-weight: bold !important;
+}

@@ -57,7 +57,9 @@ class REORDERPlayer extends Component {
                 checkAns: checkAns
             })
         }
-
+        var main = document.getElementsByClassName("main-container")[0];
+        main.classList.remove("list-background", "template-background", "score-background", "pscore-background", "mcq-play-background", "mcq-form-background", "cloze-play-background", "cloze-form-background", "reorder-play-background", "reorder-form-background");
+        main.classList.add("reorder-play-background");
     }
 
     timer = () => {
