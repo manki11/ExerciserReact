@@ -97,9 +97,9 @@ class Exercise extends Component {
                 <div className="card">
                     <div className="exercise-card-content">
                         <h3 className="card-title">{title}</h3>
-                        <p>{question_string}</p>
-                        <p><FormattedMessage id={localized_type}/></p>
-                        <p><FormattedMessage id={BEST_SCORE}/>:{highest}</p>
+                        <div><strong><FormattedMessage id={localized_type}/></strong></div>
+                        <div className="exercise-card-question">{question_string}</div>
+                        <div className="exercise-card-hiscore"><FormattedMessage id={BEST_SCORE}/>: {highest}/{length}</div>
                         {play}
                         {edit}
                         {cross}
