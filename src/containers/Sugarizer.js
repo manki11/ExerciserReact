@@ -10,6 +10,8 @@ import locale_en from 'react-intl/locale-data/en';
 import locale_fr from 'react-intl/locale-data/fr';
 import locale_es from 'react-intl/locale-data/es';
 
+import default_activities from "../default_activities";
+
 // Sugarizer Dependencies
 import activity from 'lib/sugar-web/activity/activity'
 import env from 'lib/sugar-web/env'
@@ -68,6 +70,7 @@ class Sugarizer extends Component {
             // Load from datastore
             if (!environment.objectId) {
                 // console.log("New instance");
+                temp.setDefaultExercises();
             } else {
                 activity.getDatastoreObject().loadAsText(function (error, metadata, data) {
                     if (error === null && data !== null) {
@@ -202,6 +205,53 @@ class Sugarizer extends Component {
                 // console.log("write failed.");
             }
         });
+    }
+
+    setDefaultExercises() {
+        // Default Exercises list
+        let defaultExercises = default_activities;
+
+        // Translate questions/answers
+
+        let temp = this;
+        let translate = function(text) {
+            if (!messages[temp.language]) return text;
+            let translated = messages[temp.language][text];
+            return translated || text;
+        };
+
+        let translateItem = function(item) {
+            let localized = ["title", "question","clozeText","answers","correctAns"];
+            for(let property in item) {
+                if (localized.indexOf(property) === -1) {
+                    continue;
+                }
+                if (!Array.isArray(item[property])) {
+                    item[property] = translate(item[property]);
+                } else {
+                    let elements = [];
+                    for (let j = 0 ; j < item[property].length ; j++) {
+                        elements.push(translate(item[property][j]));
+                    }
+                    item[property] = elements;
+                }
+            }
+            return item;
+        };
+
+        for (let i = 0 ; i < defaultExercises.length ; i++) {
+            let exercice = defaultExercises[i];
+            translateItem(exercice);
+            if (exercice.type === "MCQ") {
+                let questions = [];
+                for (let j = 0 ; j < exercice.questions.length ; j++) {
+                    questions.push(translateItem(exercice.questions[j]));
+                }
+                exercice.questions = questions;
+            }
+        }
+        // Add to Exercise list
+        this.props.setExercises(defaultExercises);
     }
 
     render() {
