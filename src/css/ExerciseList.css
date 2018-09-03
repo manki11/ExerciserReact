@@ -68,6 +68,7 @@
 }
 
 .home-container{
-    height: 100%;
+    height: auto;
+    min-height: 100%;
+    background-color: lightblue;
 }
-

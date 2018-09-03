@@ -10,6 +10,8 @@ import locale_en from 'react-intl/locale-data/en';
 import locale_fr from 'react-intl/locale-data/fr';
 import locale_es from 'react-intl/locale-data/es';
 
+import default_activities from "../default_activities";
+
 // Sugarizer Dependencies
 import activity from 'lib/sugar-web/activity/activity'
 import env from 'lib/sugar-web/env'
@@ -64,9 +66,10 @@ class Sugarizer extends Component {
                     temp.language= 'en';
                 }
             }
-
+            
             // Load from datastore
             if (!environment.objectId) {
+                // console.log("New instance");
                 temp.setDefaultExercises();
             } else {
                 activity.getDatastoreObject().loadAsText(function (error, metadata, data) {
@@ -204,6 +207,53 @@ class Sugarizer extends Component {
         });
     }
 
+    setDefaultExercises() {
+        // Default Exercises list
+        let defaultExercises = default_activities;
+
+        // Translate questions/answers
+
+        let temp = this;
+        let translate = function(text) {
+            if (!messages[temp.language]) return text;
+            let translated = messages[temp.language][text];
+            return translated || text;
+        };
+
+        let translateItem = function(item) {
+            let localized = ["title", "question","clozeText","answers","correctAns"];
+            for(let property in item) {
+                if (localized.indexOf(property) === -1) {
+                    continue;
+                }
+                if (!Array.isArray(item[property])) {
+                    item[property] = translate(item[property]);
+                } else {
+                    let elements = [];
+                    for (let j = 0 ; j < item[property].length ; j++) {
+                        elements.push(translate(item[property][j]));
+                    }
+                    item[property] = elements;
+                }
+            }
+            return item;
+        };
+
+        for (let i = 0 ; i < defaultExercises.length ; i++) {
+            let exercice = defaultExercises[i];
+            translateItem(exercice);
+            if (exercice.type === "MCQ") {
+                let questions = [];
+                for (let j = 0 ; j < exercice.questions.length ; j++) {
+                    questions.push(translateItem(exercice.questions[j]));
+                }
+                exercice.questions = questions;
+            }
+        }
+        // Add to Exercise list
+        this.props.setExercises(defaultExercises);
+    }
+
     render() {
         return (
             <IntlProvider locale={this.language} messages={messages[this.language]}>
@@ -220,143 +270,6 @@ class Sugarizer extends Component {
         );
     }
 
-    setDefaultExercises() {
-		// Default Exercises list
-		let defaultExercises = [
-			{
-				"id": 1,
-				"list": ["I", "IV", "V", "VI", "IX", "X", "L", "C", "D", "M"],
-				"question": "Order Roman numerals from the smaller to the greater",
-				"scores": [],
-				"times": [],
-				"title": "Learn Roman numerals",
-				"shared": false,
-				"type": "REORDER"
-			},
-			{
-				"id": 2,
-				"answers": ["cow", "bitch", "lioness", "hen", "mare", "ewe"],
-				"clozeText": "The female bull is -1-.\nThe female dog is -2-.\nThe female lion is -3-.\nThe female rooster is -4-.\nThe female stallion is -5-.\nThe female ram is -6-.",
-				"question": "Find female name for animals",
-				"scores": [],
-				"times": [],
-				"title": "Animals female name",
-				"shared": false,
-				"type": "CLOZE",
-				"writeIn": "WRITEIN"
-			},
-			{
-				"id": 3,
-				"answers": ["is", "am", "are", "is", "is", "are", "is", "am", "are", "is"],
-				"clozeText": "It -1- cold today.\nI -2- at home now.\nThey -3- French.\nThere -4- a pen on the book.\nMy name -5- John.\nWe -6- from Spain.\nThat -7- right.\nI -8- OK, thanks.\nKevin and Kate -9- married.\nShe -10- an English teacher.",
-				"question": "Chose the correct form of the verb to be",
-				"scores": [],
-				"times": [],
-				"title": "Conjugate \"to be\"",
-				"shared": false,
-				"type": "CLOZE",
-				"writeIn": "OPTIONS"
-			},
-			{
-				"id": 4,
-				"title": "Capitals of the World",
-				"questions": [
-					{
-						"id": 1,
-						"question": "What is the Capital of India?",
-						"correctAns": "New Delhi",
-						"answers": ["New Delhi", "Bangalore", "Mumbai", "Hyderabad"]
-					},
-					{
-						"id": 2,
-						"question": "What is the Capital of France?",
-						"correctAns": "Paris",
-						"answers": ["Paris", "Brussels", "Lyon", "Marseille"]
-					},
-					{
-						"id": 3,
-						"question": "What is the Capital of UK?",
-						"correctAns": "London",
-						"answers": ["London","Manchester", "Glasgow", "Liverpool"]
-					},
-					{
-						"id": 4,
-						"question": "What is the Capital of USA?",
-						"correctAns": "Washington DC",
-						"answers": ["Washington DC", "New York", "San Francisco", "Boston"]
-					},
-					{
-						"id": 5,
-						"question": "What is the Capital of Germany?",
-						"correctAns": "Berlin",
-						"answers": ["Berlin", "Munich", "Frankfurt", "Hamburg"]
-					},
-					{
-						"id": 6,
-						"question": "What is the Capital of Japan?",
-						"correctAns": "Tokyo",
-						"answers": ["Tokyo", "Kyoto", "Seoul", "Hiroshima"]
-					},
-					{
-						"id": 7,
-						"question": "What is the Capital of China?",
-						"correctAns": "Beijing",
-						"answers": ["Beijing", "Shanghai", "Hong Kong", "Shenzhen"]
-					},
-					{
-						"id": 8,
-						"question": "What is the Capital of Australia?",
-						"correctAns": "Canberra",
-						"answers": ["Canberra", "Melbourne", "Perth", "Sydney"]
-					}
-				],
-				"scores": [],
-				"times": [],
-				"shared": false,
-				"type": "MCQ"
-			},
-		];
-
-		// Translate questions/answers
-		var temp = this;
-		var translate = function(text) {
-			if (!messages[temp.language]) return text;
-			var translated = messages[temp.language][text];
-			return translated || text;
-		}
-		var translateItem = function(item) {
-			var localized = ["title", "question","clozeText","answers","correctAns"];
-			for(var property in item) {
-				if (localized.indexOf(property) == -1) {
-					continue;
-				}
-				if (!Array.isArray(item[property])) {
-					item[property] = translate(item[property]);
-				} else {
-					var elements = [];
-					for (var j = 0 ; j < item[property].length ; j++) {
-						elements.push(translate(item[property][j]));
-					}
-					item[property] = elements;
-				}
-			}
-			return item;
-		}
-		for (var i = 0 ; i < defaultExercises.length ; i++) {
-			var exercice = defaultExercises[i];
-			translateItem(exercice);
-			if (exercice.type == "MCQ") {
-				var questions = [];
-				for (var j = 0 ; j < exercice.questions.length ; j++) {
-					questions.push(translateItem(exercice.questions[j]));
-				}
-				exercice.questions = questions;
-			}
-		}
-
-		// Add to Exercise list
-		this.props.setExercises(defaultExercises);
-	}
 }
 
 function MapStateToProps(state) {

@@ -50,18 +50,13 @@ class CLOZEPlayer extends Component {
             let cloze = clozeText.split('\n').join(' <br/> ').split(/(-[0-9]*-)/);
 
             let options = [];
-            let deduplanswer = [];
-            let temp = this;
-            answers.map((ans, i) => {
-                if (temp.state.writeIn === "OPTIONS") {
-                    if (deduplanswer.indexOf(ans) == -1) {
-                        deduplanswer.push(ans);
-                        options.push({
-                            value: ans,
-                            label: ans
-                        });
-                    }
-                } else {
+
+            // array to remove duplicate answers
+            let noduplicates= [];
+            
+            answers.map((ans, i)=> {
+                if(noduplicates.indexOf(ans)===-1){
+                    noduplicates.push(ans);
                     options.push({
                         value: ans,
                         label: ans
@@ -88,9 +83,6 @@ class CLOZEPlayer extends Component {
                 goBackToEdit: goBackToEdit
             })
         }
-        var main = document.getElementsByClassName("main-container")[0];
-        main.classList.remove("list-background", "template-background", "score-background", "pscore-background", "mcq-play-background", "mcq-form-background", "cloze-play-background", "cloze-form-background", "reorder-play-background", "reorder-form-background");
-        main.classList.add("cloze-play-background");
     }
 
     shuffleArray(array) {
@@ -129,7 +121,7 @@ class CLOZEPlayer extends Component {
     handleChangeAnsInput = (e) => {
         const index = Number(e.target.name.split('-')[1]);
         const ans = this.state.userans.map((ans, i) => (
-            (i === index - 1 ? e.target.value : ans).trim()
+            i === index - 1 ? e.target.value : ans
         ));
         this.setState({
             ...this.state,
@@ -145,7 +137,7 @@ class CLOZEPlayer extends Component {
         let checkans = [];
         let score = 0;
         for (let i = 0; i < answers.length; i++) {
-            if (answers[i].toLowerCase() === userans[i].toLowerCase()) {
+            if (answers[i].toLowerCase().trim() === userans[i].toLowerCase().trim()) {
                 checkans.push(true);
                 score++;
             } else {
@@ -287,3 +279,4 @@ function MapStateToProps(state) {
 
 export default withRouter(
     connect(MapStateToProps, {addScoreTime})(CLOZEPlayer));
+

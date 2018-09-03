@@ -67,21 +67,21 @@ button:focus{
 
 .exercise-card-content {
     padding: 16px;
-    border: 1px solid black;
+	border: 1px solid black;
     box-shadow: 8px 8px 8px #888888;
 }
-
 .exercise-card-question {
     font-style: italic;
     font-size: 0.9rem;
-}
-
-.exercise-card-question {
     color: gray;
 }
 
 .exercise-title {
     margin: 0;
+}
+
+.exercise-card-hiscore{
+    margin-bottom: 20px;
 }
 
 .delete-button{
