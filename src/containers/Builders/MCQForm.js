@@ -265,7 +265,9 @@ class MCQForm extends Component {
     };
 
     // submit exercise
-    submitExercise = (bool) => {
+    submitExercise = (bool,e) => {
+        e.preventDefault();
+
         let id = this.state.id;
         if (this.state.id === -1) {
             id = this.props.counter;
@@ -429,14 +431,14 @@ class MCQForm extends Component {
                                 </div>
                                 <div className="form-group row justify-content-between">
                                     <button
-                                        onClick={()=>this.submitExercise(false)}
+                                        onClick={(e)=>this.submitExercise(false,e)}
                                         className={"btn button-finish"}
                                         disabled={!this.state.noOfQuestions >= 1}
                                     >
                                         <FormattedMessage id={FINISH_EXERCISE}/>
                                     </button>
                                     <button
-                                        onClick={()=> this.submitExercise(true)}
+                                        onClick={(e)=> this.submitExercise(true,e)}
                                         className={"btn button-finish"}
                                         disabled={!this.state.noOfQuestions >= 1}
                                     >
