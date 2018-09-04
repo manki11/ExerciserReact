@@ -181,8 +181,6 @@ class CLOZEForm extends Component {
 
     handleNewEvent = event => {
         event.preventDefault();
-        console.log(event);
-        
     };
 
     // submit and exercise and redirect
