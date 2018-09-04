@@ -170,9 +170,12 @@ class REORDERForm extends Component {
 
     handleNewEvent = event => {
         event.preventDefault();
+        console.log(event);
+        
     };
 
-    submitExercise = (bool) => {
+    submitExercise = (bool, e) => {
+        e.preventDefault();
         let id = this.state.id;
 
         if (this.state.id === -1) {
@@ -307,14 +310,14 @@ class REORDERForm extends Component {
                                         <br/>
                                         <div className="justify-content-end">
                                             <button
-                                                onClick={()=>this.submitExercise(false)}
+                                                onClick={(e)=>this.submitExercise(false,e)}
                                                 className={"btn button-finish"}
                                                 disabled={!this.state.isFormValid}
                                             >
                                                 <FormattedMessage id={FINISH_EXERCISE}/>
                                             </button>
                                             <button
-                                                onClick={()=>this.submitExercise(true)}
+                                                onClick={(e)=>this.submitExercise(true, e)}
                                                 className={"btn button-finish"}
                                                 disabled={!this.state.isFormValid}
                                             >
