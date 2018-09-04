@@ -170,8 +170,7 @@ class REORDERForm extends Component {
 
     handleNewEvent = event => {
         event.preventDefault();
-        console.log(event);
-        
+
     };
 
     submitExercise = (bool, e) => {
