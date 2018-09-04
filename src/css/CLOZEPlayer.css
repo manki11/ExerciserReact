@@ -42,9 +42,18 @@
 }
 
 div{
-    line-height: 2;
+    line-height: 1.5;
 }
 
 .cloze-container{
     margin-top: 5%!important;
+}
+
+
+.jumbotron {
+    background-color: #dfdfdf !important;
+}
+
+.lead {
+    font-weight: bold !important;
 }
