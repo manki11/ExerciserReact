@@ -155,6 +155,8 @@ class MCQForm extends Component {
 
     handleNewEvent = event => {
         event.preventDefault();
+        console.log(event);
+        
     };
 
     // save current question
