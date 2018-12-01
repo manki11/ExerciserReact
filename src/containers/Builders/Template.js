@@ -30,10 +30,11 @@ class Template extends Component {
     reorderSelected = () => {
         this.props.history.push('/new/reorder')
     };
-
+;
     render() {
+        let styles = { "background-color": this.props.current_user.colorvalue.stroke };
         return (
-            <div className="template-container">
+            <div className="template-container" style={styles}>
                 <div className="col-md-10 mx-auto">
                     <div className="row justify-content-center align-self-center">
                         <div className="col-sm-4">
@@ -92,7 +93,9 @@ class Template extends Component {
 }
 
 function mapStateToProps(state) {
-    return {};
+    return {
+        current_user: state.current_user
+    };
 }
 
 
