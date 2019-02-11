@@ -25,7 +25,7 @@ Copy the lib folder, inside the main directory of the project folder, into the n
 
 #### Running the project
 
-##### As a React App (No Sugarizer Features):
+##### As a React App (No Sugarizer Features, not recommended and might lead to the app breaking as it is meant to be run in Sugarizer):
 
 ```bash
 npm run start
