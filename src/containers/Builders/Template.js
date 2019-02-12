@@ -10,7 +10,7 @@ import {
     CHOOSE,
     CLOZE_TEXT,
     MCQ,
-    REORDER_LIST, TITLE_OF_EXERCISE
+    REORDER_LIST,
 } from "../translation";
 
 class Template extends Component {

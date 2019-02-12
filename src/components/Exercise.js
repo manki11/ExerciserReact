@@ -8,7 +8,7 @@ class Exercise extends Component {
 
     constructor(props) {
         super(props);
-        const {id, types} = this.props;
+        const {id} = this.props;
 
         this.state = {
             id: id,

@@ -1,5 +1,5 @@
 import React, {Component} from "react"
-import {Bar, Line, Pie} from 'react-chartjs-2';
+import {Bar} from 'react-chartjs-2';
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import {injectIntl} from "react-intl";
@@ -123,7 +123,7 @@ class PresenceScores extends Component {
 
     setChart=()=>{
         const {exercise} = this.props.location.state;
-        const {score, time}= this.state;
+        const {score}= this.state;
 
         const {shared_results} = exercise;
 

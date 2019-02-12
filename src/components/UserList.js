@@ -11,7 +11,7 @@ class UserList extends React.Component {
 
 
     render () {
-        const {userList, fill, stroke, isOpen}= this.props;
+        const {userList, stroke, isOpen}= this.props;
 
         let styles = {
             bmCrossButton: {
