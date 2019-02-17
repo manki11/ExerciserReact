@@ -13,9 +13,9 @@ import locale_es from 'react-intl/locale-data/es';
 import default_activities from "../default_activities";
 
 // Sugarizer Dependencies
-import activity from 'lib/sugar-web/activity/activity'
-import env from 'lib/sugar-web/env'
-import presencepalette from 'lib/sugar-web/graphics/presencepalette'
+import activity from '../lib/sugar-web/activity/activity'
+import env from '../lib/sugar-web/env'
+import presencepalette from '../lib/sugar-web/graphics/presencepalette'
 
 //Components
 import Main from "./Router";
