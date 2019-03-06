@@ -99,7 +99,7 @@ class Scores extends Component {
 
     setChart = () => {
         const {userScore, userTime, noOfQuestions, exercise} = this.props.location.state;
-        const {stroke, fill} = this.props.current_user.colorvalue;
+        const {stroke, fill} = this.props.current_user.colorvalue ? this.props.current_user.colorvalue : {stroke: "#00FFFF", fill: "#800080"};
 
         let score = Math.ceil(userScore / noOfQuestions * 100);
         let time = Math.ceil(userTime / 60);
