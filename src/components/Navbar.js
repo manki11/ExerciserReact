@@ -13,17 +13,50 @@ class Navbar extends Component {
         super(props);
 
         let {intl} = this.props;
+        this.state = {
+            displayHomeButton: false,
+            displayAddExerciseButton: true
+        }
+    }
+
+    toggleButtons=()=>{
+        this.setState({
+            displayHomeButton: !this.state.displayHomeButton,
+            displayAddExerciseButton: !this.state.displayAddExerciseButton
+        })
     }
 
     // redirect to new exercise template
     directToNew=()=>{
-        this.props.history.push('/new')
+        this.props.history.push('/new');
+        this.toggleButtons();
     };
 
     // redirect to home screen
     directToHome=()=>{
         this.props.history.push('/')
+        this.toggleButtons();
     };
+
+    HomeButton=(homeTitle)=>{
+        if(this.state.displayHomeButton){
+            return <button
+                        className="toolbutton"
+                        id="home-button"
+                        title={homeTitle}
+                        onClick={this.directToHome}/>
+        }
+    }
+
+    AddExerciseButton=(addTitle)=>{
+        if(this.state.displayAddExerciseButton){
+            return <button
+                        className="toolbutton"
+                        id="add-button"
+                        title={addTitle}
+                        onClick={this.directToNew}/>
+        }
+    }
 
     render() {
         let {intl} = this.props;
@@ -40,16 +73,13 @@ class Navbar extends Component {
                     className="toolbutton"
                     id="activity-button"
                     title={activityTitle}/>
-                <button
-                    className="toolbutton"
-                    id="home-button"
-                    title={homeTitle}
-                    onClick={this.directToHome}/>
-                <button
-                    className="toolbutton"
-                    id="add-button"
-                    title={addTitle}
-                    onClick={this.directToNew}/>
+                {
+                    this.HomeButton(homeTitle)
+                }
+                {
+                    this.AddExerciseButton(addTitle)
+                }
+                
                 <button
                     className="toolbutton"
                     id="network-button"
