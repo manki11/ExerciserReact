@@ -20,7 +20,6 @@
 .card-img-container {
     position: relative;
     width: 100%;
-    max-width: 400px;
     height: 200px;
     overflow: hidden;
 }
@@ -29,6 +28,7 @@
     background: url("../images/mcq_image.jpg");
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center;
 }
 
 .background-cloze{
