@@ -1,13 +1,13 @@
-## Sugariser Exerciser Activity
-
-### GSoC 2018 project for Sugar Labs
-
-Student: [Mankirat Singh](https://github.com/manki11)<br/>
-Mentor : [Lionel Laské](https://github.com/llaske)
+## Sugarizer Exerciser Activity
 
 The Sugarizer Exerciser Activity is an Academic focused Activity for the Sugarizer Platform. It provides Teachers to build interactive Exercises for students, using multiple templates, and share them with their Students using the sugarizer-server.
 
 ![](screenshots/screenshots.gif)
+
+This activity was developped by [Mankirat Singh](https://github.com/manki11) during GSoC 2018. 
+Learn more about this work on [Mankirat's blog](https://mankiratsinghtech.wordpress.com/2018/04/27/google-summer-of-code-2018/).
+
+The Exerciser Activity is written using ReactJS framework. The ReactJS source code is maintain here and, once build, the code is integrated in [Sugarizer](https://github.com/llaske/sugarizer).
 
 ### Steps to run project
 
@@ -47,12 +47,17 @@ The built activity can now be found inside the build folder.
 
 Copy the contents of the build folder and paste them inside the activity folder corresponding to Exerciser (/activities/Exerciser.activity), inside Sugarizer.
 
-Restart Sugarizer
+```
+rm -rf ../sugarizer/activities/Exerciser.activity/*
+cp -r build/* ../sugarizer/activities/Exerciser.activity
+```
+
+Restart Sugarizer.
 
 
 ## Contributing
 
-1. Fork it (<https://github.com/manki11/ExerciserReact/fork>)
+1. Fork it
 2. Create your feature branch (`git checkout -b feature/feature_name`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin feature/feature_name`)
