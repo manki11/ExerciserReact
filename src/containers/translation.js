@@ -12,6 +12,7 @@ export const REORDER_TEMPLATE_STRING= "Build an exercise with Jumbled Lists that
 export const CHOOSE="Choose";
 export const MCQ="MCQ";
 export const REORDER_LIST="Reorder List";
+export const CLOZEFORM = "Cloze"
 
 // FORM VIEW
 
