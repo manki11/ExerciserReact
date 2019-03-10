@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import '../css/Exercise.css'
 import {FormattedMessage} from 'react-intl';
-import {QUESTIONS, BEST_SCORE, MCQ, REORDER_LIST, CLOZE_TEXT, QUESTION_SINGULAR} from "../containers/translation";
+import {QUESTIONS, BEST_SCORE, MCQ, REORDER_LIST, CLOZE_TEXT, QUESTION_SINGULAR, PLAY, EDIT, DELETE} from "../containers/translation";
 
 
 class Exercise extends Component {
@@ -51,9 +51,13 @@ class Exercise extends Component {
             })
         }
 
-        let play = (<button type="button" className="play-button" onClick={this.playExercise}/>);
-        let edit = (<button type="button" disabled={shared} className="edit-button" onClick={this.editExercise}/>);
-        let cross = (<button type="button" disabled={shared} className="delete-button float-right" onClick={this.deleteExercise}/>);
+        let playTitle= <FormattedMessage id={PLAY}/>
+        let editTitle= <FormattedMessage id={EDIT}/>
+        let deleteTitle= <FormattedMessage id={DELETE}/>
+    
+        let play = (<button type="button" title={playTitle.props.id} className="play-button" onClick={this.playExercise}/>);
+        let edit = (<button type="button" title={editTitle.props.id} disabled={shared} className="edit-button" onClick={this.editExercise}/>);
+        let cross = (<button type="button" title={deleteTitle.props.id} disabled={shared} className="delete-button float-right" onClick={this.deleteExercise}/>);
         let share = "";
         let results = "";
 
