@@ -51,13 +51,17 @@ class Exercise extends Component {
             })
         }
 
-        let playTitle= <FormattedMessage id={PLAY}/>
-        let editTitle= <FormattedMessage id={EDIT}/>
-        let deleteTitle= <FormattedMessage id={DELETE}/>
     
-        let play = (<button type="button" title={playTitle.props.id} className="play-button" onClick={this.playExercise}/>);
-        let edit = (<button type="button" title={editTitle.props.id} disabled={shared} className="edit-button" onClick={this.editExercise}/>);
-        let cross = (<button type="button" title={deleteTitle.props.id} disabled={shared} className="delete-button float-right" onClick={this.deleteExercise}/>);
+        let play = (<FormattedMessage id={PLAY} defaultMessage={PLAY}>
+                        {(msg) => (<button type="button" title={msg} className="play-button" onClick={this.playExercise}/>)}
+                    </FormattedMessage>);
+        let edit = (<FormattedMessage id={EDIT} defaultMessage={EDIT}>
+                        {(msg) => (<button type="button" title={msg} disabled={shared} className="edit-button" onClick={this.editExercise}/>)}
+                    </FormattedMessage>);
+        let cross = (<FormattedMessage id={DELETE} defaultMessage={DELETE}>
+                        {(msg) => (<button type="button" title={msg} disabled={shared} className="delete-button float-right" onClick={this.deleteExercise}/>)}
+                    </FormattedMessage>);
+
         let share = "";
         let results = "";
 
