@@ -19,8 +19,7 @@ import {
     CLOZE_ERROR,
     ANSWER_ERROR,
     QUESTION_ERROR,
-    TITLE_ERROR,
-    CLOZEFORM
+    TITLE_ERROR
 } from "../translation";
 
 class CLOZEForm extends Component {
@@ -355,7 +354,7 @@ class CLOZEForm extends Component {
                     <div className="row align-items-center justify-content-center">
                         <div className="col-sm-10">
                             <div>
-                            <p><strong><FormattedMessage id={CLOZEFORM}/></strong></p>
+                            <p><strong><FormattedMessage id={CLOZE_TEXT}/></strong></p>
                             <hr className="my-3"/>
                                 <div className="col-md-12">
                                     <form onSubmit={this.handleNewEvent}>
