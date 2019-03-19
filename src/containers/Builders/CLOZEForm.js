@@ -286,6 +286,7 @@ class CLOZEForm extends Component {
     addBlank = () => {
         const {clozeText, nextBlank, cursorPos} = this.state;
 
+        // eslint-disable-next-line
         String.prototype.splice = function (idx, rem, str) {
             return this.slice(0, idx) + str + this.slice(idx + Math.abs(rem));
         };
