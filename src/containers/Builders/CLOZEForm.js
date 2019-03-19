@@ -126,7 +126,7 @@ class CLOZEForm extends Component {
     handleNewAns = () => {
         const {answers} = this.state;
         this.setState(
-            {answers: [...this.state.answers, '']},
+            { answers: [...answers, ''] },
             () => {
                 this.checkFormValidation();
             }
@@ -167,7 +167,7 @@ class CLOZEForm extends Component {
             isFormValid = false;
         }
 
-        answers.map((ans, i) => {
+        answers.forEach((ans, i) => {
             if (ans === '') {
                 isFormValid = false;
             }
