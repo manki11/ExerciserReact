@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import "../../css/NewExerciseTemplate.css"
@@ -13,26 +13,20 @@ import {
     REORDER_LIST, TITLE_OF_EXERCISE
 } from "../translation";
 
-class Template extends Component {
+const mcqSelected = (history) => {
+    history.push('/new/mcq')
+};
 
-    constructor(props) {
-        super(props);
-    }
+const clozeSelected = (history) => {
+    history.push('/new/cloze')
+};
 
-    mcqSelected = () => {
-        this.props.history.push('/new/mcq')
-    };
+const reorderSelected = (history) => {
+    history.push('/new/reorder')
+};
 
-    clozeSelected = () => {
-        this.props.history.push('/new/cloze')
-    };
-
-    reorderSelected = () => {
-        this.props.history.push('/new/reorder')
-    };
-;
-    render() {
-        let styles = { "backgroundColor": this.props.current_user.colorvalue ? this.props.current_user.colorvalue.stroke : "#FFFFFF" };
+function Template(props) {
+        let styles = { "backgroundColor": props.current_user.colorvalue ? props.current_user.colorvalue.stroke : "#FFFFFF" };
         return (
             <div className="template-container" style={styles}>
                 <div className="col-md-10 mx-auto">
@@ -47,7 +41,7 @@ class Template extends Component {
                                     <p className="card-text">
                                         <FormattedMessage id={MCQ_TEMPLATE_STRING}/>
                                     </p>
-                                    <button className="button-choose" onClick={this.mcqSelected}>
+                                    <button className="button-choose" onClick={mcqSelected.bind(null,props.history)}>
                                         <FormattedMessage id={CHOOSE}/>
                                     </button>
                                 </div>
@@ -63,7 +57,7 @@ class Template extends Component {
                                     <p className="card-text">
                                         <FormattedMessage id={CLOZE_TEMPLATE_STRING}/>
                                     </p>
-                                    <button className="button-choose" onClick={this.clozeSelected}>
+                                    <button className="button-choose" onClick={clozeSelected.bind(null,props.history)}>
                                         <FormattedMessage id={CHOOSE}/>
                                     </button>
                                 </div>
@@ -79,7 +73,7 @@ class Template extends Component {
                                     <p className="card-text">
                                         <FormattedMessage id={REORDER_TEMPLATE_STRING}/>
                                     </p>
-                                    <button className="button-choose" onClick={this.reorderSelected}>
+                                    <button className="button-choose" onClick={reorderSelected.bind(null,props.history)}>
                                         <FormattedMessage id={CHOOSE}/>
                                     </button>
                                 </div>
@@ -90,7 +84,6 @@ class Template extends Component {
             </div>
         );
     }
-}
 
 function mapStateToProps(state) {
     return {
