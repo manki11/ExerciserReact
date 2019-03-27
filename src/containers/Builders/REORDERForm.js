@@ -13,6 +13,7 @@ import {
     ITEM,
     LIST_ERROR, TITLE_ERROR,
 } from "../translation";
+import "../../css/REORDERForm.css";
 
 class REORDERForm extends Component {
 

@@ -63,3 +63,7 @@ button{
 .down-button{
     background-image: url("../icons/exercise/down.svg");
 }
+
+.button-choices-add .button-choices-sub {
+    background-color: gray!important;
+}

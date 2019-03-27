@@ -97,6 +97,7 @@ div label{
     background-image: url("../icons/navbar/add.svg")!important;
     background-size: contain !important;
     background: #808080;
+    background-color: gray!important;
 }
 
 .button-choices-sub{
@@ -107,4 +108,5 @@ div label{
     background-image: url("../icons/exercise/sub.svg")!important;
     background-size: contain !important;
     background: #808080;
+    background-color: gray!important;
 }
