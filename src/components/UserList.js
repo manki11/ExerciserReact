@@ -2,11 +2,6 @@ import { slide as Menu } from 'react-burger-menu'
 import React from 'react';
 import "../css/UserList.css"
 
-
-const handleStateChange = (state)=>{
-    this.props.onStateChange(state)
-};
-
 function UserList(props){
         const {userList, fill, stroke, isOpen}= props;
 
@@ -25,7 +20,7 @@ function UserList(props){
 
         return (
             <Menu
-                onStateChange={(state) => handleStateChange.bind(this,state)}
+                onStateChange={props.onStateChange}
                 isOpen={isOpen}
                 customBurgerIcon={false}
                 right styles={styles}
