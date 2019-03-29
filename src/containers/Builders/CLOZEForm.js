@@ -284,25 +284,17 @@ class CLOZEForm extends Component {
 
     // to add a blank dynamically
     addBlank = () => {
-        const {clozeText, nextBlank, cursorPos} = this.state;
+       const {clozeText, nextBlank, cursorPos} = this.state;
 
-        // eslint-disable-next-line
-        String.prototype.splice = function (idx, rem, str) {
-            return this.slice(0, idx) + str + this.slice(idx + Math.abs(rem));
-        };
-
-
-        let updatedCloze = clozeText.splice(cursorPos, 0, ` -${nextBlank}- `);
-
+        let updatedCloze = `${clozeText} -${nextBlank}- `;
+        
         let blank = this.findNextBlank(updatedCloze);
 
         this.setState({
             clozeText: updatedCloze,
             nextBlank: blank,
             cursorPos: cursorPos + 5
-        }, () => {
-
-        })
+        });
     };
 
     render() {
