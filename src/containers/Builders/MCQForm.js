@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import {connect} from "react-redux";
 import {incrementExerciseCounter} from "../../store/actions/increment_counter";
 import {addNewExercise, editExercise} from "../../store/actions/exercises";
+import activity from 'lib/sugar-web/activity/activity';
+import env from 'lib/sugar-web/env';
 import {FormattedMessage} from 'react-intl';
 import {
     QUESTION,
@@ -40,6 +42,8 @@ class MCQForm extends Component {
             },
             currentQuestion: {
                 id: 1,
+                isImage: false,
+                image: {},
                 question: "",
                 answers: ['', ''],
             }
@@ -51,6 +55,8 @@ class MCQForm extends Component {
         if (this.props.location.state) {
             const {id, title, questions, scores, times} = this.props.location.state.exercise;
             const currentQuestion = questions[0];
+            console.log(currentQuestion);
+            
             this.setState({
                 ...this.state,
                 id: id,
@@ -65,7 +71,9 @@ class MCQForm extends Component {
                     id: currentQuestion.id,
                     question: currentQuestion.question,
                     answers: currentQuestion.answers,
-                    correctAns: currentQuestion.correctAns
+                    correctAns: currentQuestion.correctAns,
+                    isImage: currentQuestion.isImage,
+                    image: currentQuestion.image
                 }
             });
         }
@@ -157,23 +165,81 @@ class MCQForm extends Component {
         event.preventDefault();
     };
 
+    insertImage = () => {
+        let activityState= this;
+
+        env.getEnvironment(function (err, environment) {
+
+            if(environment.user!=undefined) {
+                let backend = activity.insertMedia();
+                let chooser = backend.chooser;
+                let datastore = backend.datastore;
+
+                chooser.show(function(entry) {
+
+                    if (!entry) {
+                        return;
+                    }
+
+                    var dataentry = new datastore.DatastoreObject(entry.objectId);
+                    dataentry.loadAsText(function(err, metadata, text) {
+
+                        var element = document.createElement('img');
+                        element.src = text;
+
+                        element.onload = function() {
+                            var imgWidth = element.width;
+                            var imgHeight = element.height;
+
+                            if(imgWidth>200){
+                                imgHeight= (200/imgWidth)* imgHeight;
+                                imgWidth= 200
+                            }
+
+                            if(imgHeight>200){
+                                imgWidth= (200/imgHeight)* imgWidth;
+                                imgHeight=200
+                            }
+
+                            activityState.setState({
+                                currentQuestion: {
+                                    ...activityState.state.currentQuestion,
+                                    isImage: true,
+                                    image: {
+                                        src: text,
+                                        height: imgHeight,
+                                        width: imgWidth
+                                    }
+                                }})
+                            }
+                        });
+                }, {mimetype: 'image/png'}, {mimetype: 'image/jpeg'});
+            }
+        }.bind(this))
+    };
+
     // save current question
     saveCurrentForm = () => {
         this.checkFormValidation();
 
         if (this.state.isFormValid) {
             const {currentQuestionNo, noOfQuestions} = this.state;
-            const {question, answers} = this.state.currentQuestion;
+            const {question, answers, isImage, image} = this.state.currentQuestion;
 
             let correctAns = answers[0];
             let id = currentQuestionNo;
 
             let Ques = {
                 id: id,
+                isImage: isImage,
+                image: image,
                 answers: answers,
                 question: question,
                 correctAns: correctAns
             };
+            
+            console.log(Ques);
+            
 
 
             if (currentQuestionNo > noOfQuestions) {
@@ -188,6 +254,8 @@ class MCQForm extends Component {
                     currentQuestion: {
                         id: id + 1,
                         question: "",
+                        isImage: false,
+                        image: {},
                         answers: ['', ''],
                     }
                 });
@@ -206,12 +274,14 @@ class MCQForm extends Component {
                         currentQuestionNo: currentQuestionNo + 1,
                         currentQuestion: {
                             id: currentQuestionNo + 1,
-                            question: '',
+                            question: "",
+                            isImage: false,
+                            image: {},
                             answers: ['', ''],
                         }
                     });
                 } else {
-                    const {question, answers, correctAns} = this.state.questions[index];
+                    const {question, answers, correctAns, isImage, image} = this.state.questions[index];
 
                     let correct = correctAns;
 
@@ -228,6 +298,8 @@ class MCQForm extends Component {
                             id: index + 1,
                             question: question,
                             answers: answers,
+                            isImage: isImage,
+                            image: image,
                             correctAns: correct
                         }
                     }, () => {
@@ -282,6 +354,9 @@ class MCQForm extends Component {
             times: this.state.times
         };
 
+        console.log(exercise);
+
+
         if (this.state.edit) {
             this.props.editExercise(exercise);
         } else {
@@ -300,11 +375,13 @@ class MCQForm extends Component {
         let previousQuestionNo = currentQuestionNo - 1;
 
         let previousQuestion = this.state.questions[previousQuestionNo - 1];
-        const {id, question, answers} = previousQuestion;
+        const {id, question, answers, isImage, image} = previousQuestion;
         let currentQuestion = {
             id: id,
             question: question,
-            answers: answers
+            answers: answers,
+            isImage: isImage,
+            image: image
         };
 
         this.setState({
@@ -356,6 +433,14 @@ class MCQForm extends Component {
             answer_error = <span style={{color: "red"}}><FormattedMessage id={ANSWER_ERROR}/></span>;
         }
 
+        let image= '';
+        if(currentQuestion.isImage){
+            const {src, height, width}= currentQuestion.image;
+            image= <img className="img-thumbnail img-fluid"
+                        style= {{width: width, height: height, margin:'0 auto', display:'block'}}
+                        src={src}/>
+        }
+
         return (
             <div className="container">
             <div className="container-fluid">
@@ -391,6 +476,20 @@ class MCQForm extends Component {
                                         {question_error}
                                     </div>
                                 </div>
+                                <div className="row">
+                                    <div className="form-group">
+                                        <button
+                                            type="button"
+                                            onClick={this.insertImage}
+                                            className="btn button-image-add">
+                                        </button>
+                                    </div>
+                                </div>
+                                <div className="row">
+                                    <div className="form-group">
+                                        {image}
+                                    </div>
+                                </div>
                                 {inputs}
                                 <div>
                                     {answer_error}
@@ -401,7 +500,6 @@ class MCQForm extends Component {
                                             type="button"
                                             onClick={this.handleNewAns}
                                             className="btn button-choices-add">
-
                                         </button>
                                         <button
                                             type="button"

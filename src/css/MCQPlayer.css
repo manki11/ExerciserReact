@@ -2,6 +2,10 @@
     /*margin-top: 20px;*/
 }
 
+.mcq-container{
+    margin-top: 10%!important;
+}
+
 .choices-div{
     display: inline-block;
     width: 100%;

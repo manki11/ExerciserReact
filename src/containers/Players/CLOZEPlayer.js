@@ -4,7 +4,7 @@ import {connect} from "react-redux";
 import {addScoreTime} from '../../store/actions/exercises';
 import "../../css/CLOZEPlayer.css"
 import Select from 'react-select';
-import 'react-select/dist/react-select.css';
+// import 'react-select/dist/react-select.css';
 import {SUBMIT_QUESTION, FINISH_EXERCISE} from "../translation";
 import {FormattedMessage} from 'react-intl';
 

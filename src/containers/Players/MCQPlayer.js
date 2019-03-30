@@ -32,7 +32,9 @@ class MCQPlayer extends Component {
                 id: 1,
                 question: '',
                 answers: [],
-                correctAns: ''
+                correctAns: '',
+                isImage:'',
+                image: {}
             }
         }
     }
@@ -50,7 +52,7 @@ class MCQPlayer extends Component {
             let goBackToEdit = false;
             if (this.props.location.state.edit) goBackToEdit = true;
 
-            let answers = currentQuestion.answers;
+            let answers = currentQuestion.answers.slice();
             this.shuffleArray(answers);
 
             this.setState({
@@ -68,7 +70,9 @@ class MCQPlayer extends Component {
                     id: currentQuestion.id,
                     question: currentQuestion.question,
                     answers: answers,
-                    correctAns: currentQuestion.correctAns
+                    correctAns: currentQuestion.correctAns,
+                    isImage: currentQuestion.isImage,
+                    image: currentQuestion.image
                 }
             })
         }
@@ -120,7 +124,7 @@ class MCQPlayer extends Component {
             this.finishExercise();
         } else {
             const nextQuestion = questions[nextQuestionNo - 1];
-            let answers = nextQuestion.answers;
+            let answers = nextQuestion.answers.slice();
             this.shuffleArray(answers);
             let finish = false;
             if (nextQuestionNo === questions.length) finish = true;
@@ -135,7 +139,9 @@ class MCQPlayer extends Component {
                     id: nextQuestion.id,
                     question: nextQuestion.question,
                     answers: answers,
-                    correctAns: nextQuestion.correctAns
+                    correctAns: nextQuestion.correctAns,
+                    isImage: nextQuestion.isImage,
+                    image: nextQuestion.image
                 }
             })
         }
@@ -188,6 +194,7 @@ class MCQPlayer extends Component {
                     }
                 }
             }
+
             return (
                 <div className="choices-row" key={`answers-${i}`}>
                     <div className="col-md-6 choices-div">
@@ -200,6 +207,14 @@ class MCQPlayer extends Component {
                 </div>
             )
         });
+
+        let image= '';
+        if(currentQuestion.isImage){
+            const {src, height, width}= currentQuestion.image;
+            image= <img className="img-thumbnail img-fluid"
+                        style= {{width: width, height: height, margin:'0 auto', display:'block'}}
+                        src={src}/>
+        }
 
         let buttonText = <FormattedMessage id={SUBMIT_QUESTION}/>;
         if (this.state.submitted) {
@@ -216,6 +231,9 @@ class MCQPlayer extends Component {
                                 <p className="lead">{this.state.title}</p>
                                 <hr className="my-4"/>
                                 <p>{id}. {this.state.currentQuestion.question}</p>
+                                <div className="row">
+                                        {image}
+                                </div>
                             </div>
                             <div className="row">
                                 {choices}

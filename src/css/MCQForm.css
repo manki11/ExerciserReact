@@ -99,6 +99,16 @@ div label{
     background: #808080;
 }
 
+.button-image-add{
+    width: 32px;
+    height: 32px;
+    border-radius: 16px!important;
+    text-align: center;
+    background-image: url("../icons/exercise/camera.svg")!important;
+    background-size: contain !important;
+    background: #808080;
+}
+
 .button-choices-sub{
     width: 32px;
     height: 32px;
