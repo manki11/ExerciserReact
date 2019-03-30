@@ -1,5 +1,6 @@
 import React from "react";
 import {Switch, Route, withRouter} from "react-router-dom";
+
 import ExerciseList from "./ExerciseList";
 import Scores from "./Scores/Scores"
 
@@ -14,11 +15,11 @@ import REORDERPlay from "./Players/REORDERPlayer"
 import {injectIntl} from 'react-intl';
 import '../css/index.css';
 
-
 import NewExerciseTemplate from "./Builders/Template";
 import PresenceScores from "./Scores/PresenceScores";
-const Main= props=> {
-    console.log({props})
+
+const Main = props => {
+
     const {onUpdate, onSharedResult}= props;
 
     return(
