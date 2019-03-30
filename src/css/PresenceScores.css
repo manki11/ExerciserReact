@@ -7,6 +7,20 @@
     border-radius: 20px;
 }
 
+.answer-button{
+    width: 40px;
+    height: 40px;
+    background-image: url("../icons/exercise/answer.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 20px;
+}
+
+.answer-button:hover{
+    background-color: lightskyblue!important;
+    border: 2px solid transparent!important;
+}
+
 .score-button:hover{
     background-color: lightskyblue!important;
     border: 2px solid transparent!important;

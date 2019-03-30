@@ -124,6 +124,7 @@ class REORDERPlayer extends Component {
                 userScore: score,
                 times: times,
                 userTime: currentTime,
+                add: true,
                 noOfQuestions: noOfQuestions,
                 exercise: exercise,
                 type: "REORDER"

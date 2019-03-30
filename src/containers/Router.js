@@ -12,6 +12,8 @@ import MCQPlay from "./Players/MCQPlayer";
 import CLOZEPlay from "./Players/CLOZEPlayer";
 import REORDERPlay from "./Players/REORDERPlayer"
 
+import MCQResult from "./Results/MCQResult"
+
 import {injectIntl} from 'react-intl';
 import '../css/index.css';
 
@@ -32,6 +34,7 @@ const Main= props=> {
                 <Route exact path="/new/mcq" render={props=> <MCQForm/>} {...props}/>
                 <Route exact path="/edit/mcq" render={props=> <MCQForm/>} {...props}/>
                 <Route exact path="/play/mcq" render={props=> <MCQPlay/>} {...props}/>
+                <Route exact path="/result/mcq" render={props=> <MCQResult/>} {...props}/>
 
                 // CLOZE
                 <Route exact path="/new/cloze" render={props=> <CLOZEForm/>} {...props}/>

@@ -27,7 +27,7 @@ class MCQPlayer extends Component {
             goBackToEdit: false,
             currentScore: 0,
             finish: false,
-
+            scoreSheet: [],
             currentQuestion: {
                 id: 1,
                 question: '',
@@ -66,6 +66,7 @@ class MCQPlayer extends Component {
                 times: times,
                 finish: finish,
                 goBackToEdit: goBackToEdit,
+                scoreSheet: [],
                 currentQuestion: {
                     id: currentQuestion.id,
                     question: currentQuestion.question,
@@ -105,14 +106,24 @@ class MCQPlayer extends Component {
 
     // submit the exercise ( calculate score and time ) show correct/ wrong ans
     submitQuestion = () => {
-        const {currentScore, selectedAns, currentQuestion} = this.state;
+        const {currentScore, selectedAns, currentQuestion, scoreSheet} = this.state;
         const {correctAns} = currentQuestion;
         let score = currentScore;
-        if (selectedAns === correctAns) score = score + 1;
+        let isCorrect= false;
+        if (selectedAns === correctAns) {
+            score = score + 1;
+            isCorrect= true
+        }
+        let quesAnswered= {
+            ...currentQuestion,
+            selectedAns,
+            isCorrect
+        };
         this.setState({
             selected: false,
             submitted: true,
-            currentScore: score
+            currentScore: score,
+            scoreSheet:[...scoreSheet, quesAnswered]
         })
     };
 
@@ -150,7 +161,9 @@ class MCQPlayer extends Component {
 
     // redirect to scores screen/ edit screen
     finishExercise = () => {
-        const {scores, currentScore, id, currentTime, times, noOfQuestions, goBackToEdit} = this.state;
+        const {scores, currentScore, id, currentTime, times, noOfQuestions, goBackToEdit, scoreSheet} = this.state;
+        console.log(scoreSheet);
+        
         let exercise = this.props.location.state.exercise;
 
         if (goBackToEdit)
@@ -166,6 +179,8 @@ class MCQPlayer extends Component {
                 userTime: currentTime,
                 noOfQuestions: noOfQuestions,
                 exercise: exercise,
+                add: true,
+                scoreSheet: scoreSheet,
                 type: "MCQ"
             });
         }

@@ -172,7 +172,7 @@ class Sugarizer extends Component {
         });
     };
 
-    onExerciseResult = (id, score, time)=>{
+    onExerciseResult = (id, score, time, scoreSheet)=>{
         let presence= this.presence;
         presence.sendMessage(presence.getSharedInfo().id, {
             user: presence.getUserInfo(),
@@ -182,7 +182,8 @@ class Sugarizer extends Component {
                     user: presence.getUserInfo(),
                     id:id,
                     score: score,
-                    time: time
+                    time: time,
+                    scoreSheet: scoreSheet
                 }
             }
         });

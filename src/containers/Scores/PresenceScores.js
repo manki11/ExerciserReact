@@ -18,6 +18,8 @@ class PresenceScores extends Component {
         this.state = {
             score: true,
             time: false,
+            answer: false,
+            results: [],
             chartScores: {
                 chartData: {},
                 options: {
@@ -50,8 +52,8 @@ class PresenceScores extends Component {
                     }
                 }
             },
-            chartTimes:{
-                chartData:{},
+            chartTimes: {
+                chartData: {},
                 options: {
                     title: {
                         display: true,
@@ -89,21 +91,21 @@ class PresenceScores extends Component {
         }
     }
 
-    compare_score=(a, b)=> {
-        if (a.score < b.score){
+    compare_score = (a, b) => {
+        if (a.score < b.score) {
             return 1;
         }
-        if (b.score < a.score){
+        if (b.score < a.score) {
             return -1;
         }
         return 0;
     };
 
-    compare_time=(a, b)=> {
-        if (a.time > b.time){
+    compare_time = (a, b) => {
+        if (a.time > b.time) {
             return 1;
         }
-        if (b.time < a.time){
+        if (b.time < a.time) {
             return -1;
         }
         return 0;
@@ -115,15 +117,15 @@ class PresenceScores extends Component {
         }
     }
 
-    componentDidMount(){
+    componentDidMount() {
         if (this.props.location) {
             this.setChart();
         }
     }
 
-    setChart=()=>{
+    setChart = () => {
         const {exercise} = this.props.location.state;
-        const {score, time}= this.state;
+        const {score, time} = this.state;
 
         const {shared_results} = exercise;
 
@@ -132,10 +134,12 @@ class PresenceScores extends Component {
         let fills = [];
         let scores = [];
         let times = [];
+        let results = [];
 
         if (score) shared_results.sort(this.compare_score);
-        else  shared_results.sort(this.compare_time);
+        else shared_results.sort(this.compare_time);
 
+        console.log(shared_results);
 
         shared_results.map((result, index) => {
             users.push(result.user.name);
@@ -143,11 +147,20 @@ class PresenceScores extends Component {
             fills.push(result.user.colorvalue.fill);
             scores.push(result.score);
             times.push(result.time);
+
+            let r = {
+                user: result.user.name,
+                score: result.score,
+                time: result.time,
+                scoreSheet: result.scoreSheet
+            };
+            results.push(r)
         });
 
-        if(score) {
+        if (score) {
             this.setState({
                 ...this.state,
+                results: results,
                 chartScores: {
                     ...this.state.chartScores,
                     chartData: {
@@ -164,7 +177,7 @@ class PresenceScores extends Component {
                     }
                 }
             })
-        }else{
+        } else {
             this.setState({
                 ...this.state,
                 chartTimes: {
@@ -189,8 +202,9 @@ class PresenceScores extends Component {
     score = () => {
         this.setState({
             score: true,
-            time: false
-        },()=>{
+            time: false,
+            answer: false,
+        }, () => {
             this.setChart();
         })
     };
@@ -198,40 +212,93 @@ class PresenceScores extends Component {
     time = () => {
         this.setState({
             score: false,
-            time: true
-        },()=>{
+            time: true,
+            answer: false,
+        }, () => {
             this.setChart();
         })
+    };
+
+    answer = () => {
+        this.setState({
+            score: false,
+            time: false,
+            answer: true,
+        })
+    };
+
+    showResult = (i) => {
+        const {results} = this.state;
+        const {exercise} = this.props.location.state;
+
+        let result = results[i];
+
+        if (exercise.type === "MCQ") {
+            this.props.history.push('/result/mcq', {
+                userScore: result.score,
+                userTime: result.time,
+                noOfQuestions: exercise.questions.length,
+                exercise: exercise,
+                scoreSheet: result.scoreSheet,
+                type: "MCQ",
+                isPresence: true
+            });
+        }
     };
 
     render() {
 
         let score_active = "";
         let time_active = "";
+        let answer_active = "";
 
         if (this.state.score)
             score_active = "active";
-        else
+        else if (this.state.time)
             time_active = "active";
+        else
+            answer_active = "active";
 
         let score = (<button type="button" className={"score-button " + score_active} onClick={this.score}/>);
         let time = (<button type="button" className={"time-button " + time_active} onClick={this.time}/>);
+        let answer = (<button type="button" className={"answer-button " + answer_active} onClick={this.answer}/>)
 
-        let chart="";
+        let body = "";
+        let chart = "";
+        let list = "";
 
-        if(this.state.score)
-            chart= (<Bar data={this.state.chartScores.chartData} options={this.state.chartScores.options}/>);
+        if (this.state.score)
+            chart = (<Bar data={this.state.chartScores.chartData} options={this.state.chartScores.options}/>);
         else
-            chart= (<Bar data={this.state.chartTimes.chartData} options={this.state.chartTimes.options}/>);
+            chart = (<Bar data={this.state.chartTimes.chartData} options={this.state.chartTimes.options}/>);
+
+        if (this.state.score || this.state.time) body = chart;
+        else body = this.state.results.map((result, i) => {
+            return (
+                    <div className="col-sm-5">
+                        <div className="jumbotron">
+                            <div className="col-sm-6">
+                                <p style={{fontSize: "20px"}}>{result.user}</p>
+                            </div>
+                            <div className="col-sm-4">
+                                <button type="button" className={"answer-button"} onClick={() => this.showResult(i)}/>
+                            </div>
+                        </div>
+                    </div>
+            )
+        });
 
         return (
             <div className="container">
                 <div className="container-fluid">
-                <div className="row">
-                    {score}
-                    {time}
-                    {chart}
-                </div>
+                    <div className="row">
+                        {score}
+                        {time}
+                        {answer}
+                        <div className="container-fluid">
+                        {body}
+                        </div>
+                    </div>
                 </div>
             </div>
         )
