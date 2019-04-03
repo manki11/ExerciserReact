@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+
 import { connect } from "react-redux";
 import {withRouter} from "react-router-dom";
 import '../css/Navbar.css'
@@ -12,6 +12,7 @@ const directToNew = (history) =>{
     history.push('/new');
 };
 
+
 // redirect to home screen
 const directToHome = (history) =>{
     history.push('/');
@@ -19,7 +20,6 @@ const directToHome = (history) =>{
 
 function Navbar(props){
         let {intl} = props;
-
         let activityTitle= intl.formatMessage({id: MY_ACTIVITY});
         let homeTitle= intl.formatMessage({id: HOME});
         let addTitle= intl.formatMessage({id: ADD_EXERCISE});

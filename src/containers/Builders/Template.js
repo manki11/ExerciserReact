@@ -10,12 +10,13 @@ import {
     CHOOSE,
     CLOZE_TEXT,
     MCQ,
-    REORDER_LIST, TITLE_OF_EXERCISE
+    REORDER_LIST
 } from "../translation";
 
 const mcqSelected = (history) => {
     history.push('/new/mcq')
 };
+
 
 const clozeSelected = (history) => {
     history.push('/new/cloze')
