@@ -23,7 +23,8 @@ npm install
 
 Copy the lib folder, inside the main directory of the project folder, into the node_modules folder (after npm install). These are dependencies required by the sugarizer platform.
 
-```mkdir node_modules/lib
+```bash
+mkdir node_modules/lib
 cp -r lib/* node_modules/lib
 ```
 
