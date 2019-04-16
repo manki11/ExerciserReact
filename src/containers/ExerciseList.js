@@ -36,7 +36,10 @@ class ExerciseList extends Component {
     }
 
     onDelete = id => {
-        this.props.removeExercises(id);
+        const confirm = window.confirm("Are you sure you want to delete!");
+        if (confirm == true) {
+          this.props.removeExercises(id);
+        }
     };
 
     onEdit = id => {
