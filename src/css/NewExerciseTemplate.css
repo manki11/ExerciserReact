@@ -48,7 +48,7 @@
     background-color: #808080;
     display: flex;
     justify-content: center;
-    color: white;
+    color: white!important;
     border: 2px solid transparent;
     border-radius: 22px;
     line-height: 22px;
