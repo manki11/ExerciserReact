@@ -102,8 +102,8 @@ button {
   -moz-user-select: none;
 }
 button:hover {
-  background-color: #a2a2a2!important;
-  border-color: #a2a2a2!important;
+  background-color: #a2a2a2;
+  border-color: #a2a2a2;
 }
 button:active {
   color: black;
@@ -243,8 +243,8 @@ input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none !important;
 }
 input[type='range']::-webkit-slider-thumb:hover {
-  background-color: #e2e2e2!important;
-  border-color: #a2a2a2!important;
+  background-color: #e2e2e2;
+  border-color: #a2a2a2;
 }
 .toolbar input[type='range'] {
   margin-top: 22px;

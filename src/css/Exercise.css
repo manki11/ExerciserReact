@@ -110,7 +110,10 @@ button:disabled{
     background-color: lightgrey!important;
 }
 
-
+button:hover:disabled{
+    background-color: lightgrey!important;
+    border-color: transparent!important;
+}
 
 .play-button:hover{
     background-color: limegreen!important;
