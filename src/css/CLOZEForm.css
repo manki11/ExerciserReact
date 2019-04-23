@@ -31,7 +31,7 @@ td{
 button{
     margin-right: 10px!important;
     background-color: #808080;
-    color: white;
+    color: white!important;
     border: 2px transparent solid;
     border-radius: 22px;
     line-height: 22px;
