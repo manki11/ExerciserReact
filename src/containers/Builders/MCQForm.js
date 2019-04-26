@@ -184,6 +184,7 @@ class MCQForm extends Component {
                         ...this.state.questions,
                         Ques
                     ],
+                    isFormValid: false,
                     noOfQuestions: id,
                     currentQuestionNo: id + 1,
                     currentQuestion: {
@@ -204,6 +205,7 @@ class MCQForm extends Component {
                     this.setState({
                         ...this.state,
                         questions: updatedQuestions,
+                        isFormValid: false,
                         currentQuestionNo: currentQuestionNo + 1,
                         currentQuestion: {
                             id: currentQuestionNo + 1,
@@ -224,6 +226,7 @@ class MCQForm extends Component {
                     this.setState({
                         ...this.state,
                         questions: updatedQuestions,
+                        isFormValid: false,
                         currentQuestionNo: index + 1,
                         currentQuestion: {
                             id: index + 1,
@@ -262,7 +265,7 @@ class MCQForm extends Component {
         this.setState({
             ...this.state,
             isFormValid: isFormValid
-        })
+        });
     };
 
     // submit exercise
