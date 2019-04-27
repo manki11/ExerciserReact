@@ -334,7 +334,6 @@ class MCQForm extends Component {
                                     name={`answer-${i}`}
                                     type="text"
                                     value={ans}
-                                    required
                                     placeholder={placeholder}
                                     onChange={this.handleChangeAns}/>}
                             </FormattedMessage>
@@ -374,7 +373,6 @@ class MCQForm extends Component {
                                                 className="input-mcq"
                                                 type="text"
                                                 id="title"
-                                                required
                                                 value={this.state.title}
                                                 onChange={this.handleChangeTitle}
                                             />
@@ -388,7 +386,6 @@ class MCQForm extends Component {
                                                 className="input-mcq"
                                                 type="text"
                                                 id="question"
-                                                required
                                                 value={this.state.currentQuestion.question}
                                                 onChange={this.handleChangeQues}
                                             />

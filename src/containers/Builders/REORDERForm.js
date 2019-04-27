@@ -223,7 +223,6 @@ class REORDERForm extends Component {
                                     name={`answer-${i}`}
                                     type="text"
                                     value={ans}
-                                    required
                                     placeholder={`${placeholder}`}
                                     onChange={this.handleChangeAns}
                                 />}
@@ -268,7 +267,6 @@ class REORDERForm extends Component {
                                                 className="input-mcq"
                                                 type="text"
                                                 id="title"
-                                                required
                                                 value={this.state.title}
                                                 onChange={this.handleChangeTitle}
                                             />
@@ -282,7 +280,6 @@ class REORDERForm extends Component {
                                                 className="input-mcq"
                                                 type="text"
                                                 id="question"
-                                                required
                                                 value={this.state.question}
                                                 onChange={this.handleChangeQues}
                                             />
