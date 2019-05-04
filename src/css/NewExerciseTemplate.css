@@ -25,20 +25,20 @@
 }
 
 .background-mcq{
-    background: url("../images/mcq_image.jpg");
+    background: url("../images/mcq_image.svg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
 }
 
 .background-cloze{
-    background: url("../images/cloze_image.jpg");
+    background: url("../images/cloze_image.svg");
     background-repeat: no-repeat;
     background-size: cover;
 }
 
 .background-reorder{
-    background: url("../images/list_reorder_image.png");
+    background: url("../images/list_reorder_image.svg");
     background-repeat: no-repeat;
     background-size: cover;
 }
