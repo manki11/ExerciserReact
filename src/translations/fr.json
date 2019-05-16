@@ -43,6 +43,7 @@
   "Answer field can't be empty":"La réponse ne peut pas être vide",
   "Cloze field can't be empty":"Le texte ne peut pas être vide",
   "List field can't be empty":"Un élément de la liste ne peut pas être vide",
+  "Number of clozes and blanks should be same":"Le nombre de clozes et de blancs doit être identique",
   "Item {number}":"Elément {number}",
   "Capitals of the World":"Capitales du monde",
   "What is the Capital of India?":"Quelle est la capitale de l'Inde ?",

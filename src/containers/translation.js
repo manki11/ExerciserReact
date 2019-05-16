@@ -41,6 +41,7 @@ export const QUESTION_ERROR="Question field can't be empty";
 export const ANSWER_ERROR="Answer field can't be empty";
 export const CLOZE_ERROR="Cloze field can't be empty";
 export const LIST_ERROR="List field can't be empty";
+export const BLANKS_ERROR="Number of clozes and blanks should be same";
 
 // REORDER FORM
 export const ITEM="Item {number}";

@@ -19,7 +19,8 @@ import {
     CLOZE_ERROR,
     ANSWER_ERROR,
     QUESTION_ERROR,
-    TITLE_ERROR
+    TITLE_ERROR,
+    BLANKS_ERROR
 } from "../translation";
 
 class CLOZEForm extends Component {
@@ -44,7 +45,8 @@ class CLOZEForm extends Component {
                 question: false,
                 answers: false,
                 title: false,
-                cloze: false
+                cloze: false,
+                unevenBlanks: false
             },
             typeOfExcercise:'Cloze'
         };
@@ -153,8 +155,9 @@ class CLOZEForm extends Component {
 
     // to check for validation
     checkFormValidation = () => {
-        const {title, question, answers, clozeText} = this.state;
+        const {title, question, answers, clozeText, nextBlank} = this.state;
         let isFormValid = true;
+        let unevenBlanks = false;
 
         if (question === '') {
             isFormValid = false;
@@ -174,8 +177,17 @@ class CLOZEForm extends Component {
             }
         });
 
+        if (answers.length < (nextBlank-1)) {
+            isFormValid = false;
+            unevenBlanks = true;
+        }
+
         this.setState({
             ...this.state,
+            errors: {
+                ...this.state.errors,
+                unevenBlanks: unevenBlanks
+            },
             isFormValid: isFormValid
         })
     };
@@ -295,6 +307,8 @@ class CLOZEForm extends Component {
             clozeText: updatedCloze,
             nextBlank: blank,
             cursorPos: cursorPos + 5
+        }, () => {
+            this.checkFormValidation();
         });
     };
 
@@ -327,6 +341,7 @@ class CLOZEForm extends Component {
         let question_error = '';
         let answer_error = '';
         let cloze_error = '';
+        let uneven_blanks_error = '';
 
         if (errors['title']) {
             title_error = <span style={{color: "red"}}><FormattedMessage id={TITLE_ERROR}/></span>;
@@ -339,6 +354,9 @@ class CLOZEForm extends Component {
         }
         if (errors['cloze']) {
             cloze_error = <span style={{color: "red"}}><FormattedMessage id={CLOZE_ERROR}/></span>;
+        }
+        if (errors['unevenBlanks']) {
+            uneven_blanks_error = <span style={{color: "red"}}><FormattedMessage id={BLANKS_ERROR}/></span>;
         }
         return (
             <div className="container">
@@ -428,6 +446,7 @@ class CLOZEForm extends Component {
                                                 {cloze_error}
                                             </div>
                                         </div>
+                                        {uneven_blanks_error}
                                         {inputs}
                                         <div>
                                             {answer_error}
