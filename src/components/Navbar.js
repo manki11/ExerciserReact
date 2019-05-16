@@ -32,21 +32,19 @@ function Navbar(props){
                     className="toolbutton"
                     id="activity-button"
                     title={activityTitle}/>
-                { props.location.pathname != '/'?
+                {props.location.pathname !== '/' &&
                 <button
                     className="toolbutton"
                     id="home-button"
                     title={homeTitle}
                     onClick={directToHome.bind(null,props.history)}/>
-                : ''
                 }
-                { props.location.pathname != '/new'?
+                {props.location.pathname !== '/new' &&
                 <button
                     className="toolbutton"
                     id="add-button"
                     title={addTitle}
                     onClick={directToNew.bind(null,props.history)}/>
-                : ''
                 }
                 <button
                     className="toolbutton"
