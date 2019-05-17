@@ -43,6 +43,8 @@
   "Answer field can't be empty":"Answer field can't be empty",
   "Cloze field can't be empty":"Cloze field can't be empty",
   "List field can't be empty":"List field can't be empty",
+  "Thumbnail": "Thumbnail",
+  "Insert Thumbnail": "Insert Thumbnail",
   "Item {number}":"Item {number}",
   "Capitals of the World":"Capitals of the World",
   "What is the Capital of India?":"What is the Capital of India?",

@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import '../css/Exercise.css'
 import {FormattedMessage} from 'react-intl';
 import {QUESTIONS, BEST_SCORE, MCQ, REORDER_LIST, CLOZE_TEXT, QUESTION_SINGULAR, PLAY, EDIT, DELETE} from "../containers/translation";
-
+import cloze_background from '../images/cloze_image.svg'
+import mcq_background from '../images/mcq_image.svg'
+import reorder_background from '../images/list_reorder_image.svg'
 
 class Exercise extends Component {
 
@@ -14,6 +16,11 @@ class Exercise extends Component {
             id: id,
         }
 
+        this.background = {
+            'CLOZE':cloze_background,
+            'MCQ':mcq_background,
+            "REORDER":reorder_background
+        }
     }
 
     // when play button is clicked
@@ -42,7 +49,7 @@ class Exercise extends Component {
     };
 
     render() {
-        const {title, type, questions, scores, answers, list, isShared, isHost, shared} = this.props;
+        const {title, type, questions, scores, answers, list, isShared, isHost, shared, thumbnail} = this.props;
 
         let highest = 0;
         if (scores.length > 0) {
@@ -105,7 +112,7 @@ class Exercise extends Component {
         return (
             <div className="col-md-12">
                 <div className="card">
-                    <div className="exercise-card-content">
+                    <div className="exercise-card-content" style={{backgroundImage: `url(${thumbnail!==''?thumbnail:this.background[type]})`}}>
                         <h3 className="card-title">{title}</h3>
                         <div><strong><FormattedMessage id={localized_type}/></strong></div>
                         <div className="exercise-card-question">{question_string}</div>

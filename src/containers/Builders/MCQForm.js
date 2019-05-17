@@ -3,6 +3,8 @@ import {connect} from "react-redux";
 import {incrementExerciseCounter} from "../../store/actions/increment_counter";
 import {addNewExercise, editExercise} from "../../store/actions/exercises";
 import {FormattedMessage} from 'react-intl';
+import activity from 'lib/sugar-web/activity/activity';
+import env from 'lib/sugar-web/env';
 import {
     QUESTION,
     FINISH_EXERCISE,
@@ -15,7 +17,9 @@ import {
     TITLE_ERROR,
     QUESTION_ERROR,
     ANSWER_ERROR,
-    MCQ
+    MCQ,
+    INSERT_THUMBNAIL,
+    THUMBNAIL
 } from "../translation";
 import {withRouter} from "react-router-dom"
 import "../../css/MCQForm.css"
@@ -34,6 +38,7 @@ class MCQForm extends Component {
             scores: [],
             times: [],
             isFormValid: false,
+            thumbnail: '',
             errors: {
                 question: false,
                 answers: false,
@@ -50,7 +55,7 @@ class MCQForm extends Component {
     // in case of edit load the exercise
     componentDidMount() {
         if (this.props.location.state) {
-            const {id, title, questions, scores, times} = this.props.location.state.exercise;
+            const {id, title, questions, scores, times, thumbnail} = this.props.location.state.exercise;
             const currentQuestion = questions[0];
             this.setState({
                 ...this.state,
@@ -58,6 +63,7 @@ class MCQForm extends Component {
                 title: title,
                 edit: true,
                 isFormValid: true,
+                thumbnail:thumbnail,
                 questions: questions,
                 scores: scores,
                 times: times,
@@ -69,6 +75,24 @@ class MCQForm extends Component {
                     correctAns: currentQuestion.correctAns
                 }
             });
+
+            if(this.props.location.state.exercise.thumbnail != null && this.props.location.state.exercise.thumbnail != undefined) {
+                let inputCanvas = document.getElementById('inputCanvas');
+                var element = document.createElement('img');
+                element.src = this.props.location.state.exercise.thumbnail;
+                element.onload = function() {
+                    var ctx = inputCanvas.getContext('2d');
+                    var imgWidth = element.width;
+                    var imgHeight = element.height;
+                    var maxWidth = inputCanvas.getBoundingClientRect().width;
+                    var maxHeight = inputCanvas.getBoundingClientRect().height;
+                    var ratio = Math.min(maxWidth / imgWidth, maxHeight / imgHeight);
+                    var newWidth = ratio * imgWidth;
+                    var newHeight = ratio * imgHeight;
+                    ctx.clearRect(0, 0, inputCanvas.width, inputCanvas.height);
+                    ctx.drawImage(element, 0, 0, newWidth, newHeight);
+                }
+            }
         }
     }
 
@@ -283,6 +307,7 @@ class MCQForm extends Component {
             type: "MCQ",
             questions: this.state.questions,
             scores: this.state.scores,
+            thumbnail: this.state.thumbnail,
             times: this.state.times
         };
 
@@ -316,6 +341,66 @@ class MCQForm extends Component {
             currentQuestionNo: id,
             currentQuestion: currentQuestion
         })
+    };
+
+    insertThumbnail = () => {
+
+        env.getEnvironment( (err, environment) => {
+
+            if(environment.user!=undefined) {
+               let backend = activity.insertMedia();
+               let chooser = backend.chooser;
+               let datastore = backend.datastore;
+               let inputCanvas = document.getElementById('inputCanvas');
+               let pictureString;
+               // Display journal dialog popup
+               chooser.show((entry) => {
+                   // No selection
+                   if (!entry) {
+                       return;
+                   }
+                   // Get object content
+                   var dataentry = new datastore.DatastoreObject(entry.objectId);
+                   dataentry.loadAsText((err, metadata, text) => {
+                       //We load the drawing inside an image element
+                       var element = document.createElement('img');
+                       element.src = text;
+                       pictureString = text;
+                       this.setState({
+                                   ...this.state,
+                                   thumbnail: pictureString
+                               }); 
+                       element.onload = function() {
+                           //We draw the drawing to the canvas
+                           var ctx = inputCanvas.getContext('2d');
+                           var imgWidth = element.width;
+                           var imgHeight = element.height;
+                           var maxWidth = inputCanvas.getBoundingClientRect().width;
+                           var maxHeight = inputCanvas.getBoundingClientRect().height;
+                           var ratio = Math.min(maxWidth / imgWidth, maxHeight / imgHeight);
+                           var newWidth = ratio * imgWidth;
+                           var newHeight = ratio * imgHeight;
+                           ctx.clearRect(0, 0, inputCanvas.width, inputCanvas.height);
+                           ctx.drawImage(element, 0, 0, newWidth, newHeight);
+
+                            // /* If the activity is shared we send the element to everyone */
+                           // if (PaintApp.data.isShared) {
+                           //     try {
+                           //         PaintApp.collaboration.sendMessage({
+                           //             action: 'toDataURL',
+                           //             data: {
+                           //                 width: PaintApp.elements.canvas.width / window.devicePixelRatio,
+                           //                 height: PaintApp.elements.canvas.height / window.devicePixelRatio,
+                           //                 src: PaintApp.collaboration.compress(PaintApp.elements.canvas.toDataURL())
+                           //             }
+                           //         });
+                           //     } catch (e) {}
+                           // }
+                       }
+                   });
+               }, {mimetype: 'image/png'}, {mimetype: 'image/jpeg'});
+           }
+       })
     };
 
     render() {
@@ -357,6 +442,13 @@ class MCQForm extends Component {
         }
         if (errors['answers']) {
             answer_error = <span style={{color: "red"}}><FormattedMessage id={ANSWER_ERROR}/></span>;
+        }
+
+        let thumbnail;
+        if(this.state.thumbnail === '') {
+            thumbnail = <canvas style={{display: 'none'}} id="inputCanvas"></canvas>
+        } else {
+            thumbnail = <canvas id="inputCanvas"></canvas>
         }
 
         return (
@@ -413,6 +505,21 @@ class MCQForm extends Component {
                                                 className="btn button-choices-sub">
 
                                             </button>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="form-group">
+                                            <div className="cloze row  justify-content-between">
+                                                <label htmlFor="thumbnail"><FormattedMessage id={THUMBNAIL}/>:</label>
+                                                <div className="justify-content-end">
+                                                    <button className="btn button-finish" onClick={this.insertThumbnail}>
+                                                        <FormattedMessage id={INSERT_THUMBNAIL}/>
+                                                    </button>                                                                                      
+                                                </div>
+                                            </div>
+                                                <div>
+                                                    {thumbnail}
+                                                </div>
                                         </div>
                                     </div>
                                     <div className="form-group row justify-content-between">

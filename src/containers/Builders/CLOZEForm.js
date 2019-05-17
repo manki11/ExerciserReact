@@ -5,6 +5,8 @@ import {addNewExercise, editExercise} from "../../store/actions/exercises";
 import {FormattedMessage} from 'react-intl';
 import {withRouter} from "react-router-dom"
 import "../../css/CLOZEForm.css"
+import activity from 'lib/sugar-web/activity/activity';
+import env from 'lib/sugar-web/env';
 import {
     FINISH_EXERCISE,
     QUESTION,
@@ -19,7 +21,9 @@ import {
     CLOZE_ERROR,
     ANSWER_ERROR,
     QUESTION_ERROR,
-    TITLE_ERROR
+    TITLE_ERROR,
+    INSERT_THUMBNAIL,
+    THUMBNAIL
 } from "../translation";
 
 class CLOZEForm extends Component {
@@ -40,6 +44,7 @@ class CLOZEForm extends Component {
             isFormValid: false,
             answers: [''],
             writeIn: "OPTIONS",
+            thumbnail: '',
             errors: {
                 question: false,
                 answers: false,
@@ -53,7 +58,7 @@ class CLOZEForm extends Component {
     // in case of edit load the exercise
     componentDidMount() {
         if (this.props.location.state) {
-            const {id, title, question, scores, times, clozeText, answers, writeIn} = this.props.location.state.exercise;
+            const {id, title, question, scores, times, clozeText, answers, writeIn, thumbnail} = this.props.location.state.exercise;
             let nextBlank = answers.length + 1;
 
             this.setState({
@@ -68,8 +73,27 @@ class CLOZEForm extends Component {
                 clozeText: clozeText,
                 answers: answers,
                 writeIn: writeIn,
-                nextBlank: nextBlank
+                nextBlank: nextBlank,
+                thumbnail: thumbnail
             });
+
+            if(this.props.location.state.exercise.thumbnail != null && this.props.location.state.exercise.thumbnail != undefined) {
+                let inputCanvas = document.getElementById('inputCanvas');
+                var element = document.createElement('img');
+                element.src = this.props.location.state.exercise.thumbnail;
+                element.onload = function() {
+                    var ctx = inputCanvas.getContext('2d');
+                    var imgWidth = element.width;
+                    var imgHeight = element.height;
+                    var maxWidth = inputCanvas.getBoundingClientRect().width;
+                    var maxHeight = inputCanvas.getBoundingClientRect().height;
+                    var ratio = Math.min(maxWidth / imgWidth, maxHeight / imgHeight);
+                    var newWidth = ratio * imgWidth;
+                    var newHeight = ratio * imgHeight;
+                    ctx.clearRect(0, 0, inputCanvas.width, inputCanvas.height);
+                    ctx.drawImage(element, 0, 0, newWidth, newHeight);
+                }
+            }
         }
     }
 
@@ -202,7 +226,8 @@ class CLOZEForm extends Component {
             clozeText: this.state.clozeText,
             answers: this.state.answers,
             scores: this.state.scores,
-            writeIn: this.state.writeIn
+            writeIn: this.state.writeIn,
+            thumbnail: this.state.thumbnail
         };
 
 
@@ -298,6 +323,67 @@ class CLOZEForm extends Component {
         });
     };
 
+    insertThumbnail = () => {
+
+        env.getEnvironment( (err, environment) => {
+
+            if(environment.user!=undefined) {
+               let backend = activity.insertMedia();
+               let chooser = backend.chooser;
+               let datastore = backend.datastore;
+               let inputCanvas = document.getElementById('inputCanvas');
+               let pictureString;
+               // Display journal dialog popup
+               chooser.show((entry) => {
+                   // No selection
+                   if (!entry) {
+                       return;
+                   }
+                   // Get object content
+                   var dataentry = new datastore.DatastoreObject(entry.objectId);
+                   dataentry.loadAsText((err, metadata, text) => {
+                       //We load the drawing inside an image element
+                       var element = document.createElement('img');
+                       element.src = text;
+                       pictureString = text;
+                       this.setState({
+                                   ...this.state,
+                                   thumbnail: pictureString
+                               }); 
+                       element.onload = function() {
+                           //We draw the drawing to the canvas
+                           var ctx = inputCanvas.getContext('2d');
+                           var imgWidth = element.width;
+                           var imgHeight = element.height;
+                           var maxWidth = inputCanvas.getBoundingClientRect().width;
+                           var maxHeight = inputCanvas.getBoundingClientRect().height;
+                           var ratio = Math.min(maxWidth / imgWidth, maxHeight / imgHeight);
+                           var newWidth = ratio * imgWidth;
+                           var newHeight = ratio * imgHeight;
+                           ctx.clearRect(0, 0, inputCanvas.width, inputCanvas.height);
+                           ctx.drawImage(element, 0, 0, newWidth, newHeight);
+
+                            // /* If the activity is shared we send the element to everyone */
+                           // if (PaintApp.data.isShared) {
+                           //     try {
+                           //         PaintApp.collaboration.sendMessage({
+                           //             action: 'toDataURL',
+                           //             data: {
+                           //                 width: PaintApp.elements.canvas.width / window.devicePixelRatio,
+                           //                 height: PaintApp.elements.canvas.height / window.devicePixelRatio,
+                           //                 src: PaintApp.collaboration.compress(PaintApp.elements.canvas.toDataURL())
+                           //             }
+                           //         });
+                           //     } catch (e) {}
+                           // }
+                       }
+                   });
+               }, {mimetype: 'image/png'}, {mimetype: 'image/jpeg'});
+           }
+       })
+    };
+
+
     render() {
         const {errors, answers} = this.state;
         let inputs = answers.map((ans, i) => {
@@ -340,6 +426,14 @@ class CLOZEForm extends Component {
         if (errors['cloze']) {
             cloze_error = <span style={{color: "red"}}><FormattedMessage id={CLOZE_ERROR}/></span>;
         }
+
+        let thumbnail;
+        if(this.state.thumbnail === '') {
+            thumbnail = <canvas style={{display: 'none'}} id="inputCanvas"></canvas>
+        } else {
+            thumbnail = <canvas id="inputCanvas"></canvas>
+        }
+
         return (
             <div className="container">
                 <div className="container-fluid">
@@ -446,6 +540,21 @@ class CLOZEForm extends Component {
                                                     className="btn button-choices-sub">
 
                                                 </button>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="form-group">
+                                                <div className="cloze row  justify-content-between">
+                                                    <label htmlFor="thumbnail"><FormattedMessage id={THUMBNAIL}/>:</label>
+                                                    <div className="justify-content-end">
+                                                        <button className="btn button-finish" onClick={this.insertThumbnail}>
+                                                            <FormattedMessage id={INSERT_THUMBNAIL}/>
+                                                        </button>                                                                                      
+                                                    </div>
+                                                </div>
+                                                    <div>
+                                                        {thumbnail}
+                                                    </div>
                                             </div>
                                         </div>
                                         <div className="form-group row justify-content-between">
