@@ -25,6 +25,7 @@ function Navbar(props){
         let addTitle= intl.formatMessage({id: ADD_EXERCISE});
         let networkTitle= intl.formatMessage({id: NETWORK});
         let stopTitle= intl.formatMessage({id: STOP});
+        console.log(props.location.pathname);
 
         return (
             <div id="main-toolbar" className="toolbar">
@@ -39,7 +40,9 @@ function Navbar(props){
                     title={homeTitle}
                     onClick={directToHome.bind(null,props.history)}/>
                 }
-                {props.location.pathname !== '/new' &&
+                {!props.location.pathname.startsWith('/new') &&
+                 !props.location.pathname.startsWith('/edit') &&
+                 !props.location.pathname.startsWith('/play') &&
                 <button
                     className="toolbutton"
                     id="add-button"
