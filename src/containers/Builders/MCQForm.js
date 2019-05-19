@@ -3,7 +3,8 @@ import {connect} from "react-redux";
 import {incrementExerciseCounter} from "../../store/actions/increment_counter";
 import {addNewExercise, editExercise} from "../../store/actions/exercises";
 import {FormattedMessage} from 'react-intl';
-import activity from 'lib/sugar-web/activity/activity';
+import datastore from 'lib/sugar-web/datastore';
+import chooser from 'lib/sugar-web/graphics/journalchooser';
 import env from 'lib/sugar-web/env';
 import {
     QUESTION,
@@ -348,9 +349,6 @@ class MCQForm extends Component {
         env.getEnvironment( (err, environment) => {
 
             if(environment.user!=undefined) {
-               let backend = activity.insertMedia();
-               let chooser = backend.chooser;
-               let datastore = backend.datastore;
                let inputCanvas = document.getElementById('inputCanvas');
                let pictureString;
                // Display journal dialog popup

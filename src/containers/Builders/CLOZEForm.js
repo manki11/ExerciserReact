@@ -5,9 +5,8 @@ import {addNewExercise, editExercise} from "../../store/actions/exercises";
 import {FormattedMessage} from 'react-intl';
 import {withRouter} from "react-router-dom"
 import "../../css/CLOZEForm.css"
-import activityDatastore from 'lib/sugar-web/datastore';
-import activityChooser from 'lib/sugar-web/graphics/journalchooser';
-// import activity from 'lib/sugar-web/activity/activity';
+import datastore from 'lib/sugar-web/datastore';
+import chooser from 'lib/sugar-web/graphics/journalchooser';
 import env from 'lib/sugar-web/env';
 import {
     FINISH_EXERCISE,
@@ -330,12 +329,6 @@ class CLOZEForm extends Component {
         env.getEnvironment( (err, environment) => {
 
             if(environment.user!=undefined) {
-               let backend = {
-                   chooser: activityChooser,
-                   datastore: activityDatastore
-               }
-               let chooser = backend.chooser;
-               let datastore = backend.datastore;
                let inputCanvas = document.getElementById('inputCanvas');
                let pictureString;
                // Display journal dialog popup
