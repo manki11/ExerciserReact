@@ -25,7 +25,6 @@ function Navbar(props){
         let addTitle= intl.formatMessage({id: ADD_EXERCISE});
         let networkTitle= intl.formatMessage({id: NETWORK});
         let stopTitle= intl.formatMessage({id: STOP});
-        console.log(props.location.pathname);
 
         return (
             <div id="main-toolbar" className="toolbar">
