@@ -190,9 +190,16 @@ class Sugarizer extends Component {
     stopActivity() {
         const {counter, exercises } = this.props;
 
+        let journalExercises = exercises.map((exercise)=> {
+            return ( {
+                ...exercise,
+                shared:false
+            });
+        })
+
         let json = {
             counter: counter,
-            exercises: exercises,
+            exercises: journalExercises,
         };
 
         let jsonData = JSON.stringify(json);
