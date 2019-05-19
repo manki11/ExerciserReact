@@ -108,20 +108,26 @@ class Exercise extends Component {
         let question_string=(<FormattedMessage id={QUESTIONS} values={{number: length}}/>);
         if(length===1) question_string=(<FormattedMessage id={QUESTION_SINGULAR} values={{number: length}}/>);
 
-
         return (
-            <div className="col-md-12">
+            <div className="col-md-10">
                 <div className="card">
-                    <div className="exercise-card-content" style={{backgroundImage: `url(${thumbnail!==''?thumbnail:this.background[type]})`}}>
+                    <div className="card-img-container">
+                        <div className="card-img-top" style={{backgroundImage: `url(${thumbnail!==''?thumbnail:this.background[type]})`}}/>
+                    </div>
+                    <div className="card-body">
                         <h3 className="card-title">{title}</h3>
                         <div><strong><FormattedMessage id={localized_type}/></strong></div>
-                        <div className="exercise-card-question">{question_string}</div>
-                        <div className="exercise-card-hiscore"><FormattedMessage id={BEST_SCORE}/>: {highest}/{length}</div>
-                        {play}
-                        {edit}
-                        {cross}
-                        {share}
-                        {results}
+                        <p className="card-text">
+                            <div className="exercise-card-question">{question_string}</div>
+                            <div className="exercise-card-hiscore"><FormattedMessage id={BEST_SCORE}/>: {highest}/{length}</div>
+                        </p>
+                        <div className="buttons">
+                            {play}
+                            {edit}
+                            {cross}
+                            {share}
+                            {results}
+                        </div>
                     </div>
                 </div>
             </div>

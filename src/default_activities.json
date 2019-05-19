@@ -7,7 +7,8 @@
     "times": [],
     "title": "Learn Roman numerals",
     "shared": false,
-    "type": "REORDER"
+    "type": "REORDER",
+    "thumbnail": ""
   },
   {
     "id": 2,
@@ -19,7 +20,8 @@
     "title": "Animals female name",
     "shared": false,
     "type": "CLOZE",
-    "writeIn": "WRITEIN"
+    "writeIn": "WRITEIN",
+    "thumbnail": ""
   },
   {
     "id": 3,
@@ -31,7 +33,8 @@
     "title": "Conjugate \"to be\"",
     "shared": false,
     "type": "CLOZE",
-    "writeIn": "OPTIONS"
+    "writeIn": "OPTIONS",
+    "thumbnail": ""
   },
   {
     "id": 4,
@@ -89,6 +92,7 @@
     "scores": [],
     "times": [],
     "shared": false,
-    "type": "MCQ"
+    "type": "MCQ",
+    "thumbnail": ""
   }
 ]
