@@ -5,6 +5,10 @@ import {QUESTIONS, BEST_SCORE, MCQ, REORDER_LIST, CLOZE_TEXT, QUESTION_SINGULAR,
 import cloze_background from '../images/cloze_image.svg'
 import mcq_background from '../images/mcq_image.svg'
 import reorder_background from '../images/list_reorder_image.svg'
+import world_background from '../images/defaultExerciseThumbnail/world.png';
+import animal_background from '../images/defaultExerciseThumbnail/animal.png';
+import numeral_background from '../images/defaultExerciseThumbnail/numerals.jpg';
+import conjugate_background from '../images/defaultExerciseThumbnail/conjugate.jpg';
 
 class Exercise extends Component {
 
@@ -19,7 +23,14 @@ class Exercise extends Component {
         this.background = {
             'CLOZE':cloze_background,
             'MCQ':mcq_background,
-            "REORDER":reorder_background
+            'REORDER':reorder_background
+        }
+
+        this.defaultExerciseThumbnail = {
+            'Capitals of the World': world_background,
+            'Animals female name' : animal_background,
+            'Learn Roman numerals': numeral_background,
+            'Conjugate "to be"': conjugate_background
         }
     }
 
@@ -49,7 +60,8 @@ class Exercise extends Component {
     };
 
     render() {
-        const {title, type, questions, scores, answers, list, isShared, isHost, shared, thumbnail} = this.props;
+        const {title, type, questions, scores, answers, list, isShared, isHost, shared} = this.props;
+        let { thumbnail } = this.props; 
 
         let highest = 0;
         if (scores.length > 0) {
@@ -60,6 +72,8 @@ class Exercise extends Component {
             });
         }
 
+        if(this.defaultExerciseThumbnail[title])
+            thumbnail = this.defaultExerciseThumbnail[title];
     
         let play = (<FormattedMessage id={PLAY} defaultMessage={PLAY}>
                         {(msg) => (<button type="button" title={msg} className="play-button" onClick={this.playExercise}/>)}

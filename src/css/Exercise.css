@@ -124,6 +124,8 @@ button:hover:disabled{
 }
 
 .card-img-top {
+    background-repeat: no-repeat;
+    background-size: cover;
     background-position: center;
     position: absolute;
     left: 50%;
