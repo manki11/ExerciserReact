@@ -44,6 +44,7 @@
   "Cloze field can't be empty":"Cloze field can't be empty",
   "List field can't be empty":"List field can't be empty",
   "Number of clozes and blanks should be same": "El número de clozes y espacios en blanco debe ser el mismo",
+  "Same blank cannot be used more than once": "El mismo blanco no se puede usar más de una vez",
   "Item {number}":"Item {number}",
   "Capitals of the World":"Capitals of the World",
   "What is the Capital of India?":"What is the Capital of India?",
