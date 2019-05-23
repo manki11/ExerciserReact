@@ -32,16 +32,22 @@ function Navbar(props){
                     className="toolbutton"
                     id="activity-button"
                     title={activityTitle}/>
+                {props.location.pathname !== '/' &&
                 <button
                     className="toolbutton"
                     id="home-button"
                     title={homeTitle}
                     onClick={directToHome.bind(null,props.history)}/>
+                }
+                {!props.location.pathname.startsWith('/new') &&
+                 !props.location.pathname.startsWith('/edit') &&
+                 !props.location.pathname.startsWith('/play') &&
                 <button
                     className="toolbutton"
                     id="add-button"
                     title={addTitle}
                     onClick={directToNew.bind(null,props.history)}/>
+                }
                 <button
                     className="toolbutton"
                     id="network-button"
