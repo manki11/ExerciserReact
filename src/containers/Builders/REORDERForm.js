@@ -60,22 +60,10 @@ class REORDERForm extends Component {
                 list: list
             });
 
-            if(this.props.location.state.exercise.thumbnail != null && this.props.location.state.exercise.thumbnail != undefined) {
-                let inputCanvas = document.getElementById('inputCanvas');
+            if(this.props.location.state.exercise.thumbnail) {
                 var element = document.createElement('img');
                 element.src = this.props.location.state.exercise.thumbnail;
-                element.onload = function() {
-                    var ctx = inputCanvas.getContext('2d');
-                    var imgWidth = element.width;
-                    var imgHeight = element.height;
-                    var maxWidth = inputCanvas.getBoundingClientRect().width;
-                    var maxHeight = inputCanvas.getBoundingClientRect().height;
-                    var ratio = Math.min(maxWidth / imgWidth, maxHeight / imgHeight);
-                    var newWidth = ratio * imgWidth;
-                    var newHeight = ratio * imgHeight;
-                    ctx.clearRect(0, 0, inputCanvas.width, inputCanvas.height);
-                    ctx.drawImage(element, 0, 0, newWidth, newHeight);
-                }
+                element.onload = () => {this.renderImageToCanvas(element)}
             }
         }
     }
@@ -232,61 +220,45 @@ class REORDERForm extends Component {
             this.props.history.push('/')
     };
 
+    renderImageToCanvas = (imageElement) => {
+        //We draw the drawing to the canvas
+        let canvas = document.getElementById('inputCanvas');
+        var ctx = canvas.getContext('2d');
+        var imgWidth = imageElement.width;
+        var imgHeight = imageElement.height;
+        var maxWidth = canvas.getBoundingClientRect().width;
+        var maxHeight = canvas.getBoundingClientRect().height;
+        var ratio = Math.min(maxWidth / imgWidth, maxHeight / imgHeight);
+        var newWidth = ratio * imgWidth;
+        var newHeight = ratio * imgHeight;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(imageElement, 0, 0, newWidth, newHeight);
+    }
+
     insertThumbnail = () => {
-
         env.getEnvironment( (err, environment) => {
-
-            if(environment.user!=undefined) {
-               let inputCanvas = document.getElementById('inputCanvas');
-               let pictureString;
-               // Display journal dialog popup
-               chooser.show((entry) => {
-                   // No selection
-                   if (!entry) {
-                       return;
-                   }
-                   // Get object content
-                   var dataentry = new datastore.DatastoreObject(entry.objectId);
-                   dataentry.loadAsText((err, metadata, text) => {
-                       //We load the drawing inside an image element
-                       var element = document.createElement('img');
-                       element.src = text;
-                       pictureString = text;
-                       this.setState({
-                                   ...this.state,
-                                   thumbnail: pictureString
-                               }); 
-                       element.onload = function() {
-                           //We draw the drawing to the canvas
-                           var ctx = inputCanvas.getContext('2d');
-                           var imgWidth = element.width;
-                           var imgHeight = element.height;
-                           var maxWidth = inputCanvas.getBoundingClientRect().width;
-                           var maxHeight = inputCanvas.getBoundingClientRect().height;
-                           var ratio = Math.min(maxWidth / imgWidth, maxHeight / imgHeight);
-                           var newWidth = ratio * imgWidth;
-                           var newHeight = ratio * imgHeight;
-                           ctx.clearRect(0, 0, inputCanvas.width, inputCanvas.height);
-                           ctx.drawImage(element, 0, 0, newWidth, newHeight);
-
-                            // /* If the activity is shared we send the element to everyone */
-                           // if (PaintApp.data.isShared) {
-                           //     try {
-                           //         PaintApp.collaboration.sendMessage({
-                           //             action: 'toDataURL',
-                           //             data: {
-                           //                 width: PaintApp.elements.canvas.width / window.devicePixelRatio,
-                           //                 height: PaintApp.elements.canvas.height / window.devicePixelRatio,
-                           //                 src: PaintApp.collaboration.compress(PaintApp.elements.canvas.toDataURL())
-                           //             }
-                           //         });
-                           //     } catch (e) {}
-                           // }
-                       }
-                   });
-               }, {mimetype: 'image/png'}, {mimetype: 'image/jpeg'});
-           }
-       })
+            if(environment.user) {
+                // Display journal dialog popup
+                chooser.show((entry) => {
+                    // No selection
+                    if (!entry) {
+                          return;
+                    }
+                    // Get object content
+                    var dataentry = new datastore.DatastoreObject(entry.objectId);
+                    dataentry.loadAsText((err, metadata, text) => {
+                        //We load the drawing inside an image element
+                        var element = document.createElement('img');
+                        element.src = text;
+                        element.onload = () => {this.renderImageToCanvas(element)}
+                        this.setState({
+                            ...this.state,
+                            thumbnail: text
+                        }); 
+                    });
+                }, {mimetype: 'image/png'}, {mimetype: 'image/jpeg'});
+            }
+        });
     };
 
     render() {
