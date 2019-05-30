@@ -42,6 +42,7 @@ function Navbar(props){
                 {!props.location.pathname.startsWith('/new') &&
                  !props.location.pathname.startsWith('/edit') &&
                  !props.location.pathname.startsWith('/play') &&
+                 !props.location.pathname.startsWith('/scores') &&
                 <button
                     className="toolbutton"
                     id="add-button"
