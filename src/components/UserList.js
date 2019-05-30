@@ -3,7 +3,7 @@ import React from 'react';
 import "../css/UserList.css"
 
 function UserList(props){
-        const {userList, fill, stroke, isOpen}= props;
+        const {userList, stroke, isOpen}= props;
 
         let styles = {
             bmCrossButton: {
