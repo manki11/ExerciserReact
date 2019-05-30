@@ -19,9 +19,7 @@ import {
     TITLE_ERROR,
     QUESTION_ERROR,
     ANSWER_ERROR,
-    MCQ,
-    INSERT_THUMBNAIL,
-    THUMBNAIL
+    MCQ
 } from "../translation";
 import {withRouter} from "react-router-dom"
 import "../../css/MCQForm.css"
@@ -77,12 +75,6 @@ class MCQForm extends Component {
                     correctAns: currentQuestion.correctAns
                 }
             });
-
-            if(this.props.location.state.exercise.thumbnail) {
-                var element = document.createElement('img');
-                element.src = this.props.location.state.exercise.thumbnail;
-                element.onload = () => {this.renderImageToCanvas(element)}
-            }
         }
     }
 
@@ -333,37 +325,16 @@ class MCQForm extends Component {
         })
     };
 
-    renderImageToCanvas = (imageElement) => {
-        //We draw the drawing to the canvas
-        let canvas = document.getElementById('inputCanvas');
-        var ctx = canvas.getContext('2d');
-        var imgWidth = imageElement.width;
-        var imgHeight = imageElement.height;
-        var maxWidth = canvas.getBoundingClientRect().width;
-        var maxHeight = canvas.getBoundingClientRect().height;
-        var ratio = Math.min(maxWidth / imgWidth, maxHeight / imgHeight);
-        var newWidth = ratio * imgWidth;
-        var newHeight = ratio * imgHeight;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(imageElement, 0, 0, newWidth, newHeight);
-    }
-
     insertThumbnail = () => {
         env.getEnvironment( (err, environment) => {
             if(environment.user) {
                 // Display journal dialog popup
                 chooser.show((entry) => {
-                    // No selection
                     if (!entry) {
                           return;
                     }
-                    // Get object content
                     var dataentry = new datastore.DatastoreObject(entry.objectId);
                     dataentry.loadAsText((err, metadata, text) => {
-                        //We load the drawing inside an image element
-                        var element = document.createElement('img');
-                        element.src = text;
-                        element.onload = () => {this.renderImageToCanvas(element)}
                         this.setState({
                             ...this.state,
                             thumbnail: text
@@ -375,49 +346,35 @@ class MCQForm extends Component {
     };
 
     showThumbnail = () => {
-        let modal = picoModal({
-			content: (`\
-                <div className='canvas'>\
-                <img src=${this.state.thumbnail} style='height: 400px; width:600px'></canvas>\
-                </div>`),
-			closeButton: true,
+        let {thumbnail} = this.state;
+        thumbnail = (thumbnail?thumbnail:require('../../images/mcq_image.svg'));
+        picoModal({
+            content: (`\
+                <button id='close-button' style='background-image: url(${require('../../icons/exercise/delete.svg')});
+                position: absolute; right: 0px; width: 50px; height: 50px; margin-top: 5px;
+                border-radius: 25px; background-position: center; background-size: contain; 
+                background-repeat: no-repeat'></button>\
+                <img src = ${thumbnail} \
+                style='height: 400px; width:600px'/>`),
+			closeButton: false,
 			modalStyles: {
 				backgroundColor: "white",
 				height: "400px",
 				width: "600px",
 				maxWidth: "90%"
 			}
-		})
-		.afterShow((modal) => {
-            // document.getElementById('image').src=this.state.thumbnail;
-			// var element = document.createElement('img');
-            // element.src = this.state.thumbnail;
-            // console.log(this.state.thumbnail);
-            // element.onload = function() {
-            //     let canvas = document.getElementById('canvas');
-            //     var ctx = canvas.getContext('2d');
-            //     // var imgWidth = '600px';
-            //     // var imgHeight = '400px';
-            //     // var maxWidth = canvas.getBoundingClientRect().width;
-            //     // var maxHeight = canvas.getBoundingClientRect().height;
-            //     // var ratio = Math.min(maxWidth / imgWidth, maxHeight / imgHeight);
-            //     // var newWidth = ratio * imgWidth;
-            //     // var newHeight = ratio * imgHeight;
-            //     ctx.clearRect(0, 0, canvas.width, canvas.height);
-            //     ctx.drawImage(element, 0, 0, canvas.width, canvas.height);
-            // }
-			// document.getElementById('close-button').addEventListener('click', function() {
-			// 	result = null;
-			// 	modal.close();
-			// });
-
-			// fillJournal(filter1, orFilter2, orFilter3, orFilter4);
+        })
+        .afterShow(function(modal) {
+            let closeButton = document.getElementById('close-button');
+            closeButton.addEventListener('click', function() {
+				modal.close();
+			});
 		})
 		.afterClose((modal) => {
 			modal.destroy();
 		})
 		.show();
-    }
+    };
 
     render() {
         const {currentQuestion, errors} = this.state;
@@ -462,9 +419,15 @@ class MCQForm extends Component {
 
         let thumbnail;
         if(this.state.thumbnail === '') {
-            thumbnail = <canvas style={{display: 'none'}} id="inputCanvas"></canvas>
+            thumbnail = <img src = {require('../../images/mcq_image.svg')}
+                        style = {{height: '200px'}}
+                        onClick = {this.showThumbnail}
+                        alt="Thumbnail"/> 
         } else {
-            thumbnail = <canvas id="inputCanvas"></canvas>
+            thumbnail = <img src = {this.state.thumbnail}
+                        style = {{height: '200px'}}
+                        onClick = {this.showThumbnail}
+                        alt="Thumbnail"/>
         }
 
         return (
@@ -479,7 +442,17 @@ class MCQForm extends Component {
                                 <form onSubmit={this.handleNewEvent}>
                                     <div className="row">
                                         <div className="form-group">
+                                            <div className = "thumbnail">
+                                                {thumbnail}
+                                                {this.state.thumbnail &&
+                                                <button className="btn button-cancel" 
+                                                onClick={() => {this.setState({...this.state, thumbnail:''})}}
+                                                >
+                                                </button>}
+                                            </div>
                                             <label htmlFor="title"><FormattedMessage id={TITLE_OF_EXERCISE}/></label>
+                                            <button className="btn button-finish button-thumbnail" 
+                                                    onClick={this.insertThumbnail}/>
                                             <input
                                                 className="input-mcq"
                                                 type="text"
@@ -488,25 +461,6 @@ class MCQForm extends Component {
                                                 onChange={this.handleChangeTitle}
                                             />
                                             {title_error}
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="form-group">
-                                            <label htmlFor="thumbnail"><FormattedMessage id={THUMBNAIL}/>:</label>
-                                            <div className="button-thumbnail">
-                                                <button className="btn button-finish" onClick={(this.state.thumbnail?this.showThumbnail:this.insertThumbnail)}>
-                                                    <FormattedMessage id={(this.state.thumbnail?"Show Thumbnail":INSERT_THUMBNAIL)}/>
-                                                </button>    
-                                                <button className="btn button-cancel" 
-                                                onClick={() => {this.setState({...this.state, thumbnail:''})}}
-                                                disabled={!this.state.thumbnail}
-                                                >
-                                                    X
-                                                </button>                                                                                  
-                                            </div>
-                                            {/* <div>
-                                                {thumbnail}
-                                            </div> */}
                                         </div>
                                     </div>
                                     <div className="row">

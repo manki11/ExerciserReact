@@ -7,6 +7,7 @@ import {withRouter} from "react-router-dom";
 import datastore from 'lib/sugar-web/datastore';
 import chooser from 'lib/sugar-web/graphics/journalchooser';
 import env from 'lib/sugar-web/env';
+import picoModal from 'picomodal';
 import {
     FINISH_EXERCISE,
     QUESTION,
@@ -15,8 +16,6 @@ import {
     QUESTION_ERROR,
     ITEM,
     LIST_ERROR, TITLE_ERROR, REORDER_LIST,
-    INSERT_THUMBNAIL,
-    THUMBNAIL
 } from "../translation";
 import "../../css/REORDERForm.css";
 
@@ -59,12 +58,6 @@ class REORDERForm extends Component {
                 times: times,
                 list: list
             });
-
-            if(this.props.location.state.exercise.thumbnail) {
-                var element = document.createElement('img');
-                element.src = this.props.location.state.exercise.thumbnail;
-                element.onload = () => {this.renderImageToCanvas(element)}
-            }
         }
     }
 
@@ -220,37 +213,16 @@ class REORDERForm extends Component {
             this.props.history.push('/')
     };
 
-    renderImageToCanvas = (imageElement) => {
-        //We draw the drawing to the canvas
-        let canvas = document.getElementById('inputCanvas');
-        var ctx = canvas.getContext('2d');
-        var imgWidth = imageElement.width;
-        var imgHeight = imageElement.height;
-        var maxWidth = canvas.getBoundingClientRect().width;
-        var maxHeight = canvas.getBoundingClientRect().height;
-        var ratio = Math.min(maxWidth / imgWidth, maxHeight / imgHeight);
-        var newWidth = ratio * imgWidth;
-        var newHeight = ratio * imgHeight;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.drawImage(imageElement, 0, 0, newWidth, newHeight);
-    }
-
     insertThumbnail = () => {
         env.getEnvironment( (err, environment) => {
             if(environment.user) {
                 // Display journal dialog popup
                 chooser.show((entry) => {
-                    // No selection
                     if (!entry) {
                           return;
                     }
-                    // Get object content
                     var dataentry = new datastore.DatastoreObject(entry.objectId);
                     dataentry.loadAsText((err, metadata, text) => {
-                        //We load the drawing inside an image element
-                        var element = document.createElement('img');
-                        element.src = text;
-                        element.onload = () => {this.renderImageToCanvas(element)}
                         this.setState({
                             ...this.state,
                             thumbnail: text
@@ -259,6 +231,37 @@ class REORDERForm extends Component {
                 }, {mimetype: 'image/png'}, {mimetype: 'image/jpeg'});
             }
         });
+    };
+
+    showThumbnail = () => {
+        let {thumbnail} = this.state;
+        thumbnail = (thumbnail?thumbnail:require('../../images/list_reorder_image.svg'));
+        picoModal({
+            content: (`\
+                <button id='close-button' style='background-image: url(${require('../../icons/exercise/delete.svg')});
+                position: absolute; right: 0px; width: 50px; height: 50px; margin-top: 5px;
+                border-radius: 25px; background-position: center; background-size: contain; 
+                background-repeat: no-repeat'></button>\
+                <img src = ${thumbnail} \
+                style='height: 400px; width:600px'/>`),
+			closeButton: false,
+			modalStyles: {
+				backgroundColor: "white",
+				height: "400px",
+				width: "600px",
+				maxWidth: "90%"
+			}
+        })
+        .afterShow(function(modal) {
+            let closeButton = document.getElementById('close-button');
+            closeButton.addEventListener('click', function() {
+				modal.close();
+			});
+		})
+		.afterClose((modal) => {
+			modal.destroy();
+		})
+		.show();
     };
 
     render() {
@@ -306,9 +309,15 @@ class REORDERForm extends Component {
 
         let thumbnail;
         if(this.state.thumbnail === '') {
-            thumbnail = <canvas style={{display: 'none'}} id="inputCanvas"></canvas>
+            thumbnail = <img src = {require('../../images/list_reorder_image.svg')}
+                        style = {{height: '200px'}}
+                        onClick = {this.showThumbnail}
+                        alt="Thumbnail"/> 
         } else {
-            thumbnail = <canvas id="inputCanvas"></canvas>
+            thumbnail = <img src = {this.state.thumbnail}
+                        style = {{height: '200px'}}
+                        onClick = {this.showThumbnail}
+                        alt="Thumbnail"/>
         }
 
         return (
@@ -323,7 +332,17 @@ class REORDERForm extends Component {
                                 <form onSubmit={this.handleNewEvent}>
                                     <div className="row">
                                         <div className="form-group">
+                                            <div className = "thumbnail">
+                                                    {thumbnail}
+                                                    {this.state.thumbnail &&
+                                                    <button className="btn button-cancel" 
+                                                    onClick={() => {this.setState({...this.state, thumbnail:''})}}
+                                                    >
+                                                    </button>}
+                                            </div>
                                             <label htmlFor="title"><FormattedMessage id={TITLE_OF_EXERCISE}/></label>
+                                            <button className="btn button-finish button-thumbnail" 
+                                                    onClick={this.insertThumbnail}/>
                                             <input
                                                 className="input-mcq"
                                                 type="text"
@@ -365,21 +384,6 @@ class REORDERForm extends Component {
                                                 className="btn button-choices-sub">
 
                                             </button>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="form-group">
-                                            <div className="cloze row  justify-content-between">
-                                                <label htmlFor="thumbnail"><FormattedMessage id={THUMBNAIL}/>:</label>
-                                                <div className="justify-content-end">
-                                                    <button className="btn button-finish" onClick={this.insertThumbnail}>
-                                                        <FormattedMessage id={INSERT_THUMBNAIL}/>
-                                                    </button>                                                                                      
-                                                </div>
-                                            </div>
-                                                <div>
-                                                    {thumbnail}
-                                                </div>
                                         </div>
                                     </div>
                                     <div className="form-group row justify-content-between">

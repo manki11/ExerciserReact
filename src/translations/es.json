@@ -43,8 +43,6 @@
   "Answer field can't be empty":"Answer field can't be empty",
   "Cloze field can't be empty":"Cloze field can't be empty",
   "List field can't be empty":"List field can't be empty",
-  "Thumbnail": "Miniatura",
-  "Insert Thumbnail": "Insertar miniatura",
   "Number of clozes and blanks should be same": "El número de clozes y espacios en blanco debe ser el mismo",
   "Item {number}":"Item {number}",
   "Capitals of the World":"Capitals of the World",

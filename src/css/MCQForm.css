@@ -114,13 +114,31 @@ div label{
 }
 
 .button-thumbnail {
+    background-image: url(../icons/exercise/insert-image.svg);
+    background-repeat: no-repeat;
+    background-size: contain;    
     float: right;
+    width: 32px;
+    height: 32px;
+    margin-bottom: 5px;
+    margin-right: 0px!important;
 }
 
 .button-cancel{
+    background-image: url(../icons/exercise/sub.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    position: absolute;
+    right: 0;
+    background-color: gray!important;
+    height: 25px;
+    width: 25px;
+    border-radius: 16px!important;
+    margin-top: 5px;
+}
+
+.thumbnail {
+    background-color: #e5e5e5;
     text-align: center;
-    align-self: center;
-    border-radius: 20px!important;
-    background-color: #808080!important;
-    font-size: 15px!important;
+    margin-bottom: 10px;
 }
