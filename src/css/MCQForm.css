@@ -112,3 +112,15 @@ div label{
     background-size: contain !important;
     background-color: #808080!important;
 }
+
+.button-thumbnail {
+    float: right;
+}
+
+.button-cancel{
+    text-align: center;
+    align-self: center;
+    border-radius: 20px!important;
+    background-color: #808080!important;
+    font-size: 15px!important;
+}

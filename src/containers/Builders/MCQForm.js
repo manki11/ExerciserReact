@@ -6,6 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import datastore from 'lib/sugar-web/datastore';
 import chooser from 'lib/sugar-web/graphics/journalchooser';
 import env from 'lib/sugar-web/env';
+import picoModal from 'picomodal';
 import {
     QUESTION,
     FINISH_EXERCISE,
@@ -373,6 +374,51 @@ class MCQForm extends Component {
         });
     };
 
+    showThumbnail = () => {
+        let modal = picoModal({
+			content: (`\
+                <div className='canvas'>\
+                <img src=${this.state.thumbnail} style='height: 400px; width:600px'></canvas>\
+                </div>`),
+			closeButton: true,
+			modalStyles: {
+				backgroundColor: "white",
+				height: "400px",
+				width: "600px",
+				maxWidth: "90%"
+			}
+		})
+		.afterShow((modal) => {
+            // document.getElementById('image').src=this.state.thumbnail;
+			// var element = document.createElement('img');
+            // element.src = this.state.thumbnail;
+            // console.log(this.state.thumbnail);
+            // element.onload = function() {
+            //     let canvas = document.getElementById('canvas');
+            //     var ctx = canvas.getContext('2d');
+            //     // var imgWidth = '600px';
+            //     // var imgHeight = '400px';
+            //     // var maxWidth = canvas.getBoundingClientRect().width;
+            //     // var maxHeight = canvas.getBoundingClientRect().height;
+            //     // var ratio = Math.min(maxWidth / imgWidth, maxHeight / imgHeight);
+            //     // var newWidth = ratio * imgWidth;
+            //     // var newHeight = ratio * imgHeight;
+            //     ctx.clearRect(0, 0, canvas.width, canvas.height);
+            //     ctx.drawImage(element, 0, 0, canvas.width, canvas.height);
+            // }
+			// document.getElementById('close-button').addEventListener('click', function() {
+			// 	result = null;
+			// 	modal.close();
+			// });
+
+			// fillJournal(filter1, orFilter2, orFilter3, orFilter4);
+		})
+		.afterClose((modal) => {
+			modal.destroy();
+		})
+		.show();
+    }
+
     render() {
         const {currentQuestion, errors} = this.state;
         const {id} = currentQuestion;
@@ -446,6 +492,25 @@ class MCQForm extends Component {
                                     </div>
                                     <div className="row">
                                         <div className="form-group">
+                                            <label htmlFor="thumbnail"><FormattedMessage id={THUMBNAIL}/>:</label>
+                                            <div className="button-thumbnail">
+                                                <button className="btn button-finish" onClick={(this.state.thumbnail?this.showThumbnail:this.insertThumbnail)}>
+                                                    <FormattedMessage id={(this.state.thumbnail?"Show Thumbnail":INSERT_THUMBNAIL)}/>
+                                                </button>    
+                                                <button className="btn button-cancel" 
+                                                onClick={() => {this.setState({...this.state, thumbnail:''})}}
+                                                disabled={!this.state.thumbnail}
+                                                >
+                                                    X
+                                                </button>                                                                                  
+                                            </div>
+                                            {/* <div>
+                                                {thumbnail}
+                                            </div> */}
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="form-group">
                                             <label htmlFor="question">{id}. <FormattedMessage id={QUESTION}/>:</label>
                                             <input
                                                 className="input-mcq"
@@ -475,21 +540,6 @@ class MCQForm extends Component {
                                                 className="btn button-choices-sub">
 
                                             </button>
-                                        </div>
-                                    </div>
-                                    <div className="row">
-                                        <div className="form-group">
-                                            <div className="cloze row  justify-content-between">
-                                                <label htmlFor="thumbnail"><FormattedMessage id={THUMBNAIL}/>:</label>
-                                                <div className="justify-content-end">
-                                                    <button className="btn button-finish" onClick={this.insertThumbnail}>
-                                                        <FormattedMessage id={INSERT_THUMBNAIL}/>
-                                                    </button>                                                                                      
-                                                </div>
-                                            </div>
-                                                <div>
-                                                    {thumbnail}
-                                                </div>
                                         </div>
                                     </div>
                                     <div className="form-group row justify-content-between">
