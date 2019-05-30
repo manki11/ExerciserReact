@@ -24,7 +24,8 @@ import {
     ANSWER_ERROR,
     QUESTION_ERROR,
     TITLE_ERROR,
-    BLANKS_ERROR
+    BLANKS_ERROR,
+    BLANK_REUSED_ERROR
 } from "../translation";
 
 class CLOZEForm extends Component {
@@ -51,7 +52,8 @@ class CLOZEForm extends Component {
                 answers: false,
                 title: false,
                 cloze: false,
-                unevenBlanks: false
+                unevenBlanks: false,
+                blankReused: false
             },
             typeOfExcercise:'Cloze'
         };
@@ -161,7 +163,7 @@ class CLOZEForm extends Component {
 
     // to check for validation
     checkFormValidation = () => {
-        const {title, question, answers, clozeText, nextBlank} = this.state;
+        const {title, question, answers, clozeText, nextBlank, errors} = this.state;
         let isFormValid = true;
         let unevenBlanks = false;
 
@@ -187,6 +189,9 @@ class CLOZEForm extends Component {
             isFormValid = false;
             unevenBlanks = true;
         }
+
+        if (errors['blankReused'])
+            isFormValid = false;
 
         this.setState({
             ...this.state,
@@ -246,12 +251,14 @@ class CLOZEForm extends Component {
         }
 
         let nextBlank = this.findNextBlank(e.target.value);
-
+        let blankReused = this.checkReusedBlank(e.target.value);
+        
         this.setState({
             ...this.state,
             errors: {
                 ...this.state.errors,
-                cloze: error
+                cloze: error,
+                blankReused: blankReused
             },
             clozeText: e.target.value,
             nextBlank: nextBlank
@@ -301,6 +308,31 @@ class CLOZEForm extends Component {
         }
         return blank_no
     };
+
+    // to find if a blank is reused
+    checkReusedBlank = (clozeText) => {
+        let cloze = clozeText.split(' ');
+        let blanks = [];
+
+        for (let i = 0; i < cloze.length; i++) {
+            let text = cloze[i];
+            if (text[0] === '-') {
+                if (text[2] === '-') {
+                    if( blanks[text[1]] && text[2] === '-')
+                        return true;
+                    else
+                        blanks[text[1]] = true;
+                } else {
+                    if( blanks[text[1] + text[2]] && text[3] === '-')
+                        return true;
+                    else
+                        blanks[text[1] + text[2]] = true;
+                }
+            }
+        }
+
+        return false;
+    }
 
     // to add a blank dynamically
     addBlank = () => {
@@ -400,6 +432,7 @@ class CLOZEForm extends Component {
         let answer_error = '';
         let cloze_error = '';
         let uneven_blanks_error = '';
+        let blank_reused_error = '';
 
         if (errors['title']) {
             title_error = <span style={{color: "red"}}><FormattedMessage id={TITLE_ERROR}/></span>;
@@ -415,6 +448,9 @@ class CLOZEForm extends Component {
         }
         if (errors['unevenBlanks']) {
             uneven_blanks_error = <span style={{color: "red"}}><FormattedMessage id={BLANKS_ERROR}/></span>;
+        }
+        if (errors['blankReused']) {
+            blank_reused_error = <span style={{color: "red"}}><FormattedMessage id={BLANK_REUSED_ERROR}/></span>;
         }
 
         let thumbnail;
@@ -528,8 +564,11 @@ class CLOZEForm extends Component {
                                                 {cloze_error}
                                             </div>
                                         </div>
-                                        {uneven_blanks_error}
-                                        {inputs}
+                                        { uneven_blanks_error }
+                                        <div>
+                                            { blank_reused_error }
+                                        </div>
+                                        { inputs }
                                         <div>
                                             {answer_error}
                                         </div>
