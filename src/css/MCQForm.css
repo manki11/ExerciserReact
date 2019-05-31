@@ -137,8 +137,18 @@ div label{
     margin-top: 5px;
 }
 
-.thumbnail {
+.media-background {
     background-color: #e5e5e5;
     text-align: center;
     margin-bottom: 10px;
+}
+
+.button-question-options{
+    /* width: 150px; */
+    text-align: center;
+    align-self: center;
+    border-radius: 20px!important;
+    background-color: #808080!important;
+    font-size: 15px!important;
+    margin-bottom: 10px!important;
 }
