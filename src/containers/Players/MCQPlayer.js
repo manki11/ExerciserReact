@@ -5,6 +5,7 @@ import {addScoreTime} from '../../store/actions/exercises';
 import "../../css/MCQPlayer.css"
 import {SUBMIT_QUESTION, NEXT_QUESTION, FINISH_EXERCISE} from "../translation";
 import {FormattedMessage} from 'react-intl';
+import picoModal from 'picomodal';
 
 
 class MCQPlayer extends Component {
@@ -30,11 +31,22 @@ class MCQPlayer extends Component {
 
             currentQuestion: {
                 id: 1,
-                question: '',
+                question: {
+                    type: '',
+                    data: ''
+                },
                 answers: [],
                 correctAns: ''
             }
         }
+
+        this.multimedia = {
+            thumbnail: 'thumbnail',
+            text: 'text',
+            image: 'image',
+            audio: 'audio',
+            video: 'video'
+        };
     }
 
     // load the exercise from props
@@ -165,10 +177,80 @@ class MCQPlayer extends Component {
         }
     };
 
+    showMedia = (imageSource) => {
+        picoModal({
+            content: (`\
+                <button id='close-button' style='background-image: url(${require('../../icons/exercise/delete.svg')});
+                position: absolute; right: 0px; width: 50px; height: 50px; margin-top: 5px;
+                border-radius: 25px; background-position: center; background-size: contain; 
+                background-repeat: no-repeat'></button>\
+                <img src = ${imageSource} \
+                style='height: 400px; width:600px'/>`),
+			closeButton: false,
+			modalStyles: {
+				backgroundColor: "white",
+				height: "400px",
+				width: "600px",
+				maxWidth: "90%"
+			}
+        })
+        .afterShow(function(modal) {
+            let closeButton = document.getElementById('close-button');
+            closeButton.addEventListener('click', function() {
+				modal.close();
+			});
+		})
+		.afterClose((modal) => {
+			modal.destroy();
+		})
+		.show();
+    };
+
     render() {
         const {currentQuestion} = this.state;
         const {id} = currentQuestion;
 
+        let question;
+        let questionType = currentQuestion.question.type; 
+        if( questionType === this.multimedia.text)
+            question = (
+               <p>{id}. {currentQuestion.question.data}</p>
+            );
+        if( questionType === this.multimedia.image)
+            question = (
+                <div>
+                    {id}.
+                    <p style = {{textAlign: 'center'}}>
+                        <img src = {currentQuestion.question.data}
+                            style = {{height: '200px'}}
+                            onClick = {()=>{this.showMedia(currentQuestion.question.data)}}
+                            alt="Question"/>
+                    </p>
+                </div>
+            );
+        if( questionType === this.multimedia.audio)
+            question = (
+                <div>
+                    {id}.
+                    <p style = {{textAlign: 'center'}}>
+                        <audio src={currentQuestion.question.data} controls>
+                        </audio>
+                    </p>
+                </div>
+                
+            );
+        if( questionType === this.multimedia.video)
+            question = (
+                <div>
+                    {id}.
+                    <p style = {{textAlign: 'center'}}>
+                        <video src={currentQuestion.question.data} controls
+                            height="250px">
+                        </video>
+                    </p>
+                </div>
+            );
+        
         let choices = currentQuestion.answers.map((ans, i) => {
             let btn = 'btn-outline-secondary';
             if (this.state.selectedAns === ans) {
@@ -215,7 +297,7 @@ class MCQPlayer extends Component {
                             <div className="jumbotron">
                                 <p className="lead">{this.state.title}</p>
                                 <hr className="my-4"/>
-                                <p>{id}. {this.state.currentQuestion.question}</p>
+                                {question}
                             </div>
                             <div className="row">
                                 {choices}

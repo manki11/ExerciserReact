@@ -42,49 +42,73 @@
     "questions": [
       {
         "id": 1,
-        "question": "What is the Capital of India?",
+        "question": {
+          "type": "text",
+          "data": "What is the Capital of India?"
+        },
         "correctAns": "New Delhi",
         "answers": ["New Delhi", "Bangalore", "Mumbai", "Hyderabad"]
       },
       {
         "id": 2,
-        "question": "What is the Capital of France?",
+        "question": {
+          "type": "text",
+          "data": "What is the Capital of France?"
+        },
         "correctAns": "Paris",
         "answers": ["Paris", "Brussels", "Lyon", "Marseille"]
       },
       {
         "id": 3,
-        "question": "What is the Capital of UK?",
+        "question": {
+          "type": "text",
+          "data": "What is the Capital of UK?"
+        },
         "correctAns": "London",
         "answers": ["London","Manchester", "Glasgow", "Liverpool"]
       },
       {
         "id": 4,
-        "question": "What is the Capital of USA?",
+        "question": {
+          "type": "text",
+          "data": "What is the Capital of USA?"
+        },
         "correctAns": "Washington DC",
         "answers": ["Washington DC", "New York", "San Francisco", "Boston"]
       },
       {
         "id": 5,
-        "question": "What is the Capital of Germany?",
+        "question": {
+          "type": "text",
+          "data": "What is the Capital of Germany?"
+        },
         "correctAns": "Berlin",
         "answers": ["Berlin", "Munich", "Frankfurt", "Hamburg"]
       },
       {
         "id": 6,
-        "question": "What is the Capital of Japan?",
+        "question": {
+          "type": "text",
+          "data": "What is the Capital of Japan?"
+        },
         "correctAns": "Tokyo",
         "answers": ["Tokyo", "Kyoto", "Seoul", "Hiroshima"]
       },
       {
         "id": 7,
-        "question": "What is the Capital of China?",
+        "question": {
+          "type": "text",
+          "data": "What is the Capital of China?"
+        },
         "correctAns": "Beijing",
         "answers": ["Beijing", "Shanghai", "Hong Kong", "Shenzhen"]
       },
       {
         "id": 8,
-        "question": "What is the Capital of Australia?",
+        "question": {
+          "type": "text",
+          "data": "What is the Capital of Australia?"
+        },
         "correctAns": "Canberra",
         "answers": ["Canberra", "Melbourne", "Perth", "Sydney"]
       }
