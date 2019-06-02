@@ -494,22 +494,19 @@ class MCQForm extends Component {
 
         let questionOptions = (
             <div className="question-options">
-                <button className="btn button-question-options col-md-2" 
+                <button className="btn button-question-options button-text col-md-2" 
                     onClick={() => {this.setState({...this.state, currentQuestion: {...currentQuestion, 
                                     question:{type: this.multimedia.text, data:''}}})}}>
-                    Text
+                    T
                 </button>
-                <button className="btn button-question-options col-md-2" 
+                <button className="btn button-question-options button-image col-md-2" 
                     onClick={() => {this.showJournalChooser(this.multimedia.image)}}>
-                    Image
                 </button>
-                <button className="btn button-question-options col-md-2" 
+                <button className="btn button-question-options button-audio col-md-2" 
                     onClick={() => {this.showJournalChooser(this.multimedia.audio)}}>
-                    Audio
                 </button>
-                <button className="btn button-question-options col-md-2" 
+                <button className="btn button-question-options button-video col-md-2" 
                     onClick={() => {this.showJournalChooser(this.multimedia.video)}}>
-                    Video   
                 </button>
             </div>
         );
@@ -579,7 +576,7 @@ class MCQForm extends Component {
                                     <div className="row">
                                         <div className="form-group">
                                             <label htmlFor="question">{id}. <FormattedMessage id={QUESTION}/>:</label>
-                                            {questionType && <button className="btn button-cancel" 
+                                            {questionType && <button className="btn button-edit" 
                                                 onClick={() => {this.setState({...this.state, currentQuestion:{...currentQuestion, question:{type:'', data:''}}})}}>
                                             </button>}
                                             {!questionType && questionOptions}
