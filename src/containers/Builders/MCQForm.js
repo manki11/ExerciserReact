@@ -19,7 +19,8 @@ import {
     TITLE_ERROR,
     QUESTION_ERROR,
     ANSWER_ERROR,
-    MCQ
+    MCQ,
+    TEXT
 } from "../translation";
 import {withRouter} from "react-router-dom"
 import "../../css/MCQForm.css"
@@ -497,7 +498,7 @@ class MCQForm extends Component {
                 <button className="btn button-question-options button-text col-md-2" 
                     onClick={() => {this.setState({...this.state, currentQuestion: {...currentQuestion, 
                                     question:{type: this.multimedia.text, data:''}}})}}>
-                    T
+                    <FormattedMessage id={TEXT}/>
                 </button>
                 <button className="btn button-question-options button-image col-md-2" 
                     onClick={() => {this.showJournalChooser(this.multimedia.image)}}>

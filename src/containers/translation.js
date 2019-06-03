@@ -20,6 +20,7 @@ export const REORDER_LIST="Reorder List";
 export const TITLE_OF_EXERCISE="Title of Exercise";
 export const QUESTION="Question";
 export const TEST_EXERCISE="Test Exercise";
+export const TEXT = "Text";
 
 // MCQ FORM
 export const PREVIOUS_QUESTION="Previous Question";
