@@ -7,6 +7,7 @@ import datastore from 'lib/sugar-web/datastore';
 import chooser from 'lib/sugar-web/graphics/journalchooser';
 import env from 'lib/sugar-web/env';
 import picoModal from 'picomodal';
+import meSpeak from 'mespeak';
 import {
     QUESTION,
     FINISH_EXERCISE,
@@ -40,6 +41,7 @@ class MCQForm extends Component {
             times: [],
             isFormValid: false,
             thumbnail: '',
+            userLanguage:'',
             errors: {
                 question: false,
                 answers: false,
@@ -60,6 +62,7 @@ class MCQForm extends Component {
             text: 'text',
             image: 'image',
             audio: 'audio',
+            textToSpeech: 'text-to-speech',
             video: 'video'
         };
     }
@@ -88,6 +91,26 @@ class MCQForm extends Component {
                 }
             });
         }
+        this.textToSpeechSetup();
+    }
+
+    textToSpeechSetup = () => {
+        env.getEnvironment((err, environment) => {
+            var defaultLanguage = (typeof window.chrome !== 'undefined' && window.chrome.app && window.chrome.app.runtime) ? window.chrome.i18n.getUILanguage() : navigator.language;
+            if (!environment.user) environment.user = { language: defaultLanguage };
+            let userLanguage = environment.user.language;
+            try{
+                require(`../../voices/${this.userLanguage}.json`);            
+            } catch(error) {
+                userLanguage = 'en';
+            }
+            this.setState({
+                ...this.state,
+                userLanguage: userLanguage
+            }, () => {
+                meSpeak.loadVoice(require(`../../voices/${this.state.userLanguage}.json`));
+            })
+        });
     }
 
     handleChangeAns = e => {
@@ -419,6 +442,13 @@ class MCQForm extends Component {
 		.show();
     };
 
+    speak = () => {
+        let text = this.state.currentQuestion.question.data;
+        let myDataUrl = meSpeak.speak(text, {rawdata: 'data-url'});
+		let sound = new Audio(myDataUrl);
+		sound.play();
+    }
+
     render() {
         const {currentQuestion, errors} = this.state;
         const {id} = currentQuestion;
@@ -506,6 +536,10 @@ class MCQForm extends Component {
                 <button className="btn button-question-options button-audio col-md-2" 
                     onClick={() => {this.showJournalChooser(this.multimedia.audio)}}>
                 </button>
+                <button className="btn button-question-options button-text-to-speech col-md-2" 
+                    onClick={() => {this.setState({...this.state, currentQuestion: {...currentQuestion, 
+                        question:{type: this.multimedia.textToSpeech, data:''}}})}}>
+                </button>
                 <button className="btn button-question-options button-video col-md-2" 
                     onClick={() => {this.showJournalChooser(this.multimedia.video)}}>
                 </button>
@@ -538,6 +572,20 @@ class MCQForm extends Component {
                 <audio src={currentQuestion.question.data} controls
                         style={{width: '-webkit-fill-available'}}>
                 </audio>
+            );
+        if( questionType === this.multimedia.textToSpeech)
+            question = (
+                <div>
+                    <input
+                        className="input-text-to-speech"
+                        id="question"
+                        value={currentQuestion.question.data}
+                        onChange={this.handleChangeQues}
+                    />
+                    <button className="btn button-finish button-speaker" 
+                            onClick={this.speak}>
+                    </button>
+                </div>
             );
         if( questionType === this.multimedia.video)
             question = (

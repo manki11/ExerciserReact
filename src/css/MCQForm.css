@@ -190,3 +190,32 @@ div label{
     background-repeat: no-repeat;
     background-image: url(../icons/exercise/video.svg);
 }
+
+.button-text-to-speech{
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(../icons/exercise/speak.svg);
+}
+
+.input-text-to-speech{
+    width: 88%!important;
+    display: inline-block;
+    font-size: 15px;
+    padding: 6px 20px!important;
+    line-height: 22px;
+    background-color: #e5e5e5;
+    border: 2px solid #e5e5e5;
+    border-radius: 22px;
+    outline: 0;
+}
+
+.button-speaker {
+    background-image: url(../icons/exercise/sounds.svg);
+    background-repeat: no-repeat;
+    background-size: contain;    
+    width: 30px;
+    height: 30px;
+    margin-left: 5px!important;
+    margin-right: 0px!important;   
+}

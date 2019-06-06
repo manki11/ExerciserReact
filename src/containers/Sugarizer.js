@@ -22,6 +22,7 @@ import Main from "./Router";
 import Navbar from '../components/Navbar'
 
 import '../css/index.css';
+import meSpeak from 'mespeak';
 
 // actions
 import {setExercises} from "../store/actions/exercises";
@@ -48,6 +49,7 @@ class Sugarizer extends Component {
     componentDidMount() {
         const {setExercises, setExerciseCounter, setIsHost, setIsShared, setUser} = this.props;
         activity.setup();
+        meSpeak.loadConfig(require("../mespeak_config.json"));
 
         let temp = this;
         env.getEnvironment(function (err, environment) {

@@ -6,7 +6,7 @@ import "../../css/MCQPlayer.css"
 import {SUBMIT_QUESTION, NEXT_QUESTION, FINISH_EXERCISE} from "../translation";
 import {FormattedMessage} from 'react-intl';
 import picoModal from 'picomodal';
-
+import meSpeak from 'mespeak';
 
 class MCQPlayer extends Component {
 
@@ -28,7 +28,7 @@ class MCQPlayer extends Component {
             goBackToEdit: false,
             currentScore: 0,
             finish: false,
-
+            userLanguage: '',
             currentQuestion: {
                 id: 1,
                 question: {
@@ -45,6 +45,7 @@ class MCQPlayer extends Component {
             text: 'text',
             image: 'image',
             audio: 'audio',
+            textToSpeech: 'text-to-speech',
             video: 'video'
         };
     }
@@ -53,7 +54,7 @@ class MCQPlayer extends Component {
     componentDidMount() {
         if (this.props.location.state) {
             let intervalId = setInterval(this.timer, 1000);
-            const {id, title, questions, scores, times} = this.props.location.state.exercise;
+            const {id, title, questions, scores, times, userLanguage} = this.props.location.state.exercise;
             const currentQuestion = questions[0];
 
             let finish = false;
@@ -76,12 +77,15 @@ class MCQPlayer extends Component {
                 times: times,
                 finish: finish,
                 goBackToEdit: goBackToEdit,
+                userLanguage: userLanguage,
                 currentQuestion: {
                     id: currentQuestion.id,
                     question: currentQuestion.question,
                     answers: answers,
                     correctAns: currentQuestion.correctAns
                 }
+            }, () => {
+                meSpeak.loadVoice(require(`../../voices/${this.state.userLanguage}.json`));
             })
         }
     }
@@ -239,6 +243,19 @@ class MCQPlayer extends Component {
                 </div>
                 
             );
+        if( questionType === this.multimedia.textToSpeech) {
+            let myDataUrl = meSpeak.speak(currentQuestion.question.data, {rawdata: 'data-url'});
+            question = (
+                <div>
+                    {id}.
+                    <p style = {{textAlign: 'center'}}>
+                        <audio src={myDataUrl} controls>
+                        </audio>
+                    </p>
+                </div>
+                
+            );
+        }
         if( questionType === this.multimedia.video)
             question = (
                 <div>

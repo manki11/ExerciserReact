@@ -4,11 +4,13 @@
   "private": true,
   "homepage": ".",
   "dependencies": {
+    "aimlinterpreter": "^0.1.7",
     "ajv": "^6.5.2",
     "bootstrap": "^4.1.1",
     "chart.js": "^2.7.2",
     "copy-webpack-plugin": "^5.0.3",
     "jquery": "^1.9.1",
+    "mespeak": "^2.0.2",
     "picomodal": "^3.0.0",
     "popper.js": "^1.14.3",
     "react": "^16.4.0",
