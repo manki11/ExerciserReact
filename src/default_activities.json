@@ -8,6 +8,7 @@
     "title": "Learn Roman numerals",
     "shared": false,
     "type": "REORDER",
+    "userLanguage": "en",
     "thumbnail": ""
   },
   {
@@ -21,6 +22,7 @@
     "shared": false,
     "type": "CLOZE",
     "writeIn": "WRITEIN",
+    "userLanguage": "en",
     "thumbnail": ""
   },
   {
@@ -34,6 +36,7 @@
     "shared": false,
     "type": "CLOZE",
     "writeIn": "OPTIONS",
+    "userLanguage": "en",
     "thumbnail": ""
   },
   {
@@ -47,7 +50,10 @@
           "data": "What is the Capital of India?"
         },
         "correctAns": "New Delhi",
-        "answers": ["New Delhi", "Bangalore", "Mumbai", "Hyderabad"]
+        "answers": {
+          "type": "text",
+          "options": ["New Delhi", "Bangalore", "Mumbai", "Hyderabad"]
+        }
       },
       {
         "id": 2,
@@ -56,7 +62,10 @@
           "data": "What is the Capital of France?"
         },
         "correctAns": "Paris",
-        "answers": ["Paris", "Brussels", "Lyon", "Marseille"]
+        "answers":  {
+          "type": "text",
+          "options": ["Paris", "Brussels", "Lyon", "Marseille"]
+        }
       },
       {
         "id": 3,
@@ -65,7 +74,10 @@
           "data": "What is the Capital of UK?"
         },
         "correctAns": "London",
-        "answers": ["London","Manchester", "Glasgow", "Liverpool"]
+        "answers":  {
+          "type": "text",
+          "options": ["London","Manchester", "Glasgow", "Liverpool"]
+        }
       },
       {
         "id": 4,
@@ -74,7 +86,10 @@
           "data": "What is the Capital of USA?"
         },
         "correctAns": "Washington DC",
-        "answers": ["Washington DC", "New York", "San Francisco", "Boston"]
+        "answers":  {
+          "type": "text",
+          "options": ["Washington DC", "New York", "San Francisco", "Boston"]
+        }
       },
       {
         "id": 5,
@@ -83,7 +98,10 @@
           "data": "What is the Capital of Germany?"
         },
         "correctAns": "Berlin",
-        "answers": ["Berlin", "Munich", "Frankfurt", "Hamburg"]
+        "answers":  {
+          "type": "text",
+          "options": ["Berlin", "Munich", "Frankfurt", "Hamburg"]
+        }
       },
       {
         "id": 6,
@@ -92,7 +110,10 @@
           "data": "What is the Capital of Japan?"
         },
         "correctAns": "Tokyo",
-        "answers": ["Tokyo", "Kyoto", "Seoul", "Hiroshima"]
+        "answers":  {
+          "type": "text",
+          "options": ["Tokyo", "Kyoto", "Seoul", "Hiroshima"]
+        }
       },
       {
         "id": 7,
@@ -101,7 +122,10 @@
           "data": "What is the Capital of China?"
         },
         "correctAns": "Beijing",
-        "answers": ["Beijing", "Shanghai", "Hong Kong", "Shenzhen"]
+        "answers":  {
+          "type": "text",
+          "options": ["Beijing", "Shanghai", "Hong Kong", "Shenzhen"]
+        }
       },
       {
         "id": 8,
@@ -110,13 +134,17 @@
           "data": "What is the Capital of Australia?"
         },
         "correctAns": "Canberra",
-        "answers": ["Canberra", "Melbourne", "Perth", "Sydney"]
+        "answers":  {
+          "type": "text",
+          "options": ["Canberra", "Melbourne", "Perth", "Sydney"]
+        }
       }
     ],
     "scores": [],
     "times": [],
     "shared": false,
     "type": "MCQ",
+    "userLanguage": "en",
     "thumbnail": ""
   }
 ]

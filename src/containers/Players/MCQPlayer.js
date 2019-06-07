@@ -35,7 +35,10 @@ class MCQPlayer extends Component {
                     type: '',
                     data: ''
                 },
-                answers: [],
+                answers:  {
+                    type: "text",
+                    options: []
+                },
                 correctAns: ''
             }
         }
@@ -63,7 +66,7 @@ class MCQPlayer extends Component {
             let goBackToEdit = false;
             if (this.props.location.state.edit) goBackToEdit = true;
 
-            let answers = currentQuestion.answers;
+            let answers = currentQuestion.answers.options;
             this.shuffleArray(answers);
 
             this.setState({
@@ -81,11 +84,14 @@ class MCQPlayer extends Component {
                 currentQuestion: {
                     id: currentQuestion.id,
                     question: currentQuestion.question,
-                    answers: answers,
+                    answers: currentQuestion.answers,
                     correctAns: currentQuestion.correctAns
                 }
             }, () => {
-                meSpeak.loadVoice(require(`../../voices/${this.state.userLanguage}.json`));
+                if(userLanguage.startsWith('en'))
+                    meSpeak.loadVoice(require(`mespeak/voices/en/${this.state.userLanguage}.json`));
+                else
+                    meSpeak.loadVoice(require(`mespeak/voices/${this.state.userLanguage}.json`));
             })
         }
     }
@@ -136,7 +142,7 @@ class MCQPlayer extends Component {
             this.finishExercise();
         } else {
             const nextQuestion = questions[nextQuestionNo - 1];
-            let answers = nextQuestion.answers;
+            let answers = nextQuestion.answers.options;
             this.shuffleArray(answers);
             let finish = false;
             if (nextQuestionNo === questions.length) finish = true;
@@ -150,7 +156,7 @@ class MCQPlayer extends Component {
                 currentQuestion: {
                     id: nextQuestion.id,
                     question: nextQuestion.question,
-                    answers: answers,
+                    answers: nextQuestion.answers,
                     correctAns: nextQuestion.correctAns
                 }
             })
@@ -267,8 +273,8 @@ class MCQPlayer extends Component {
                     </p>
                 </div>
             );
-        
-        let choices = currentQuestion.answers.map((ans, i) => {
+
+        let choices = currentQuestion.answers.options.map((ans, i) => {
             let btn = 'btn-outline-secondary';
             if (this.state.selectedAns === ans) {
                 btn = 'btn-secondary'
@@ -287,6 +293,37 @@ class MCQPlayer extends Component {
                     }
                 }
             }
+            let option;
+            let optionsType = currentQuestion.answers.type;
+            if( optionsType === this.multimedia.text)
+                option = ans;
+            if( optionsType === this.multimedia.image)
+                option = (
+                    <img src = {ans}
+                            style = {{height: '100px'}}
+                            onClick = {()=>{this.showMedia(currentQuestion.answers.options[i])}}
+                            alt="Option"/>
+                );
+            if( optionsType === this.multimedia.audio)
+                option = (
+                    <audio  src={ans}
+                            controls>
+                    </audio>
+                );
+            if( optionsType === this.multimedia.textToSpeech) {
+                let myDataUrl = meSpeak.speak(ans, {rawdata: 'data-url'});
+                option = (
+                    <audio  src={myDataUrl}
+                            controls>
+                    </audio>
+                );
+            }
+            if( optionsType === this.multimedia.video)
+                option = (
+                    <video  src={ans} controls
+                            height="100px">
+                    </video>
+                );
             return (
                 <div className="choices-row" key={`answers-${i}`}>
                     <div className="col-md-6 choices-div">
@@ -294,7 +331,9 @@ class MCQPlayer extends Component {
                             className={"btn choices-button " + btn}
                             id={`answer-${i}`}
                             onClick={(e) => this.choiceSelected(ans)}
-                        >{ans}</button>
+                        >
+                        {option}
+                        </button>
                     </div>
                 </div>
             )
