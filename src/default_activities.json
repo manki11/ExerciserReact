@@ -49,11 +49,8 @@
           "type": "text",
           "data": "What is the Capital of India?"
         },
-        "correctAns": "New Delhi",
-        "answers": {
-          "type": "text",
-          "options": ["New Delhi", "Bangalore", "Mumbai", "Hyderabad"]
-        }
+        "correctAns": {"type": "text", "data": "New Delhi"},
+        "options":[{"type": "text", "data": "New Delhi"}, {"type": "text", "data": "Bangalore"}, {"type": "text", "data": "Mumbai"}, {"type": "text", "data": "Hyderabad"}]
       },
       {
         "id": 2,
@@ -61,11 +58,8 @@
           "type": "text",
           "data": "What is the Capital of France?"
         },
-        "correctAns": "Paris",
-        "answers":  {
-          "type": "text",
-          "options": ["Paris", "Brussels", "Lyon", "Marseille"]
-        }
+        "correctAns": {"type": "text", "data": "Paris"},
+        "options": [{"type": "text", "data": "Paris"}, {"type": "text", "data": "Brussels"}, {"type": "text", "data": "Lyon"}, {"type": "text", "data": "Marseille"}]
       },
       {
         "id": 3,
@@ -73,11 +67,8 @@
           "type": "text",
           "data": "What is the Capital of UK?"
         },
-        "correctAns": "London",
-        "answers":  {
-          "type": "text",
-          "options": ["London","Manchester", "Glasgow", "Liverpool"]
-        }
+        "correctAns": {"type": "text", "data": "London"},
+        "options": [{"type": "text", "data": "London"},{"type": "text", "data": "Manchester"}, {"type": "text", "data": "Glasgow"}, {"type": "text", "data": "Liverpool"}]
       },
       {
         "id": 4,
@@ -85,11 +76,8 @@
           "type": "text",
           "data": "What is the Capital of USA?"
         },
-        "correctAns": "Washington DC",
-        "answers":  {
-          "type": "text",
-          "options": ["Washington DC", "New York", "San Francisco", "Boston"]
-        }
+        "correctAns": {"type": "text", "data": "Washington DC"},
+        "options": [{"type": "text", "data": "Washington DC"}, {"type": "text", "data": "New York"}, {"type": "text", "data": "San Francisco"}, {"type": "text", "data": "Boston"}]
       },
       {
         "id": 5,
@@ -97,11 +85,8 @@
           "type": "text",
           "data": "What is the Capital of Germany?"
         },
-        "correctAns": "Berlin",
-        "answers":  {
-          "type": "text",
-          "options": ["Berlin", "Munich", "Frankfurt", "Hamburg"]
-        }
+        "correctAns": {"type": "text", "data": "Berlin"},
+        "options": [{"type": "text", "data": "Berlin"}, {"type": "text", "data": "Munich"}, {"type": "text", "data": "Frankfurt"}, {"type": "text", "data": "Hamburg"}]
       },
       {
         "id": 6,
@@ -109,11 +94,8 @@
           "type": "text",
           "data": "What is the Capital of Japan?"
         },
-        "correctAns": "Tokyo",
-        "answers":  {
-          "type": "text",
-          "options": ["Tokyo", "Kyoto", "Seoul", "Hiroshima"]
-        }
+        "correctAns": {"type": "text", "data": "Tokyo"},
+        "options": [{"type": "text", "data": "Tokyo"}, {"type": "text", "data": "Kyoto"}, {"type": "text", "data": "Seoul"}, {"type": "text", "data": "Hiroshima"}]
       },
       {
         "id": 7,
@@ -121,11 +103,8 @@
           "type": "text",
           "data": "What is the Capital of China?"
         },
-        "correctAns": "Beijing",
-        "answers":  {
-          "type": "text",
-          "options": ["Beijing", "Shanghai", "Hong Kong", "Shenzhen"]
-        }
+        "correctAns": {"type": "text", "data": "Beijing"},
+        "options": [{"type": "text", "data": "Beijing"}, {"type": "text", "data": "Shanghai"}, {"type": "text", "data": "Hong Kong"}, {"type": "text", "data": "Shenzhen"}]
       },
       {
         "id": 8,
@@ -133,11 +112,8 @@
           "type": "text",
           "data": "What is the Capital of Australia?"
         },
-        "correctAns": "Canberra",
-        "answers":  {
-          "type": "text",
-          "options": ["Canberra", "Melbourne", "Perth", "Sydney"]
-        }
+        "correctAns": {"type": "text", "data": "Canberra"},
+        "options": [{"type": "text", "data": "Canberra"}, {"type": "text", "data": "Melbourne"}, {"type": "text", "data": "Perth"}, {"type": "text", "data": "Sydney"}]
       }
     ],
     "scores": [],

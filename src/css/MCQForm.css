@@ -243,3 +243,8 @@ div label{
 .vertical-align{
     vertical-align: middle;
 }
+
+.correct-ans{
+    float: right;
+    opacity: 0.5;
+}

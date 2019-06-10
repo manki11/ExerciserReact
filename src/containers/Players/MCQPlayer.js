@@ -35,11 +35,8 @@ class MCQPlayer extends Component {
                     type: '',
                     data: ''
                 },
-                answers:  {
-                    type: "text",
-                    options: []
-                },
-                correctAns: ''
+                options: [] ,
+                correctAns: {type: '', data: ''}
             }
         }
 
@@ -66,8 +63,8 @@ class MCQPlayer extends Component {
             let goBackToEdit = false;
             if (this.props.location.state.edit) goBackToEdit = true;
 
-            let answers = currentQuestion.answers.options;
-            this.shuffleArray(answers);
+            let options = currentQuestion.options;
+            this.shuffleArray(options);
 
             this.setState({
                 ...this.state,
@@ -84,7 +81,7 @@ class MCQPlayer extends Component {
                 currentQuestion: {
                     id: currentQuestion.id,
                     question: currentQuestion.question,
-                    answers: currentQuestion.answers,
+                    options: options,
                     correctAns: currentQuestion.correctAns
                 }
             }, () => {
@@ -126,7 +123,8 @@ class MCQPlayer extends Component {
         const {currentScore, selectedAns, currentQuestion} = this.state;
         const {correctAns} = currentQuestion;
         let score = currentScore;
-        if (selectedAns === correctAns) score = score + 1;
+        if (selectedAns === correctAns.data) score = score + 1;
+        console.log(score);
         this.setState({
             selected: false,
             submitted: true,
@@ -142,8 +140,8 @@ class MCQPlayer extends Component {
             this.finishExercise();
         } else {
             const nextQuestion = questions[nextQuestionNo - 1];
-            let answers = nextQuestion.answers.options;
-            this.shuffleArray(answers);
+            let options = nextQuestion.options;
+            this.shuffleArray(options);
             let finish = false;
             if (nextQuestionNo === questions.length) finish = true;
             this.setState({
@@ -156,7 +154,7 @@ class MCQPlayer extends Component {
                 currentQuestion: {
                     id: nextQuestion.id,
                     question: nextQuestion.question,
-                    answers: nextQuestion.answers,
+                    options: options,
                     correctAns: nextQuestion.correctAns
                 }
             })
@@ -274,53 +272,53 @@ class MCQPlayer extends Component {
                 </div>
             );
 
-        let choices = currentQuestion.answers.options.map((ans, i) => {
+        let choices = currentQuestion.options.map((option, i) => {
             let btn = 'btn-outline-secondary';
-            if (this.state.selectedAns === ans) {
+            if (this.state.selectedAns === option.data) {
                 btn = 'btn-secondary'
             }
             if (this.state.submitted) {
-                if (this.state.selectedAns === this.state.currentQuestion.correctAns) {
-                    if (ans === this.state.selectedAns) {
+                if (this.state.selectedAns === this.state.currentQuestion.correctAns.data) {
+                    if (option.data === this.state.selectedAns) {
                         btn = 'btn-success';
                     }
                 } else {
-                    if (ans === this.state.currentQuestion.correctAns) {
+                    if (option.data === this.state.currentQuestion.correctAns.data) {
                         btn = 'btn-success';
                     }
-                    if (this.state.selectedAns === ans) {
+                    if (this.state.selectedAns === option.data) {
                         btn = 'btn-danger';
                     }
                 }
             }
-            let option;
-            let optionsType = currentQuestion.answers.type;
+            let optionElement;
+            let optionsType = option.type;
             if( optionsType === this.multimedia.text)
-                option = ans;
+                optionElement = option.data;
             if( optionsType === this.multimedia.image)
-                option = (
-                    <img src = {ans}
+                optionElement = (
+                    <img src = {option.data}
                             style = {{height: '100px'}}
-                            onClick = {()=>{this.showMedia(currentQuestion.answers.options[i])}}
+                            onClick = {()=>{this.showMedia(option.data)}}
                             alt="Option"/>
                 );
             if( optionsType === this.multimedia.audio)
-                option = (
-                    <audio  src={ans}
+                optionElement = (
+                    <audio  src={option.data}
                             controls>
                     </audio>
                 );
             if( optionsType === this.multimedia.textToSpeech) {
-                let myDataUrl = meSpeak.speak(ans, {rawdata: 'data-url'});
-                option = (
+                let myDataUrl = meSpeak.speak(option.data, {rawdata: 'data-url'});
+                optionElement = (
                     <audio  src={myDataUrl}
                             controls>
                     </audio>
                 );
             }
             if( optionsType === this.multimedia.video)
-                option = (
-                    <video  src={ans} controls
+                optionElement = (
+                    <video  src={option.data} controls
                             height="100px">
                     </video>
                 );
@@ -330,9 +328,9 @@ class MCQPlayer extends Component {
                         <button
                             className={"btn choices-button " + btn}
                             id={`answer-${i}`}
-                            onClick={(e) => this.choiceSelected(ans)}
+                            onClick={(e) => this.choiceSelected(option.data)}
                         >
-                        {option}
+                        {optionElement}
                         </button>
                     </div>
                 </div>
