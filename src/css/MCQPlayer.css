@@ -58,3 +58,13 @@
     color: #6c757d!important;
     border-color: #6c757d!important;
 }
+
+.button-on{
+    content: url(../icons/exercise/sound_on.png);
+    vertical-align: middle;
+}
+
+.button-off{
+    content: url(../icons/exercise/sound_off.png);
+    vertical-align: middle;
+}   

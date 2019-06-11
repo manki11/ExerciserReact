@@ -444,6 +444,7 @@ class MCQForm extends Component {
                      (video?{mimetype: 'video/webm'}:null));
             }
         });
+        console.log("chooser");
     };
 
     showMedia = (imageSource) => {
@@ -472,7 +473,8 @@ class MCQForm extends Component {
 		.afterClose((modal) => {
 			modal.destroy();
 		})
-		.show();
+        .show();
+        console.log("Modal");
     };
 
     speak = (e, text) => {
@@ -486,6 +488,8 @@ class MCQForm extends Component {
             audioElem.classList.remove("button-on");
             audioElem.classList.add("button-off");
         }
+        console.log("spaek");
+
     }
 
     setOption = (type, optionNo) => {
@@ -499,6 +503,8 @@ class MCQForm extends Component {
                 options:options
             }
         });
+        console.log("set option");
+
     }
 
     resetOption = (OptionNo)=>{
@@ -512,6 +518,7 @@ class MCQForm extends Component {
                 options:options
                 }
         });
+        console.log("reset option");
     }
 
     render() {
@@ -634,7 +641,7 @@ class MCQForm extends Component {
                         </label>
                         <button className="btn button-answer-options button-text col-md-1" 
                             onClick={() => {this.setOption(this.multimedia.text, i)}}>
-                            T
+                            <FormattedMessage id={TEXT}/>
                         </button>
                         <button className="btn button-answer-options button-image col-md-1" 
                             onClick={() => {

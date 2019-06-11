@@ -211,8 +211,23 @@ class MCQPlayer extends Component {
 		.afterClose((modal) => {
 			modal.destroy();
 		})
-		.show();
+        .show();
+        console.log("Modal");        
     };
+
+    speak = (e, text) => {
+        let audioElem = e.target;
+        let myDataUrl = meSpeak.speak(text, {rawdata: 'data-url'});
+		let sound = new Audio(myDataUrl);
+        audioElem.classList.remove("button-off");
+        audioElem.classList.add("button-on");
+        sound.play();
+        sound.onended = () => {
+            audioElem.classList.remove("button-on");
+            audioElem.classList.add("button-off");
+        }
+        console.log("Speak");
+    }
 
     render() {
         const {currentQuestion} = this.state;
@@ -248,14 +263,14 @@ class MCQPlayer extends Component {
                 
             );
         if( questionType === this.multimedia.textToSpeech) {
-            let myDataUrl = meSpeak.speak(currentQuestion.question.data, {rawdata: 'data-url'});
             question = (
                 <div>
                     {id}.
-                    <p style = {{textAlign: 'center'}}>
-                        <audio src={myDataUrl} controls>
-                        </audio>
-                    </p>
+                    <span style={{marginLeft: '10px'}}>
+                        <img className="button-off"
+                            onClick={(e)=>{this.speak(e, currentQuestion.question.data)}}
+                        />
+                    </span>
                 </div>
                 
             );
@@ -309,11 +324,12 @@ class MCQPlayer extends Component {
                     </audio>
                 );
             if( optionsType === this.multimedia.textToSpeech) {
-                let myDataUrl = meSpeak.speak(option.data, {rawdata: 'data-url'});
                 optionElement = (
-                    <audio  src={myDataUrl}
-                            controls>
-                    </audio>
+                    <p style = {{textAlign: 'center'}}>
+                        <img className="button-off"
+                            onClick={(e)=>{this.speak(e, option.data)}}
+                        />
+                    </p>
                 );
             }
             if( optionsType === this.multimedia.video)

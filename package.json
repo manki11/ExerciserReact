@@ -25,9 +25,11 @@
     "react-select": "^1.2.1",
     "react-tooltip": "^3.6.1",
     "redux": "^4.0.0",
+    "source-map-explorer": "^2.0.0",
     "text-loader": "0.0.1"
   },
   "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "react-app-rewired start --scripts-version react-scripts",
     "build": "react-app-rewired build --scripts-version react-scripts",
     "test": "react-app-rewired test --env=jsdom --scripts-version react-scripts",
