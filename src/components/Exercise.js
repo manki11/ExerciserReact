@@ -5,10 +5,6 @@ import {QUESTIONS, BEST_SCORE, MCQ, REORDER_LIST, CLOZE_TEXT, QUESTION_SINGULAR,
 import cloze_background from '../images/cloze_image.svg'
 import mcq_background from '../images/mcq_image.svg'
 import reorder_background from '../images/list_reorder_image.svg'
-import world_background from '../images/defaultExerciseThumbnail/world.png';
-import animal_background from '../images/defaultExerciseThumbnail/animal.png';
-import numeral_background from '../images/defaultExerciseThumbnail/numerals.jpg';
-import conjugate_background from '../images/defaultExerciseThumbnail/conjugate.jpg';
 
 class Exercise extends Component {
 
@@ -26,12 +22,6 @@ class Exercise extends Component {
             'REORDER':reorder_background
         }
 
-        this.defaultExerciseThumbnail = {
-            'Capitals of the World': world_background,
-            'Animals female name' : animal_background,
-            'Learn Roman numerals': numeral_background,
-            'Conjugate "to be"': conjugate_background
-        }
     }
 
     // when play button is clicked
@@ -62,7 +52,7 @@ class Exercise extends Component {
     render() {
         const {title, type, questions, scores, answers, list, isShared, isHost, shared} = this.props;
         let { thumbnail } = this.props; 
-
+        
         let highest = 0;
         if (scores.length > 0) {
             scores.forEach(score => {
@@ -72,9 +62,9 @@ class Exercise extends Component {
             });
         }
 
-        if(this.defaultExerciseThumbnail[title])
-            thumbnail = this.defaultExerciseThumbnail[title];
-    
+        if(thumbnail && !thumbnail.startsWith('data:image'))
+            thumbnail = require(`../images/defaultExerciseThumbnail/${thumbnail}`);
+
         let play = (<FormattedMessage id={PLAY} defaultMessage={PLAY}>
                         {(msg) => (<button type="button" title={msg} className="play-button" onClick={this.playExercise}/>)}
                     </FormattedMessage>);
@@ -131,10 +121,10 @@ class Exercise extends Component {
                     <div className="card-body">
                         <h3 className="card-title">{title}</h3>
                         <div><strong><FormattedMessage id={localized_type}/></strong></div>
-                        <p className="card-text">
+                        <span className="card-text">
                             <div className="exercise-card-question">{question_string}</div>
                             <div className="exercise-card-hiscore"><FormattedMessage id={BEST_SCORE}/>: {highest}/{length}</div>
-                        </p>
+                        </span>
                         <div className="buttons">
                             {play}
                             {edit}

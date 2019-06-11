@@ -9,7 +9,7 @@
     "shared": false,
     "type": "REORDER",
     "userLanguage": "en",
-    "thumbnail": ""
+    "thumbnail": "numerals.jpg"
   },
   {
     "id": 2,
@@ -23,7 +23,7 @@
     "type": "CLOZE",
     "writeIn": "WRITEIN",
     "userLanguage": "en",
-    "thumbnail": ""
+    "thumbnail": "animal.png"
   },
   {
     "id": 3,
@@ -37,7 +37,7 @@
     "type": "CLOZE",
     "writeIn": "OPTIONS",
     "userLanguage": "en",
-    "thumbnail": ""
+    "thumbnail": "conjugate.jpg"
   },
   {
     "id": 4,
@@ -121,6 +121,6 @@
     "shared": false,
     "type": "MCQ",
     "userLanguage": "en",
-    "thumbnail": ""
+    "thumbnail": "world.png"
   }
 ]

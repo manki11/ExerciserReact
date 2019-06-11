@@ -187,16 +187,25 @@ class MCQPlayer extends Component {
 
     showMedia = (imageSource) => {
         picoModal({
-            content: (`\
-                <button id='close-button' style='background-image: url(${require('../../icons/exercise/delete.svg')});
-                position: absolute; right: 0px; width: 50px; height: 50px; margin-top: 5px;
-                border-radius: 25px; background-position: center; background-size: contain; 
-                background-repeat: no-repeat'></button>\
-                <img src = ${imageSource} \
-                style='height: 400px; width:600px'/>`),
+            content: (
+                `<img src = ${imageSource} \
+                    style='max-height: 100%;\
+                        max-width: 100%;\
+                        margin: auto;\
+                        left: 0;\
+                        right: 0;\
+                        top: 0;\
+                        bottom: 0;\
+                        position: absolute;'>\
+                </img>\
+                <button id='close-button' style='background-image: url(${require('../../icons/exercise/delete.svg')});\
+                        position: absolute; right: 0px; width: 50px; height: 50px; margin-top: 5px;\
+                        border-radius: 25px; background-position: center; background-size: contain; \
+                        background-repeat: no-repeat'>\
+                </button>`),
 			closeButton: false,
 			modalStyles: {
-				backgroundColor: "white",
+				backgroundColor: "#e5e5e5",
 				height: "400px",
 				width: "600px",
 				maxWidth: "90%"
@@ -269,6 +278,7 @@ class MCQPlayer extends Component {
                     <span style={{marginLeft: '10px'}}>
                         <img className="button-off"
                             onClick={(e)=>{this.speak(e, currentQuestion.question.data)}}
+                            alt="text-to-speech-question"
                         />
                     </span>
                 </div>
@@ -328,6 +338,7 @@ class MCQPlayer extends Component {
                     <p style = {{textAlign: 'center'}}>
                         <img className="button-off"
                             onClick={(e)=>{this.speak(e, option.data)}}
+                            alt="text-to-speech-option"
                         />
                     </p>
                 );
