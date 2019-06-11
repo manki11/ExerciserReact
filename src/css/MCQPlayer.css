@@ -8,7 +8,7 @@
 }
 
 .choices-button{
-    width: 100%;
+    width: 80%;
 }
 
 .choices-div{
@@ -68,3 +68,21 @@
     content: url(../icons/exercise/sound_off.png);
     vertical-align: middle;
 }   
+
+.options-radio{
+    margin-right: 10px!important;
+    background: #6c757d;
+    border-radius: 15px;
+    border: 4px solid #dfdfdf;
+}
+
+.options-radio:hover{
+    border: 4px solid #808080;
+}
+
+
+input[type=radio]:checked{
+    background: #6c757d;
+    border-radius: 15px;
+    border: 4px solid #dfdfdf;
+}

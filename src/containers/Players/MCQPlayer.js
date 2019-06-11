@@ -352,6 +352,18 @@ class MCQPlayer extends Component {
             return (
                 <div className="choices-row" key={`answers-${i}`}>
                     <div className="col-md-6 choices-div">
+                        <input type="radio" 
+                            className="options-radio"
+                            checked={option.data === this.state.selectedAns}
+                            onChange={()=>{
+                                this.setState({
+                                    ...this.state, 
+                                    selectedAns: option.data,
+                                    selected: true
+                                })
+                            }}
+                            disabled={this.state.submitted}
+                            />   
                         <button
                             className={"btn choices-button " + btn}
                             id={`answer-${i}`}
