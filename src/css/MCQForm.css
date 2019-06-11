@@ -231,9 +231,9 @@ div label{
 }
 
 .button-speaker {
-    background-image: url(../icons/exercise/sounds.svg);
+    background-position: center;
     background-repeat: no-repeat;
-    background-size: contain;    
+    background-size: 20px;    
     width: 30px;
     height: 30px;
     margin-left: 5px!important;
@@ -247,4 +247,12 @@ div label{
 .correct-ans{
     float: right;
     opacity: 0.5;
+}
+
+.button-on{
+    background-image: url(../icons/exercise/sound_on.png);
+}
+
+.button-off{
+    background-image: url(../icons/exercise/sound_off.png);
 }

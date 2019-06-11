@@ -475,10 +475,17 @@ class MCQForm extends Component {
 		.show();
     };
 
-    speak = (text) => {
+    speak = (e, text) => {
+        let audioElem = e.target;
         let myDataUrl = meSpeak.speak(text, {rawdata: 'data-url'});
 		let sound = new Audio(myDataUrl);
-		sound.play();
+        audioElem.classList.remove("button-off");
+        audioElem.classList.add("button-on");
+        sound.play();
+        sound.onended = () => {
+            audioElem.classList.remove("button-on");
+            audioElem.classList.add("button-off");
+        }
     }
 
     setOption = (type, optionNo) => {
@@ -603,8 +610,8 @@ class MCQForm extends Component {
                         value={currentQuestion.question.data}
                         onChange={this.handleChangeQues}
                     />
-                    <button className="btn button-finish button-speaker" 
-                            onClick={()=>{this.speak(currentQuestion.question.data)}}>
+                    <button className="btn button-finish button-speaker button-off" 
+                            onClick={(e)=>{this.speak(e, currentQuestion.question.data)}}>
                     </button>
                 </div>
             );
@@ -714,8 +721,8 @@ class MCQForm extends Component {
                                 onChange={this.handleChangeOption}
                                 style={{width: 'auto'}}
                             />
-                            <button className="btn button-finish button-speaker" 
-                                    onClick={()=>{this.speak(option.data)}}>
+                            <button className="btn button-finish button-speaker button-off" 
+                                    onClick={(e)=>{this.speak(e, option.data)}}>
                             </button>
                             <button className="btn button-choices-edit" 
                                     style={{marginLeft: '5px'}}                               
