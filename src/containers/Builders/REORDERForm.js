@@ -348,6 +348,7 @@ class REORDERForm extends Component {
                                     <div className="row">
                                         <div className="form-group">
                                             <div className = "thumbnail">
+                                                    <button style={{display: 'none'}}/>
                                                     {thumbnail}
                                                     {this.state.thumbnail &&
                                                     <button className="btn button-cancel" 

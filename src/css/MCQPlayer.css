@@ -8,7 +8,7 @@
 }
 
 .choices-button{
-    width: 80%;
+    width: 85%;
 }
 
 .choices-div{
@@ -60,12 +60,12 @@
 }
 
 .button-on{
-    content: url(../icons/exercise/sound_on.png);
+    content: url(../icons/exercise/sound_on_black.png);
     vertical-align: middle;
 }
 
 .button-off{
-    content: url(../icons/exercise/sound_off.png);
+    content: url(../icons/exercise/sound_off_black.png);
     vertical-align: middle;
 }   
 
@@ -85,4 +85,8 @@ input[type=radio]:checked{
     background: #6c757d;
     border-radius: 15px;
     border: 4px solid #dfdfdf;
+}
+
+.audio-option{
+    width: inherit;
 }

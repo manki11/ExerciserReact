@@ -13,6 +13,7 @@ import {
     FINISH_EXERCISE,
     TITLE_OF_EXERCISE,
     CORRECT_OPTION,
+    WRONG_OPTION,
     NEXT_QUESTION,
     PREVIOUS_QUESTION,
     TEST_EXERCISE,
@@ -449,7 +450,6 @@ class MCQForm extends Component {
                      (video?{mimetype: 'video/webm'}:null));
             }
         });
-        console.log("chooser");
     };
 
     showMedia = (imageSource) => {
@@ -488,7 +488,6 @@ class MCQForm extends Component {
 			modal.destroy();
 		})
         .show();
-        console.log("Modal");
     };
 
     speak = (e, text) => {
@@ -502,8 +501,6 @@ class MCQForm extends Component {
             audioElem.classList.remove("button-on");
             audioElem.classList.add("button-off");
         }
-        console.log("spaek");
-
     }
 
     setOption = (type, optionNo) => {
@@ -517,8 +514,6 @@ class MCQForm extends Component {
                 options:options
             }
         });
-        console.log("set option");
-
     }
 
     resetOption = (OptionNo)=>{
@@ -532,7 +527,6 @@ class MCQForm extends Component {
                 options:options
                 }
         });
-        console.log("reset option");
     }
 
     render() {
@@ -676,9 +670,9 @@ class MCQForm extends Component {
                                 this.showJournalChooser(this.multimedia.video, true, i)
                                 }}>
                         </button>
-                        {i===0 && <span className = "correct-ans">
-                            <FormattedMessage id={CORRECT_OPTION}/>
-                        </span>}
+                        <span className = "options-placeholder">
+                            <FormattedMessage id={i===0?CORRECT_OPTION:WRONG_OPTION}/>
+                        </span>
                     </div>
                 );
             else {
@@ -804,8 +798,11 @@ class MCQForm extends Component {
                                         <div className="form-group">
                                             {thumbnail}
                                             <label htmlFor="title"><FormattedMessage id={TITLE_OF_EXERCISE}/></label>
+                                            <button style={{display: 'none'}}/>
                                             <button className="btn button-finish button-thumbnail" 
-                                                    onClick={() => {this.showJournalChooser(this.multimedia.thumbnail)}}/>
+                                                    onClick={() => {
+                                                        this.showJournalChooser(this.multimedia.thumbnail)}}
+                                            />
                                             <input
                                                 className="input-mcq"
                                                 type="text"

@@ -329,7 +329,8 @@ class MCQPlayer extends Component {
                 );
             if( optionsType === this.multimedia.audio)
                 optionElement = (
-                    <audio  src={option.data}
+                    <audio  className="audio-option"
+                            src={option.data}
                             controls>
                     </audio>
                 );

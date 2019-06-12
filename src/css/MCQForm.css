@@ -244,15 +244,15 @@ div label{
     vertical-align: middle;
 }
 
-.correct-ans{
-    float: right;
+.options-placeholder{
     opacity: 0.5;
+    vertical-align: text-bottom;
 }
 
 .button-on{
-    background-image: url(../icons/exercise/sound_on.png);
+    background-image: url(../icons/exercise/sound_on_white.png);
 }
 
 .button-off{
-    background-image: url(../icons/exercise/sound_off.png);
+    background-image: url(../icons/exercise/sound_off_white.png);
 }
