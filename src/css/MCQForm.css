@@ -247,6 +247,7 @@ div label{
 .options-placeholder{
     opacity: 0.5;
     vertical-align: text-bottom;
+    font-size: 15px;
 }
 
 .button-on{

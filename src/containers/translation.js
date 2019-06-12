@@ -26,8 +26,8 @@ export const TEXT = "Text";
 export const PREVIOUS_QUESTION="Previous Question";
 export const NEXT="Next";
 export const FINISH_EXERCISE="Finish Exercise";
-export const CORRECT_OPTION="Correct Option";
-export const WRONG_OPTION="Wrong Option";
+export const CORRECT_OPTION="Correct option";
+export const WRONG_OPTION="Wrong option";
 
 // CLOZE FORM
 export const CLOZE="Cloze {number}";
