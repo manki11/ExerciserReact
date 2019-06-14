@@ -105,5 +105,6 @@
   "am": "am",
   "are": "are",
   "Text": "Texto",
-  "Correct option": "Opción correcta"
+  "Correct option": "Opción correcta",
+  "Wrong option": "Opcion incorrecta"
 }

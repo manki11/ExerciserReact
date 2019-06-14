@@ -3,11 +3,9 @@ import {connect} from "react-redux";
 import {incrementExerciseCounter} from "../../store/actions/increment_counter";
 import {addNewExercise, editExercise} from "../../store/actions/exercises";
 import {FormattedMessage} from 'react-intl';
-import datastore from 'lib/sugar-web/datastore';
-import chooser from 'lib/sugar-web/graphics/journalchooser';
-import env from 'lib/sugar-web/env';
-import picoModal from 'picomodal';
 import meSpeak from 'mespeak';
+import withMultimedia from '../../components/WithMultimedia';
+
 import {
     QUESTION,
     FINISH_EXERCISE,
@@ -40,8 +38,6 @@ class MCQForm extends Component {
             scores: [],
             times: [],
             isFormValid: false,
-            thumbnail: '',
-            userLanguage:'',
             errors: {
                 question: false,
                 options: false,
@@ -73,18 +69,12 @@ class MCQForm extends Component {
             const {id, title, questions, scores, times} = this.props.location.state.exercise;
             const currentQuestion = questions[0];
 
-            let {thumbnail} = this.props.location.state.exercise;
-            // For default exercises
-            if(thumbnail && !thumbnail.startsWith('data:image'))
-                thumbnail = require(`../../images/defaultExerciseThumbnail/${thumbnail}`);
-
             this.setState({
                 ...this.state,
                 id: id,
                 title: title,
                 edit: true,
                 isFormValid: true,
-                thumbnail:thumbnail,
                 questions: questions,
                 scores: scores,
                 times: times,
@@ -92,32 +82,6 @@ class MCQForm extends Component {
                 currentQuestion: currentQuestion
             });
         }
-        this.textToSpeechSetup();
-    }
-
-    textToSpeechSetup = () => {
-        env.getEnvironment((err, environment) => {
-            var defaultLanguage = (typeof window.chrome !== 'undefined' && window.chrome.app && window.chrome.app.runtime) ? window.chrome.i18n.getUILanguage() : navigator.language;
-            if (!environment.user) environment.user = { language: defaultLanguage };
-            let userLanguage = environment.user.language;
-            try{
-                if(userLanguage.startsWith('en'))
-                    require(`mespeak/voices/en/${userLanguage}.json`);
-                else
-                    require(`mespeak/voices/${userLanguage}.json`);
-            } catch(error) {
-                userLanguage = 'en';
-            }
-            this.setState({
-                ...this.state,
-                userLanguage: userLanguage
-            }, () => {
-                if(userLanguage.startsWith('en'))
-                    meSpeak.loadVoice(require(`mespeak/voices/en/${this.state.userLanguage}.json`));
-                else
-                    meSpeak.loadVoice(require(`mespeak/voices/${this.state.userLanguage}.json`));
-            })
-        });
     }
 
     handleChangeOption = e => {
@@ -342,6 +306,8 @@ class MCQForm extends Component {
     // submit exercise
     submitExercise = (bool,e) => {
         e.preventDefault();
+        const {srcThumbnail, userLanguage} = this.props;
+
 
         let id = this.state.id;
         if (this.state.id === -1) {
@@ -354,9 +320,9 @@ class MCQForm extends Component {
             type: "MCQ",
             questions: this.state.questions,
             scores: this.state.scores,
-            thumbnail: this.state.thumbnail,
             times: this.state.times,
-            userLanguage: this.state.userLanguage
+            thumbnail: srcThumbnail,
+            userLanguage: userLanguage
         };
 
         if (this.state.edit) {
@@ -392,104 +358,6 @@ class MCQForm extends Component {
         })
     };
 
-    showJournalChooser = (mediaType, isOptions = false, optionNo = -1) => {
-        let image, audio, video = false;
-        let {options} = this.state.currentQuestion;
-        if(mediaType === this.multimedia.thumbnail || mediaType === this.multimedia.image)
-            image = true;
-        if(mediaType === this.multimedia.audio)
-            audio = true;
-        if(mediaType === this.multimedia.video)
-            video = true;
-        env.getEnvironment( (err, environment) => {
-            if(environment.user) {
-                // Display journal dialog popup
-                chooser.show((entry) => {
-                    if (!entry) {
-                          return;
-                    }
-                    var dataentry = new datastore.DatastoreObject(entry.objectId);
-                    dataentry.loadAsText((err, metadata, text) => {
-                        if (isOptions) {
-                            options[optionNo] = {type: mediaType, data: text};
-                            this.setState({
-                                ...this.state,
-                                currentQuestion: {
-                                    ...this.state.currentQuestion,
-                                    options:options
-                                }
-                            },() => {
-                                this.checkFormValidation();
-                            })
-                        }
-                        else if(mediaType === this.multimedia.thumbnail) {
-                            this.setState({
-                                ...this.state,
-                                thumbnail: text
-                            },() => {
-                                this.checkFormValidation();
-                            });
-                        } else {
-                            this.setState({
-                                ...this.state,
-                                currentQuestion:{
-                                    ...this.state.currentQuestion,
-                                    question: {
-                                        type: mediaType,
-                                        data: text
-                                    }
-                                }
-                            },() => {
-                                this.checkFormValidation();
-                            });
-                        } 
-                    });
-                }, (image?{mimetype: 'image/png'}:null),
-                     (image?{mimetype: 'image/jpeg'}:null),
-                     (audio?{mimetype: 'audio/wav'}:null),
-                     (video?{mimetype: 'video/webm'}:null));
-            }
-        });
-    };
-
-    showMedia = (imageSource) => {
-        picoModal({
-            content: (
-                `<img src = ${imageSource} \
-                    style='max-height: 100%;\
-                        max-width: 100%;\
-                        margin: auto;\
-                        left: 0;\
-                        right: 0;\
-                        top: 0;\
-                        bottom: 0;\
-                        position: absolute;'>\
-                </img>\
-                <button id='close-button' style='background-image: url(${require('../../icons/exercise/delete.svg')});\
-                        position: absolute; right: 0px; width: 50px; height: 50px; margin-top: 5px;\
-                        border-radius: 25px; background-position: center; background-size: contain; \
-                        background-repeat: no-repeat'>\
-                </button>`),
-			closeButton: false,
-			modalStyles: {
-				backgroundColor: "#e5e5e5",
-				height: "400px",
-				width: "600px",
-				maxWidth: "90%"
-			}
-        })
-        .afterShow(function(modal) {
-            let closeButton = document.getElementById('close-button');
-            closeButton.addEventListener('click', function() {
-				modal.close();
-			});
-		})
-		.afterClose((modal) => {
-			modal.destroy();
-		})
-        .show();
-    };
-
     speak = (e, text) => {
         let audioElem = e.target;
         let myDataUrl = meSpeak.speak(text, {rawdata: 'data-url'});
@@ -503,10 +371,56 @@ class MCQForm extends Component {
         }
     }
 
-    setOption = (type, optionNo) => {
+    selectQuestionType = (mediaType) => {
+        const {currentQuestion} = this.state;
+        this.setState({
+            ...this.state,
+            currentQuestion:{
+                ...currentQuestion,
+                question: {
+                    type: mediaType,
+                    data: ''
+                }
+            }
+        },() => {
+            this.checkFormValidation();
+        });
+    }
+
+    setQuestionType = (mediaSrc) => {
+        const {currentQuestion} = this.state;
+
+        this.setState({
+            ...this.state,
+            currentQuestion:{
+                ...currentQuestion,
+                question: {
+                    ...currentQuestion.question.type,
+                    data: mediaSrc
+                }
+            }
+        },() => {
+            this.checkFormValidation();
+        });
+    }
+
+    selectOptionType = (type, optionNo) => {
         const {currentQuestion} = this.state;
         let {options} = currentQuestion;
         options[optionNo]={type: type, data: ''};
+        this.setState({
+            ...this.state,
+            currentQuestion: {
+                ...currentQuestion, 
+                options:options
+            }
+        });
+    }
+
+    setOptionType = (mediaSrc, optionNo) => {
+        const {currentQuestion} = this.state;
+        let {options} = currentQuestion;
+        options[optionNo]={type: options[optionNo].type, data: mediaSrc};
         this.setState({
             ...this.state,
             currentQuestion: {
@@ -532,59 +446,48 @@ class MCQForm extends Component {
     render() {
         const {currentQuestion, errors} = this.state;
         const {id, options} = currentQuestion;
-
-        // Thumbnail
-        let thumbnail;
-        if(this.state.thumbnail === '') {
-            thumbnail = (
-                <div className = "media-background">
-                    <img src = {require('../../images/mcq_image.svg')}
-                        style = {{height: '200px'}}
-                        onClick = {() => {this.showMedia(require('../../images/mcq_image.svg'))}}
-                        alt="Thumbnail"/> 
-                    {this.state.thumbnail &&
-                    <button className="btn button-cancel" 
-                    onClick={() => {this.setState({...this.state, thumbnail:''})}}
-                    >
-                    </button>}
-                </div>
-            );
-        } else {
-            thumbnail = (
-                <div className = "media-background">
-                   <img src = {this.state.thumbnail}
-                        style = {{height: '200px'}}
-                        onClick = {() => {this.showMedia(this.state.thumbnail)}}
-                        alt="Thumbnail"/>
-                    {this.state.thumbnail &&
-                    <button className="btn button-cancel" 
-                    onClick={() => {this.setState({...this.state, thumbnail:''})}}
-                    >
-                    </button>}
-                </div>
-            );
-        }
+        const {thumbnail, insertThumbnail, showJournalChooser, showMedia} = this.props;
 
         //Question-Options
         let questionOptions = (
             <div className="question-options">
                 <button className="btn button-question-options button-text col-md-2" 
-                    onClick={() => {this.setState({...this.state, currentQuestion: {...currentQuestion, 
-                                    question:{type: this.multimedia.text, data:''}}})}}>
+                    onClick={() => {
+                        this.selectQuestionType(this.multimedia.text)
+                        }}>
                     <FormattedMessage id={TEXT}/>
                 </button>
                 <button className="btn button-question-options button-image col-md-2" 
-                    onClick={() => {this.showJournalChooser(this.multimedia.image)}}>
+                    onClick={() => {
+                        let mediaSrc = showJournalChooser(this.multimedia.image);
+                        if(mediaSrc){
+                            this.selectQuestionType(this.multimedia.image);
+                            this.setQuestionType(mediaSrc);
+                        }
+                    }}>
                 </button>
                 <button className="btn button-question-options button-audio col-md-2" 
-                    onClick={() => {this.showJournalChooser(this.multimedia.audio)}}>
+                    onClick={() => {
+                        let mediaSrc = showJournalChooser(this.multimedia.audio);
+                        if(mediaSrc) {
+                            this.selectQuestionType(this.multimedia.audio);
+                            this.setOptionType(mediaSrc);
+                        }                        
+                    }}>
                 </button>
                 <button className="btn button-question-options button-text-to-speech col-md-2" 
-                    onClick={() => {this.setState({...this.state, currentQuestion: {...currentQuestion, 
-                        question:{type: this.multimedia.textToSpeech, data:''}}})}}>
+                    onClick={() => {
+                        this.selectQuestionType(this.multimedia.textToSpeech);
+                        }}>
                 </button>
                 <button className="btn button-question-options button-video col-md-2" 
-                    onClick={() => {this.showJournalChooser(this.multimedia.video)}}>
+                    onClick={() => {
+                        let mediaSrc = showJournalChooser(this.multimedia.video);
+                        if(mediaSrc){
+                            this.selectQuestionType(this.multimedia.video);
+                            this.setOptionType(mediaSrc);
+                        }
+                    }}>
                 </button>
             </div>
         );
@@ -606,7 +509,7 @@ class MCQForm extends Component {
                 <div className = "media-background">
                    <img src = {currentQuestion.question.data}
                         style = {{height: '200px'}}
-                        onClick = {()=>{this.showMedia(currentQuestion.question.data)}}
+                        onClick = {()=>{showMedia(currentQuestion.question.data)}}
                         alt="Question"/>
                 </div>
             );
@@ -648,27 +551,41 @@ class MCQForm extends Component {
                             {i + 1}
                         </label>
                         <button className="btn button-answer-options button-text col-md-1" 
-                            onClick={() => {this.setOption(this.multimedia.text, i)}}>
+                            onClick={() => {
+                                this.selectOptionType(this.multimedia.text, i);
+                                }}>
                             <FormattedMessage id={TEXT}/>
                         </button>
                         <button className="btn button-answer-options button-image col-md-1" 
                             onClick={() => {
-                                this.showJournalChooser(this.multimedia.image, true, i)
-                                }}>                            
+                                let mediaSrc = showJournalChooser(this.multimedia.image);
+                                if(mediaSrc){
+                                    this.selectOptionType(this.multimedia.image, i);
+                                    this.setOptionType(mediaSrc, i);
+                                }
+                            }}>                            
                         </button>
                         <button className="btn button-answer-options button-audio col-md-1" 
                             onClick={() => {
-                                this.showJournalChooser(this.multimedia.audio, true, i)
+                                    let mediaSrc = showJournalChooser(this.multimedia.audio);
+                                    if(mediaSrc){
+                                        this.selectOptionType(this.multimedia.audio, i);
+                                        this.setOptionType(mediaSrc, i);
+                                    }
                                 }}>                        
                         </button>
                         <button className="btn button-answer-options button-text-to-speech col-md-1" 
                             onClick={() => {
-                                this.setOption(this.multimedia.textToSpeech, i)}}>
+                                this.selectOptionType(this.multimedia.textToSpeech, i)}}>
                         </button>
                         <button className="btn button-answer-options button-video col-md-1" 
                             onClick={() => {
-                                this.showJournalChooser(this.multimedia.video, true, i)
-                                }}>
+                                let mediaSrc = showJournalChooser(this.multimedia.video);
+                                if(mediaSrc){
+                                    this.selectOptionType(this.multimedia.video, i);
+                                    this.setOptionType(mediaSrc, i);
+                                }
+                            }}>
                         </button>
                         <span className = "options-placeholder">
                             <FormattedMessage id={i===0?CORRECT_OPTION:WRONG_OPTION}/>
@@ -702,7 +619,7 @@ class MCQForm extends Component {
                             <div className = "media-background answers">
                                 <img src = {option.data}
                                         style = {{height: '100px'}}
-                                        onClick = {()=>{this.showMedia(option.data)}}
+                                        onClick = {()=>{showMedia(option.data)}}
                                         alt="Option"/>
                             </div>                    
                             <button className="btn button-choices-edit" 
@@ -800,8 +717,7 @@ class MCQForm extends Component {
                                             <label htmlFor="title"><FormattedMessage id={TITLE_OF_EXERCISE}/></label>
                                             <button style={{display: 'none'}}/>
                                             <button className="btn button-finish button-thumbnail" 
-                                                    onClick={() => {
-                                                        this.showJournalChooser(this.multimedia.thumbnail)}}
+                                                    onClick={insertThumbnail}
                                             />
                                             <input
                                                 className="input-mcq"
@@ -896,7 +812,7 @@ function MapStateToProps(state) {
     }
 }
 
-export default withRouter(
+export default withMultimedia(require('../../images/mcq_image.svg'))(withRouter(
     connect(MapStateToProps,
         {addNewExercise, incrementExerciseCounter, editExercise}
-    )(MCQForm));
+    )(MCQForm)));

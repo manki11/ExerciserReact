@@ -4,11 +4,9 @@ import {incrementExerciseCounter} from "../../store/actions/increment_counter";
 import {addNewExercise, editExercise} from "../../store/actions/exercises";
 import {FormattedMessage} from 'react-intl';
 import {withRouter} from "react-router-dom"
-import "../../css/CLOZEForm.css"
-import datastore from 'lib/sugar-web/datastore';
-import chooser from 'lib/sugar-web/graphics/journalchooser';
-import env from 'lib/sugar-web/env';
-import picoModal from 'picomodal';
+import "../../css/CLOZEForm.css";
+import withMultimedia from '../../components/WithMultimedia';
+
 import {
     FINISH_EXERCISE,
     QUESTION,
@@ -46,7 +44,6 @@ class CLOZEForm extends Component {
             isFormValid: false,
             answers: [''],
             writeIn: "OPTIONS",
-            thumbnail: '',
             errors: {
                 question: false,
                 answers: false,
@@ -65,11 +62,6 @@ class CLOZEForm extends Component {
             const {id, title, question, scores, times, clozeText, answers, writeIn} = this.props.location.state.exercise;
             let nextBlank = answers.length + 1;
 
-            let {thumbnail} = this.props.location.state.exercise;
-            // For default exercises
-            if(thumbnail && !thumbnail.startsWith('data:image'))
-                thumbnail = require(`../../images/defaultExerciseThumbnail/${thumbnail}`);
-
             this.setState({
                 ...this.state,
                 id: id,
@@ -83,7 +75,6 @@ class CLOZEForm extends Component {
                 answers: answers,
                 writeIn: writeIn,
                 nextBlank: nextBlank,
-                thumbnail: thumbnail
             });
         }
     }
@@ -215,6 +206,7 @@ class CLOZEForm extends Component {
     // submit and exercise and redirect
     submitExercise = (bool, e) => {
         e.preventDefault();
+        let {srcThumbnail} = this.props;
 
         let id = this.state.id;
         if (this.state.id === -1) {
@@ -231,9 +223,8 @@ class CLOZEForm extends Component {
             answers: this.state.answers,
             scores: this.state.scores,
             writeIn: this.state.writeIn,
-            thumbnail: this.state.thumbnail
+            thumbnail: srcThumbnail
         };
-
 
         if (this.state.edit) {
             this.props.editExercise(exercise);
@@ -356,68 +347,10 @@ class CLOZEForm extends Component {
         });
     };
 
-    insertThumbnail = () => {
-        env.getEnvironment( (err, environment) => {
-            if(environment.user) {
-                // Display journal dialog popup
-                chooser.show((entry) => {
-                    if (!entry) {
-                          return;
-                    }
-                    var dataentry = new datastore.DatastoreObject(entry.objectId);
-                    dataentry.loadAsText((err, metadata, text) => {
-                        this.setState({
-                            ...this.state,
-                            thumbnail: text
-                        }); 
-                    });
-                }, {mimetype: 'image/png'}, {mimetype: 'image/jpeg'});
-            }
-        });
-    };
-
-    showThumbnail = () => {
-        let {thumbnail} = this.state;
-        thumbnail = (thumbnail?thumbnail:require('../../images/cloze_image.svg'));
-        picoModal({
-            content: (
-                `<img src = ${thumbnail} \
-                    style='max-height: 100%;\
-                        max-width: 100%;\
-                        margin: auto;\
-                        left: 0;\
-                        right: 0;\
-                        top: 0;\
-                        bottom: 0;\
-                        position: absolute;'>\
-                </img>\
-                <button id='close-button' style='background-image: url(${require('../../icons/exercise/delete.svg')});\
-                        position: absolute; right: 0px; width: 50px; height: 50px; margin-top: 5px;\
-                        border-radius: 25px; background-position: center; background-size: contain; \
-                        background-repeat: no-repeat'>\
-                </button>`),
-			closeButton: false,
-			modalStyles: {
-				backgroundColor: "#e5e5e5",
-				height: "400px",
-				width: "600px",
-				maxWidth: "90%"
-			}
-        })
-        .afterShow(function(modal) {
-            let closeButton = document.getElementById('close-button');
-            closeButton.addEventListener('click', function() {
-				modal.close();
-			});
-		})
-		.afterClose((modal) => {
-			modal.destroy();
-		})
-		.show();
-    };
-
     render() {
         const {errors, answers} = this.state;
+        const { thumbnail, insertThumbnail} = this.props;
+
         let inputs = answers.map((ans, i) => {
             return (
                 <div className="row" key={`answers-${i}`}>
@@ -467,19 +400,6 @@ class CLOZEForm extends Component {
             blank_reused_error = <span style={{color: "red"}}><FormattedMessage id={BLANK_REUSED_ERROR}/></span>;
         }
 
-        let thumbnail;
-        if(this.state.thumbnail === '') {
-            thumbnail = <img src = {require('../../images/cloze_image.svg')}
-                        style = {{height: '200px'}}
-                        onClick = {this.showThumbnail}
-                        alt="Thumbnail"/> 
-        } else {
-            thumbnail = <img src = {this.state.thumbnail}
-                        style = {{height: '200px'}}
-                        onClick = {this.showThumbnail}
-                        alt="Thumbnail"/>
-        }
-        
         return (
             <div className="container">
                 <div className="container-fluid">
@@ -495,15 +415,12 @@ class CLOZEForm extends Component {
                                                 <div className = "thumbnail">
                                                     <button style={{display: 'none'}}/>
                                                     {thumbnail}
-                                                    {this.state.thumbnail &&
-                                                    <button className="btn button-cancel" 
-                                                    onClick={() => {this.setState({...this.state, thumbnail:''})}}
-                                                    >
-                                                    </button>}
                                                 </div>
                                                 <label htmlFor="title"><FormattedMessage id={TITLE_OF_EXERCISE}/></label>
-                                                <button className="btn button-finish button-thumbnail" 
-                                                    onClick={this.insertThumbnail}/>
+                                                <button
+                                                    className="btn button-finish button-thumbnail" 
+                                                    onClick={insertThumbnail}
+                                                />
                                                 <input
                                                     className="input-mcq"
                                                     type="text"
@@ -639,7 +556,7 @@ function MapStateToProps(state) {
     }
 }
 
-export default withRouter(
+export default withMultimedia(require('../../images/list_reorder_image.svg'))(withRouter(
     connect(MapStateToProps,
         {addNewExercise, incrementExerciseCounter, editExercise}
-    )(CLOZEForm));
+    )(CLOZEForm)));
