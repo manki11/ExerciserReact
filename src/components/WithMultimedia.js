@@ -102,12 +102,16 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
 
 		insertThumbnail = () => {
             let thumbnail =  this.showJournalChooser(this.multimedia.thumbnail);
-            console.log(thumbnail);
-            if(thumbnail)
-                this.setState({
-                    ...this.state,
-                    thumbnail: thumbnail
-                }); 
+            // console.log(thumbnail);
+            setTimeout(()=>
+                {
+                console.log(thumbnail);
+            }, 10000); 
+            // if(thumbnail)
+            //     this.setState({
+            //         ...this.state,
+            //         thumbnail: thumbnail
+            //     }); 
         };
 
         showMedia = (imageSource) => {
