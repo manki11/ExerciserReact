@@ -68,17 +68,8 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
             });
         }
 
-
-        showJournalChooser = (mediaType) => {
-            let mediaSource;
-            let image, audio, video = false;
-            if(mediaType === this.multimedia.thumbnail || mediaType === this.multimedia.image)
-                image = true;
-            if(mediaType === this.multimedia.audio)
-                audio = true;
-            if(mediaType === this.multimedia.video)
-                video = true;
-            env.getEnvironment((err, environment) => {
+        insertThumbnail = () => {
+            env.getEnvironment( (err, environment) => {
                 if(environment.user) {
                     // Display journal dialog popup
                     chooser.show((entry) => {
@@ -87,31 +78,14 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
                         }
                         var dataentry = new datastore.DatastoreObject(entry.objectId);
                         dataentry.loadAsText((err, metadata, text) => {
-                            mediaSource = text;
-                            console.log(mediaSource);
-                            return mediaSource;
+                            this.setState({
+                                ...this.state,
+                                thumbnail: text
+                            }); 
                         });
-                    }, (image?{mimetype: 'image/png'}:null),
-                        (image?{mimetype: 'image/jpeg'}:null),
-                        (audio?{mimetype: 'audio/wav'}:null),
-                        (video?{mimetype: 'video/webm'}:null));
+                    }, {mimetype: 'image/png'}, {mimetype: 'image/jpeg'});
                 }
             });
-        };
-
-
-		insertThumbnail = () => {
-            let thumbnail =  this.showJournalChooser(this.multimedia.thumbnail);
-            // console.log(thumbnail);
-            setTimeout(()=>
-                {
-                console.log(thumbnail);
-            }, 10000); 
-            // if(thumbnail)
-            //     this.setState({
-            //         ...this.state,
-            //         thumbnail: thumbnail
-            //     }); 
         };
 
         showMedia = (imageSource) => {
@@ -197,9 +171,9 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
 				<Component
                     {...this.props}
                     srcThumbnail={this.state.thumbnail}
+                    userLanguage={this.state.userLanguage}
 					thumbnail={thumbnail}
 					insertThumbnail={this.insertThumbnail}
-                    showJournalChooser={this.showJournalChooser}
                     showMedia={this.showMedia}
                 />
 			);

@@ -3,9 +3,11 @@ import {connect} from "react-redux";
 import {incrementExerciseCounter} from "../../store/actions/increment_counter";
 import {addNewExercise, editExercise} from "../../store/actions/exercises";
 import {FormattedMessage} from 'react-intl';
+import datastore from 'lib/sugar-web/datastore';
+import chooser from 'lib/sugar-web/graphics/journalchooser';
+import env from 'lib/sugar-web/env';
 import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
-
 import {
     QUESTION,
     FINISH_EXERCISE,
@@ -54,7 +56,6 @@ class MCQForm extends Component {
         };
 
         this.multimedia = {
-            thumbnail: 'thumbnail',
             text: 'text',
             image: 'image',
             audio: 'audio',
@@ -358,6 +359,60 @@ class MCQForm extends Component {
         })
     };
 
+    showJournalChooser = (mediaType, options = true, optionNo = -1) => {
+        const {currentQuestion} = this.state;
+
+        let image, audio, video = false;
+        if(mediaType === this.multimedia.image)
+            image = true;
+        if(mediaType === this.multimedia.audio)
+            audio = true;
+        if(mediaType === this.multimedia.video)
+            video = true;
+        env.getEnvironment((err, environment) => {
+            if(environment.user) {
+                // Display journal dialog popup
+                chooser.show((entry) => {
+                    if (!entry) {
+                          return;
+                    }
+                    var dataentry = new datastore.DatastoreObject(entry.objectId);
+                    dataentry.loadAsText((err, metadata, text) => {
+                        if(options){
+                            let options = currentQuestion.options;
+                            options[optionNo] = {type: mediaType, data: text};
+                            this.setState({
+                                ...this.state,
+                                currentQuestion:{
+                                    ...currentQuestion,
+                                    options: options
+                                }
+                            },() => {
+                                this.checkFormValidation();
+                            });
+                        } else{
+                            this.setState({
+                                ...this.state,
+                                currentQuestion:{
+                                    ...currentQuestion,
+                                    question:{
+                                        type: mediaType,
+                                        data: text
+                                    }
+                                }
+                            },() => {
+                                this.checkFormValidation();
+                            });
+                        }
+                    });
+                }, (image?{mimetype: 'image/png'}:null),
+                    (image?{mimetype: 'image/jpeg'}:null),
+                    (audio?{mimetype: 'audio/wav'}:null),
+                    (video?{mimetype: 'video/webm'}:null));
+            }
+        });
+    };
+
     speak = (e, text) => {
         let audioElem = e.target;
         let myDataUrl = meSpeak.speak(text, {rawdata: 'data-url'});
@@ -373,61 +428,41 @@ class MCQForm extends Component {
 
     selectQuestionType = (mediaType) => {
         const {currentQuestion} = this.state;
-        this.setState({
-            ...this.state,
-            currentQuestion:{
-                ...currentQuestion,
-                question: {
-                    type: mediaType,
-                    data: ''
+        if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
+            this.setState({
+                ...this.state,
+                currentQuestion:{
+                    ...currentQuestion,
+                    question: {
+                        type: mediaType,
+                        data: ''
+                    }
                 }
-            }
-        },() => {
-            this.checkFormValidation();
-        });
+            },() => {
+                this.checkFormValidation();
+            });
+        } else {
+            this.showJournalChooser(mediaType, false)
+        }
     }
 
-    setQuestionType = (mediaSrc) => {
+    selectOptionType = (mediaType, optionNo) => {
         const {currentQuestion} = this.state;
-
-        this.setState({
-            ...this.state,
-            currentQuestion:{
-                ...currentQuestion,
-                question: {
-                    ...currentQuestion.question.type,
-                    data: mediaSrc
+        if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
+            let {options} = currentQuestion;
+            options[optionNo] = {type: mediaType, data: ''};
+            this.setState({
+                ...this.state,
+                currentQuestion:{
+                    ...currentQuestion,
+                    options: options
                 }
-            }
-        },() => {
-            this.checkFormValidation();
-        });
-    }
-
-    selectOptionType = (type, optionNo) => {
-        const {currentQuestion} = this.state;
-        let {options} = currentQuestion;
-        options[optionNo]={type: type, data: ''};
-        this.setState({
-            ...this.state,
-            currentQuestion: {
-                ...currentQuestion, 
-                options:options
-            }
-        });
-    }
-
-    setOptionType = (mediaSrc, optionNo) => {
-        const {currentQuestion} = this.state;
-        let {options} = currentQuestion;
-        options[optionNo]={type: options[optionNo].type, data: mediaSrc};
-        this.setState({
-            ...this.state,
-            currentQuestion: {
-                ...currentQuestion, 
-                options:options
-            }
-        });
+            },() => {
+                this.checkFormValidation();
+            });
+        } else {
+            this.showJournalChooser(mediaType, true, optionNo)
+        }
     }
 
     resetOption = (OptionNo)=>{
@@ -446,33 +481,25 @@ class MCQForm extends Component {
     render() {
         const {currentQuestion, errors} = this.state;
         const {id, options} = currentQuestion;
-        const {thumbnail, insertThumbnail, showJournalChooser, showMedia} = this.props;
+        const {thumbnail, insertThumbnail, showMedia} = this.props;
 
         //Question-Options
         let questionOptions = (
             <div className="question-options">
                 <button className="btn button-question-options button-text col-md-2" 
                     onClick={() => {
-                        this.selectQuestionType(this.multimedia.text)
+                            this.selectQuestionType(this.multimedia.text)
                         }}>
                     <FormattedMessage id={TEXT}/>
                 </button>
                 <button className="btn button-question-options button-image col-md-2" 
                     onClick={() => {
-                        let mediaSrc = showJournalChooser(this.multimedia.image);
-                        if(mediaSrc){
-                            this.selectQuestionType(this.multimedia.image);
-                            this.setQuestionType(mediaSrc);
-                        }
+                        this.selectQuestionType(this.multimedia.image);
                     }}>
                 </button>
                 <button className="btn button-question-options button-audio col-md-2" 
                     onClick={() => {
-                        let mediaSrc = showJournalChooser(this.multimedia.audio);
-                        if(mediaSrc) {
-                            this.selectQuestionType(this.multimedia.audio);
-                            this.setOptionType(mediaSrc);
-                        }                        
+                        this.selectQuestionType(this.multimedia.audio);
                     }}>
                 </button>
                 <button className="btn button-question-options button-text-to-speech col-md-2" 
@@ -482,11 +509,7 @@ class MCQForm extends Component {
                 </button>
                 <button className="btn button-question-options button-video col-md-2" 
                     onClick={() => {
-                        let mediaSrc = showJournalChooser(this.multimedia.video);
-                        if(mediaSrc){
-                            this.selectQuestionType(this.multimedia.video);
-                            this.setOptionType(mediaSrc);
-                        }
+                        this.selectQuestionType(this.multimedia.video);
                     }}>
                 </button>
             </div>
@@ -552,26 +575,18 @@ class MCQForm extends Component {
                         </label>
                         <button className="btn button-answer-options button-text col-md-1" 
                             onClick={() => {
-                                this.selectOptionType(this.multimedia.text, i);
+                                    this.selectOptionType(this.multimedia.text, i);
                                 }}>
                             <FormattedMessage id={TEXT}/>
                         </button>
                         <button className="btn button-answer-options button-image col-md-1" 
                             onClick={() => {
-                                let mediaSrc = showJournalChooser(this.multimedia.image);
-                                if(mediaSrc){
-                                    this.selectOptionType(this.multimedia.image, i);
-                                    this.setOptionType(mediaSrc, i);
-                                }
+                                this.selectOptionType(this.multimedia.image, i);
                             }}>                            
                         </button>
                         <button className="btn button-answer-options button-audio col-md-1" 
                             onClick={() => {
-                                    let mediaSrc = showJournalChooser(this.multimedia.audio);
-                                    if(mediaSrc){
-                                        this.selectOptionType(this.multimedia.audio, i);
-                                        this.setOptionType(mediaSrc, i);
-                                    }
+                                this.selectOptionType(this.multimedia.audio, i);
                                 }}>                        
                         </button>
                         <button className="btn button-answer-options button-text-to-speech col-md-1" 
@@ -580,11 +595,7 @@ class MCQForm extends Component {
                         </button>
                         <button className="btn button-answer-options button-video col-md-1" 
                             onClick={() => {
-                                let mediaSrc = showJournalChooser(this.multimedia.video);
-                                if(mediaSrc){
-                                    this.selectOptionType(this.multimedia.video, i);
-                                    this.setOptionType(mediaSrc, i);
-                                }
+                                this.selectOptionType(this.multimedia.video, i);
                             }}>
                         </button>
                         <span className = "options-placeholder">

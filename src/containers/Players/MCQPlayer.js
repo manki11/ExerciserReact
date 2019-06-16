@@ -5,8 +5,8 @@ import {addScoreTime} from '../../store/actions/exercises';
 import "../../css/MCQPlayer.css"
 import {SUBMIT_QUESTION, NEXT_QUESTION, FINISH_EXERCISE} from "../translation";
 import {FormattedMessage} from 'react-intl';
-import picoModal from 'picomodal';
 import meSpeak from 'mespeak';
+import withMultimedia from '../../components/WithMultimedia';
 
 class MCQPlayer extends Component {
 
@@ -41,7 +41,6 @@ class MCQPlayer extends Component {
         }
 
         this.multimedia = {
-            thumbnail: 'thumbnail',
             text: 'text',
             image: 'image',
             audio: 'audio',
@@ -124,7 +123,6 @@ class MCQPlayer extends Component {
         const {correctAns} = currentQuestion;
         let score = currentScore;
         if (selectedAns === correctAns.data) score = score + 1;
-        console.log(score);
         this.setState({
             selected: false,
             submitted: true,
@@ -185,45 +183,6 @@ class MCQPlayer extends Component {
         }
     };
 
-    showMedia = (imageSource) => {
-        picoModal({
-            content: (
-                `<img src = ${imageSource} \
-                    style='max-height: 100%;\
-                        max-width: 100%;\
-                        margin: auto;\
-                        left: 0;\
-                        right: 0;\
-                        top: 0;\
-                        bottom: 0;\
-                        position: absolute;'>\
-                </img>\
-                <button id='close-button' style='background-image: url(${require('../../icons/exercise/delete.svg')});\
-                        position: absolute; right: 0px; width: 50px; height: 50px; margin-top: 5px;\
-                        border-radius: 25px; background-position: center; background-size: contain; \
-                        background-repeat: no-repeat'>\
-                </button>`),
-			closeButton: false,
-			modalStyles: {
-				backgroundColor: "#e5e5e5",
-				height: "400px",
-				width: "600px",
-				maxWidth: "90%"
-			}
-        })
-        .afterShow(function(modal) {
-            let closeButton = document.getElementById('close-button');
-            closeButton.addEventListener('click', function() {
-				modal.close();
-			});
-		})
-		.afterClose((modal) => {
-			modal.destroy();
-		})
-        .show();
-        console.log("Modal");        
-    };
-
     speak = (e, text) => {
         let audioElem = e.target;
         let myDataUrl = meSpeak.speak(text, {rawdata: 'data-url'});
@@ -235,11 +194,11 @@ class MCQPlayer extends Component {
             audioElem.classList.remove("button-on");
             audioElem.classList.add("button-off");
         }
-        console.log("Speak");
     }
 
     render() {
         const {currentQuestion} = this.state;
+        const {showMedia} = this.props;
         const {id} = currentQuestion;
 
         let question;
@@ -255,7 +214,7 @@ class MCQPlayer extends Component {
                     <p style = {{textAlign: 'center'}}>
                         <img src = {currentQuestion.question.data}
                             style = {{height: '200px'}}
-                            onClick = {()=>{this.showMedia(currentQuestion.question.data)}}
+                            onClick = {()=>{showMedia(currentQuestion.question.data)}}
                             alt="Question"/>
                     </p>
                 </div>
@@ -324,7 +283,7 @@ class MCQPlayer extends Component {
                 optionElement = (
                     <img src = {option.data}
                             style = {{height: '100px'}}
-                            onClick = {()=>{this.showMedia(option.data)}}
+                            onClick = {()=>{showMedia(option.data)}}
                             alt="Option"/>
                 );
             if( optionsType === this.multimedia.audio)
@@ -351,8 +310,7 @@ class MCQPlayer extends Component {
                     </video>
                 );
             return (
-                <div className="choices-row" key={`answers-${i}`}>
-                    <div className="col-md-6 choices-div">
+                <div className="choices-div col-md-6" key={`answers-${i}` }>
                         <input type="radio" 
                             className="options-radio"
                             checked={option.data === this.state.selectedAns}
@@ -372,7 +330,6 @@ class MCQPlayer extends Component {
                         >
                         {optionElement}
                         </button>
-                    </div>
                 </div>
             )
         });
@@ -393,7 +350,7 @@ class MCQPlayer extends Component {
                                 <hr className="my-4"/>
                                 {question}
                             </div>
-                            <div className="row">
+                            <div className="col-md-12">
                                 {choices}
                             </div>
                             <div className="d-flex flex-row-reverse">
@@ -423,5 +380,5 @@ function MapStateToProps(state) {
     return {}
 }
 
-export default withRouter(
-    connect(MapStateToProps, {addScoreTime})(MCQPlayer));
+export default withMultimedia(null)(withRouter(
+    connect(MapStateToProps, {addScoreTime})(MCQPlayer)));
