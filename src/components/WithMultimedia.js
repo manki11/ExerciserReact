@@ -14,15 +14,6 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
                 thumbnail: '',
                 userLanguage: ''
             }
-
-            this.multimedia = {
-                thumbnail: 'thumbnail',
-                text: 'text',
-                image: 'image',
-                audio: 'audio',
-                textToSpeech: 'text-to-speech',
-                video: 'video'
-            };
         }
 
 		componentDidMount() {
@@ -137,32 +128,25 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
 
             // Thumbnail
             let thumbnail;
-            if(this.state.thumbnail === '') {
+            if(this.state.thumbnail === '' && defaultThumbnail) {
                 thumbnail = (
                     <div className = "media-background">
                         <img src = {defaultThumbnail}
                             style = {{height: '200px'}}
                             onClick = {() => {this.showMedia(defaultThumbnail)}}
-                            alt="Thumbnail"/> 
-                        {this.state.thumbnail &&
-                            <button className="btn button-cancel" 
-                                onClick={this.deleteThumbnail}
-                            >
-                        </button>}
+                            alt="Thumbnail"/>
                     </div>
                 );
             } else {
                 thumbnail = (
                     <div className = "media-background">
-                    <img src = {this.state.thumbnail}
-                            style = {{height: '200px'}}
-                            onClick = {() => {this.showMedia(this.state.thumbnail)}}
-                            alt="Thumbnail"/>
-                        {this.state.thumbnail &&
-                            <button className="btn button-cancel" 
-                                onClick={this.deleteThumbnail}
-                            >
-                        </button>}
+                        <img src = {this.state.thumbnail}
+                                style = {{height: '200px'}}
+                                onClick = {() => {this.showMedia(this.state.thumbnail)}}
+                                alt="Thumbnail"/>
+                        <button className="btn button-cancel" 
+                            onClick={this.deleteThumbnail}>
+                        </button>
                     </div>
                 );
             }

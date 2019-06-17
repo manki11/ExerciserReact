@@ -183,8 +183,8 @@ class MCQPlayer extends Component {
         }
     };
 
-    speak = (e, text) => {
-        let audioElem = e.target;
+    speak = (elem, text) => {
+        let audioElem = elem;
         let myDataUrl = meSpeak.speak(text, {rawdata: 'data-url'});
 		let sound = new Audio(myDataUrl);
         audioElem.classList.remove("button-off");
@@ -259,7 +259,7 @@ class MCQPlayer extends Component {
         let choices = currentQuestion.options.map((option, i) => {
             let btn = 'btn-outline-secondary';
             if (this.state.selectedAns === option.data) {
-                btn = 'btn-secondary'
+                btn = 'btn-selected';
             }
             if (this.state.submitted) {
                 if (this.state.selectedAns === this.state.currentQuestion.correctAns.data) {
@@ -295,12 +295,9 @@ class MCQPlayer extends Component {
                 );
             if( optionsType === this.multimedia.textToSpeech) {
                 optionElement = (
-                    <p style = {{textAlign: 'center'}}>
-                        <img className="button-off"
-                            onClick={(e)=>{this.speak(e, option.data)}}
-                            alt="text-to-speech-option"
-                        />
-                    </p>
+                    <img className="button-off"
+                        alt="text-to-speech-option"
+                    />
                 );
             }
             if( optionsType === this.multimedia.video)
@@ -325,8 +322,17 @@ class MCQPlayer extends Component {
                             />   
                         <button
                             className={"btn choices-button " + btn}
+                            type="button"
                             id={`answer-${i}`}
-                            onClick={(e) => this.choiceSelected(option.data)}
+                            onClick={(e) => {
+                                if( optionsType === this.multimedia.textToSpeech) {
+                                    let elem = e.target;
+                                    if(e.target.getAttribute("type")==='button')
+                                        elem = e.target.children[0];
+                                    this.speak(elem, option.data);
+                                }
+                                this.choiceSelected(option.data)}
+                            }
                         >
                         {optionElement}
                         </button>

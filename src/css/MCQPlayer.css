@@ -7,6 +7,11 @@
     margin-right: 0px!important;
 }
 
+.choices-button:focus, .choices-button:active{
+  box-shadow: none!important;
+  border: 2px solid #808080!important;
+}
+
 .choices-div{
     display: inline-block!important;
     margin: 10px 0px;
@@ -47,6 +52,11 @@
 .btn-outline-secondary {
     color: #6c757d!important;
     border-color: #6c757d!important;
+}
+
+.btn-selected{
+    color: #6c757d!important;
+    border: 2px solid #808080!important;
 }
 
 .button-on{

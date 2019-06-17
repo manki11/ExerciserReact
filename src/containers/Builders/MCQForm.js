@@ -88,8 +88,9 @@ class MCQForm extends Component {
     handleChangeOption = e => {
         const index = Number(e.target.name.split('-')[1]);
         const options = this.state.currentQuestion.options.map((option, i) => (
-            i === index ? {type: option.type, data: e.target.value} : {type: option.type, data: option.data}
+            i === index ? {type: option.type, data: e.target.value} : option
         ));
+
         let error = false;
         if (e.target.value === '') {
             error = true;
@@ -150,8 +151,8 @@ class MCQForm extends Component {
     };
 
     handleRemoveOption = () => {
-        const {currentQuestion} = this.state;
-        const {options} = currentQuestion;
+        let {currentQuestion} = this.state;
+        let {options} = currentQuestion;
         if (options.length > 2) {
             options.pop();
             this.setState({
@@ -194,8 +195,8 @@ class MCQForm extends Component {
             const {currentQuestionNo, noOfQuestions} = this.state;
             const {question, options} = this.state.currentQuestion;
 
-            let correctAns = options[0];
-            let id = currentQuestionNo;
+            const correctAns = options[0];
+            const id = currentQuestionNo;
 
             let Ques = {
                 id: id,
@@ -254,7 +255,7 @@ class MCQForm extends Component {
                     const {question, options, correctAns} = this.state.questions[index];
                     let correct = correctAns;
                     if (correctAns.data === '') {
-                        correct = options.options[0];
+                        correct = options[0];
                     }
 
                     this.setState({
