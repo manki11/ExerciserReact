@@ -62,7 +62,7 @@ class MCQPlayer extends Component {
             let goBackToEdit = false;
             if (this.props.location.state.edit) goBackToEdit = true;
 
-            let options = currentQuestion.options;
+            let options = currentQuestion.options.slice();
             this.shuffleArray(options);
 
             this.setState({
