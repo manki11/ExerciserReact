@@ -386,5 +386,5 @@ function MapStateToProps(state) {
     return {}
 }
 
-export default withMultimedia(null)(withRouter(
+export default withMultimedia(require('../../images/mcq_image.svg'))(withRouter(
     connect(MapStateToProps, {addScoreTime})(MCQPlayer)));

@@ -128,7 +128,7 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
 
             // Thumbnail
             let thumbnail;
-            if(this.state.thumbnail === '' && defaultThumbnail) {
+            if(this.state.thumbnail === '') {
                 thumbnail = (
                     <div className = "media-background">
                         <img src = {defaultThumbnail}
