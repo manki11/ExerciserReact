@@ -62,7 +62,7 @@ class Exercise extends Component {
             });
         }
 
-        if(thumbnail && !thumbnail.startsWith('data:image'))
+        if(thumbnail && !thumbnail.startsWith('data:image') && !thumbnail.startsWith('/static/'))
             thumbnail = require(`../images/defaultExerciseThumbnail/${thumbnail}`);
 
         let play = (<FormattedMessage id={PLAY} defaultMessage={PLAY}>

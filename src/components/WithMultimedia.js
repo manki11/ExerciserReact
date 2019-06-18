@@ -22,7 +22,7 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
 				let newThumbnail = thumbnail;
                 
                 // For default exercises
-	            if(thumbnail && !thumbnail.startsWith('data:image'))
+	            if(thumbnail && !thumbnail.startsWith('data:image')  && !thumbnail.startsWith('/static/'))
 	                newThumbnail = require(`../images/defaultExerciseThumbnail/${thumbnail}`);
                 
 	            this.setState({
