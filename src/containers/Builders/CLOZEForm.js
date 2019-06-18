@@ -5,8 +5,11 @@ import {addNewExercise, editExercise} from "../../store/actions/exercises";
 import {FormattedMessage} from 'react-intl';
 import {withRouter} from "react-router-dom"
 import "../../css/CLOZEForm.css";
+import datastore from 'lib/sugar-web/datastore';
+import chooser from 'lib/sugar-web/graphics/journalchooser';
+import env from 'lib/sugar-web/env';
+import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
-
 import {
     FINISH_EXERCISE,
     QUESTION,
@@ -23,7 +26,8 @@ import {
     QUESTION_ERROR,
     TITLE_ERROR,
     BLANKS_ERROR,
-    BLANK_REUSED_ERROR
+    BLANK_REUSED_ERROR,
+    TEXT
 } from "../translation";
 
 class CLOZEForm extends Component {
@@ -35,7 +39,10 @@ class CLOZEForm extends Component {
             edit: false,
             id: -1,
             title: '',
-            question: '',
+            question: {
+                type:'',
+                data: ''
+            },
             clozeText: '',
             scores: [],
             times: [],
@@ -54,6 +61,15 @@ class CLOZEForm extends Component {
             },
             typeOfExcercise:'Cloze'
         };
+
+        this.multimedia = {
+            text: 'text',
+            image: 'image',
+            audio: 'audio',
+            textToSpeech: 'text-to-speech',
+            video: 'video'
+        };
+
     }
 
     // in case of edit load the exercise
@@ -151,7 +167,10 @@ class CLOZEForm extends Component {
                 ...this.state.errors,
                 question: error
             },
-            question: e.target.value
+            question: {
+                ...this.state.question,
+                data: e.target.value
+            }
         }, () => {
             this.checkFormValidation();
         });
@@ -163,7 +182,7 @@ class CLOZEForm extends Component {
         let isFormValid = true;
         let unevenBlanks = false;
 
-        if (question === '') {
+        if (question.type === '' || question.data === '') {
             isFormValid = false;
         }
 
@@ -206,7 +225,7 @@ class CLOZEForm extends Component {
     // submit and exercise and redirect
     submitExercise = (bool, e) => {
         e.preventDefault();
-        let {srcThumbnail} = this.props;
+        let {srcThumbnail, userLanguage} = this.props;
 
         let id = this.state.id;
         if (this.state.id === -1) {
@@ -223,7 +242,8 @@ class CLOZEForm extends Component {
             answers: this.state.answers,
             scores: this.state.scores,
             writeIn: this.state.writeIn,
-            thumbnail: srcThumbnail
+            thumbnail: srcThumbnail,
+            userLanguage: userLanguage
         };
 
         if (this.state.edit) {
@@ -347,10 +367,154 @@ class CLOZEForm extends Component {
         });
     };
 
+    showJournalChooser = (mediaType) => {
+        let image, audio, video = false;
+        if(mediaType === this.multimedia.image)
+            image = true;
+        if(mediaType === this.multimedia.audio)
+            audio = true;
+        if(mediaType === this.multimedia.video)
+            video = true;
+        env.getEnvironment((err, environment) => {
+            if(environment.user) {
+                // Display journal dialog popup
+                chooser.show((entry) => {
+                    if (!entry) {
+                          return;
+                    }
+                    var dataentry = new datastore.DatastoreObject(entry.objectId);
+                    dataentry.loadAsText((err, metadata, text) => {
+                        this.setState({
+                            ...this.state,
+                            question:{
+                                type: mediaType,
+                                data: text
+                            }
+                        },() => {
+                            this.checkFormValidation();
+                        });
+                    });
+                }, (image?{mimetype: 'image/png'}:null),
+                    (image?{mimetype: 'image/jpeg'}:null),
+                    (audio?{mimetype: 'audio/wav'}:null),
+                    (video?{mimetype: 'video/webm'}:null));
+            }
+        });
+    };
+
+    speak = (e, text) => {
+        let audioElem = e.target;
+        let myDataUrl = meSpeak.speak(text, {rawdata: 'data-url'});
+		let sound = new Audio(myDataUrl);
+        audioElem.classList.remove("button-off");
+        audioElem.classList.add("button-on");
+        sound.play();
+        sound.onended = () => {
+            audioElem.classList.remove("button-on");
+            audioElem.classList.add("button-off");
+        }
+    }
+
+    selectQuestionType = (mediaType) => {
+        if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
+            this.setState({
+                ...this.state,
+                question: {
+                    type: mediaType,
+                    data: ''
+                }
+            });
+        } else {
+            this.showJournalChooser(mediaType)
+        }
+    }
+
     render() {
         const {errors, answers} = this.state;
-        const { thumbnail, insertThumbnail} = this.props;
+        const { thumbnail, insertThumbnail, showMedia} = this.props;
 
+        //Question-Options
+        let questionOptions = (
+            <div className="question-options">
+                <button className="btn button-question-options button-text col-md-2" 
+                    onClick={() => {
+                            this.selectQuestionType(this.multimedia.text)
+                        }}>
+                    <FormattedMessage id={TEXT}/>
+                </button>
+                <button className="btn button-question-options button-image col-md-2" 
+                    onClick={() => {
+                        this.selectQuestionType(this.multimedia.image);
+                    }}>
+                </button>
+                <button className="btn button-question-options button-audio col-md-2" 
+                    onClick={() => {
+                        this.selectQuestionType(this.multimedia.audio);
+                    }}>
+                </button>
+                <button className="btn button-question-options button-text-to-speech col-md-2" 
+                    onClick={() => {
+                        this.selectQuestionType(this.multimedia.textToSpeech);
+                        }}>
+                </button>
+                <button className="btn button-question-options button-video col-md-2" 
+                    onClick={() => {
+                        this.selectQuestionType(this.multimedia.video);
+                    }}>
+                </button>
+            </div>
+        );
+        
+        let question;
+        let questionType = this.state.question.type; 
+        if( questionType === this.multimedia.text)
+            question = (
+                <input
+                    className="input-mcq"
+                    type="text"
+                    id="question"
+                    value={this.state.question.data}
+                    onChange={this.handleChangeQues}
+                />
+            );
+        if( questionType === this.multimedia.image)
+            question = (
+                <div className = "media-background">
+                   <img src = {this.state.question.data}
+                        style = {{height: '200px'}}
+                        onClick = {()=>{showMedia(this.state.question.data)}}
+                        alt="Question"/>
+                </div>
+            );
+        if( questionType === this.multimedia.audio)
+            question = (
+                <audio src={this.state.question.data} controls
+                        style={{width: '-webkit-fill-available'}}>
+                </audio>
+            );
+        if( questionType === this.multimedia.textToSpeech)
+            question = (
+                <div>
+                    <input
+                        className="input-text-to-speech"
+                        id="question"
+                        value={this.state.question.data}
+                        onChange={this.handleChangeQues}
+                    />
+                    <button className="btn button-finish button-speaker button-off" 
+                            onClick={(e)=>{this.speak(e, this.state.question.data)}}>
+                    </button>
+                </div>
+            );
+        if( questionType === this.multimedia.video)
+            question = (
+                <div className="media-background">
+                    <video src={this.state.question.data} controls
+                            height="250px">
+                    </video>
+                </div>
+            );
+        
         let inputs = answers.map((ans, i) => {
             return (
                 <div className="row" key={`answers-${i}`}>
@@ -434,13 +598,11 @@ class CLOZEForm extends Component {
                                         <div className="row">
                                             <div className="form-group">
                                                 <label htmlFor="question"><FormattedMessage id={QUESTION}/>:</label>
-                                                <input
-                                                    className="input-mcq"
-                                                    type="text"
-                                                    id="question"
-                                                    value={this.state.question}
-                                                    onChange={this.handleChangeQues}
-                                                />
+                                                {questionType && <button className="btn button-edit" 
+                                                    onClick={() => {this.setState({...this.state, question:{type:'', data:''}})}}>
+                                                </button>}
+                                                {!questionType && questionOptions}
+                                                {questionType && question}
                                                 {question_error}
                                             </div>
                                         </div>

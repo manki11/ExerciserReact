@@ -7,7 +7,8 @@ import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import {SUBMIT_QUESTION, FINISH_EXERCISE} from "../translation";
 import {FormattedMessage} from 'react-intl';
-
+import meSpeak from 'mespeak';
+import withMultimedia from '../../components/WithMultimedia';
 
 class CLOZEPlayer extends Component {
 
@@ -17,7 +18,10 @@ class CLOZEPlayer extends Component {
         this.state = {
             id: -1,
             title: '',
-            question: '',
+            question: {
+                type:'',
+                data: ''
+            },
             writeIn: "OPTIONS",
             cloze: [],
             answers: [],
@@ -30,15 +34,24 @@ class CLOZEPlayer extends Component {
             times: [],
             goBackToEdit: false,
             currentTime: 0,
-            intervalID: -1
+            intervalID: -1,
+            userLanguage: '',
         }
+
+        this.multimedia = {
+            text: 'text',
+            image: 'image',
+            audio: 'audio',
+            textToSpeech: 'text-to-speech',
+            video: 'video'
+        };
     }
 
     // load the exercise from props
     componentDidMount() {
         if (this.props.location.state) {
             let intervalId = setInterval(this.timer, 1000);
-            const {id, title, question, scores, times, answers, clozeText, writeIn} = this.props.location.state.exercise;
+            const {id, title, question, scores, times, answers, clozeText, writeIn, userLanguage} = this.props.location.state.exercise;
 
             let goBackToEdit = false;
             if (this.props.location.state.edit) goBackToEdit = true;
@@ -80,7 +93,13 @@ class CLOZEPlayer extends Component {
                 intervalId: intervalId,
                 checkans: checkans,
                 writeIn: writeIn,
-                goBackToEdit: goBackToEdit
+                goBackToEdit: goBackToEdit,
+                userLanguage: userLanguage
+            }, () => {
+                if(userLanguage.startsWith('en'))
+                    meSpeak.loadVoice(require(`mespeak/voices/en/${this.state.userLanguage}.json`));
+                else
+                    meSpeak.loadVoice(require(`mespeak/voices/${this.state.userLanguage}.json`));
             })
         }
     }
@@ -181,7 +200,65 @@ class CLOZEPlayer extends Component {
         this.setState({currentTime: this.state.currentTime + 1});
     };
 
+    speak = (elem, text) => {
+        let audioElem = elem;
+        let myDataUrl = meSpeak.speak(text, {rawdata: 'data-url'});
+		let sound = new Audio(myDataUrl);
+        audioElem.classList.remove("button-off");
+        audioElem.classList.add("button-on");
+        sound.play();
+        sound.onended = () => {
+            audioElem.classList.remove("button-on");
+            audioElem.classList.add("button-off");
+        }
+    }
+
     render() {
+        const {showMedia} = this.props;
+
+        let question;
+        let questionType = this.state.question.type; 
+        if( questionType === this.multimedia.text)
+            question = (
+               this.state.question.data
+            );
+        if( questionType === this.multimedia.image)
+            question = (
+                <p style = {{textAlign: 'center'}}>
+                    <img src = {this.state.question.data}
+                        style = {{height: '200px'}}
+                        onClick = {()=>{showMedia(this.state.question.data)}}
+                        alt="Question"/>
+                </p>
+            );
+        if( questionType === this.multimedia.audio)
+            question = (
+                <p style = {{textAlign: 'center'}}>
+                    <audio src={this.state.question.data} controls>
+                    </audio>
+                </p>
+                
+            );
+        if( questionType === this.multimedia.textToSpeech) {
+            question = (
+                <span style={{marginLeft: '10px'}}>
+                    <img className="button-off"
+                        onClick={(e)=>{this.speak(e.target, this.state.question.data)}}
+                        alt="text-to-speech-question"
+                    />
+                </span>
+                
+            );
+        }
+        if( questionType === this.multimedia.video)
+            question = (
+                <p style = {{textAlign: 'center'}}>
+                    <video src={this.state.question.data} controls
+                        height="250px">
+                    </video>
+                </p>
+            );
+
         let buttonText = <FormattedMessage id={SUBMIT_QUESTION}/>;
         if (this.state.submitted) buttonText = <FormattedMessage id={FINISH_EXERCISE}/>
 
@@ -248,7 +325,9 @@ class CLOZEPlayer extends Component {
                         <div className="jumbotron">
                             <p className="lead">{this.state.title}</p>
                             <hr className="my-4"/>
-                            <p>{this.state.question}</p>
+                            <div style={{textAlign: "center", marginBottom: "20px"}}>
+                                {question}
+                            </div>
                             <div>
                                 {clozetext}
                             </div>
@@ -277,6 +356,6 @@ function MapStateToProps(state) {
     return {}
 }
 
-export default withRouter(
-    connect(MapStateToProps, {addScoreTime})(CLOZEPlayer));
+export default withMultimedia(require('../../images/list_reorder_image.svg'))(withRouter(
+    connect(MapStateToProps, {addScoreTime})(CLOZEPlayer)));
 
