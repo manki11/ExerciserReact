@@ -20,13 +20,14 @@ export const REORDER_LIST="Reorder List";
 export const TITLE_OF_EXERCISE="Title of Exercise";
 export const QUESTION="Question";
 export const TEST_EXERCISE="Test Exercise";
+export const TEXT = "Text";
 
 // MCQ FORM
 export const PREVIOUS_QUESTION="Previous Question";
 export const NEXT="Next";
 export const FINISH_EXERCISE="Finish Exercise";
-export const CORRECT_OPTION="Correct Option";
-export const WRONG_OPTION="Wrong Option";
+export const CORRECT_OPTION="Correct option";
+export const WRONG_OPTION="Wrong option";
 
 // CLOZE FORM
 export const CLOZE="Cloze {number}";

@@ -7,7 +7,9 @@
     "times": [],
     "title": "Learn Roman numerals",
     "shared": false,
-    "type": "REORDER"
+    "type": "REORDER",
+    "userLanguage": "en",
+    "thumbnail": "numerals.jpg"
   },
   {
     "id": 2,
@@ -19,7 +21,9 @@
     "title": "Animals female name",
     "shared": false,
     "type": "CLOZE",
-    "writeIn": "WRITEIN"
+    "writeIn": "WRITEIN",
+    "userLanguage": "en",
+    "thumbnail": "animal.png"
   },
   {
     "id": 3,
@@ -31,7 +35,9 @@
     "title": "Conjugate \"to be\"",
     "shared": false,
     "type": "CLOZE",
-    "writeIn": "OPTIONS"
+    "writeIn": "OPTIONS",
+    "userLanguage": "en",
+    "thumbnail": "conjugate.jpg"
   },
   {
     "id": 4,
@@ -39,56 +45,82 @@
     "questions": [
       {
         "id": 1,
-        "question": "What is the Capital of India?",
-        "correctAns": "New Delhi",
-        "answers": ["New Delhi", "Bangalore", "Mumbai", "Hyderabad"]
+        "question": {
+          "type": "text",
+          "data": "What is the Capital of India?"
+        },
+        "correctAns": {"type": "text", "data": "New Delhi"},
+        "options":[{"type": "text", "data": "New Delhi"}, {"type": "text", "data": "Bangalore"}, {"type": "text", "data": "Mumbai"}, {"type": "text", "data": "Hyderabad"}]
       },
       {
         "id": 2,
-        "question": "What is the Capital of France?",
-        "correctAns": "Paris",
-        "answers": ["Paris", "Brussels", "Lyon", "Marseille"]
+        "question": {
+          "type": "text",
+          "data": "What is the Capital of France?"
+        },
+        "correctAns": {"type": "text", "data": "Paris"},
+        "options": [{"type": "text", "data": "Paris"}, {"type": "text", "data": "Brussels"}, {"type": "text", "data": "Lyon"}, {"type": "text", "data": "Marseille"}]
       },
       {
         "id": 3,
-        "question": "What is the Capital of UK?",
-        "correctAns": "London",
-        "answers": ["London","Manchester", "Glasgow", "Liverpool"]
+        "question": {
+          "type": "text",
+          "data": "What is the Capital of UK?"
+        },
+        "correctAns": {"type": "text", "data": "London"},
+        "options": [{"type": "text", "data": "London"},{"type": "text", "data": "Manchester"}, {"type": "text", "data": "Glasgow"}, {"type": "text", "data": "Liverpool"}]
       },
       {
         "id": 4,
-        "question": "What is the Capital of USA?",
-        "correctAns": "Washington DC",
-        "answers": ["Washington DC", "New York", "San Francisco", "Boston"]
+        "question": {
+          "type": "text",
+          "data": "What is the Capital of USA?"
+        },
+        "correctAns": {"type": "text", "data": "Washington DC"},
+        "options": [{"type": "text", "data": "Washington DC"}, {"type": "text", "data": "New York"}, {"type": "text", "data": "San Francisco"}, {"type": "text", "data": "Boston"}]
       },
       {
         "id": 5,
-        "question": "What is the Capital of Germany?",
-        "correctAns": "Berlin",
-        "answers": ["Berlin", "Munich", "Frankfurt", "Hamburg"]
+        "question": {
+          "type": "text",
+          "data": "What is the Capital of Germany?"
+        },
+        "correctAns": {"type": "text", "data": "Berlin"},
+        "options": [{"type": "text", "data": "Berlin"}, {"type": "text", "data": "Munich"}, {"type": "text", "data": "Frankfurt"}, {"type": "text", "data": "Hamburg"}]
       },
       {
         "id": 6,
-        "question": "What is the Capital of Japan?",
-        "correctAns": "Tokyo",
-        "answers": ["Tokyo", "Kyoto", "Seoul", "Hiroshima"]
+        "question": {
+          "type": "text",
+          "data": "What is the Capital of Japan?"
+        },
+        "correctAns": {"type": "text", "data": "Tokyo"},
+        "options": [{"type": "text", "data": "Tokyo"}, {"type": "text", "data": "Kyoto"}, {"type": "text", "data": "Seoul"}, {"type": "text", "data": "Hiroshima"}]
       },
       {
         "id": 7,
-        "question": "What is the Capital of China?",
-        "correctAns": "Beijing",
-        "answers": ["Beijing", "Shanghai", "Hong Kong", "Shenzhen"]
+        "question": {
+          "type": "text",
+          "data": "What is the Capital of China?"
+        },
+        "correctAns": {"type": "text", "data": "Beijing"},
+        "options": [{"type": "text", "data": "Beijing"}, {"type": "text", "data": "Shanghai"}, {"type": "text", "data": "Hong Kong"}, {"type": "text", "data": "Shenzhen"}]
       },
       {
         "id": 8,
-        "question": "What is the Capital of Australia?",
-        "correctAns": "Canberra",
-        "answers": ["Canberra", "Melbourne", "Perth", "Sydney"]
+        "question": {
+          "type": "text",
+          "data": "What is the Capital of Australia?"
+        },
+        "correctAns": {"type": "text", "data": "Canberra"},
+        "options": [{"type": "text", "data": "Canberra"}, {"type": "text", "data": "Melbourne"}, {"type": "text", "data": "Perth"}, {"type": "text", "data": "Sydney"}]
       }
     ],
     "scores": [],
     "times": [],
     "shared": false,
-    "type": "MCQ"
+    "type": "MCQ",
+    "userLanguage": "en",
+    "thumbnail": "world.png"
   }
 ]

@@ -3,7 +3,8 @@ import {connect} from "react-redux";
 import {incrementExerciseCounter} from "../../store/actions/increment_counter";
 import {addNewExercise, editExercise} from "../../store/actions/exercises";
 import {FormattedMessage} from 'react-intl';
-import {withRouter} from "react-router-dom"
+import {withRouter} from "react-router-dom";
+import withMultimedia from '../../components/WithMultimedia';
 import {
     FINISH_EXERCISE,
     QUESTION,
@@ -41,6 +42,7 @@ class REORDERForm extends Component {
     componentDidMount() {
         if (this.props.location.state) {
             const {id, title, question, scores, times, list} = this.props.location.state.exercise;
+      
             this.setState({
                 ...this.state,
                 id: id,
@@ -176,6 +178,7 @@ class REORDERForm extends Component {
 
     submitExercise = (bool, e) => {
         e.preventDefault();
+        const {srcThumbnail} = this.props;
         let id = this.state.id;
 
         if (this.state.id === -1) {
@@ -189,6 +192,7 @@ class REORDERForm extends Component {
             times: this.state.times,
             question: this.state.question,
             list: this.state.list,
+            thumbnail: srcThumbnail,
             scores: this.state.scores,
         };
 
@@ -208,6 +212,7 @@ class REORDERForm extends Component {
 
     render() {
         const {errors, list} = this.state;
+        const {thumbnail, insertThumbnail} = this.props;
 
         let lists = list.map((ans, i) => {
             return (
@@ -249,7 +254,6 @@ class REORDERForm extends Component {
             list_error = <span style={{color: "red"}}><FormattedMessage id={LIST_ERROR}/></span>;
         }
 
-
         return (
             <div className="container">
                 <div className="container-fluid">
@@ -262,7 +266,13 @@ class REORDERForm extends Component {
                                 <form onSubmit={this.handleNewEvent}>
                                     <div className="row">
                                         <div className="form-group">
+                                            <div className = "thumbnail">
+                                                    <button style={{display: 'none'}}/>
+                                                    {thumbnail}
+                                            </div>
                                             <label htmlFor="title"><FormattedMessage id={TITLE_OF_EXERCISE}/></label>
+                                            <button className="btn button-finish button-thumbnail" 
+                                                    onClick={insertThumbnail}/>
                                             <input
                                                 className="input-mcq"
                                                 type="text"
@@ -344,7 +354,7 @@ function MapStateToProps(state) {
     }
 }
 
-export default withRouter(
+export default withMultimedia(require('../../images/cloze_image.svg'))(withRouter(
     connect(MapStateToProps,
         {addNewExercise, incrementExerciseCounter, editExercise}
-    )(REORDERForm));
+    )(REORDERForm)));

@@ -103,6 +103,8 @@
   "It -1- cold today.\nI -2- at home now.\nThey -3- French.\nThere -4- a pen on the book.\nMy name -5- John.\nWe -6- from Spain.\nThat -7- right.\nI -8- OK, thanks.\nKevin and Kate -9- married.\nShe -10- an English teacher.":"It -1- cold today.\nI -2- at home now.\nThey -3- French.\nThere -4- a pen on the book.\nMy name -5- John.\nWe -6- from Spain.\nThat -7- right.\nI -8- OK, thanks.\nKevin and Kate -9- married.\nShe -10- an English teacher.",
   "is": "is",
   "am": "am",
-  "are": "are"
-
+  "are": "are",
+  "Text": "Texto",
+  "Correct option": "Opción correcta",
+  "Wrong option": "Opcion incorrecta"
 }

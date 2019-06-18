@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import '../css/Exercise.css'
 import {FormattedMessage} from 'react-intl';
 import {QUESTIONS, BEST_SCORE, MCQ, REORDER_LIST, CLOZE_TEXT, QUESTION_SINGULAR, PLAY, EDIT, DELETE} from "../containers/translation";
-
+import cloze_background from '../images/cloze_image.svg'
+import mcq_background from '../images/mcq_image.svg'
+import reorder_background from '../images/list_reorder_image.svg'
 
 class Exercise extends Component {
 
@@ -12,6 +14,12 @@ class Exercise extends Component {
 
         this.state = {
             id: id,
+        }
+
+        this.background = {
+            'CLOZE':cloze_background,
+            'MCQ':mcq_background,
+            'REORDER':reorder_background
         }
 
     }
@@ -43,7 +51,8 @@ class Exercise extends Component {
 
     render() {
         const {title, type, questions, scores, answers, list, isShared, isHost, shared} = this.props;
-
+        let { thumbnail } = this.props; 
+        
         let highest = 0;
         if (scores.length > 0) {
             scores.forEach(score => {
@@ -53,7 +62,9 @@ class Exercise extends Component {
             });
         }
 
-    
+        if(thumbnail && !thumbnail.startsWith('data:image') && !thumbnail.startsWith('/static/'))
+            thumbnail = require(`../images/defaultExerciseThumbnail/${thumbnail}`);
+
         let play = (<FormattedMessage id={PLAY} defaultMessage={PLAY}>
                         {(msg) => (<button type="button" title={msg} className="play-button" onClick={this.playExercise}/>)}
                     </FormattedMessage>);
@@ -101,20 +112,26 @@ class Exercise extends Component {
         let question_string=(<FormattedMessage id={QUESTIONS} values={{number: length}}/>);
         if(length===1) question_string=(<FormattedMessage id={QUESTION_SINGULAR} values={{number: length}}/>);
 
-
         return (
-            <div className="col-md-12">
+            <div className="col-md-10">
                 <div className="card">
-                    <div className="exercise-card-content">
+                    <div className="card-img-container">
+                        <div className="card-img-top" style={{backgroundImage: `url(${thumbnail!==''?thumbnail:this.background[type]})`}}/>
+                    </div>
+                    <div className="card-body">
                         <h3 className="card-title">{title}</h3>
                         <div><strong><FormattedMessage id={localized_type}/></strong></div>
-                        <div className="exercise-card-question">{question_string}</div>
-                        <div className="exercise-card-hiscore"><FormattedMessage id={BEST_SCORE}/>: {highest}/{length}</div>
-                        {play}
-                        {edit}
-                        {cross}
-                        {share}
-                        {results}
+                        <span className="card-text">
+                            <div className="exercise-card-question">{question_string}</div>
+                            <div className="exercise-card-hiscore"><FormattedMessage id={BEST_SCORE}/>: {highest}/{length}</div>
+                        </span>
+                        <div className="buttons">
+                            {play}
+                            {edit}
+                            {cross}
+                            {share}
+                            {results}
+                        </div>
                     </div>
                 </div>
             </div>

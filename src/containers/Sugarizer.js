@@ -22,6 +22,8 @@ import Main from "./Router";
 import Navbar from '../components/Navbar'
 
 import '../css/index.css';
+import meSpeak from 'mespeak';
+import LZ from 'lz-string';
 
 // actions
 import {setExercises} from "../store/actions/exercises";
@@ -48,6 +50,7 @@ class Sugarizer extends Component {
     componentDidMount() {
         const {setExercises, setExerciseCounter, setIsHost, setIsShared, setUser} = this.props;
         activity.setup();
+        meSpeak.loadConfig(require("../mespeak_config.json"));
 
         let temp = this;
         env.getEnvironment(function (err, environment) {
@@ -73,7 +76,9 @@ class Sugarizer extends Component {
                 activity.getDatastoreObject().loadAsText(function (error, metadata, data) {
                     if (error === null && data !== null) {
                         // console.log("object found!");
-                        let json = JSON.parse(data);
+                        // Decompressing jsonData to be stored in Local Storage
+                        let uncompressedData = LZ.decompressFromUTF16(data);
+                        let json = JSON.parse(uncompressedData);
                         setExercises(json.exercises);
                         setExerciseCounter(json.counter);
                     }
@@ -203,6 +208,8 @@ class Sugarizer extends Component {
         };
 
         let jsonData = JSON.stringify(json);
+        // Compressing jsonData to be stored in Local Storage
+        jsonData  = LZ.compressToUTF16(jsonData);
         activity.getDatastoreObject().setDataAsText(jsonData);
         activity.getDatastoreObject().save(function (error) {
             if (error === null) {

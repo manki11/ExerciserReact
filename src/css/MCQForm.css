@@ -11,8 +11,6 @@
 }
 
 .answers{
-    width: auto!important;
-    min-width: 250px;
     display: inline-block!important;
 }
 
@@ -87,7 +85,6 @@ div label{
 }
 
 .input-ans{
-    display: block;
     font-size: 15px;
     padding: 6px 20px!important;
 }
@@ -104,11 +101,159 @@ div label{
 }
 
 .button-choices-sub{
-    width: 32px;
-    height: 32px;
+    width: 30px;
+    height: 30px;
     border-radius: 16px!important;
     text-align: center;
     background-image: url("../icons/exercise/sub.svg")!important;
     background-size: contain !important;
     background-color: #808080!important;
+}
+
+.button-thumbnail {
+    background-image: url(../icons/exercise/insert-image.svg);
+    background-repeat: no-repeat;
+    background-size: contain;    
+    float: right;
+    width: 30px;
+    height: 30px;
+    margin-bottom: 5px;
+    margin-right: 0px!important;
+}
+
+.button-cancel{
+    background-image: url(../icons/exercise/sub.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    position: absolute;
+    right: 0;
+    background-color: gray!important;
+    height: 30px;
+    width: 30px;
+    border-radius: 16px!important;
+    margin-top: 5px;
+}
+
+.button-edit{
+    background-image: url(../icons/exercise/cog.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;    
+    float: right;
+    margin-right: 0px!important;
+    width: 30px;
+    height: 30px;
+    border-radius: 16px!important;
+    text-align: center;
+    background-color: #808080!important;
+}
+
+.button-choices-edit{
+    background-image: url(../icons/exercise/cog.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;    
+    background-color: gray!important;
+    height: 30px;
+    width: 30px;
+    margin-bottom: 5px;
+    margin-right: 0px!important;
+    border-radius: 16px!important;
+    margin-top: 5px;
+}
+
+.media-background {
+    background-color: #e5e5e5;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.button-question-options{
+    height: 35px;
+    text-align: center;
+    align-self: center;
+    border-radius: 20px!important;
+    background-color: #808080!important;
+    font-size: 15px!important;
+    margin-bottom: 10px!important;
+}
+
+.button-answer-options{
+    height: 25px;
+    text-align: center;
+    align-self: center;
+    border-radius: 20px!important;
+    background-color: #808080!important;
+    font-size: 12px!important;
+    margin-bottom: 10px!important;
+    padding: 2px 2px!important;
+}
+
+.button-image{
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(../icons/exercise/photo.svg);
+}
+
+.button-audio{
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(../icons/exercise/audio.svg);
+}
+
+.button-video{
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(../icons/exercise/video.svg);
+}
+
+.button-text-to-speech{
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(../icons/exercise/speak.svg);
+}
+
+.input-text-to-speech{
+    width: 80%!important;
+    display: inline-block;
+    font-size: 15px;
+    padding: 6px 20px!important;
+    line-height: 22px;
+    background-color: #e5e5e5;
+    border: 2px solid #e5e5e5;
+    border-radius: 22px;
+    outline: 0;
+}
+
+.button-speaker {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 20px;    
+    width: 30px;
+    height: 30px;
+    margin-left: 5px!important;
+    margin-right: 0px!important;   
+}
+
+.vertical-align{
+    vertical-align: middle;
+}
+
+.options-placeholder{
+    opacity: 0.5;
+    vertical-align: text-bottom;
+    font-size: 15px;
+}
+
+.button-on{
+    background-image: url(../icons/exercise/sound_on_white.png);
+}
+
+.button-off{
+    background-image: url(../icons/exercise/sound_off_white.png);
 }

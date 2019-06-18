@@ -4,7 +4,9 @@ import {incrementExerciseCounter} from "../../store/actions/increment_counter";
 import {addNewExercise, editExercise} from "../../store/actions/exercises";
 import {FormattedMessage} from 'react-intl';
 import {withRouter} from "react-router-dom"
-import "../../css/CLOZEForm.css"
+import "../../css/CLOZEForm.css";
+import withMultimedia from '../../components/WithMultimedia';
+
 import {
     FINISH_EXERCISE,
     QUESTION,
@@ -72,7 +74,7 @@ class CLOZEForm extends Component {
                 clozeText: clozeText,
                 answers: answers,
                 writeIn: writeIn,
-                nextBlank: nextBlank
+                nextBlank: nextBlank,
             });
         }
     }
@@ -204,6 +206,7 @@ class CLOZEForm extends Component {
     // submit and exercise and redirect
     submitExercise = (bool, e) => {
         e.preventDefault();
+        let {srcThumbnail} = this.props;
 
         let id = this.state.id;
         if (this.state.id === -1) {
@@ -219,9 +222,9 @@ class CLOZEForm extends Component {
             clozeText: this.state.clozeText,
             answers: this.state.answers,
             scores: this.state.scores,
-            writeIn: this.state.writeIn
+            writeIn: this.state.writeIn,
+            thumbnail: srcThumbnail
         };
-
 
         if (this.state.edit) {
             this.props.editExercise(exercise);
@@ -346,6 +349,8 @@ class CLOZEForm extends Component {
 
     render() {
         const {errors, answers} = this.state;
+        const { thumbnail, insertThumbnail} = this.props;
+
         let inputs = answers.map((ans, i) => {
             return (
                 <div className="row" key={`answers-${i}`}>
@@ -407,7 +412,15 @@ class CLOZEForm extends Component {
                                     <form onSubmit={this.handleNewEvent}>
                                         <div className="row">
                                             <div className="form-group">
+                                                <div className = "thumbnail">
+                                                    <button style={{display: 'none'}}/>
+                                                    {thumbnail}
+                                                </div>
                                                 <label htmlFor="title"><FormattedMessage id={TITLE_OF_EXERCISE}/></label>
+                                                <button
+                                                    className="btn button-finish button-thumbnail" 
+                                                    onClick={insertThumbnail}
+                                                />
                                                 <input
                                                     className="input-mcq"
                                                     type="text"
@@ -543,7 +556,7 @@ function MapStateToProps(state) {
     }
 }
 
-export default withRouter(
+export default withMultimedia(require('../../images/list_reorder_image.svg'))(withRouter(
     connect(MapStateToProps,
         {addNewExercise, incrementExerciseCounter, editExercise}
-    )(CLOZEForm));
+    )(CLOZEForm)));
