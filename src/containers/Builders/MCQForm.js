@@ -309,18 +309,30 @@ class MCQForm extends Component {
     submitExercise = (bool,e) => {
         e.preventDefault();
         const {srcThumbnail, userLanguage} = this.props;
-
+        const {currentQuestion} = this.state;
+        let {questions} = this.state;
 
         let id = this.state.id;
         if (this.state.id === -1) {
             id = this.props.counter;
         }
 
+        // To save changes before testing the exercise
+        if(currentQuestion.id <= questions.length){
+            let Ques = {
+                id: currentQuestion.id,
+                options: currentQuestion.options,
+                question: currentQuestion.question,
+                correctAns: currentQuestion.options[0]
+            };
+            questions[currentQuestion.id -1] = Ques;
+        }
+
         let exercise = {
             title: this.state.title,
             id: id,
             type: "MCQ",
-            questions: this.state.questions,
+            questions: questions,
             scores: this.state.scores,
             times: this.state.times,
             thumbnail: srcThumbnail,
