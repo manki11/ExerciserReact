@@ -30,6 +30,16 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 const getListStyle = isDraggingOver => ({
     padding: grid
 });
+const getHandlerStyle = {
+    backgroundImage: `url(${require("../icons/exercise/reorder-drag.svg")})`,
+    backgroundPosition: 'center',
+    backgroundSize: 'contain',
+    backgroundRepeat: 'no-repeat',
+    width: '1em',
+    height: '1em',
+    float: 'left',
+    marginTop: '5px'
+};
 
 export default class DragList extends Component {
     constructor(props) {
@@ -89,12 +99,13 @@ export default class DragList extends Component {
                                         <div
                                             ref={provided.innerRef}
                                             {...provided.draggableProps}
-                                            {...provided.dragHandleProps}
                                             style={getItemStyle(
                                                 snapshot.isDragging,
                                                 provided.draggableProps.style
                                             )}
                                         >
+                                        <div {...provided.dragHandleProps}
+                                            style={getHandlerStyle}/>
                                             {item.content}
                                         </div>
                                     )}

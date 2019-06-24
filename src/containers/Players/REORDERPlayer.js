@@ -203,12 +203,12 @@ class REORDERPlayer extends Component {
         if( questionType === this.multimedia.textToSpeech) {
             question = (
                 <div>
-                    <span style={{marginLeft: '10px'}}>
+                    <p style={{textAlign: 'center'}}>
                         <img className="button-off"
                             onClick={(e)=>{this.speak(e.target, this.state.question.data)}}
                             alt="text-to-speech-question"
                         />
-                    </span>
+                    </p>
                 </div>
             );
         }

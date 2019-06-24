@@ -58,7 +58,7 @@ class REORDERForm extends Component {
     componentDidMount() {
         if (this.props.location.state) {
             const {id, title, question, scores, times, list} = this.props.location.state.exercise;
-      
+
             this.setState({
                 ...this.state,
                 id: id,
@@ -323,7 +323,7 @@ class REORDERForm extends Component {
 
     resetOption = (OptionNo)=>{
         const {list} = this.state;
-        list[OptionNo] = {type: '', data: ''};  
+        list[OptionNo] = {type: '', data: ''};
         this.setState({
             ...this.state,
             list: list
@@ -337,37 +337,37 @@ class REORDERForm extends Component {
         //Question-Options
         let questionOptions = (
             <div className="question-options">
-                <button className="btn button-question-options button-text col-md-2" 
+                <button className="btn button-question-options button-text col-md-2"
                     onClick={() => {
                             this.selectQuestionType(this.multimedia.text)
                         }}>
                     <FormattedMessage id={TEXT}/>
                 </button>
-                <button className="btn button-question-options button-image col-md-2" 
+                <button className="btn button-question-options button-image col-md-2"
                     onClick={() => {
                         this.selectQuestionType(this.multimedia.image);
                     }}>
                 </button>
-                <button className="btn button-question-options button-audio col-md-2" 
+                <button className="btn button-question-options button-audio col-md-2"
                     onClick={() => {
                         this.selectQuestionType(this.multimedia.audio);
                     }}>
                 </button>
-                <button className="btn button-question-options button-text-to-speech col-md-2" 
+                <button className="btn button-question-options button-text-to-speech col-md-2"
                     onClick={() => {
                         this.selectQuestionType(this.multimedia.textToSpeech);
                         }}>
                 </button>
-                <button className="btn button-question-options button-video col-md-2" 
+                <button className="btn button-question-options button-video col-md-2"
                     onClick={() => {
                         this.selectQuestionType(this.multimedia.video);
                     }}>
                 </button>
             </div>
         );
-        
+
         let question;
-        let questionType = this.state.question.type; 
+        let questionType = this.state.question.type;
         if( questionType === this.multimedia.text)
             question = (
                 <input
@@ -402,7 +402,7 @@ class REORDERForm extends Component {
                         value={this.state.question.data}
                         onChange={this.handleChangeQues}
                     />
-                    <button className="btn button-finish button-speaker button-off" 
+                    <button className="btn button-finish button-speaker button-off"
                             onClick={(e)=>{this.speak(e, this.state.question.data)}}>
                     </button>
                 </div>
@@ -424,27 +424,27 @@ class REORDERForm extends Component {
                         <label htmlFor={`answer-${i}`}>
                             {i + 1}
                         </label>
-                        <button className="btn button-answer-options button-text col-md-1" 
+                        <button className="btn button-answer-options button-text col-md-1"
                             onClick={() => {
                                     this.selectOptionType(this.multimedia.text, i);
                                 }}>
                             <FormattedMessage id={TEXT}/>
                         </button>
-                        <button className="btn button-answer-options button-image col-md-1" 
+                        <button className="btn button-answer-options button-image col-md-1"
                             onClick={() => {
                                 this.selectOptionType(this.multimedia.image, i);
-                            }}>                            
+                            }}>
                         </button>
-                        <button className="btn button-answer-options button-audio col-md-1" 
+                        <button className="btn button-answer-options button-audio col-md-1"
                             onClick={() => {
                                 this.selectOptionType(this.multimedia.audio, i);
-                                }}>                        
+                                }}>
                         </button>
-                        <button className="btn button-answer-options button-text-to-speech col-md-1" 
+                        <button className="btn button-answer-options button-text-to-speech col-md-1"
                             onClick={() => {
                                 this.selectOptionType(this.multimedia.textToSpeech, i)}}>
                         </button>
-                        <button className="btn button-answer-options button-video col-md-1" 
+                        <button className="btn button-answer-options button-video col-md-1"
                             onClick={() => {
                                 this.selectOptionType(this.multimedia.video, i);
                             }}>
@@ -469,8 +469,8 @@ class REORDERForm extends Component {
                                 value={option.data}
                                 onChange={this.handleChangeOption}
                             />
-                            <button className="btn button-choices-edit" 
-                                    style={{marginLeft: '5px'}}                               
+                            <button className="btn button-choices-edit"
+                                    style={{marginLeft: '5px'}}
                                     onClick={()=>{this.resetOption(i)}}>
                             </button>
                         </div>
@@ -483,12 +483,12 @@ class REORDERForm extends Component {
                                         style = {{height: '100px'}}
                                         onClick = {()=>{showMedia(option.data)}}
                                         alt="Option"/>
-                            </div>                    
-                            <button className="btn button-choices-edit" 
-                                    style={{marginLeft: '5px'}}                               
+                            </div>
+                            <button className="btn button-choices-edit"
+                                    style={{marginLeft: '5px'}}
                                     onClick={()=>{this.resetOption(i)}}>
                             </button>
-                        </div>    
+                        </div>
                     );
                 if( optionsType === this.multimedia.audio)
                     optionElement = (
@@ -497,8 +497,8 @@ class REORDERForm extends Component {
                                     src={option.data}
                                     controls>
                             </audio>
-                            <button className="btn button-choices-edit" 
-                                    style={{marginLeft: '5px'}}                               
+                            <button className="btn button-choices-edit"
+                                    style={{marginLeft: '5px'}}
                                     onClick={()=>{this.resetOption(i)}}>
                             </button>
                         </div>
@@ -514,11 +514,11 @@ class REORDERForm extends Component {
                                 value={option.data}
                                 onChange={this.handleChangeOption}
                             />
-                            <button className="btn button-finish button-speaker button-off" 
+                            <button className="btn button-finish button-speaker button-off"
                                     onClick={(e)=>{this.speak(e, option.data)}}>
                             </button>
-                            <button className="btn button-choices-edit" 
-                                    style={{marginLeft: '5px'}}                               
+                            <button className="btn button-choices-edit"
+                                    style={{marginLeft: '5px'}}
                                     onClick={()=>{this.resetOption(i)}}>
                             </button>
                         </div>
@@ -531,8 +531,8 @@ class REORDERForm extends Component {
                                         height="100px">
                                 </video>
                             </div>
-                            <button className="btn button-choices-edit" 
-                                    style={{marginLeft: '5px'}}                               
+                            <button className="btn button-choices-edit"
+                                    style={{marginLeft: '5px'}}
                                     onClick={()=>{this.resetOption(i)}}>
                             </button>
                         </div>
@@ -583,7 +583,7 @@ class REORDERForm extends Component {
                                                     {thumbnail}
                                             </div>
                                             <label htmlFor="title"><FormattedMessage id={TITLE_OF_EXERCISE}/></label>
-                                            <button className="btn button-finish button-thumbnail" 
+                                            <button className="btn button-finish button-thumbnail"
                                                     onClick={insertThumbnail}/>
                                             <input
                                                 className="input-mcq"
@@ -598,7 +598,7 @@ class REORDERForm extends Component {
                                     <div className="row">
                                         <div className="form-group">
                                             <label htmlFor="question"><FormattedMessage id={QUESTION}/>:</label>
-                                            {questionType && <button className="btn button-edit" 
+                                            {questionType && <button className="btn button-edit"
                                                 onClick={() => {this.setState({...this.state, question:{type:'', data:''}})}}>
                                             </button>}
                                             {!this.state.question.type && questionOptions}
@@ -664,7 +664,7 @@ function MapStateToProps(state) {
     }
 }
 
-export default withMultimedia(require('../../images/cloze_image.svg'))(withRouter(
+export default withMultimedia(require('../../images/list_reorder_image.svg'))(withRouter(
     connect(MapStateToProps,
         {addNewExercise, incrementExerciseCounter, editExercise}
     )(REORDERForm)));
