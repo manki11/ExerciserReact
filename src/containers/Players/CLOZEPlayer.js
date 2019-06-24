@@ -325,7 +325,7 @@ class CLOZEPlayer extends Component {
                         <div className="jumbotron">
                             <p className="lead">{this.state.title}</p>
                             <hr className="my-4"/>
-                            <div style={{textAlign: "center", marginBottom: "20px"}}>
+                            <div style={{marginBottom: "20px"}}>
                                 {question}
                             </div>
                             <div>
