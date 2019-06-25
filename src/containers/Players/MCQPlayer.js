@@ -236,7 +236,7 @@ class MCQPlayer extends Component {
                     {id}.
                     <span style={{marginLeft: '10px'}}>
                         <img className="button-off"
-                            onClick={(e)=>{this.speak(e, currentQuestion.question.data)}}
+                            onClick={(e)=>{this.speak(e.target, currentQuestion.question.data)}}
                             alt="text-to-speech-question"
                         />
                     </span>
