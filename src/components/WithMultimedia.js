@@ -79,10 +79,11 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
             });
         };
 
-        showMedia = (imageSource) => {
+        showMedia = (imageSource, mediaType = 'img') => {
             picoModal({
                 content: (
-                    `<img src = ${imageSource} \
+                    `<${mediaType} src = ${imageSource} \
+                        controls \
                         style='max-height: 100%;\
                             max-width: 100%;\
                             margin: auto;\
@@ -91,7 +92,7 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
                             top: 0;\
                             bottom: 0;\
                             position: absolute;'>\
-                    </img>\
+                    </${mediaType}>\
                     <button id='close-button' style='background-image: url(${require('../icons/exercise/delete.svg')});\
                             position: absolute; right: 0px; width: 50px; height: 50px; margin-top: 5px;\
                             border-radius: 25px; background-position: center; background-size: contain; \

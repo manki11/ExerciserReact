@@ -239,7 +239,7 @@ class REORDERPlayer extends Component {
                 optionElement = (
                     <audio  className="audio-option"
                             src={option.data}
-                            style={{width: '-webkit-fill-available'}}
+                            style={{width: '100%'}}
                             controls>
                     </audio>
                 );
@@ -265,6 +265,12 @@ class REORDERPlayer extends Component {
                             if(e.target.getAttribute("id"))
                                 elem = e.target.children[0];
                             this.speak(elem, option.data);
+                        } else if(optionsType === this.multimedia.video) {
+                            let videoElem = e.target;
+                            if(!(videoElem.getAttribute("id")) && videoElem.paused){
+                                videoElem.pause();
+                            }
+                            showMedia(option.data, this.multimedia.video);
                         }
                     }}
                 >
