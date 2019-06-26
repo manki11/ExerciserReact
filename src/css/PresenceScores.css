@@ -29,3 +29,15 @@
 .active{
     background-color: deepskyblue;
 }
+
+th, td {
+    padding: 15px;
+    text-align: center !important;
+    border-bottom: 1px solid #ddd;
+    display: table-cell!important;
+}
+
+.td-userans {
+    display: flex!important;
+    align-items: center;
+}
