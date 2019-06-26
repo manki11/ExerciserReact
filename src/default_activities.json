@@ -28,8 +28,8 @@
     "answers": ["cow", "bitch", "lioness", "hen", "mare", "ewe"],
     "clozeText": "The female bull is -1-.\nThe female dog is -2-.\nThe female lion is -3-.\nThe female rooster is -4-.\nThe female stallion is -5-.\nThe female ram is -6-.",
     "question": {
-      "type":"text", 
-      "data":"Find female name for animals"
+      "type": "text",
+      "data": "Find female name for animals"
     },
     "scores": [],
     "times": [],
@@ -45,8 +45,8 @@
     "answers": ["is", "am", "are", "is", "is", "are", "is", "am", "are", "is"],
     "clozeText": "It -1- cold today.\nI -2- at home now.\nThey -3- French.\nThere -4- a pen on the book.\nMy name -5- John.\nWe -6- from Spain.\nThat -7- right.\nI -8- OK, thanks.\nKevin and Kate -9- married.\nShe -10- an English teacher.",
     "question": {
-      "type":"text", 
-      "data":"Chose the correct form of the verb to be"
+      "type": "text",
+      "data": "Chose the correct form of the verb to be"
     },
     "scores": [],
     "times": [],
