@@ -183,11 +183,9 @@ class Scores extends Component {
 
     details = (event) => {
         if(event.length!==0) {
-            if(this.props.location.state.type === 'MCQ'){
-                this.setState({
-                    mode: this.modes.DETAILS
-                })
-            }
+            this.setState({
+                mode: this.modes.DETAILS
+            })
         }
     };
 

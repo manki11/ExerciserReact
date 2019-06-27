@@ -209,12 +209,10 @@ class PresenceScores extends Component {
 
     details = (event) => {
         if(event.length!==0) {
-            if(this.props.location.state.exercise.type == 'MCQ'){
-                this.setState({
-                    userDetailsIndex: event[0]['_index'],
-                    mode: this.modes.DETAILS
-                })
-            }
+            this.setState({
+                userDetailsIndex: event[0]['_index'],
+                mode: this.modes.DETAILS
+            })
         }
     };
 
