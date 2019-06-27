@@ -236,7 +236,7 @@ class PresenceScores extends Component {
             const {shared_results} = exercise;
             let users = [];
             let allUserAnswers = [];
-            shared_results.map((result) => {
+            shared_results.forEach((result) => {
                 users.push(result.user.name);
                 allUserAnswers.push(result.userAnswers);
             });

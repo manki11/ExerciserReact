@@ -27,6 +27,7 @@ class REORDERPlayer extends Component {
 
             currentTime: 0,
             intervalID: -1,
+            userAnswers: []
         }
     }
 
@@ -98,17 +99,26 @@ class REORDERPlayer extends Component {
             }
         }
 
+        let userAnswers = list.map((li, index) => {
+            return{
+                question: (index===0)? this.state.question: {type: 'text', data: ''},
+                correctAns: li,
+                userAns: userAns[index]
+            }
+        });
+
         this.setState({
             ...this.state,
             submitted: true,
             checkAns: checkAns,
-            score: score
+            score: score,
+            userAnswers: userAnswers
         })
     };
 
     // redirect to scores screen/ edit screen
     finishExercise = () => {
-        const {scores, score, id, currentTime, times, list, goBackToEdit} = this.state;
+        const {scores, score, id, currentTime, times, list, goBackToEdit, userAnswers} = this.state;
         let exercise = this.props.location.state.exercise;
         let noOfQuestions = list.length;
 
@@ -126,6 +136,7 @@ class REORDERPlayer extends Component {
                 userTime: currentTime,
                 noOfQuestions: noOfQuestions,
                 exercise: exercise,
+                userAnswers: userAnswers,
                 type: "REORDER"
             });
         }
