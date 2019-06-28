@@ -268,7 +268,7 @@ class CLOZEForm extends Component {
 
         let nextBlank = this.findNextBlank(e.target.value);
         let blankReused = this.checkReusedBlank(e.target.value);
-        
+
         this.setState({
             ...this.state,
             errors: {
@@ -355,7 +355,7 @@ class CLOZEForm extends Component {
        const {clozeText, nextBlank, cursorPos} = this.state;
 
         let updatedCloze = `${clozeText} -${nextBlank}- `;
-        
+
         let blank = this.findNextBlank(updatedCloze);
 
         this.setState({
@@ -582,7 +582,7 @@ class CLOZEForm extends Component {
                                                 </div>
                                                 <label htmlFor="title"><FormattedMessage id={TITLE_OF_EXERCISE}/></label>
                                                 <button
-                                                    className="btn button-finish button-thumbnail" 
+                                                    className="btn button-finish button-thumbnail"
                                                     onClick={insertThumbnail}
                                                 />
                                                 <input
@@ -718,7 +718,7 @@ function MapStateToProps(state) {
     }
 }
 
-export default withMultimedia(require('../../images/list_reorder_image.svg'))(withRouter(
+export default withMultimedia(require('../../images/cloze_image.svg'))(withRouter(
     connect(MapStateToProps,
         {addNewExercise, incrementExerciseCounter, editExercise}
     )(CLOZEForm)));

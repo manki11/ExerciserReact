@@ -21,7 +21,8 @@ const getItemStyle = (isDragging, draggableStyle) => ({
     // change background colour if dragging
     background: isDragging ? 'lightblue' : 'white',
     borderRadius:'10px',
-    textAlign:'center',
+    display: 'flex',
+    alignItems: 'center',
 
     // styles we need to apply on draggables
     ...draggableStyle,
@@ -30,6 +31,12 @@ const getItemStyle = (isDragging, draggableStyle) => ({
 const getListStyle = isDraggingOver => ({
     padding: grid
 });
+
+const getContentStyle = {
+    textAlign: 'center',
+    display:'inline-block',
+    width: '95%'
+};
 
 export default class DragList extends Component {
     constructor(props) {
@@ -89,13 +96,18 @@ export default class DragList extends Component {
                                         <div
                                             ref={provided.innerRef}
                                             {...provided.draggableProps}
-                                            {...provided.dragHandleProps}
                                             style={getItemStyle(
                                                 snapshot.isDragging,
                                                 provided.draggableProps.style
                                             )}
                                         >
+                                        <div {...provided.dragHandleProps}>
+                                            <img style={{width: '1.5em'}}
+                                                 src={require("../icons/exercise/reorder-drag.png")}></img>
+                                        </div> 
+                                        <div style={getContentStyle}>
                                             {item.content}
+                                        </div>
                                         </div>
                                     )}
                                 </Draggable>
