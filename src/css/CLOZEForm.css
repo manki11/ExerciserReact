@@ -54,6 +54,7 @@ button:hover{
     border: none!important;
     border-radius: 20px;
     margin: 0 10px;
+    vertical-align: sub;
 }
 
 .item{
