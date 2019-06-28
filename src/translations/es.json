@@ -106,5 +106,9 @@
   "are": "are",
   "Text": "Texto",
   "Correct option": "Opción correcta",
-  "Wrong option": "Opcion incorrecta"
+  "Wrong option": "Opcion incorrecta",
+  "Correct / Wrong": "Correcto / incorrecto",
+  "Correct Answer": "Respuesta correcta",
+  "Your Answer": "Tu respuesta",
+  "Users": "Usuarios"
 }

@@ -2,8 +2,12 @@ import React, {Component} from "react"
 import {Bar} from 'react-chartjs-2';
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
-import {injectIntl} from 'react-intl';
-import {SCORES, TIME, YOUR_RESULTS} from "../translation";
+import {injectIntl, FormattedMessage} from 'react-intl';
+import {SCORES,
+        QUESTION, 
+        CORRECT_WRONG,
+        CORRECT_ANSWER,
+        YOUR_ANSWER, TIME, YOUR_RESULTS} from "../translation";
 import "../../css/PresenceScores.css"
 import "../../css/Scores.css"
 import withScoreHOC from './ScoreHoc';
@@ -181,7 +185,15 @@ class Scores extends Component {
         })
     };
 
-    details = (event) => {
+    detail = () => {
+        this.setState({
+            mode: this.modes.DETAILS
+        }, () => {
+            this.setChart();
+        })
+    }
+
+    onGraphClicked = (event) => {
         if(event.length!==0) {
             this.setState({
                 mode: this.modes.DETAILS
@@ -193,20 +205,20 @@ class Scores extends Component {
         const {getResultsTableElement, getWrongRightMarker} = this.props;
         let score_active = "";
         let time_active = "";
+        let detail_active = "";        
         let chart = "";
 
         if (this.state.mode === this.modes.SCORE){
             score_active = "active";
-            chart = (<Bar data={this.state.chartScores.chartData} getElementAtEvent={this.details} options={this.state.chartScores.options}/>);
+            chart = (<Bar data={this.state.chartScores.chartData} getElementAtEvent={this.onGraphClicked} options={this.state.chartScores.options}/>);
         }
         else if (this.state.mode === this.modes.TIME) {
             time_active = "active";
             chart = (<Bar data={this.state.chartTimes.chartData} options={this.state.chartTimes.options}/>);
         }
         else if (this.state.mode === this.modes.DETAILS) {
-            
+            detail_active = "active"
             const {userAnswers} = this.props.location.state;
-
             let resultDetails = userAnswers.map((answer, index) => {
                 return (
                     <tr key={index}>
@@ -214,15 +226,13 @@ class Scores extends Component {
                             {getResultsTableElement(answer.question)}
                         </td>
                         <td>
+                            {getWrongRightMarker(answer)}
+                        </td>
+                        <td>
                             {getResultsTableElement(answer.correctAns)}
                         </td> 
                         <td>
-                            <div className="td-userans">
-                                {getResultsTableElement(answer.userAns)}
-                                <div style={{marginLeft: '5px'}}>
-                                    {getWrongRightMarker(answer)}
-                                </div>
-                            </div>
+                            {getResultsTableElement(answer.userAns)}
                         </td>
                     </tr>
                 );
@@ -235,9 +245,10 @@ class Scores extends Component {
                     <table className="w-100">
                         <thead>
                             <tr>
-                                <th>Question</th>
-                                <th>Correct Answer</th> 
-                                <th>Your Answer</th>
+                                <th><FormattedMessage id={QUESTION}/></th>
+                                <th><FormattedMessage id={CORRECT_WRONG}/></th>
+                                <th><FormattedMessage id={CORRECT_ANSWER}/></th> 
+                                <th><FormattedMessage id={YOUR_ANSWER}/></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -251,6 +262,7 @@ class Scores extends Component {
 
         let score = (<button type="button" className={"score-button " + score_active} onClick={this.score}/>);
         let time = (<button type="button" className={"time-button " + time_active} onClick={this.time}/>);
+        let detail = (<button type="button" className={"detail-button " + detail_active} onClick={this.detail}/>);
 
         return (
             <div className="container">
@@ -258,6 +270,7 @@ class Scores extends Component {
                     <div className="row">
                         {score}
                         {time}
+                        {detail}
                         {chart}
                     </div>
                     <div className="row button-container">
