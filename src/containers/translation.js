@@ -11,9 +11,11 @@ export const DELETE="Delete";
 export const MCQ_TEMPLATE_STRING= "Build an exercise with questions and option choices.";
 export const CLOZE_TEMPLATE_STRING= "Build an exercise with questions that have blanks to be filled.";
 export const REORDER_TEMPLATE_STRING= "Build an exercise with Jumbled Lists that need to be ordered.";
+export const MATCHING_PAIR_STRING= "Build an exercise to match questions with answers.";
 export const CHOOSE="Choose";
 export const MCQ="MCQ";
 export const REORDER_LIST="Reorder List";
+export const MATCHING_PAIR="Matching Pair";
 
 // FORM VIEW
 

@@ -1,0 +1,186 @@
+.form-group{
+    width: 100%!important;
+}
+
+.container-fluid{
+    margin-top: 40px;
+}
+
+.submit-button{
+    margin-right: 10px;
+}
+
+.answers{
+    width: auto!important;
+    min-width: 250px;
+    display: inline-block!important;
+}
+
+div label{
+    margin-right: 10px;
+}
+
+.button-previous:before{
+    content: "";
+    width: 20px;
+    height: 20px;
+    border-radius: 16px;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: text-top;
+    background-color: transparent;
+    background-position : center center;
+    background-size: contain;
+    background-repeat:no-repeat;
+    background-image: url("../icons/exercise/left.svg");
+}
+
+.button-previous{
+    width: 180px;
+    text-align: center;
+    align-self: center;
+    border-radius: 20px!important;
+    font-size: 15px!important;
+    background-color: #808080!important;
+}
+
+
+.button-next:after{
+    content: "";
+    width: 20px;
+    height: 20px;
+    float: right;
+    border-radius: 16px;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: text-top;
+    background-color: transparent;
+    background-position : center center;
+    background-size: contain;
+    background-repeat:no-repeat;
+    background-image: url("../icons/exercise/right.svg");
+}
+
+.button-next{
+    width: 180px;
+    text-align: center;
+    align-self: center;
+    border-radius: 20px!important;
+    font-size: 15px!important;
+    background-color: #808080!important;
+}
+
+.button-finish{
+    width: 180px;
+    text-align: center;
+    align-self: center;
+    border-radius: 20px!important;
+    background-color: #808080!important;
+    font-size: 15px!important;
+}
+
+.input-mcq{
+    display: block;
+    width: 100%!important;
+    font-size: 15px;
+    padding: 6px 20px!important;
+}
+
+.input-ans{
+    display: block;
+    font-size: 15px;
+    padding: 6px 20px!important;
+}
+
+.button-choices-add{
+    width: 32px;
+    height: 32px;
+    border-radius: 16px!important;
+    text-align: center;
+    background-image: url("../icons/navbar/add.svg")!important;
+    background-size: contain !important;
+    background-color: #808080!important;
+
+}
+
+.button-choices-sub{
+    width: 32px;
+    height: 32px;
+    border-radius: 16px!important;
+    text-align: center;
+    background-image: url("../icons/exercise/sub.svg")!important;
+    background-size: contain !important;
+    background-color: #808080!important;
+}
+
+.button-thumbnail {
+    background-image: url(../icons/exercise/insert-image.svg);
+    background-repeat: no-repeat;
+    background-size: contain;    
+    float: right;
+    width: 30px;
+    height: 30px;
+    margin-bottom: 5px;
+    margin-right: 0px!important;
+}
+
+.button-cancel{
+    background-image: url(../icons/exercise/sub.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    position: absolute;
+    right: 0;
+    background-color: gray!important;
+    height: 30px;
+    width: 30px;
+    border-radius: 16px!important;
+    margin-top: 5px;
+}
+
+.button-text-to-speech{
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-image: url(../icons/exercise/speak.svg);
+}
+
+.input-text-to-speech{
+    width: 80%!important;
+    display: inline-block;
+    font-size: 15px;
+    padding: 6px 20px!important;
+    line-height: 22px;
+    background-color: #e5e5e5;
+    border: 2px solid #e5e5e5;
+    border-radius: 22px;
+    outline: 0;
+}
+
+.button-speaker {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 20px;    
+    width: 30px;
+    height: 30px;
+    margin-left: 5px!important;
+    margin-right: 0px!important;   
+}
+
+.vertical-align{
+    vertical-align: middle;
+}
+
+.options-placeholder{
+    opacity: 0.5;
+    vertical-align: text-bottom;
+    font-size: 15px;
+}
+
+.button-on{
+    background-image: url(../icons/exercise/sound_on_white.png);
+}
+
+.button-off{
+    background-image: url(../icons/exercise/sound_off_white.png);
+}

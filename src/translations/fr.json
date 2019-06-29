@@ -106,5 +106,7 @@
   "are": "sont",
   "Text": "Texte",
   "Correct option": "Option correcte",
-  "Wrong option": "Mauvaise option"
+  "Wrong option": "Mauvaise option",
+  "Build an exercise to match questions with answers.": "Construisez un exercice pour faire correspondre les questions aux réponses.",
+  "Matching Pair": "Paire assortie" 
 }
