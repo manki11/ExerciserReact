@@ -282,74 +282,63 @@ class MATCHING_PAIRPLAYER extends Component {
             let questionType = ques.type; 
             if( questionType === this.multimedia.text)
                 question = (
-                <p>{ques.data}</p>
+                    <p style={{paddingTop:'40px'}}>{ques.data}</p>
                 );
             if( questionType === this.multimedia.image)
                 question = (
-                    <div>
-                        <p style = {{textAlign: 'center'}}>
-                            <img src = {ques.data}
-                                style = {{maxHeight: '120px', maxWidth: '100px'}}
-                                onClick = {()=>{showMedia(ques.data)}}
-                                alt="Question"/>
-                        </p>
-                    </div>
+                    <img src = {ques.data}
+                        className = "matching-questions"                      
+                        onClick = {()=>{showMedia(ques.data)}}
+                        alt="Question"/>
                 );
             if( questionType === this.multimedia.audio)
                 question = (
-                    <div>
-                        <p style = {{textAlign: 'center'}}>
-                            <audio src={ques.data} controls>
-                            </audio>
-                        </p>
-                    </div>
-                    
+                    <audio 
+                        className = "matching-questions"
+                        src={ques.data} controls>
+                    </audio>
                 );
             if( questionType === this.multimedia.textToSpeech) {
                 question = (
-                    <div>
-                        <span style={{marginLeft: '10px'}}>
-                            <img className="button-off"
-                                onClick={(e)=>{this.speak(e.target, ques.data)}}
-                                alt="text-to-speech-question"
-                            />
-                        </span>
-                    </div>
-                    
+                    <img className="button-off matching-questions"
+                        onClick={(e)=>{this.speak(e.target, ques.data)}}
+                        alt="text-to-speech-question"
+                    />
                 );
             }
             if( questionType === this.multimedia.video)
                 question = (
-                    <div>
-                        <p style = {{textAlign: 'center'}}>
-                            <video src={ques.data} controls
-                                style = {{maxHeight: '120px', maxWidth: '100px'}}>
-                            </video>
-                        </p>
-                    </div>
+                    <video src={ques.data} controls
+                            onClick={()=>{showMedia(ques.data, this.multimedia.video)}}
+                        className = "matching-questions">  
+                    </video>
                 );
 
             let answer;
             let answerType = this.state.answers[index].type;
             if( answerType === this.multimedia.text)
-                answer = this.state.answers[index].data;
+                answer = (
+                    <p style={{paddingTop:'40px'}}>
+                        {this.state.answers[index].data}
+                    </p>
+                );
             if( answerType === this.multimedia.image)
                 answer = (
                     <img src = {this.state.answers[index].data}
-                        style = {{maxHeight: '120px', maxWidth: '100px'}}
-                            onClick = {()=>{showMedia(this.state.answers[index].data)}}
-                            alt="Option"/>
+                        className = "matching-answers"
+                        onClick = {()=>{showMedia(this.state.answers[index].data)}}
+                        alt="Option"/>
                 );
             if( answerType === this.multimedia.audio)
                 answer = (
-                    <audio  className="audio-option"
+                    <audio  className="audio-option matching-answers"
                             src={this.state.answers[index].data}
                             controls>
                     </audio>
                 );
             if( answerType === this.multimedia.textToSpeech) {
                 answer = (
-                    <img className="button-off"
+                    <img className="button-off matching-answers"
                         alt="text-to-speech-option"
                         onClick={(e)=>{this.speak(e.target, this.state.answers[index].data)}}
                     />
@@ -358,7 +347,8 @@ class MATCHING_PAIRPLAYER extends Component {
             if( answerType === this.multimedia.video)
                 answer = (
                     <video  src={this.state.answers[index].data} controls
-                        style = {{maxHeight: '120px', maxWidth: '100px'}}>
+                        onClick={()=>{showMedia(this.state.answers[index].data, this.multimedia.video)}}
+                        className = "matching-answers"> 
                     </video>
                 );
 
