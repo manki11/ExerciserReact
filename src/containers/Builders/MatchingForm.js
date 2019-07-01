@@ -4,7 +4,6 @@ import {incrementExerciseCounter} from "../../store/actions/increment_counter";
 import {addNewExercise, editExercise} from "../../store/actions/exercises";
 import {FormattedMessage} from 'react-intl';
 import {
-    QUESTION,
     FINISH_EXERCISE,
     TITLE_OF_EXERCISE,
     NEXT_QUESTION,
@@ -14,7 +13,9 @@ import {
     QUESTION_ERROR,
     MATCHING_PAIR,
     ANSWER_ERROR,
-    TEXT
+    TEXT,
+    MATCH_ITEM,
+    MATCHING_ITEM
 } from "../translation";
 import {withRouter} from "react-router-dom";
 import "../../css/MatchingForm.css";
@@ -254,17 +255,29 @@ class MATCHING_PAIRForm extends Component {
     submitExercise = (bool,e) => {
         e.preventDefault();
         const {srcThumbnail, userLanguage} = this.props;
+        const {currentPair} = this.state;
+        let {pairs} = this.state;
 
         let id = this.state.id;
         if (this.state.id === -1) {
             id = this.props.counter;
         }
 
+        // To save changes before testing the exercise
+        if(currentPair.id <= pairs.length){
+            let updatedCurrentPair = {
+                id: currentPair.id,
+                question: currentPair.question,
+                correctAns: currentPair.answer
+            };
+            pairs[currentPair.id -1] = updatedCurrentPair;
+        }
+
         let exercise = {
             title: this.state.title,
             id: id,
             type: "MATCHING_PAIR",
-            pairs: this.state.pairs,
+            pairs: pairs,
             scores: this.state.scores,
             times: this.state.times,
             thumbnail: srcThumbnail,
@@ -296,6 +309,7 @@ class MATCHING_PAIRForm extends Component {
             currentPair: previousPair
         })
     };
+
     showJournalChooser = (mediaType, answer = false) => {
         const {currentPair} = this.state;
 
@@ -505,31 +519,32 @@ class MATCHING_PAIRForm extends Component {
             );
 
         let answer;
+        let answerType;
         // Answer-Options
         if(!currentPair.answer.type)
             answer = (
                 <div className="question-options">
-                    <button className="btn button-answer-options button-text col-md-1" 
+                    <button className="btn button-question-options button-text col-md-2" 
                         onClick={() => {
                                 this.selectAnswerType(this.multimedia.text);
                             }}>
                         <FormattedMessage id={TEXT}/>
                     </button>
-                    <button className="btn button-answer-options button-image col-md-1" 
+                    <button className="btn button-question-options button-image col-md-2" 
                         onClick={() => {
                             this.selectAnswerType(this.multimedia.image);
                         }}>                            
                     </button>
-                    <button className="btn button-answer-options button-audio col-md-1" 
+                    <button className="btn button-question-options button-audio col-md-2" 
                         onClick={() => {
                             this.selectAnswerType(this.multimedia.audio);
                             }}>                        
                     </button>
-                    <button className="btn button-answer-options button-text-to-speech col-md-1" 
+                    <button className="btn button-question-options button-text-to-speech col-md-2" 
                         onClick={() => {
                             this.selectAnswerType(this.multimedia.textToSpeech)}}>
                     </button>
-                    <button className="btn button-answer-options button-video col-md-1" 
+                    <button className="btn button-question-options button-video col-md-2" 
                         onClick={() => {
                             this.selectAnswerType(this.multimedia.video);
                         }}>
@@ -538,84 +553,52 @@ class MATCHING_PAIRForm extends Component {
             );
         else {
             let answerElement;
-            let answerType = currentPair.answer.type;
+            answerType = currentPair.answer.type;
             if( answerType === this.multimedia.text)
                 answerElement = (
-                    <div className="answers">
-                        <input
-                            className="answers input-ans"
-                            type="text"
-                            id="option"
-                            value={currentPair.answer.data}
-                            onChange={this.handleChangeAns}
-                            style={{width: 'auto'}}
-                        />
-                        <button className="btn button-choices-edit" 
-                                style={{marginLeft: '5px'}}                               
-                                onClick={()=>{this.resetAnswer()}}>
-                        </button>
-                    </div>
+                    <input
+                        className="input-mcq"
+                        type="text"
+                        id="answer"
+                        value={currentPair.answer.data}
+                        onChange={this.handleChangeAns}
+                    />
                 );
             if( answerType === this.multimedia.image)
                 answerElement = (
-                    <div className="answers">
-                        <div className = "media-background answers">
-                            <img src = {currentPair.answer.data}
-                                    style = {{height: '100px'}}
-                                    onClick = {()=>{showMedia(currentPair.answer.data)}}
-                                    alt="Option"/>
-                        </div>                    
-                        <button className="btn button-choices-edit" 
-                                style={{marginLeft: '5px'}}                               
-                                onClick={()=>{this.resetAnswer()}}>
-                        </button>
-                    </div>    
+                    <div className = "media-background">
+                    <img src = {currentPair.answer.data}
+                            style = {{height: '200px'}}
+                            onClick = {()=>{showMedia(currentPair.answer.data)}}
+                            alt="Question"/>
+                    </div>
                 );
             if( answerType === this.multimedia.audio)
                 answerElement = (
-                    <div className="answers" style={{marginBottom: '10px'}}>
-                        <audio  className="answers vertical-align"
-                                src={currentPair.answer.data}
-                                controls>
-                        </audio>
-                        <button className="btn button-choices-edit" 
-                                style={{marginLeft: '5px'}}                               
-                                onClick={()=>{this.resetAnswer()}}>
-                        </button>
-                    </div>
+                    <audio src={currentPair.answer.data} controls
+                            style={{width: '-webkit-fill-available'}}>
+                    </audio>
                 );
             if( answerType === this.multimedia.textToSpeech)
                 answerElement = (
-                    <div className="answers">
+                    <div>
                         <input
-                            className="answers input-ans"
-                            id="option"
-                            type="text"
+                            className="input-text-to-speech"
+                            id="answer"
                             value={currentPair.answer.data}
                             onChange={this.handleChangeAns}
-                            style={{width: 'auto'}}
                         />
                         <button className="btn button-finish button-speaker button-off" 
                                 onClick={(e)=>{this.speak(e, currentPair.answer.data)}}>
-                        </button>
-                        <button className="btn button-choices-edit" 
-                                style={{marginLeft: '5px'}}                               
-                                onClick={()=>{this.resetAnswer()}}>
                         </button>
                     </div>
                 );
             if( answerType === this.multimedia.video)
                 answerElement = (
-                    <div className="answers">
-                        <div className="media-background answers vertical-align">
-                            <video src={currentPair.answer.data} controls
-                                    height="100px">
-                            </video>
-                        </div>
-                        <button className="btn button-choices-edit" 
-                                style={{marginLeft: '5px'}}                               
-                                onClick={()=>{this.resetAnswer()}}>
-                        </button>
+                    <div className="media-background">
+                        <video src={currentPair.answer.data} controls
+                                height="250px">
+                        </video>
                     </div>
                 );
             answer = (
@@ -671,7 +654,7 @@ class MATCHING_PAIRForm extends Component {
                                             <div className="form-group">
                                                 <p><strong>Pair - {currentPair.id}</strong></p>
                                                 <hr className="my-3"/>
-                                                <label htmlFor="question"><FormattedMessage id={QUESTION}/>:</label>
+                                                <label htmlFor="question"><FormattedMessage id={MATCH_ITEM}/>:</label>
                                                 {questionType && <button className="btn button-edit" 
                                                   onClick={() => {this.setState({...this.state, currentPair: {...currentPair, question:{type:'', data:''}}})}}>
                                                 </button>}
@@ -682,7 +665,11 @@ class MATCHING_PAIRForm extends Component {
                                         </div>
                                         <div className="row">
                                             <div className="form-group">
-                                                <label htmlFor="answer">Answer:</label>
+                                                <label htmlFor="answer"><FormattedMessage id={MATCHING_ITEM}/>:</label>
+                                                {answerType && <button className="btn button-edit" 
+                                                        style={{marginLeft: '5px'}}                               
+                                                        onClick={()=>{this.resetAnswer()}}>
+                                                </button>}
                                                 {answer}
                                                 {answer_error}
                                             </div>

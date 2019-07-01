@@ -50,6 +50,9 @@ export const BLANK_REUSED_ERROR="Same blank cannot be used more than once";
 // REORDER FORM
 export const ITEM="Item {number}";
 
+// MATCHING_PAIR FROM
+export const MATCH_ITEM="Item";
+export const MATCHING_ITEM="Matching Item";
 
 // PLAYER VIEW
 
