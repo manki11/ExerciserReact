@@ -265,13 +265,13 @@ class PresenceScores extends Component {
                             {getResultsTableElement(answer.question)}
                         </td>
                         <td>
-                            {getWrongRightMarker(answer)}
-                        </td>
-                        <td>
                             {getResultsTableElement(answer.correctAns)}
                         </td> 
                         <td>
                             {getResultsTableElement(answer.userAns)}
+                        </td>
+                        <td>
+                            {getWrongRightMarker(answer)}
                         </td>
                     </tr>
                 );
@@ -279,10 +279,10 @@ class PresenceScores extends Component {
 
             let usersMenu = shared_results.map((sharedUser, index) => {
                 return (
-                    <tr className="shared-results-user-selected">
+                    <tr className = {this.state.userDetailsIndex!==index?'shared-results-user-selected':''}>
                         <td onClick={()=>{this.setDetailedResultUser(index)}}
                             style = {{backgroundColor: (this.state.userDetailsIndex===index)?`#808080`:''}}>                        
-                                <span className="user-icon col-sm-5">
+                                <span className="user-icon">
                                     <UserIcon
                                         width="60%"
                                         height="80%"
@@ -321,9 +321,9 @@ class PresenceScores extends Component {
                             <thead>
                                 <tr>
                                     <th><FormattedMessage id={QUESTION}/></th>
-                                    <th><FormattedMessage id={CORRECT_WRONG}/></th>
                                     <th><FormattedMessage id={CORRECT_ANSWER}/></th> 
                                     <th>{users[this.state.userDetailsIndex]}</th>
+                                    <th><FormattedMessage id={CORRECT_WRONG}/></th>
                                 </tr>
                             </thead>
                             <tbody>

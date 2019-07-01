@@ -226,13 +226,13 @@ class Scores extends Component {
                             {getResultsTableElement(answer.question)}
                         </td>
                         <td>
-                            {getWrongRightMarker(answer)}
-                        </td>
-                        <td>
                             {getResultsTableElement(answer.correctAns)}
                         </td> 
                         <td>
                             {getResultsTableElement(answer.userAns)}
+                        </td>
+                        <td>
+                            {getWrongRightMarker(answer)}
                         </td>
                     </tr>
                 );
@@ -246,9 +246,9 @@ class Scores extends Component {
                         <thead>
                             <tr>
                                 <th><FormattedMessage id={QUESTION}/></th>
-                                <th><FormattedMessage id={CORRECT_WRONG}/></th>
                                 <th><FormattedMessage id={CORRECT_ANSWER}/></th> 
                                 <th><FormattedMessage id={YOUR_ANSWER}/></th>
+                                <th><FormattedMessage id={CORRECT_WRONG}/></th>
                             </tr>
                         </thead>
                         <tbody>
