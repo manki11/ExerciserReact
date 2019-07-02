@@ -1,0 +1,64 @@
+@media (min-width: 576px) {
+    .jumbotron {
+        padding: 2rem 1rem!important;
+    }
+}
+
+.jumbotron{
+    margin-bottom: 1rem!important;
+    background-color: #dfdfdf!important;
+}
+
+.d-flex{
+    margin-top: 1rem;
+}
+
+.next-button{
+    width: 180px;
+    text-align: center;
+    align-self: center;
+    border-radius: 20px!important;
+    font-size: 15px!important;
+    background-color: #808080!important;
+}
+
+.group-container{
+    margin-top: 5%!important;
+}
+
+.lead {
+    font-weight: bold !important;
+}
+
+.group-options{
+    text-align: center;
+    display: inline-block;
+    background-color: white;
+    border: 2px solid #6c757d;
+    height: 250px;
+    position: absolute;
+}
+
+#question-drag{
+    background-color: #808080;
+    height: 100px;
+    width: 100px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    line-height: 100px;
+}
+
+.before-drag{
+    margin-left: -50px;
+    margin-top: -50px;
+}
+
+.correct-group{
+    background-color: green!important;
+}
+
+.wrong-group{
+    background-color: red!important;
+}

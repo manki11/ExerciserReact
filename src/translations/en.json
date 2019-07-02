@@ -106,5 +106,11 @@
   "are": "are",
   "Text": "Text",
   "Correct option": "Correct option",
-  "Wrong option": "Wrong option"
+  "Wrong option": "Wrong option",
+  "Group Assignment": "Group Assignment",
+  "Free Text Input": "Free Text Input",
+  "Build an exercise with questions that needs to be placed in the correct group.": "Build an exercise with questions that needs to be placed in the correct group.",
+  "Build an exercise with questions that have answers in text format.": "Build an exercise with questions that have answers in text format.",
+  "Enter Answer": "Enter Answer",
+  "Answer": "Answer"
 }

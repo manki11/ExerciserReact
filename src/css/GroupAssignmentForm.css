@@ -1,0 +1,129 @@
+.form-group{
+    width: 100%!important;
+}
+
+.container-fluid{
+    margin-top: 40px;
+}
+
+.submit-button{
+    margin-right: 10px;
+}
+
+.answers{
+    width: auto!important;
+    min-width: 250px;
+    display: inline-block!important;
+}
+
+div label{
+    margin-right: 10px;
+}
+
+.button-previous:before{
+    content: "";
+    width: 20px;
+    height: 20px;
+    border-radius: 16px;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: text-top;
+    background-color: transparent;
+    background-position : center center;
+    background-size: contain;
+    background-repeat:no-repeat;
+    background-image: url("../icons/exercise/left.svg");
+}
+
+.button-previous{
+    width: 180px;
+    text-align: center;
+    align-self: center;
+    border-radius: 20px!important;
+    font-size: 15px!important;
+    background-color: #808080!important;
+}
+
+
+.button-next:after{
+    content: "";
+    width: 20px;
+    height: 20px;
+    float: right;
+    border-radius: 16px;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: text-top;
+    background-color: transparent;
+    background-position : center center;
+    background-size: contain;
+    background-repeat:no-repeat;
+    background-image: url("../icons/exercise/right.svg");
+}
+
+.button-next{
+    width: 180px;
+    text-align: center;
+    align-self: center;
+    border-radius: 20px!important;
+    font-size: 15px!important;
+    background-color: #808080!important;
+}
+
+.button-finish{
+    width: 180px;
+    text-align: center;
+    align-self: center;
+    border-radius: 20px!important;
+    background-color: #808080!important;
+    font-size: 15px!important;
+}
+
+.input-groupAssign{
+    display: block;
+    width: 100%!important;
+    font-size: 15px;
+    padding: 6px 20px!important;
+}
+
+.input-ans{
+    display: block;
+    font-size: 15px;
+    padding: 6px 20px!important;
+}
+
+.button-choices-add{
+    width: 32px;
+    height: 32px;
+    border-radius: 16px!important;
+    text-align: center;
+    background-image: url("../icons/navbar/add.svg")!important;
+    background-size: contain !important;
+    background-color: #808080!important;
+
+}
+
+.button-choices-sub{
+    width: 32px;
+    height: 32px;
+    border-radius: 16px!important;
+    text-align: center;
+    background-image: url("../icons/exercise/sub.svg")!important;
+    background-size: contain !important;
+    background-color: #808080!important;
+}
+
+.groups{
+    margin-bottom: 0px!important;
+}
+
+.input-ans{
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 15px;
+    max-height: 30px!important;
+    border-radius: 10px;
+    border-width: 0;
+    min-width: 180px;
+    margin-bottom: 5px;
+}

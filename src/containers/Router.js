@@ -6,11 +6,15 @@ import Scores from "./Scores/Scores"
 
 import MCQForm from "./Builders/MCQForm";
 import CLOZEForm from "./Builders/CLOZEForm";
-import REORDERForm from "./Builders/REORDERForm"
+import REORDERForm from "./Builders/REORDERForm";
+import GroupAssignmentForm from "./Builders/GroupAssignmentForm";
+import FreeTextInputForm from "./Builders/FreeTextInputForm";
 
 import MCQPlay from "./Players/MCQPlayer";
 import CLOZEPlay from "./Players/CLOZEPlayer";
-import REORDERPlay from "./Players/REORDERPlayer"
+import REORDERPlay from "./Players/REORDERPlayer";
+import GroupAssignmentPlayer from "./Players/GroupAssignmentPlayer";
+import FreeTextInputPlayer from "./Players/FreeTextInputPlayer";
 
 import {injectIntl} from 'react-intl';
 import '../css/index.css';
@@ -43,6 +47,16 @@ const Main = props => {
                 <Route exact path="/new/reorder" render={props=> <REORDERForm {...props}/>} />
                 <Route exact path="/edit/reorder" render={props=> <REORDERForm {...props}/>} />
                 <Route exact path="/play/reorder" render={props=> <REORDERPlay {...props}/>} />
+
+                {/* // GROUP ASSIGNMENT */}
+                <Route exact path="/new/group" render={props=> <GroupAssignmentForm {...props}/>} />
+                <Route exact path="/edit/group" render={props=> <GroupAssignmentForm {...props}/>} />
+                <Route exact path="/play/group" render={props=> <GroupAssignmentPlayer {...props}/>} />
+
+                {/* // FREE TEXT INPUT */}
+                <Route exact path="/new/freeText" render={props=> <FreeTextInputForm {...props}/>} />
+                <Route exact path="/edit/freeText" render={props=> <FreeTextInputForm {...props}/>} />
+                <Route exact path="/play/freeText" render={props=> <FreeTextInputPlayer {...props}/>} />
 
                 <Route exact path="/presence/scores" render={props=> <PresenceScores {...props}/>} />
 

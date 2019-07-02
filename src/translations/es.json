@@ -106,5 +106,11 @@
   "are": "are",
   "Text": "Texto",
   "Correct option": "Opción correcta",
-  "Wrong option": "Opcion incorrecta"
+  "Wrong option": "Opcion incorrecta",
+  "Group Assignment": "Asignación grupal",
+  "Free Text Input": "Entrada de texto libre",
+  "Build an exercise with questions that needs to be placed in the correct group.": "Cree un ejercicio con preguntas que deban colocarse en el grupo correcto",
+  "Build an exercise with questions that have answers in text format.": "Construye un ejercicio con preguntas que tienen respuestas en formato de texto",
+  "Enter Answer": "Escriba la respuesta",
+  "Answer": "Responder"
 }

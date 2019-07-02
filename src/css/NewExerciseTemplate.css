@@ -57,10 +57,6 @@
     -webkit-user-select: none;
 }
 
-.template-container{
-    height: 100%;
-}
-
 .card-body{
     min-height: 200px;
 }

@@ -7,10 +7,14 @@ import {
     MCQ_TEMPLATE_STRING,
     CLOZE_TEMPLATE_STRING,
     REORDER_TEMPLATE_STRING,
+    GROUP_ASSIGNMENT_TEMPLATE_STRING,
+    FREE_TEXT_INPUT_TEMPLATE_STRING,
     CHOOSE,
     CLOZE_TEXT,
     MCQ,
-    REORDER_LIST
+    REORDER_LIST,
+    GROUP_ASSIGNMENT,
+    FREE_TEXT_INPUT
 } from "../translation";
 
 const mcqSelected = (history) => {
@@ -24,6 +28,14 @@ const clozeSelected = (history) => {
 
 const reorderSelected = (history) => {
     history.push('/new/reorder')
+};
+
+const groupAssignmentSelected = (history) => {
+    history.push('/new/group');
+};
+
+const freeTextSelected = (history) => {
+    history.push('/new/freeText');
 };
 
 function Template(props) {
@@ -75,6 +87,37 @@ function Template(props) {
                                         <FormattedMessage id={REORDER_TEMPLATE_STRING}/>
                                     </p>
                                     <button className="button-choose" onClick={reorderSelected.bind(null,props.history)}>
+                                        <FormattedMessage id={CHOOSE}/>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-sm-4">
+                            <div className="card">
+                                <div className="card-img-container">
+                                    <div className="card-img-top background-reorder"/>
+                                </div>
+                                <div className="card-body">
+                                    <h5 className="card-title"><FormattedMessage id={GROUP_ASSIGNMENT}/></h5>
+                                    <p className="card-text">
+                                        <FormattedMessage id={GROUP_ASSIGNMENT_TEMPLATE_STRING}/>
+                                    </p>
+                                    <button className="button-choose" onClick={groupAssignmentSelected.bind(null,props.history)}>
+                                        <FormattedMessage id={CHOOSE}/>
+                                    </button>
+                                </div>
+                            </div>
+                        </div><div className="col-sm-4">
+                            <div className="card">
+                                <div className="card-img-container">
+                                    <div className="card-img-top background-reorder"/>
+                                </div>
+                                <div className="card-body">
+                                    <h5 className="card-title"><FormattedMessage id={FREE_TEXT_INPUT}/></h5>
+                                    <p className="card-text">
+                                        <FormattedMessage id={FREE_TEXT_INPUT_TEMPLATE_STRING}/>
+                                    </p>
+                                    <button className="button-choose" onClick={freeTextSelected.bind(null,props.history)}>
                                         <FormattedMessage id={CHOOSE}/>
                                     </button>
                                 </div>
