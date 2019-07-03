@@ -44,7 +44,6 @@ div label{
     background-color: #808080!important;
 }
 
-
 .button-next:after{
     content: "";
     width: 20px;
@@ -126,4 +125,26 @@ div label{
     border-width: 0;
     min-width: 180px;
     margin-bottom: 5px;
+}
+
+.button-thumbnail {
+    background-image: url(../icons/exercise/insert-image.svg);
+    background-repeat: no-repeat;
+    background-size: contain;    
+    float: right;
+    width: 30px!important;
+    height: 30px;
+    margin-bottom: 5px;
+    margin-right: 0px!important;
+}
+
+
+.button-speaker {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 20px;    
+    width: 30px!important;
+    height: 30px;
+    margin-left: 5px!important;
+    margin-right: 0px!important;   
 }

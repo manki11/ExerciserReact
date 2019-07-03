@@ -15,9 +15,15 @@ import {
     TITLE_ERROR,
     QUESTION_ERROR,
     ANSWER_ERROR,
+    GROUP_ASSIGNMENT,
+    TEXT
 } from "../translation";
-import {withRouter} from "react-router-dom"
-import "../../css/GroupAssignmentForm.css"
+import {withRouter} from "react-router-dom";
+import "../../css/GroupAssignmentForm.css";
+import datastore from 'lib/sugar-web/datastore';
+import chooser from 'lib/sugar-web/graphics/journalchooser';
+import env from 'lib/sugar-web/env';
+import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
 
 class GroupAssignmentForm extends Component {
@@ -39,13 +45,22 @@ class GroupAssignmentForm extends Component {
                 title: false,
                 groups: false
             },
-            groups:['',''],
+            groups:[{type:'', data: ''},{type:'', data: ''}],
             currentQuestion: {
                 id: 1,
-                question: "",
-                answer: "",
+                question: {type:'', data: ''},
+                answer: {type:'', data: ''},
             }
         };
+
+        this.multimedia = {
+            text: 'text',
+            image: 'image',
+            audio: 'audio',
+            textToSpeech: 'text-to-speech',
+            video: 'video'
+        };
+
     }
 
     // in case of edit load the exercise
@@ -72,8 +87,9 @@ class GroupAssignmentForm extends Component {
     handleChangeGroup = e => {
         const index = Number(e.target.name.split('-')[1]);
         const groups = this.state.groups.map((group, i) => (
-            i === index ? e.target.value : group
+            i === index ? {type:group.type, data: e.target.value} : group
         ));
+
         let error = false;
         if (e.target.value === '') {
             error = true;
@@ -139,7 +155,10 @@ class GroupAssignmentForm extends Component {
             },
             currentQuestion: {
                 ...this.state.currentQuestion,
-                question: e.target.value
+                question: {
+                    ...this.state.currentQuestion.question,
+                    data: e.target.value
+                }
             }
         }, () => {
             this.checkFormValidation();
@@ -166,7 +185,7 @@ class GroupAssignmentForm extends Component {
             this.setState(
                 this.setState({
                     ...this.state,
-                    groups: [...groups, ''],
+                    groups: [...groups, {type:'', data:''}],
                     }, () => {
                         this.checkFormValidation();
                     }
@@ -207,8 +226,8 @@ class GroupAssignmentForm extends Component {
                     currentQuestionNo: id + 1,
                     currentQuestion: {
                         id: id + 1,
-                        question: "",
-                        answer: "",
+                        question: {type:'', data: ''},
+                        answer: {type:'', data: ''},
                     }
                 });
             }
@@ -227,8 +246,8 @@ class GroupAssignmentForm extends Component {
                         currentQuestionNo: currentQuestionNo + 1,
                         currentQuestion: {
                             id: currentQuestionNo + 1,
-                            question: '',
-                            answer: "",
+                            question: {type:'', data: ''},
+                            answer: {type:'', data: ''},
                         }
                     });
                 } else {
@@ -258,7 +277,7 @@ class GroupAssignmentForm extends Component {
         const {question, answer} = currentQuestion;
         let isFormValid = true;
 
-        if (question === '') {
+        if (question.type === '' || question.data === '') {
             isFormValid = false;
         }
 
@@ -266,12 +285,12 @@ class GroupAssignmentForm extends Component {
             isFormValid = false;
         }
 
-        if (answer === '') {
+        if (answer.type === '' || answer.data === '') {
             isFormValid = false;
         }
 
         groups.forEach((group, i) => {
-            if (group === '') {
+            if (group.type === '' || group.data === '') {
                 isFormValid = false;
             }
         });
@@ -286,6 +305,17 @@ class GroupAssignmentForm extends Component {
     submitExercise = (bool,e) => {
         e.preventDefault();
         const {srcThumbnail, userLanguage} = this.props;
+        const {questions, groups} = this.state;
+
+        let updatedQuestions = questions.map((question)=>{
+            return {
+                id: question.id,
+                question: question.question,
+                answer: groups[question.answer.split('-').pop() - 1]
+            }
+        })
+
+        console.log(updatedQuestions);
 
         let id = this.state.id;
         if (this.state.id === -1) {
@@ -296,7 +326,7 @@ class GroupAssignmentForm extends Component {
             title: this.state.title,
             id: id,
             type: "GROUP_ASSIGNMENT",
-            questions: this.state.questions,
+            questions: updatedQuestions,
             scores: this.state.scores,
             times: this.state.times,
             groups: this.state.groups,
@@ -335,33 +365,268 @@ class GroupAssignmentForm extends Component {
         })
     };
 
+    showJournalChooser = (mediaType, groups = false, groupNo = -1) => {
+        let image, audio, video = false;
+        if(mediaType === this.multimedia.image)
+            image = true;
+        if(mediaType === this.multimedia.audio)
+            audio = true;
+        if(mediaType === this.multimedia.video)
+            video = true;
+        env.getEnvironment((err, environment) => {
+            if(environment.user) {
+                // Display journal dialog popup
+                chooser.show((entry) => {
+                    if (!entry) {
+                          return;
+                    }
+                    var dataentry = new datastore.DatastoreObject(entry.objectId);
+                    dataentry.loadAsText((err, metadata, text) => {
+                        if(groups){
+                            let {groups} = this.state;
+                            groups[groupNo] = {type: mediaType, data: text};
+                            this.setState({
+                                ...this.state,
+                                groups: groups
+                            },() => {
+                                this.checkFormValidation();
+                            });
+                        } else{
+                            let {currentQuestion} = this.state;
+                            this.setState({
+                                ...this.state,
+                                currentQuestion:{
+                                    ...currentQuestion,
+                                    question:{
+                                        type: mediaType,
+                                        data: text
+                                    }
+                                }
+                            },() => {
+                                this.checkFormValidation();
+                            });
+                        }
+                    });
+                }, (image?{mimetype: 'image/png'}:null),
+                    (image?{mimetype: 'image/jpeg'}:null),
+                    (audio?{mimetype: 'audio/wav'}:null),
+                    (video?{mimetype: 'video/webm'}:null));
+            }
+        });
+    };
+
+    resetGroup = (groupNo)=>{
+        let {groups} = this.state;
+        groups[groupNo] = {type: '', data: ''};  
+        this.setState({
+            ...this.state,
+            groups: groups
+        });
+    }
+
+    selectQuestionType = (mediaType) => {
+        const {currentQuestion} = this.state;
+        if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
+            this.setState({
+                ...this.state,
+                currentQuestion:{
+                    ...currentQuestion,
+                    question: {
+                        type: mediaType,
+                        data: ''
+                    }
+                }
+            },() => {
+                this.checkFormValidation();
+            });
+        } else {
+            this.showJournalChooser(mediaType, false)
+        }
+    }
+
+    selectGroupType = (mediaType, groupNo) => {
+        if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
+            let {groups} = this.state;
+            groups[groupNo] = {type: mediaType, data: ''};
+            this.setState({
+                ...this.state,
+                groups: groups
+            },() => {
+                this.checkFormValidation();
+            });
+        } else {
+            this.showJournalChooser(mediaType, true, groupNo)
+        }
+    }
+
+    speak = (e, text) => {
+        let audioElem = e.target;
+        let myDataUrl = meSpeak.speak(text, {rawdata: 'data-url'});
+		let sound = new Audio(myDataUrl);
+        audioElem.classList.remove("button-off");
+        audioElem.classList.add("button-on");
+        sound.play();
+        sound.onended = () => {
+            audioElem.classList.remove("button-on");
+            audioElem.classList.add("button-off");
+        }
+    }
+
     render() {
         const {currentQuestion, errors, groups} = this.state;
         const {id} = currentQuestion;
+        const {thumbnail, insertThumbnail, showMedia} = this.props;
+
+        //Question-Options
+        let questionOptions = (
+            <div className="question-options">
+                <button className="btn button-question-options button-text col-md-2" 
+                    onClick={() => {
+                            this.selectQuestionType(this.multimedia.text)
+                        }}>
+                    <FormattedMessage id={TEXT}/>
+                </button>
+                <button className="btn button-question-options button-image col-md-2" 
+                    onClick={() => {
+                        this.selectQuestionType(this.multimedia.image);
+                    }}>
+                </button>
+                <button className="btn button-question-options button-audio col-md-2" 
+                    onClick={() => {
+                        this.selectQuestionType(this.multimedia.audio);
+                    }}>
+                </button>
+                <button className="btn button-question-options button-text-to-speech col-md-2" 
+                    onClick={() => {
+                        this.selectQuestionType(this.multimedia.textToSpeech);
+                        }}>
+                </button>
+                <button className="btn button-question-options button-video col-md-2" 
+                    onClick={() => {
+                        this.selectQuestionType(this.multimedia.video);
+                    }}>
+                </button>
+            </div>
+        );
+        
+        let question;
+        let questionType = currentQuestion.question.type; 
+        if( questionType === this.multimedia.text)
+            question = (
+                <input
+                    className="input-mcq"
+                    type="text"
+                    id="question"
+                    value={currentQuestion.question.data}
+                    onChange={this.handleChangeQues}
+                />
+            );
+        if( questionType === this.multimedia.image)
+            question = (
+                <div className = "media-background">
+                   <img src = {currentQuestion.question.data}
+                        style = {{height: '200px'}}
+                        onClick = {()=>{showMedia(currentQuestion.question.data)}}
+                        alt="Question"/>
+                </div>
+            );
+        if( questionType === this.multimedia.audio)
+            question = (
+                <audio src={currentQuestion.question.data} controls
+                        style={{width: '-webkit-fill-available'}}>
+                </audio>
+            );
+        if( questionType === this.multimedia.textToSpeech)
+            question = (
+                <div>
+                    <input
+                        className="input-text-to-speech"
+                        id="question"
+                        value={currentQuestion.question.data}
+                        onChange={this.handleChangeQues}
+                    />
+                    <button className="btn button-finish button-speaker button-off" 
+                            onClick={(e)=>{this.speak(e, currentQuestion.question.data)}}>
+                    </button>
+                </div>
+            );
+        if( questionType === this.multimedia.video)
+            question = (
+                <div className="media-background">
+                    <video src={currentQuestion.question.data} controls
+                            height="250px">
+                    </video>
+                </div>
+            );
+        
         let groupOptions = groups.map((group, i) => {
-            return (
-                <div className="row" key={`groups-${i}`}>
-                    <div className="col-md-6">
-                        <div className="form-group">
-                            <label htmlFor={`group-${i}`}>
-                                {i + 1}
-                            </label>
+            let question;            
+            if(!group.type){
+                question = (
+                    [
+                        <button className="btn button-answer-options button-text col-md-3" key="type-1" 
+                                    onClick={() => {
+                                            this.selectGroupType(this.multimedia.text, i);
+                                        }}>
+                                    <FormattedMessage id={TEXT}/>
+                        </button>,
+                        <button className="btn button-answer-options button-image col-md-3" key="type-2"
+                            onClick={() => {
+                                this.selectGroupType(this.multimedia.image, i);
+                            }}>                            
+                        </button>
+                    ]
+                );
+            } else {
+                let groupType = group.type; 
+                if( groupType === this.multimedia.text)
+                    question = (
+                        <div className="answers">
                             <input
                                 className="answers input-ans"
-                                name={`group-${i}`}
                                 type="text"
-                                value={group}
-                                onChange={this.handleChangeGroup}/>
+                                id="option"
+                                name={`option-${i}`}
+                                value={group.data}
+                                onChange={this.handleChangeGroup}
+                                style={{width: 'auto'}}
+                            />
+                            <button className="btn button-choices-edit" 
+                                    style={{marginLeft: '5px'}}                               
+                                    onClick={()=>{this.resetGroup(i)}}>
+                            </button>
                         </div>
-                    </div>
+                    );
+                if( groupType === this.multimedia.image)
+                    question = (
+                        <div className="answers">
+                            <div className = "media-background answers">
+                                <img src = {group.data}
+                                        style = {{height: '100px'}}
+                                        onClick = {()=>{showMedia(group.data)}}
+                                        alt="Option"/>
+                            </div>                    
+                            <button className="btn button-choices-edit" 
+                                    style={{marginLeft: '5px'}}                               
+                                    onClick={()=>{this.resetGroup(i)}}>
+                            </button>
+                        </div>
+                    );
+            }
+            return (
+                <div className="col-md-8" key={`groups-${i}`}>
+                    <label htmlFor={`group-${i}`}>
+                        {i + 1}
+                    </label>
+                    {question}
                 </div>
             )
         });
 
         let groupSelect = groups.map((group, index) => {
             return {
-                value: group,
-                label: group
+                value: `Group-${index+1}`,
+                label: `Group-${index+1}`
             }
         });
 
@@ -385,13 +650,19 @@ class GroupAssignmentForm extends Component {
                 <div className="row align-items-center justify-content-center">
                     <div className="col-sm-10">
                         <div>
-                            <p><strong>GROUP ASSIGNMENT</strong></p>
+                            <p><strong><FormattedMessage id={GROUP_ASSIGNMENT}/></strong></p>
                             <hr className="my-3"/>
                             <div className="col-md-12">
                                 <form onSubmit={this.handleNewEvent}>
                                     <div className="row">
                                         <div className="form-group">
                                             <label htmlFor="title"><FormattedMessage id={TITLE_OF_EXERCISE}/></label>
+                                            {thumbnail}
+                                            <label htmlFor="title"><FormattedMessage id={TITLE_OF_EXERCISE}/></label>
+                                            <button style={{display: 'none'}}/>
+                                            <button className="btn button-finish button-thumbnail" 
+                                                    onClick={insertThumbnail}
+                                            />
                                             <input
                                                 className="input-groupAssign"
                                                 type="text"
@@ -428,13 +699,11 @@ class GroupAssignmentForm extends Component {
                                     <div className="row">
                                         <div className="form-group">
                                             <label htmlFor="question">{id}. <FormattedMessage id={QUESTION}/>:</label>
-                                            <input
-                                                className="input-mcq"
-                                            type="text"
-                                                id="question"
-                                                value={this.state.currentQuestion.question}
-                                                onChange={this.handleChangeQues}
-                                            />
+                                            {questionType && <button className="btn button-edit" 
+                                                onClick={() => {this.setState({...this.state, currentQuestion:{...currentQuestion, question:{type:'', data:''}}})}}>
+                                            </button>}
+                                            {!questionType && questionOptions}
+                                            {questionType && question}
                                             {question_error}
                                         </div>
                                     </div>

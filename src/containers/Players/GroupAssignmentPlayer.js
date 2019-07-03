@@ -6,6 +6,7 @@ import "../../css/GroupAssignmentPlayer.css"
 import {SUBMIT_QUESTION, NEXT_QUESTION, FINISH_EXERCISE} from "../translation";
 import {FormattedMessage} from 'react-intl';
 import {jsPlumb} from 'jsplumb';
+import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
 
 class GroupAssignmentPlayer extends Component {
@@ -20,7 +21,7 @@ class GroupAssignmentPlayer extends Component {
             currentQuestionNo: 1,
             submitted: false,
             selected: false,
-            selectedAns: '',
+            selectedAns: {type: '', data: ''},
             scores: [],
             times: [],
             currentTime: 0,
@@ -31,18 +32,26 @@ class GroupAssignmentPlayer extends Component {
             groups:[],
             currentQuestion: {
                 id: 1,
-                question: '',
-                answer: '',
-            }
+                question: {type:'', data: ''},
+                answer: {type: '', data: ''},
+            },
+            userLanguage: ''
         }
         this.jsPlumbInstance = jsPlumb.getInstance();
+        this.multimedia = {
+            text: 'text',
+            image: 'image',
+            audio: 'audio',
+            textToSpeech: 'text-to-speech',
+            video: 'video'
+        };
     }
 
     // load the exercise from props
     componentDidMount() {
         if (this.props.location.state) {
             let intervalId = setInterval(this.timer, 1000);
-            const {id, title, questions, scores, times, groups} = this.props.location.state.exercise;
+            const {id, title, questions, scores, times, groups, userLanguage} = this.props.location.state.exercise;
             const currentQuestion = questions[0];
 
             let finish = false;
@@ -64,9 +73,14 @@ class GroupAssignmentPlayer extends Component {
                 finish: finish,
                 goBackToEdit: goBackToEdit,
                 groups:groups,
+                userLanguage: userLanguage,
                 currentQuestion: currentQuestion,
             },()=>{
                 this.initDragDrop();
+                if(userLanguage.startsWith('en'))
+                    meSpeak.loadVoice(require(`mespeak/voices/en/${this.state.userLanguage}.json`));
+                else
+                    meSpeak.loadVoice(require(`mespeak/voices/${this.state.userLanguage}.json`));
             })
         }
     }
@@ -136,7 +150,7 @@ class GroupAssignmentPlayer extends Component {
                 currentQuestionNo: nextQuestionNo,
                 submitted: false,
                 selected: false,
-                selectedAns: '',
+                selectedAns: {type:'', data: ''},
                 finish: finish,
                 currentQuestion: {
                     id: nextQuestion.id,
@@ -174,20 +188,81 @@ class GroupAssignmentPlayer extends Component {
         }
     };
 
+    speak = (elem, text) => {
+        let audioElem = elem;
+        let myDataUrl = meSpeak.speak(text, {rawdata: 'data-url'});
+		let sound = new Audio(myDataUrl);
+        audioElem.classList.remove("button-off");
+        audioElem.classList.add("button-on");
+        sound.play();
+        sound.onended = () => {
+            audioElem.classList.remove("button-on");
+            audioElem.classList.add("button-off");
+        }
+    }
+
     render() {
         const {currentQuestion, groups} = this.state;
+        const {showMedia} = this.props;
         const {id} = currentQuestion;
-
+        
         let groupOptions = groups.map((group, index) => {
+            let groupElement;
+            if(group.type === this.multimedia.text)
+                groupElement = <span>{group.data}</span>
+            if(group.type === this.multimedia.image)
+                groupElement = (
+                    <div className = "matching-questions">
+                        <img src = {group.data}
+                        className = "matching-questions"                      
+                        onClick = {()=>{showMedia(group.data)}}
+                        alt="Question"/>
+                    </div>
+                )
             return(
                 <div className = {`group-options col-md-${12/groups.length}`}
                     id={`group-${index+1}`}
                     key={`group-${index+1}`}>
-                    {group}
+                    {groupElement}
                 </div> 
             )
         });
  
+        let questionElement;
+        let questionType = currentQuestion.question.type; 
+        if( questionType === this.multimedia.text)
+            questionElement = (
+                <p style={{paddingTop:'40px'}}>{currentQuestion.question.data}</p>
+            );
+        if( questionType === this.multimedia.image)
+            questionElement = (
+                <img src = {currentQuestion.question.data}
+                    className = "matching-questions"                      
+                    onClick = {()=>{showMedia(currentQuestion.question.data)}}
+                    alt="Question"/>
+            );
+        if( questionType === this.multimedia.audio)
+            questionElement = (
+                <audio 
+                    className = "matching-questions"
+                    src={currentQuestion.question.data} controls>
+                </audio>
+            );
+        if( questionType === this.multimedia.textToSpeech) {
+            questionElement = (
+                <img className="button-off matching-questions"
+                    onClick={(e)=>{this.speak(e.target, currentQuestion.question.data)}}
+                    alt="text-to-speech-question"
+                />
+            );
+        }
+        if( questionType === this.multimedia.video)
+            questionElement = (
+                <video src={currentQuestion.question.data} controls
+                        onClick={()=>{showMedia(currentQuestion.question.data, this.multimedia.video)}}
+                    className = "matching-questions">  
+                </video>
+            );
         let btnClass;
         if(this.state.submitted){
             if(this.state.selectedAns === currentQuestion.answer)
@@ -196,13 +271,12 @@ class GroupAssignmentPlayer extends Component {
                 btnClass = 'wrong-group';
             this.jsPlumbInstance.setDraggable("question-drag", false);
         }
-        
         let question = (
             <div name={id} id="question-drag"
-                className={`before-drag ${btnClass}`}
+                className={`before-drag box ${btnClass}`}
                 answer = {currentQuestion.answer}
                 >
-                {currentQuestion.question}
+                {questionElement}
             </div>
         )
 
@@ -221,7 +295,7 @@ class GroupAssignmentPlayer extends Component {
                                 <p className="lead">{this.state.title}</p>
                                 <hr className="my-4"/>
                                 <div className="drag-drop"
-                                 style={{position:"relative"}}>
+                                    style={{position:"relative"}}>
                                     {groupOptions}
                                     {question}
                                 </div>
