@@ -35,7 +35,9 @@ class GroupAssignmentPlayer extends Component {
                 question: {type:'', data: ''},
                 answer: {type: '', data: ''},
             },
-            userLanguage: ''
+            userLanguage: '',
+            userans: [],
+            userAnswers: []
         }
         this.jsPlumbInstance = jsPlumb.getInstance();
         this.multimedia = {
@@ -124,13 +126,16 @@ class GroupAssignmentPlayer extends Component {
 
     // submit the exercise ( calculate score and time ) show correct/ wrong ans
     submitQuestion = () => {
-        const {currentScore, selectedAns, currentQuestion} = this.state;
+        const {currentScore, selectedAns, currentQuestion, userans} = this.state;
         const {answer} = currentQuestion;
         let score = currentScore;
+        let updatedUserans = userans;
+        updatedUserans.push(selectedAns);
         if (selectedAns === answer) score = score + 1;
         this.setState({
             selected: false,
             submitted: true,
+            userans: updatedUserans, 
             currentScore: score
         });
     };
@@ -167,8 +172,16 @@ class GroupAssignmentPlayer extends Component {
 
     // redirect to scores screen/ edit screen
     finishExercise = () => {
-        const {scores, currentScore, id, currentTime, times, noOfQuestions, goBackToEdit} = this.state;
+        const {scores, currentScore, id, currentTime, times, noOfQuestions, goBackToEdit, questions, userans} = this.state;
         let exercise = this.props.location.state.exercise;
+
+        let updatedUserAnswers = questions.map((question, index)=>{
+            return {
+                question: question.question,
+                correctAns: question.answer,
+                userAns: userans[index]
+            }
+        })
 
         if (goBackToEdit)
             this.props.history.push('/edit/group', {exercise: exercise});
@@ -183,6 +196,7 @@ class GroupAssignmentPlayer extends Component {
                 userTime: currentTime,
                 noOfQuestions: noOfQuestions,
                 exercise: exercise,
+                userAnswers: updatedUserAnswers,
                 type: "GROUP_ASSIGNMENT"
             });
         }
