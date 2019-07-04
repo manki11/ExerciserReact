@@ -15,10 +15,15 @@ import {
     ANSWER_ERROR,
     ENTER_ANSWER,
     FREE_TEXT_INPUT,
-    ANSWER
+    ANSWER,
+    TEXT
 } from "../translation";
 import {withRouter} from "react-router-dom"
 import "../../css/FreeTextInputForm.css";
+import datastore from 'lib/sugar-web/datastore';
+import chooser from 'lib/sugar-web/graphics/journalchooser';
+import env from 'lib/sugar-web/env';
+import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
 
 class FreeTextInputForm extends Component {
@@ -42,9 +47,20 @@ class FreeTextInputForm extends Component {
             },
             currentQuestion: {
                 id: 1,
-                question: "",
+                question: {
+                    type: '',
+                    data: ''
+                },
                 answer: "",
             }
+        };
+
+        this.multimedia = {
+            text: 'text',
+            image: 'image',
+            audio: 'audio',
+            textToSpeech: 'text-to-speech',
+            video: 'video'
         };
     }
 
@@ -73,7 +89,6 @@ class FreeTextInputForm extends Component {
     }
 
     handleChangeAns = e => {
-       
         let ans = e.target.value;
         let error = false;
         if (e.target.value === '') {
@@ -121,7 +136,10 @@ class FreeTextInputForm extends Component {
             },
             currentQuestion: {
                 ...this.state.currentQuestion,
-                question: e.target.value
+                question: {
+                    ...this.state.currentQuestion.question,
+                    data: e.target.value
+                }
             }
         }, () => {
             this.checkFormValidation();
@@ -162,7 +180,7 @@ class FreeTextInputForm extends Component {
                     isFormValid: false,
                     currentQuestion: {
                         id: id + 1,
-                        question: '',
+                        question: {type: '', data: ''},
                         answer: '',
                     }
                 });
@@ -182,7 +200,7 @@ class FreeTextInputForm extends Component {
                         isFormValid: false,
                         currentQuestion: {
                             id: currentQuestionNo + 1,
-                            question: '',
+                            question: {type: '', data: ''},
                             answer: '',
                         }
                     });
@@ -199,8 +217,6 @@ class FreeTextInputForm extends Component {
                             question: question,
                             answer: answer
                         }
-                    }, () => {
-
                     });
                 }
             }
@@ -213,7 +229,7 @@ class FreeTextInputForm extends Component {
         const {question, answer} = currentQuestion;
         let isFormValid = true;
 
-        if (question === '') {
+        if (question.type === '' || question.data === '') {
             isFormValid = false;
         }
 
@@ -285,10 +301,165 @@ class FreeTextInputForm extends Component {
         })
     };
 
+    showJournalChooser = (mediaType) => {
+        const {currentQuestion} = this.state;
+        let image, audio, video = false;
+        if(mediaType === this.multimedia.image)
+            image = true;
+        if(mediaType === this.multimedia.audio)
+            audio = true;
+        if(mediaType === this.multimedia.video)
+            video = true;
+        env.getEnvironment((err, environment) => {
+            if(environment.user) {
+                // Display journal dialog popup
+                chooser.show((entry) => {
+                    if (!entry) {
+                          return;
+                    }
+                    var dataentry = new datastore.DatastoreObject(entry.objectId);
+                    dataentry.loadAsText((err, metadata, text) => {
+                        this.setState({
+                            ...this.state,
+                            currentQuestion:{
+                                ...currentQuestion,
+                                question:{
+                                    type: mediaType,
+                                    data: text
+                                }
+                            }
+                        },() => {
+                            this.checkFormValidation();
+                        });
+                    });
+                }, (image?{mimetype: 'image/png'}:null),
+                    (image?{mimetype: 'image/jpeg'}:null),
+                    (audio?{mimetype: 'audio/wav'}:null),
+                    (video?{mimetype: 'video/webm'}:null));
+            }
+        });
+    };
+
+    speak = (e, text) => {
+        let audioElem = e.target;
+        let myDataUrl = meSpeak.speak(text, {rawdata: 'data-url'});
+		let sound = new Audio(myDataUrl);
+        audioElem.classList.remove("button-off");
+        audioElem.classList.add("button-on");
+        sound.play();
+        sound.onended = () => {
+            audioElem.classList.remove("button-on");
+            audioElem.classList.add("button-off");
+        }
+    }
+
+    selectQuestionType = (mediaType) => {
+        const {currentQuestion} = this.state;
+        if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
+            this.setState({
+                ...this.state,
+                currentQuestion:{
+                    ...currentQuestion,
+                    question: {
+                        type: mediaType,
+                        data: ''
+                    }
+                }
+            },() => {
+                this.checkFormValidation();
+            });
+        } else {
+            this.showJournalChooser(mediaType)
+        }
+    }
+
     render() {
         const {currentQuestion, errors} = this.state;
+        const {thumbnail, insertThumbnail, showMedia} = this.props;
         const {id} = currentQuestion;
         let placeholder_string = ENTER_ANSWER; 
+
+        //Question-Options
+        let questionOptions = (
+            <div className="question-options">
+                <button className="btn button-question-options button-text col-md-2" 
+                    onClick={() => {
+                            this.selectQuestionType(this.multimedia.text)
+                        }}>
+                    <FormattedMessage id={TEXT}/>
+                </button>
+                <button className="btn button-question-options button-image col-md-2" 
+                    onClick={() => {
+                        this.selectQuestionType(this.multimedia.image);
+                    }}>
+                </button>
+                <button className="btn button-question-options button-audio col-md-2" 
+                    onClick={() => {
+                        this.selectQuestionType(this.multimedia.audio);
+                    }}>
+                </button>
+                <button className="btn button-question-options button-text-to-speech col-md-2" 
+                    onClick={() => {
+                        this.selectQuestionType(this.multimedia.textToSpeech);
+                        }}>
+                </button>
+                <button className="btn button-question-options button-video col-md-2" 
+                    onClick={() => {
+                        this.selectQuestionType(this.multimedia.video);
+                    }}>
+                </button>
+            </div>
+        );
+
+        let question;
+        let questionType = currentQuestion.question.type; 
+        if( questionType === this.multimedia.text)
+            question = (
+                <input
+                    className="input-mcq"
+                    type="text"
+                    id="question"
+                    value={currentQuestion.question.data}
+                    onChange={this.handleChangeQues}
+                />
+            );
+        if( questionType === this.multimedia.image)
+            question = (
+                <div className = "media-background">
+                <img src = {currentQuestion.question.data}
+                        style = {{height: '200px'}}
+                        onClick = {()=>{showMedia(currentQuestion.question.data)}}
+                        alt="Question"/>
+                </div>
+            );
+        if( questionType === this.multimedia.audio)
+            question = (
+                <audio src={currentQuestion.question.data} controls
+                        style={{width: '-webkit-fill-available'}}>
+                </audio>
+            );
+        if( questionType === this.multimedia.textToSpeech)
+            question = (
+                <div>
+                    <input
+                        className="input-text-to-speech"
+                        id="question"
+                        value={currentQuestion.question.data}
+                        onChange={this.handleChangeQues}
+                    />
+                    <button className="btn button-finish button-speaker button-off" 
+                            onClick={(e)=>{this.speak(e, currentQuestion.question.data)}}>
+                    </button>
+                </div>
+            );
+        if( questionType === this.multimedia.video)
+            question = (
+                <div className="media-background">
+                    <video src={currentQuestion.question.data} controls
+                            height="250px">
+                    </video>
+                </div>
+            );
 
         let title_error = '';
         let question_error = '';
@@ -316,7 +487,12 @@ class FreeTextInputForm extends Component {
                                 <form onSubmit={this.handleNewEvent}>
                                     <div className="row">
                                         <div className="form-group">
+                                           {thumbnail}
                                             <label htmlFor="title"><FormattedMessage id={TITLE_OF_EXERCISE}/></label>
+                                            <button style={{display: 'none'}}/>
+                                            <button className="btn button-finish button-thumbnail" 
+                                                    onClick={insertThumbnail}
+                                            />
                                             <input
                                                 className="input-freeText"
                                                 type="text"
@@ -331,14 +507,11 @@ class FreeTextInputForm extends Component {
                                     <div className="row">
                                         <div className="form-group">
                                             <label htmlFor="question">{id}. <FormattedMessage id={QUESTION}/>:</label>
-                                            <textarea
-                                                className="input-freeText"
-                                                rows="4"
-                                                id="question"
-                                                required
-                                                value={this.state.currentQuestion.question}
-                                                onChange={this.handleChangeQues}
-                                            />
+                                            {questionType && <button className="btn button-edit" 
+                                                onClick={() => {this.setState({...this.state, currentQuestion:{...currentQuestion, question:{type:'', data:''}}})}}>
+                                            </button>}
+                                            {!questionType && questionOptions}
+                                            {questionType && question}
                                             {question_error}
                                         </div>
                                     </div>
@@ -355,7 +528,9 @@ class FreeTextInputForm extends Component {
                                                     placeholder={placeholder}
                                                     onChange={this.handleChangeAns}/>}
                                             </FormattedMessage>
-                                            {answer_error}
+                                            <div>
+                                                {answer_error}
+                                            </div>
                                         </div>
                                     </div>
                                     <div className="form-group row justify-content-between">

@@ -79,7 +79,7 @@
     max-height: 30px!important;
     border-radius: 10px;
     border-width: 0;
-    min-width: -webkit-fill-available;
+    min-width: 0;
 }
 
 .wrong{
@@ -98,4 +98,10 @@
     width: 100%!important;
     margin-bottom: 15px;
     min-height: max-content;
+}
+
+.freetext-question-container{
+    display: flex;
+    position: relative;
+    margin-bottom: 10px;
 }

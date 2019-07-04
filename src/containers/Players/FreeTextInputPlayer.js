@@ -6,7 +6,7 @@ import "../../css/FreeTextInputPlayer.css";
 import {FINISH_EXERCISE, SUBMIT_QUESTION} from "../translation";
 import {FormattedMessage} from 'react-intl';
 import withMultimedia from '../../components/WithMultimedia';
-
+import meSpeak from 'mespeak';
 
 class FreeTextInputPlayer extends Component {
 
@@ -25,15 +25,25 @@ class FreeTextInputPlayer extends Component {
             currentTime: 0,
             intervalID: -1,
             goBackToEdit: false,
-            checkans: []
+            checkans: [],
+            userLanguage: '',
+            userAnswers: ''
         }
+
+        this.multimedia = {
+            text: 'text',
+            image: 'image',
+            audio: 'audio',
+            textToSpeech: 'text-to-speech',
+            video: 'video'
+        };
     }
 
     // load the exercise from props
     componentDidMount() {
         if (this.props.location.state) {
             let intervalId = setInterval(this.timer, 1000);
-            const {id, title, questions, scores, times} = this.props.location.state.exercise;
+            const {id, title, questions, scores, times, userLanguage} = this.props.location.state.exercise;
 
             let goBackToEdit = false;
             if (this.props.location.state.edit) goBackToEdit = true;
@@ -50,11 +60,16 @@ class FreeTextInputPlayer extends Component {
                 questions: questions,
                 noOfQuestions: questions.length,
                 userans: userans,
-                noOfQuestions: questions.length,
                 intervalID: intervalId,
                 scores: scores,
                 times: times,
-                goBackToEdit: goBackToEdit
+                goBackToEdit: goBackToEdit,
+                userLanguage: userLanguage
+            },()=>{
+                if(userLanguage.startsWith('en'))
+                    meSpeak.loadVoice(require(`mespeak/voices/en/${this.state.userLanguage}.json`));
+                else
+                    meSpeak.loadVoice(require(`mespeak/voices/${this.state.userLanguage}.json`));
             })
         }
     }
@@ -74,7 +89,7 @@ class FreeTextInputPlayer extends Component {
         let checkans = [];
         let score = 0;
         questions.forEach(function(question, index){
-            if(question.answer.toLowerCase() == userans[question.id - 1].toLowerCase()) {
+            if(question.answer.toLowerCase() === userans[question.id - 1].toLowerCase()) {
                 score += 1;
                 checkans.push(true);
             } else {
@@ -82,16 +97,26 @@ class FreeTextInputPlayer extends Component {
             }
                 
         });
+
+        let updatedUserAnswers = questions.map((question, index)=>{
+            return {
+                question: question.question,
+                correctAns: {type:'text', data: question.answer},
+                userAns: {type:'text', data: userans[index]}
+            }
+        })
+
         this.setState({
             submitted: true,
             currentScore: score,
-            checkans:checkans
+            checkans:checkans,
+            userAnswers: updatedUserAnswers
         })
     };
 
     // redirect to scores screen/ edit screen
     finishExercise = () => {
-        const {scores, currentScore, id, currentTime, times, noOfQuestions, goBackToEdit} = this.state;
+        const {scores, currentScore, id, currentTime, times, noOfQuestions, goBackToEdit, userAnswers} = this.state;
         let exercise = this.props.location.state.exercise;
 
         if (goBackToEdit)
@@ -107,6 +132,7 @@ class FreeTextInputPlayer extends Component {
                 userTime: currentTime,
                 noOfQuestions: noOfQuestions,
                 exercise: exercise,
+                userAnswers: userAnswers,
                 type: "FREE_TEXT_INPUT"
             });
         }
@@ -124,19 +150,71 @@ class FreeTextInputPlayer extends Component {
         });
     }
 
+    speak = (elem, text) => {
+        let audioElem = elem;
+        let myDataUrl = meSpeak.speak(text, {rawdata: 'data-url'});
+		let sound = new Audio(myDataUrl);
+        audioElem.classList.remove("button-off");
+        audioElem.classList.add("button-on");
+        sound.play();
+        sound.onended = () => {
+            audioElem.classList.remove("button-on");
+            audioElem.classList.add("button-off");
+        }
+    }
+
     render() {
         const {questions} = this.state;
+        const {showMedia} =  this.props;
         let buttonText = <FormattedMessage id={SUBMIT_QUESTION}/>;
         if (this.state.submitted) buttonText = <FormattedMessage id={FINISH_EXERCISE}/>
 
-        let freeTextQuestions = questions.map((quest, index) => {
+        let freeTextQuestions = questions.map((currentQuestion, index) => {
+
+            let questionElement;
+            let questionType = currentQuestion.question.type; 
+            if( questionType === this.multimedia.text)
+                questionElement = (
+                    <p>{currentQuestion.question.data}</p>
+                );
+            if( questionType === this.multimedia.image)
+                questionElement = (
+                    <img src = {currentQuestion.question.data}
+                        className = "matching-questions"                      
+                        onClick = {()=>{showMedia(currentQuestion.question.data)}}
+                        alt="Question"/>
+                );
+            if( questionType === this.multimedia.audio)
+                questionElement = (
+                    <audio 
+                        src={currentQuestion.question.data} controls>
+                    </audio>
+                );
+            if( questionType === this.multimedia.textToSpeech) {
+                questionElement = (
+                    <img className="button-off matching-questions"
+                        onClick={(e)=>{this.speak(e.target, currentQuestion.question.data)}}
+                        alt="text-to-speech-question"
+                    />
+                );
+            }
+            if( questionType === this.multimedia.video)
+                questionElement = (
+                    <video src={currentQuestion.question.data} controls
+                            onClick={()=>{showMedia(currentQuestion.question.data, this.multimedia.video)}}
+                        className = "matching-questions">  
+                    </video>
+                );
+
             if (this.state.submitted) {
                 let ans = 'wrong';
                 if (this.state.checkans[index]) ans = 'right';
                 return (
                     <div className="col-md-3 questions" key={index+1}>
-                        <div>
-                            {index+1}.{quest.question}
+                        <div className="freetext-question-container"
+                            style={{ minHeight: `${(questionType === this.multimedia.image ||questionType === this.multimedia.video)?'80px':''}`}}
+                            >
+                            {index+1}.{questionElement}
                         </div>
                         <div className={"freetext-div checked-ans " + ans}>
                             {this.state.userans[index]}
@@ -146,8 +224,10 @@ class FreeTextInputPlayer extends Component {
             } else {
                 return(
                     <div className="col-md-3 questions" key={index+1}>
-                        <div>
-                            {index+1}.{quest.question}
+                        <div className="freetext-question-container"
+                            style={{ minHeight: `${(questionType === this.multimedia.image ||questionType === this.multimedia.video)?'80px':''}`}}                        
+                            >
+                            {index+1}.{questionElement}
                         </div>
                         <input
                             className="input-freeText"
