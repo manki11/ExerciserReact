@@ -232,7 +232,7 @@ class GroupAssignmentPlayer extends Component {
         let questionType = currentQuestion.question.type; 
         if( questionType === this.multimedia.text)
             questionElement = (
-                <p style={{paddingTop:'40px'}}>{currentQuestion.question.data}</p>
+                <p>{currentQuestion.question.data}</p>
             );
         if( questionType === this.multimedia.image)
             questionElement = (
@@ -295,7 +295,7 @@ class GroupAssignmentPlayer extends Component {
                                 <p className="lead">{this.state.title}</p>
                                 <hr className="my-4"/>
                                 <div className="drag-drop"
-                                    style={{position:"relative"}}>
+                                    style={{position:"relative", display:'flex'}}>
                                     {groupOptions}
                                     {question}
                                 </div>

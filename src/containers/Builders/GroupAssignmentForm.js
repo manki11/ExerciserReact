@@ -50,6 +50,7 @@ class GroupAssignmentForm extends Component {
                 id: 1,
                 question: {type:'', data: ''},
                 answer: {type:'', data: ''},
+                correctGroup: ''
             }
         };
 
@@ -117,7 +118,7 @@ class GroupAssignmentForm extends Component {
             ...this.state,
             currentQuestion:{
                 ...this.state.currentQuestion,
-                answer: value
+                correctGroup: value
             }
         }, () => {
                 this.checkFormValidation();
@@ -204,7 +205,7 @@ class GroupAssignmentForm extends Component {
 
         if (this.state.isFormValid) {
             const {currentQuestionNo, noOfQuestions} = this.state;
-            const {question, answer} = this.state.currentQuestion;
+            const {question, answer, correctGroup} = this.state.currentQuestion;
 
             let id = currentQuestionNo;
 
@@ -212,6 +213,7 @@ class GroupAssignmentForm extends Component {
                 id: id,
                 answer: answer,
                 question: question,
+                correctGroup: correctGroup
             };
 
             if (currentQuestionNo > noOfQuestions) {
@@ -228,6 +230,7 @@ class GroupAssignmentForm extends Component {
                         id: id + 1,
                         question: {type:'', data: ''},
                         answer: {type:'', data: ''},
+                        correctGroup: ''
                     }
                 });
             }
@@ -248,10 +251,11 @@ class GroupAssignmentForm extends Component {
                             id: currentQuestionNo + 1,
                             question: {type:'', data: ''},
                             answer: {type:'', data: ''},
+                            correctGroup: ''
                         }
                     });
                 } else {
-                    const {question, answer} = this.state.questions[index];
+                    const {question, answer, correctGroup} = this.state.questions[index];
 
                      this.setState({
                         ...this.state,
@@ -262,6 +266,7 @@ class GroupAssignmentForm extends Component {
                             id: index + 1,
                             question: question,
                             answer: answer,
+                            correctGroup: correctGroup
                         }
                     }, () => {
 
@@ -274,7 +279,7 @@ class GroupAssignmentForm extends Component {
     // check if current form is valid
     checkFormValidation = () => {
         const {currentQuestion, title, groups} = this.state;
-        const {question, answer} = currentQuestion;
+        const {question, correctGroup} = currentQuestion;
         let isFormValid = true;
 
         if (question.type === '' || question.data === '') {
@@ -285,7 +290,7 @@ class GroupAssignmentForm extends Component {
             isFormValid = false;
         }
 
-        if (answer.type === '' || answer.data === '') {
+        if (correctGroup === '') {
             isFormValid = false;
         }
 
@@ -311,11 +316,10 @@ class GroupAssignmentForm extends Component {
             return {
                 id: question.id,
                 question: question.question,
-                answer: groups[question.answer.split('-').pop() - 1]
+                correctGroup: question.correctGroup,
+                answer: groups[question.correctGroup.split('-').pop() - 1]
             }
         })
-
-        console.log(updatedQuestions);
 
         let id = this.state.id;
         if (this.state.id === -1) {
@@ -352,11 +356,12 @@ class GroupAssignmentForm extends Component {
         let previousQuestionNo = currentQuestionNo - 1;
 
         let previousQuestion = this.state.questions[previousQuestionNo - 1];
-        const {id, question, answer} = previousQuestion;
+        const {id, question, answer, correctGroup} = previousQuestion;
         let currentQuestion = {
             id: id,
             question: question,
-            answer: answer
+            answer: answer,
+            correctGroup: correctGroup
         };
         this.setState({
             ...this.state,
@@ -714,7 +719,7 @@ class GroupAssignmentForm extends Component {
                                                 key={`answer-${currentQuestion.id}`}
                                                 className="answers input-ans"
                                                 name={`answer-${currentQuestion.id}`}
-                                                value={currentQuestion.answer}
+                                                value={currentQuestion.correctGroup}
                                                 onChange={value => this.handleChangeAnsSelect(value, `answer-${currentQuestion.id}`)}
                                                 options={groupSelect}
                                             />
