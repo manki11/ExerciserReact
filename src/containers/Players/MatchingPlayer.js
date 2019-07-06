@@ -87,49 +87,51 @@ class MATCHING_PAIRPLAYER extends Component {
 
     initMatchingPairConnectable = () =>{
     
-        this.instance.bind("connection", (info, originalEvent) => {
-            this.updateConnections(info.connection);
-        });
-        this.instance.bind("connectionDetached", (info, originalEvent) => {
-            this.updateConnections(info.connection, true);
-        });
-        this.instance.bind("connectionMoved", (info, originalEvent) => {
-            this.updateConnections(info.connection, true);
-        });
+        this.instance.batch(() => {
+            this.instance.bind("connection", (info, originalEvent) => {
+                this.updateConnections(info.connection);
+            });
+            this.instance.bind("connectionDetached", (info, originalEvent) => {
+                this.updateConnections(info.connection, true);
+            });
+            this.instance.bind("connectionMoved", (info, originalEvent) => {
+                this.updateConnections(info.connection, true);
+            });
 
-        // configure some drop options for use by all endpoints.
-        var dropOptions = {
-            tolerance: "touch",
-            hoverClass: "dropHover",
-            activeClass: "dragActive"
-        };
+            // configure some drop options for use by all endpoints.
+            var dropOptions = {
+                tolerance: "touch",
+                hoverClass: "dropHover",
+                activeClass: "dragActive"
+            };
 
-        var color = "rgb(128, 128, 128)";
-        var dragDropEndPoints = {
-            // enabled: false,
-            dragDropEndPoints: ["Dot", {radius: 10} ],
-            paintStyle: { fill: color, opacity: 1.0 },
-            isSource: true,
-            scope: 'grey',
-            connectorStyle: {
-                stroke: color,
-                strokeWidth: 4
-            },
-            connector: "Straight",
-            isTarget: true,
-            dropOptions: dropOptions,
-            beforeDrop: (params) => {
-                let source = params.sourceId.split('-')[0];
-                let target = params.targetId.split('-')[0]; 
-                if(source === 'answer')
-                    return false;
-                if(source === target)
-                    return false;
-                return true;
-            }
-        };
-        this.instance.addEndpoint(document.getElementsByClassName("question"), { anchor: "RightMiddle" }, dragDropEndPoints);
-        this.instance.addEndpoint(document.getElementsByClassName("answer"), { anchor: "LeftMiddle" }, dragDropEndPoints);
+            var color = "rgb(128, 128, 128)";
+            var dragDropEndPoints = {
+                // enabled: false,
+                dragDropEndPoints: ["Dot", {radius: 10} ],
+                paintStyle: { fill: color, opacity: 1.0 },
+                isSource: true,
+                scope: 'grey',
+                connectorStyle: {
+                    stroke: color,
+                    strokeWidth: 4
+                },
+                connector: "Straight",
+                isTarget: true,
+                dropOptions: dropOptions,
+                beforeDrop: (params) => {
+                    let source = params.sourceId.split('-')[0];
+                    let target = params.targetId.split('-')[0]; 
+                    if(source === 'answer')
+                        return false;
+                    if(source === target)
+                        return false;
+                    return true;
+                }
+            };
+            this.instance.addEndpoint(document.getElementsByClassName("question"), { anchor: "RightMiddle" }, dragDropEndPoints);
+            this.instance.addEndpoint(document.getElementsByClassName("answer"), { anchor: "LeftMiddle" }, dragDropEndPoints);
+        });
     }
 
     updateConnections = (conn, remove) => {

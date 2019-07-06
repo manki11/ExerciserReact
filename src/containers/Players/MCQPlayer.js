@@ -307,7 +307,7 @@ class MCQPlayer extends Component {
                     </video>
                 );
             return (
-                <div className="choices-div col-md-6" key={`answers-${i}` }>
+                <div className="choices col-md-6" key={`answers-${i}` }>
                         <input type="radio" 
                             className="options-radio"
                             checked={option.data === this.state.selectedAns}
@@ -321,7 +321,7 @@ class MCQPlayer extends Component {
                             disabled={this.state.submitted}
                             />   
                         <button
-                            className={"btn choices-button " + btn}
+                            className={"btn choices-but " + btn}
                             type="button"
                             id={`answer-${i}`}
                             onClick={(e) => {

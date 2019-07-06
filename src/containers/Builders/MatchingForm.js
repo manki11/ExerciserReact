@@ -271,6 +271,8 @@ class MATCHING_PAIRForm extends Component {
                 correctAns: currentPair.answer
             };
             pairs[currentPair.id -1] = updatedCurrentPair;
+        } else {
+            pairs.push(currentPair);
         }
 
         let exercise = {
