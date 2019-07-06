@@ -310,7 +310,7 @@ class GroupAssignmentForm extends Component {
     submitExercise = (bool,e) => {
         e.preventDefault();
         const {srcThumbnail, userLanguage} = this.props;
-        const {questions, groups} = this.state;
+        const {questions, groups, currentQuestion} = this.state;
 
         let updatedQuestions = questions.map((question)=>{
             return {
@@ -320,6 +320,19 @@ class GroupAssignmentForm extends Component {
                 answer: groups[question.correctGroup.split('-').pop() - 1]
             }
         })
+
+        // To save changes before testing the exercise
+        if(currentQuestion.id <= questions.length){
+            let updatedCurrentQuestion = {
+                id: currentQuestion.id,
+                question: currentQuestion.question,
+                correctGroup: currentQuestion.correctGroup,
+                answer: groups[currentQuestion.correctGroup.split('-').pop() - 1]
+            };
+            updatedQuestions[currentQuestion.id -1] = updatedCurrentQuestion;
+        } else {
+            updatedQuestions.push(currentQuestion);
+        }
 
         let id = this.state.id;
         if (this.state.id === -1) {

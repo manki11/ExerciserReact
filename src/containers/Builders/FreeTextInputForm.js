@@ -251,17 +251,30 @@ class FreeTextInputForm extends Component {
     submitExercise = (bool,e) => {
         e.preventDefault();
         const {srcThumbnail, userLanguage} = this.props;
+        let {currentQuestion, questions} = this.state;
 
         let id = this.state.id;
         if (this.state.id === -1) {
             id = this.props.counter;
         }
 
+        // To save changes before testing the exercise
+        if(currentQuestion.id <= questions.length){
+            let updatedCurrentQuestion = {
+                id: currentQuestion.id,
+                question: currentQuestion.question,
+                correctAns: currentQuestion.answer
+            };
+            questions[currentQuestion.id -1] = updatedCurrentQuestion;
+        } else {
+            questions.push(currentQuestion);
+        }
+
         let exercise = {
             title: this.state.title,
             id: id,
             type: "FREE_TEXT_INPUT",
-            questions: this.state.questions,
+            questions: questions,
             scores: this.state.scores,
             times: this.state.times,
             thumbnail: srcThumbnail,
