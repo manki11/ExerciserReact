@@ -26,6 +26,36 @@
     border: 2px solid transparent!important;
 }
 
+.detail-button{
+    width: 40px;
+    height: 40px;
+    background-image: url("../icons/exercise/details.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 20px;
+}
+
+.detail-button:hover{
+    background-color: lightskyblue!important;
+    border: 2px solid transparent!important;
+}
+
 .active{
     background-color: deepskyblue;
+}
+
+th, td {
+    padding: 15px;
+    text-align: center !important;
+    border-bottom: 1px solid #ddd;
+    display: table-cell!important;
+}
+
+.td-userans {
+    display: flex!important;
+    align-items: center;
+}
+
+.shared-results-user-selected :hover {
+    background-color: #cccccc;
 }
