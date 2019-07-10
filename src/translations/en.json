@@ -110,5 +110,9 @@
   "Build an exercise to match questions with answers.": "Build an exercise to match questions with answers.",
   "Matching Pair": "Matching Pair",
   "Item": "Item",
-  "Matching Item": "Matching Item"
+  "Matching Item": "Matching Item",
+  "Correct / Wrong": "Correct / Wrong",
+  "Correct Answer": "Correct Answer",
+  "Your Answer": "Your Answer",
+  "Users": "Users"
 }

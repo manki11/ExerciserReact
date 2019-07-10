@@ -107,8 +107,15 @@
   "Text": "Texto",
   "Correct option": "Opción correcta",
   "Wrong option": "Opcion incorrecta",
+<<<<<<< HEAD
   "Build an exercise to match questions with answers.": "Construye un ejercicio para unir preguntas con respuestas.",
   "Matching Pair": "Pareja a juego",
   "Item": "Ít",
   "Matching Item": "Ítem a juego"
+=======
+  "Correct / Wrong": "Correcto / incorrecto",
+  "Correct Answer": "Respuesta correcta",
+  "Your Answer": "Tu respuesta",
+  "Users": "Usuarios"
+>>>>>>> 1c99905d862a60d0bd68dfa24b15b08ae2fe38bd
 }

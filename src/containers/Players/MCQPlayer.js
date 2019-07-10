@@ -20,7 +20,7 @@ class MCQPlayer extends Component {
             currentQuestionNo: 1,
             submitted: false,
             selected: false,
-            selectedAns: '',
+            selectedAns: {type:'', data: ''},
             scores: [],
             times: [],
             currentTime: 0,
@@ -37,7 +37,8 @@ class MCQPlayer extends Component {
                 },
                 options: [] ,
                 correctAns: {type: '', data: ''}
-            }
+            },
+            userAnswers: []
         }
 
         this.multimedia = {
@@ -106,7 +107,10 @@ class MCQPlayer extends Component {
     choiceSelected = choice => {
         if (!this.state.submitted) {
             this.setState({
-                selectedAns: choice,
+                selectedAns: {
+                    type: choice.type,
+                    data: choice.data
+                },
                 selected: true
             })
         }
@@ -119,14 +123,23 @@ class MCQPlayer extends Component {
 
     // submit the exercise ( calculate score and time ) show correct/ wrong ans
     submitQuestion = () => {
-        const {currentScore, selectedAns, currentQuestion} = this.state;
+        const {currentScore, selectedAns, currentQuestion, userAnswers} = this.state;
         const {correctAns} = currentQuestion;
         let score = currentScore;
-        if (selectedAns === correctAns.data) score = score + 1;
+        if (selectedAns.data === correctAns.data) score = score + 1;
+        
+        let updatedUserAnswers = userAnswers;
+        updatedUserAnswers[currentQuestion.id - 1] = {
+            question: currentQuestion.question,
+            correctAns: currentQuestion.correctAns,
+            userAns: selectedAns
+        }        
+
         this.setState({
             selected: false,
             submitted: true,
-            currentScore: score
+            currentScore: score,
+            userAnswers: updatedUserAnswers
         })
     };
 
@@ -147,7 +160,7 @@ class MCQPlayer extends Component {
                 currentQuestionNo: nextQuestionNo,
                 submitted: false,
                 selected: false,
-                selectedAns: '',
+                selectedAns: {type: '', data: ''},
                 finish: finish,
                 currentQuestion: {
                     id: nextQuestion.id,
@@ -162,7 +175,7 @@ class MCQPlayer extends Component {
 
     // redirect to scores screen/ edit screen
     finishExercise = () => {
-        const {scores, currentScore, id, currentTime, times, noOfQuestions, goBackToEdit} = this.state;
+        const {scores, currentScore, id, currentTime, times, noOfQuestions, goBackToEdit, userAnswers} = this.state;
         let exercise = this.props.location.state.exercise;
 
         if (goBackToEdit)
@@ -178,7 +191,8 @@ class MCQPlayer extends Component {
                 userTime: currentTime,
                 noOfQuestions: noOfQuestions,
                 exercise: exercise,
-                type: "MCQ"
+                userAnswers: userAnswers,
+                type: "MCQ",
             });
         }
     };
@@ -258,19 +272,19 @@ class MCQPlayer extends Component {
 
         let choices = currentQuestion.options.map((option, i) => {
             let btn = 'btn-outline-secondary';
-            if (this.state.selectedAns === option.data) {
+            if (this.state.selectedAns.data === option.data) {
                 btn = 'btn-selected';
             }
             if (this.state.submitted) {
-                if (this.state.selectedAns === this.state.currentQuestion.correctAns.data) {
-                    if (option.data === this.state.selectedAns) {
+                if (this.state.selectedAns.data === this.state.currentQuestion.correctAns.data) {
+                    if (option.data === this.state.selectedAns.data) {
                         btn = 'btn-success';
                     }
                 } else {
                     if (option.data === this.state.currentQuestion.correctAns.data) {
                         btn = 'btn-success';
                     }
-                    if (this.state.selectedAns === option.data) {
+                    if (this.state.selectedAns.data === option.data) {
                         btn = 'btn-danger';
                     }
                 }
@@ -310,11 +324,14 @@ class MCQPlayer extends Component {
                 <div className="choices col-md-6" key={`answers-${i}` }>
                         <input type="radio" 
                             className="options-radio"
-                            checked={option.data === this.state.selectedAns}
+                            checked={option.data === this.state.selectedAns.data}
                             onChange={()=>{
                                 this.setState({
                                     ...this.state, 
-                                    selectedAns: option.data,
+                                    selectedAns: {
+                                        type: option.type,
+                                        data: option.data
+                                    },
                                     selected: true
                                 })
                             }}
@@ -331,7 +348,7 @@ class MCQPlayer extends Component {
                                         elem = e.target.children[0];
                                     this.speak(elem, option.data);
                                 }
-                                this.choiceSelected(option.data)}
+                                this.choiceSelected(option)}
                             }
                         >
                         {optionElement}

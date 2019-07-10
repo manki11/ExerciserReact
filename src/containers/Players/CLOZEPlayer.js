@@ -36,6 +36,7 @@ class CLOZEPlayer extends Component {
             currentTime: 0,
             intervalID: -1,
             userLanguage: '',
+            userAnswers: []
         }
 
         this.multimedia = {
@@ -164,17 +165,31 @@ class CLOZEPlayer extends Component {
             }
         }
 
+        let clozeText = this.props.location.state.exercise.clozeText.split('\n');
+        clozeText = clozeText.map(text=>{
+            return text.replace(/(-[0-9]*-)/, '______')
+        }) 
+
+        let userAnswers = clozeText.map((cloze, index) => {
+            return {
+                question: {type:'text', data: cloze},
+                correctAns: {type: 'text', data: answers[index]},
+                userAns: {type: 'text',data: userans[index]}
+            }
+        });
+
         this.setState({
             ...this.state,
             submitted: true,
             checkans: checkans,
-            score: score
+            score: score,
+            userAnswers: userAnswers
         })
     };
 
     // redirect to scores screen/ edit screen
     finishExercise = () => {
-        const {scores, score, id, currentTime, times, answers, goBackToEdit} = this.state;
+        const {scores, score, id, currentTime, times, answers, goBackToEdit, userAnswers} = this.state;
         let exercise = this.props.location.state.exercise;
         let noOfQuestions = answers.length;
 
@@ -191,6 +206,7 @@ class CLOZEPlayer extends Component {
                 userTime: currentTime,
                 noOfQuestions: noOfQuestions,
                 exercise: exercise,
+                userAnswers: userAnswers,
                 type: "CLOZE"
             });
         }
