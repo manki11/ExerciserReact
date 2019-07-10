@@ -107,15 +107,12 @@
   "Text": "Texte",
   "Correct option": "Option correcte",
   "Wrong option": "Mauvaise option",
-<<<<<<< HEAD
   "Build an exercise to match questions with answers.": "Construisez un exercice pour faire correspondre les questions aux réponses.",
   "Matching Pair": "Paire assortie",
   "Item": "Article",
-  "Matching Item": "Article correspondant"
-=======
+  "Matching Item": "Article correspondant",
   "Correct / Wrong": "Correct / Mauvais",
   "Correct Answer": "Bonne réponse",
   "Your Answer": "Ta Réponse",
   "Users": "Utilisatrices"
->>>>>>> 1c99905d862a60d0bd68dfa24b15b08ae2fe38bd
 }
