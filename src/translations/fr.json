@@ -112,5 +112,9 @@
   "Build an exercise with questions that needs to be placed in the correct group.": "Construire un exercice avec des questions qui doivent être placées dans le bon groupe.",
   "Build an exercise with questions that have answers in text format.": "Construire un exercice avec des questions qui ont des réponses au format texte.",
   "Enter Answer": "Entrer une réponse",
-  "Answer": "Réponse"
+  "Answer": "Réponse",
+  "Correct / Wrong": "Correct / Mauvais",
+  "Correct Answer": "Bonne réponse",
+  "Your Answer": "Ta Réponse",
+  "Users": "Utilisatrices"
 }

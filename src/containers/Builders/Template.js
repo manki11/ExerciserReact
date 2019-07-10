@@ -95,7 +95,7 @@ function Template(props) {
                         <div className="col-sm-4">
                             <div className="card">
                                 <div className="card-img-container">
-                                    <div className="card-img-top background-reorder"/>
+                                    <div className="card-img-top background-group"/>
                                 </div>
                                 <div className="card-body">
                                     <h5 className="card-title"><FormattedMessage id={GROUP_ASSIGNMENT}/></h5>
@@ -110,7 +110,7 @@ function Template(props) {
                         </div><div className="col-sm-4">
                             <div className="card">
                                 <div className="card-img-container">
-                                    <div className="card-img-top background-reorder"/>
+                                    <div className="card-img-top background-freetext"/>
                                 </div>
                                 <div className="card-body">
                                     <h5 className="card-title"><FormattedMessage id={FREE_TEXT_INPUT}/></h5>

@@ -5,7 +5,7 @@ import {QUESTIONS, BEST_SCORE, MCQ, REORDER_LIST, CLOZE_TEXT, GROUP_ASSIGNMENT, 
 import cloze_background from '../images/cloze_image.svg'
 import mcq_background from '../images/mcq_image.svg'
 import reorder_background from '../images/list_reorder_image.svg';
-import group_assignment_background from '../images/list_reorder_image.svg';
+import group_assignment_background from '../images/group_image.svg';
 import free_text_input_background from '../images/freetext_input_image.svg';
 
 class Exercise extends Component {

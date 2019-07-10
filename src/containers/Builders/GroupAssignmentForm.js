@@ -331,7 +331,12 @@ class GroupAssignmentForm extends Component {
             };
             updatedQuestions[currentQuestion.id -1] = updatedCurrentQuestion;
         } else {
-            updatedQuestions.push(currentQuestion);
+            updatedQuestions.push({
+                id: currentQuestion.id,
+                question: currentQuestion.question,
+                correctGroup: currentQuestion.correctGroup,
+                answer: groups[currentQuestion.correctGroup.split('-').pop() - 1]
+            });
         }
 
         let id = this.state.id;
@@ -760,14 +765,14 @@ class GroupAssignmentForm extends Component {
                                         <button
                                             onClick={(e)=>this.submitExercise(false,e)}
                                             className={"btn button-finish"}
-                                            disabled={!this.state.noOfQuestions >= 1}
+                                            disabled={!this.state.isFormValid}
                                         >
                                             <FormattedMessage id={FINISH_EXERCISE}/>
                                         </button>
                                         <button
                                             onClick={(e)=> this.submitExercise(true,e)}
                                             className={"btn button-finish"}
-                                            disabled={!this.state.noOfQuestions >= 1}
+                                            disabled={!this.state.isFormValid}
                                         >
                                             <FormattedMessage id={TEST_EXERCISE}/>
                                         </button>
@@ -790,7 +795,7 @@ function MapStateToProps(state) {
     }
 }
 
-export default withMultimedia(require('../../images/mcq_image.svg'))(withRouter(
+export default withMultimedia(require('../../images/group_image.svg'))(withRouter(
     connect(MapStateToProps,
         {addNewExercise, incrementExerciseCounter, editExercise}
     )(GroupAssignmentForm)));

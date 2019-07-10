@@ -112,5 +112,9 @@
   "Build an exercise with questions that needs to be placed in the correct group.": "Build an exercise with questions that needs to be placed in the correct group.",
   "Build an exercise with questions that have answers in text format.": "Build an exercise with questions that have answers in text format.",
   "Enter Answer": "Enter Answer",
-  "Answer": "Answer"
+  "Answer": "Answer",
+  "Correct / Wrong": "Correct / Wrong",
+  "Correct Answer": "Correct Answer",
+  "Your Answer": "Your Answer",
+  "Users": "Users"
 }

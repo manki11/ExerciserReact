@@ -263,11 +263,15 @@ class FreeTextInputForm extends Component {
             let updatedCurrentQuestion = {
                 id: currentQuestion.id,
                 question: currentQuestion.question,
-                correctAns: currentQuestion.answer
+                answer: currentQuestion.answer
             };
             questions[currentQuestion.id -1] = updatedCurrentQuestion;
         } else {
-            questions.push(currentQuestion);
+            questions.push({
+                id: currentQuestion.id,
+                question: currentQuestion.question,
+                answer: currentQuestion.answer
+            });
         }
 
         let exercise = {
@@ -568,14 +572,14 @@ class FreeTextInputForm extends Component {
                                         <button
                                             onClick={(e)=>this.submitExercise(false,e)}
                                             className={"btn button-finish"}
-                                            disabled={!this.state.noOfQuestions >= 1}
+                                            disabled={!this.state.isFormValid}
                                         >
                                             <FormattedMessage id={FINISH_EXERCISE}/>
                                         </button>
                                         <button
                                             onClick={(e)=> this.submitExercise(true,e)}
                                             className={"btn button-finish"}
-                                            disabled={!this.state.noOfQuestions >= 1}
+                                            disabled={!this.state.isFormValid}
                                         >
                                             <FormattedMessage id={TEST_EXERCISE}/>
                                         </button>

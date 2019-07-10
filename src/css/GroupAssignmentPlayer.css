@@ -42,13 +42,13 @@
 #question-drag{
     background-color: #808080;
     position: absolute;
-    top: 50%;
-    left: 50%;
     text-align: center;
     line-height: 100px;
 }
 
 .before-drag{
+    top: 50%!important;
+    left: 50%!important;
     margin-left: -50px;
     margin-top: -50px;
 }
@@ -73,8 +73,6 @@
 }
 
 .box {
-    font-family: serif;
-    font-style: italic;
     background-color: white;
     border: 1px solid #346789;
     text-align: center;

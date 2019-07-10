@@ -175,7 +175,9 @@ class FreeTextInputPlayer extends Component {
             let questionType = currentQuestion.question.type; 
             if( questionType === this.multimedia.text)
                 questionElement = (
-                    <p>{currentQuestion.question.data}</p>
+                    <p style={{overflow: 'auto'}}>
+                        {currentQuestion.question.data}
+                    </p>
                 );
             if( questionType === this.multimedia.image)
                 questionElement = (

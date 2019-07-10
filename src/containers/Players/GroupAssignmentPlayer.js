@@ -265,7 +265,6 @@ class GroupAssignmentPlayer extends Component {
         if( questionType === this.multimedia.textToSpeech) {
             questionElement = (
                 <img className="button-off matching-questions"
-                    onClick={(e)=>{this.speak(e.target, currentQuestion.question.data)}}
                     alt="text-to-speech-question"
                 />
             );
@@ -287,8 +286,16 @@ class GroupAssignmentPlayer extends Component {
         }
         let question = (
             <div name={id} id="question-drag"
-                className={`before-drag box ${btnClass}`}
+                className={`${!this.state.submitted && 'before-drag'} box ${btnClass}`}
                 answer = {currentQuestion.answer}
+                onClick={(e)=>{
+                    if( questionType === this.multimedia.textToSpeech) {
+                        let elem = e.target;
+                        if(e.target.getAttribute("id"))
+                            elem = e.target.children[0];
+                        this.speak(elem, currentQuestion.question.data);
+                    }
+                }} 
                 >
                 {questionElement}
             </div>
@@ -341,5 +348,5 @@ function MapStateToProps(state) {
     return {}
 }
 
-export default withMultimedia(require('../../images/mcq_image.svg'))(withRouter(
+export default withMultimedia(require('../../images/group_image.svg'))(withRouter(
     connect(MapStateToProps, {addScoreTime})(GroupAssignmentPlayer)));
