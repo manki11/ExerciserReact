@@ -326,6 +326,13 @@ class MCQForm extends Component {
                 correctAns: currentQuestion.options[0]
             };
             questions[currentQuestion.id -1] = Ques;
+        } else {
+            questions.push({
+                id: currentQuestion.id,
+                options: currentQuestion.options,
+                question: currentQuestion.question,
+                correctAns: currentQuestion.options[0]
+            })
         }
 
         let exercise = {
@@ -358,7 +365,7 @@ class MCQForm extends Component {
         let previousQuestion = this.state.questions[previousQuestionNo - 1];
 
         const {id, question, options} = previousQuestion;
-        let currentQuestion = {
+        let updatedCurrentQuestion = {
             id: id,
             question: question,
             options: options
@@ -368,7 +375,7 @@ class MCQForm extends Component {
             ...this.state,
             isFormValid: true,
             currentQuestionNo: id,
-            currentQuestion: currentQuestion
+            currentQuestion: updatedCurrentQuestion
         })
     };
 
@@ -806,14 +813,14 @@ class MCQForm extends Component {
                                         <button
                                             onClick={(e)=>this.submitExercise(false,e)}
                                             className={"btn button-finish"}
-                                            disabled={!this.state.noOfQuestions >= 1}
+                                            disabled={!this.state.isFormValid}
                                         >
                                             <FormattedMessage id={FINISH_EXERCISE}/>
                                         </button>
                                         <button
                                             onClick={(e)=> this.submitExercise(true,e)}
                                             className={"btn button-finish"}
-                                            disabled={!this.state.noOfQuestions >= 1}
+                                            disabled={!this.state.isFormValid}
                                         >
                                             <FormattedMessage id={TEST_EXERCISE}/>
                                         </button>

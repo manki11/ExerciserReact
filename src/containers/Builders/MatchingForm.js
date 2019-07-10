@@ -268,11 +268,15 @@ class MATCHING_PAIRForm extends Component {
             let updatedCurrentPair = {
                 id: currentPair.id,
                 question: currentPair.question,
-                correctAns: currentPair.answer
+                answer: currentPair.answer
             };
             pairs[currentPair.id -1] = updatedCurrentPair;
         } else {
-            pairs.push(currentPair);
+            pairs.push({
+                id: currentPair.id,
+                question: currentPair.question,
+                answer: currentPair.answer
+            });
         }
 
         let exercise = {
@@ -301,9 +305,10 @@ class MATCHING_PAIRForm extends Component {
 
     // move to previous question
     previousPair = () => {
-        const {currentPairNo} = this.state;
+        const {currentPairNo, pairs} = this.state;
         let previousPairNo = currentPairNo - 1;
-        let previousPair = this.state.pairs[previousPairNo - 1];
+        let previousPair = pairs[previousPairNo - 1];
+
         this.setState({
             ...this.state,
             isFormValid: true,
@@ -698,14 +703,14 @@ class MATCHING_PAIRForm extends Component {
                                             <button
                                                 onClick={(e)=>this.submitExercise(false,e)}
                                                 className={"btn button-finish"}
-                                                disabled={!this.state.noOfPairs >= 1}
+                                                disabled={!this.state.isFormValid}
                                             >
                                                 <FormattedMessage id={FINISH_EXERCISE}/>
                                             </button>
                                             <button
                                                 onClick={(e)=> this.submitExercise(true,e)}
                                                 className={"btn button-finish"}
-                                                disabled={!this.state.noOfPairs >= 1}
+                                                disabled={!this.state.isFormValid}
                                             >
                                                 <FormattedMessage id={TEST_EXERCISE}/>
                                             </button>

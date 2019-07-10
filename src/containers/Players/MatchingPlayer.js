@@ -303,7 +303,6 @@ class MATCHING_PAIRPLAYER extends Component {
             if( questionType === this.multimedia.textToSpeech) {
                 question = (
                     <img className="button-off matching-questions"
-                        onClick={(e)=>{this.speak(e.target, ques.data)}}
                         alt="text-to-speech-question"
                     />
                 );
@@ -342,7 +341,6 @@ class MATCHING_PAIRPLAYER extends Component {
                 answer = (
                     <img className="button-off matching-answers"
                         alt="text-to-speech-option"
-                        onClick={(e)=>{this.speak(e.target, this.state.answers[index].data)}}
                     />
                 );
             }
@@ -356,10 +354,26 @@ class MATCHING_PAIRPLAYER extends Component {
 
             return (
                 <div className="row" key={`pair-${index+1}`}>
-                    <div className="col-md-3 col-sm-3 box question" id={`question-${index+1}`}>
+                    <div className="col-md-3 col-sm-3 box question" id={`question-${index+1}`}
+                            onClick={(e) => {
+                                if( questionType === this.multimedia.textToSpeech) {
+                                    let elem = e.target;
+                                    if(e.target.getAttribute("id"))
+                                        elem = e.target.children[0];
+                                    this.speak(elem, ques.data);
+                                }
+                            }}>
                         {question}
                     </div>
-                    <div className="col-md-3 col-sm-3 box answer" id={`answer-display-${index+1}`}>
+                    <div className="col-md-3 col-sm-3 box answer" id={`answer-display-${index+1}`}
+                            onClick={(e) => {
+                                if( answerType === this.multimedia.textToSpeech) {
+                                    let elem = e.target;
+                                    if(e.target.getAttribute("id"))
+                                        elem = e.target.children[0];
+                                    this.speak(elem, this.state.answers[index].data);
+                                }
+                            }}>
                         {answer}
                     </div>  
                 </div>
