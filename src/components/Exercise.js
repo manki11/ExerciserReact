@@ -5,7 +5,7 @@ import {QUESTIONS, BEST_SCORE, MCQ, REORDER_LIST, CLOZE_TEXT, MATCHING_PAIR, QUE
 import cloze_background from '../images/cloze_image.svg'
 import mcq_background from '../images/mcq_image.svg'
 import reorder_background from '../images/list_reorder_image.svg'
-import macthing_pair_background from '../images/list_reorder_image.svg';
+import macthing_pair_background from '../images/matching_pair_image.svg';
 
 class Exercise extends Component {
 

@@ -733,7 +733,7 @@ function MapStateToProps(state) {
     }
 }
 
-export default withMultimedia(require("../../images/list_reorder_image.svg"))(withRouter(
+export default withMultimedia(require("../../images/matching_pair_image.svg"))(withRouter(
     connect(MapStateToProps,
         {addNewExercise, incrementExerciseCounter, editExercise}
     )(MATCHING_PAIRForm)));

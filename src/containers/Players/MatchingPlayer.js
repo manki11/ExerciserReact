@@ -422,5 +422,5 @@ function MapStateToProps(state) {
     return {}
 }
 
-export default withMultimedia(require("../../images/list_reorder_image.svg"))(withRouter(
+export default withMultimedia(require("../../images/matching_pair_image.svg"))(withRouter(
     connect(MapStateToProps, {addScoreTime})(MATCHING_PAIRPLAYER)));
