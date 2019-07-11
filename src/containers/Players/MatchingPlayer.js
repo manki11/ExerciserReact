@@ -162,10 +162,10 @@ class MATCHING_PAIRPLAYER extends Component {
         let selected = false;
         if(connections.length === this.state.questions.length && !this.state.submitted)
             selected = true;
-        
+
         connections.forEach((connection)=>{
             let index = connection.sourceId.split('-').pop();
-            userAnswers[index] = connection.targetId.split('-').pop();
+            userAnswers[index-1] = connection.targetId.split('-').pop()-1;
         })
         
         this.setState({
@@ -193,13 +193,12 @@ class MATCHING_PAIRPLAYER extends Component {
 
     // submit the exercise ( calculate score and time ) show correct/ wrong ans
     submitQuestion = () => {
-        let {score, userAnswers, pairs} = this.state;
+        let {score, pairs, userAnswers} = this.state;
         this.instance.deleteEveryEndpoint();
-       
         pairs.forEach((pair)=>{
-            let ansToCheck = this.state.answers[userAnswers[pair.id]-1];
+            let ansToCheck = this.state.answers[userAnswers[pair.id-1]];
             let source = document.getElementById(`question-${pair.id}`);
-            let target = document.getElementById(`answer-display-${userAnswers[pair.id]}`);
+            let target = document.getElementById(`answer-display-${userAnswers[pair.id-1]+1}`);
 
             if( ansToCheck.data === pair.answer.data){
                 score += 1;
@@ -218,30 +217,30 @@ class MATCHING_PAIRPLAYER extends Component {
                 connector: "Straight",
                 endpoint:"Dot",
                 endpointStyle:{ fillStyle: "red"}
-            })
-        })
-
-        let updatedUserAnswers = userAnswers.map((ans, index) => {
-            return {
-                question: pairs[index-1].question,
-                correctAns: pairs[index-1].answer,
-                userAns: this.state.answers[ans-1] 
-            }
+            });
         });
 
         this.setState({
             ...this.state,
             selected: false,
             submitted: true,
-            score:score,
-            userAnswers: updatedUserAnswers
+            score:score
         })
     };
 
     // redirect to scores screen/ edit screen
     finishExercise = () => {
-        const {scores, score, id, currentTime, times, noOfPairs, goBackToEdit, userAnswers} = this.state;
+        const {pairs, scores, score, id, currentTime, times, noOfPairs, goBackToEdit, userAnswers} = this.state;
         let exercise = this.props.location.state.exercise;
+
+        let updatedUserAnswers = [];
+        userAnswers.forEach((ans, index) => {
+            updatedUserAnswers.push({
+                question: pairs[index].question,
+                correctAns: pairs[index].answer,
+                userAns: this.state.answers[ans]
+            });
+        });
 
         if (goBackToEdit)
             this.props.history.push('/edit/match', {exercise: exercise});
@@ -256,7 +255,7 @@ class MATCHING_PAIRPLAYER extends Component {
                 userTime: currentTime,
                 noOfQuestions: noOfPairs,
                 exercise: exercise,
-                userAnswers: userAnswers,
+                userAnswers: updatedUserAnswers,
                 type: "MATCHING_PAIR"
             });
         }
