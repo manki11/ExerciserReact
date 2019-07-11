@@ -47,6 +47,7 @@ class GroupAssignmentPlayer extends Component {
             textToSpeech: 'text-to-speech',
             video: 'video'
         };
+        this.colors = ["#f2eea5", "#b2f2a5", "#a5f2f2", "#f2a5a5"]
     }
 
     // load the exercise from props
@@ -235,6 +236,7 @@ class GroupAssignmentPlayer extends Component {
                 )
             return(
                 <div className = {`group-options col-md-${12/groups.length}`}
+                    style={{backgroundColor: this.colors[index]}}
                     id={`group-${index+1}`}
                     key={`group-${index+1}`}>
                     {groupElement}
@@ -246,7 +248,9 @@ class GroupAssignmentPlayer extends Component {
         let questionType = currentQuestion.question.type; 
         if( questionType === this.multimedia.text)
             questionElement = (
-                <p>{currentQuestion.question.data}</p>
+                <p
+                    style={{lineHeight: '110px'}}>
+                {currentQuestion.question.data}</p>
             );
         if( questionType === this.multimedia.image)
             questionElement = (
@@ -286,18 +290,21 @@ class GroupAssignmentPlayer extends Component {
         }
         let question = (
             <div name={id} id="question-drag"
-                className={`${!this.state.submitted && 'before-drag'} box ${btnClass}`}
-                answer = {currentQuestion.answer}
-                onClick={(e)=>{
-                    if( questionType === this.multimedia.textToSpeech) {
-                        let elem = e.target;
-                        if(e.target.getAttribute("id"))
-                            elem = e.target.children[0];
-                        this.speak(elem, currentQuestion.question.data);
-                    }
-                }} 
-                >
-                {questionElement}
+                className={`${!this.state.submitted && 'before-drag'}`}
+                answer = {currentQuestion.answer}>
+                <div className={`box ${btnClass}`} id = "on-click"
+                    onClick={(e)=>{
+                        if( questionType === this.multimedia.textToSpeech) {
+                            let elem = e.target;
+                            if(e.target.getAttribute("id"))
+                                elem = e.target.children[0];
+                            this.speak(elem, currentQuestion.question.data);
+                        }
+                    }} 
+                    >
+                    {questionElement}
+                </div>
+                <div className="marker"></div>
             </div>
         )
 

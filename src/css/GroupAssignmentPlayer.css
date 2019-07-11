@@ -33,17 +33,17 @@
 .group-options{
     text-align: center;
     display: inline-block;
-    background-color: white;
-    border: 2px solid #6c757d;
     height: 250px;
     position: absolute;
 }
 
 #question-drag{
-    background-color: #808080;
     position: absolute;
     text-align: center;
     line-height: 100px;
+    display: flex;
+    align-content: center;
+    align-items: center;
 }
 
 .before-drag{
@@ -94,7 +94,7 @@
     -moz-transition: -moz-box-shadow 0.15s ease-in;
     -o-transition: -o-box-shadow 0.15s ease-in;
     transition: box-shadow 0.15s ease-in;
-    margin-bottom: 20px;
+    background-color: #808080;    
 }
 
 .box:hover {
@@ -104,4 +104,11 @@
     -webkit-box-shadow: 2px 2px 19px #444;
     -moz-box-shadow: 2px 2px 19px #fff;
     opacity:0.9;
+}
+
+.marker {
+    height: 8px;
+    width: 8px;
+    background-color: black;
+    border-radius: 7px;
 }

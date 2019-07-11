@@ -51,6 +51,7 @@ export const BLANK_REUSED_ERROR="Same blank cannot be used more than once";
 
 // REORDER FORM
 export const ITEM="Item {number}";
+export const MATCH_ITEM="Item";
 
 // FREE_TEXT_INPUT FORM
 export const ENTER_ANSWER="Enter Answer";

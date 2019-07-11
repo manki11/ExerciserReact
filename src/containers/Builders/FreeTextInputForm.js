@@ -211,7 +211,7 @@ class FreeTextInputForm extends Component {
                         ...this.state,
                         questions: updatedQuestions,
                         currentQuestionNo: index + 1,
-                        isFormValid: false,
+                        isFormValid: true,
                         currentQuestion: {
                             id: index + 1,
                             question: question,
@@ -313,6 +313,7 @@ class FreeTextInputForm extends Component {
 
         this.setState({
             ...this.state,
+            isFormValid: true,
             currentQuestionNo: id,
             currentQuestion: currentQuestion
         })

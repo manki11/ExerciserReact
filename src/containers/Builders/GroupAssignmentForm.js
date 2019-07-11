@@ -6,7 +6,6 @@ import {FormattedMessage} from 'react-intl';
 import Select from 'react-select';
 import 'react-select/dist/react-select.css';
 import {
-    QUESTION,
     FINISH_EXERCISE,
     TITLE_OF_EXERCISE,
     NEXT_QUESTION,
@@ -16,7 +15,8 @@ import {
     QUESTION_ERROR,
     ANSWER_ERROR,
     GROUP_ASSIGNMENT,
-    TEXT
+    TEXT,
+    MATCH_ITEM
 } from "../translation";
 import {withRouter} from "react-router-dom";
 import "../../css/GroupAssignmentForm.css";
@@ -61,7 +61,6 @@ class GroupAssignmentForm extends Component {
             textToSpeech: 'text-to-speech',
             video: 'video'
         };
-
     }
 
     // in case of edit load the exercise
@@ -260,7 +259,7 @@ class GroupAssignmentForm extends Component {
                      this.setState({
                         ...this.state,
                         questions: updatedQuestions,
-                        isFormValid: false,
+                        isFormValid: true,
                         currentQuestionNo: index + 1,
                         currentQuestion: {
                             id: index + 1,
@@ -383,6 +382,7 @@ class GroupAssignmentForm extends Component {
         };
         this.setState({
             ...this.state,
+            isFormValid: true,
             currentQuestionNo: id,
             currentQuestion: currentQuestion
         })
@@ -679,7 +679,6 @@ class GroupAssignmentForm extends Component {
                                 <form onSubmit={this.handleNewEvent}>
                                     <div className="row">
                                         <div className="form-group">
-                                            <label htmlFor="title"><FormattedMessage id={TITLE_OF_EXERCISE}/></label>
                                             {thumbnail}
                                             <label htmlFor="title"><FormattedMessage id={TITLE_OF_EXERCISE}/></label>
                                             <button style={{display: 'none'}}/>
@@ -721,7 +720,7 @@ class GroupAssignmentForm extends Component {
                                     </div>
                                     <div className="row">
                                         <div className="form-group">
-                                            <label htmlFor="question">{id}. <FormattedMessage id={QUESTION}/>:</label>
+                                            <label htmlFor="question">{id}. <FormattedMessage id={MATCH_ITEM}/>:</label>
                                             {questionType && <button className="btn button-edit" 
                                                 onClick={() => {this.setState({...this.state, currentQuestion:{...currentQuestion, question:{type:'', data:''}}})}}>
                                             </button>}
