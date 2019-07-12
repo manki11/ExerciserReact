@@ -5,8 +5,8 @@ import {addScoreTime} from '../../store/actions/exercises';
 import "../../css/GroupAssignmentPlayer.css"
 import {SUBMIT_QUESTION, NEXT_QUESTION, FINISH_EXERCISE} from "../translation";
 import {FormattedMessage} from 'react-intl';
-import {jsPlumb} from 'jsplumb';
 import meSpeak from 'mespeak';
+import interact from 'interactjs'
 import withMultimedia from '../../components/WithMultimedia';
 
 class GroupAssignmentPlayer extends Component {
@@ -39,7 +39,6 @@ class GroupAssignmentPlayer extends Component {
             userans: [],
             userAnswers: []
         }
-        this.jsPlumbInstance = jsPlumb.getInstance();
         this.multimedia = {
             text: 'text',
             image: 'image',
@@ -89,23 +88,26 @@ class GroupAssignmentPlayer extends Component {
     }
 
     initDragDrop = () => {
-        this.jsPlumbInstance.draggable("question-drag", { 
-            containment: true,
-            drag: (e) => {
-                let ques = document.getElementById("question-drag");
-                ques.classList.remove("before-drag");
-                this.setState({
-                    ...this.state,
-                    selected: true
-                })
-            }
-        });
-    
-        let groupsDrop = document.getElementsByClassName("group-options");
-        this.jsPlumbInstance.droppable(groupsDrop, {
-            accept: "question",
-            drop: (e) => {
-                let index = e.drop.el.id.split('-')[1];
+        interact('.group-options').dropzone({
+            // only accept elements matching this CSS selector
+            accept: '#question-drag',
+            // Require a 75% element overlap for a drop to be possible
+            overlap: 0.52,
+        
+            // listen for drop related events:
+            ondragenter: (event) => {
+                var dropzoneElement = event.target;
+                dropzoneElement.classList.add("selected");
+            },
+
+            ondragleave: (event) => {
+                // remove the drop feedback style
+                var dropzoneElement = event.target;
+                dropzoneElement.classList.remove("selected");
+            },
+            ondrop: (event) => {
+                var dropzoneElement = event.target.id;
+                let index = dropzoneElement.split('-').pop();
                 let selectedAns = this.state.groups[index-1];
                 this.setState({
                     ...this.state,
@@ -113,11 +115,27 @@ class GroupAssignmentPlayer extends Component {
                 });
             }
         });
+        
+        interact('#question-drag').draggable({
+            inertia: true,
+            modifiers: [
+                interact.modifiers.restrict({
+                    restriction: document.getElementsByClassName('drag-drop')[0],
+                    endOnly: true,
+                    elementRect: { top: 0, left: 0, bottom: 1, right: 1 }
+                })
+            ],
+            autoScroll: true,
+            // dragMoveListener from the dragging demo above
+            onmove: this.dragMoveListener
+        });
     }   
 
 
     componentWillUnmount() {
         clearInterval(this.state.intervalID);
+        interact("#question-drag").unset();
+        interact(".group-options").unset();
     }
 
     // to measure time
@@ -164,8 +182,8 @@ class GroupAssignmentPlayer extends Component {
                     answer: nextQuestion.answer,
                 }
             },()=>{
-                this.jsPlumbInstance.setDraggable("question-drag", true);
-                this.initDragDrop();
+                interact("#question-drag").draggable(true);                
+                // this.initDragDrop();
             })
         }
 
@@ -214,6 +232,27 @@ class GroupAssignmentPlayer extends Component {
             audioElem.classList.remove("button-on");
             audioElem.classList.add("button-off");
         }
+    }
+
+
+    dragMoveListener = (event) => {
+        this.setState({
+            ...this.state,
+            selected: true
+        });
+
+        var target = event.target,
+            // keep the dragged position in the data-x/data-y attributes
+            x = (parseFloat(target.getAttribute('data-x')) || 0) + event.dx,
+            y = (parseFloat(target.getAttribute('data-y')) || 0) + event.dy;
+
+        // translate the element
+        target.style.webkitTransform = target.style.transform =
+            'translate(' + x + 'px, ' + y + 'px)';
+
+        // update the posiion attributes
+        target.setAttribute('data-x', x);
+        target.setAttribute('data-y', y);
     }
 
     render() {
@@ -286,12 +325,13 @@ class GroupAssignmentPlayer extends Component {
                 btnClass = 'correct-group';
             else  
                 btnClass = 'wrong-group';
-            this.jsPlumbInstance.setDraggable("question-drag", false);
+            interact("#question-drag").draggable(false);
         }
         let question = (
             <div name={id} id="question-drag"
-                className={`${!this.state.submitted && 'before-drag'}`}
+                className='before-drag'
                 answer = {currentQuestion.answer}>
+                <div className="marker"></div>
                 <div className={`box ${btnClass}`} id = "on-click"
                     onClick={(e)=>{
                         if( questionType === this.multimedia.textToSpeech) {
@@ -304,7 +344,6 @@ class GroupAssignmentPlayer extends Component {
                     >
                     {questionElement}
                 </div>
-                <div className="marker"></div>
             </div>
         )
 

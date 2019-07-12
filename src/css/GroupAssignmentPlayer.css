@@ -41,9 +41,6 @@
     position: absolute;
     text-align: center;
     line-height: 100px;
-    display: flex;
-    align-content: center;
-    align-items: center;
 }
 
 .before-drag{
@@ -107,8 +104,13 @@
 }
 
 .marker {
+    margin-left: 65px;
     height: 8px;
     width: 8px;
     background-color: black;
     border-radius: 7px;
+}
+
+.selected {
+    border: 2px dotted #808080;
 }
