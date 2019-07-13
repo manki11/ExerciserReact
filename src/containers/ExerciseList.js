@@ -52,6 +52,9 @@ class ExerciseList extends Component {
         if (exercise.type === 'FREE_TEXT_INPUT') {
             this.props.history.push('/edit/freeText', {exercise: exercise})
         }
+        if (exercise.type === 'MATCHING_PAIR') {
+            this.props.history.push('/edit/match', {exercise: exercise})
+        }
     };
 
     onShare = (id, shared) => {
@@ -82,6 +85,9 @@ class ExerciseList extends Component {
         }
         if (exercise.type === 'FREE_TEXT_INPUT') {
             this.props.history.push('/play/freeText', {exercise: exercise})
+        }
+        if (exercise.type === 'MATCHING_PAIR') {
+            this.props.history.push('/play/match', {exercise: exercise})
         }
     };
 

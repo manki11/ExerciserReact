@@ -1,3 +1,27 @@
+.form-group{
+    /*margin-top: 20px;*/
+}
+
+.choices-div{
+    display: inline-block;
+    width: 100%;
+}
+
+.choices-button{
+    width: 100%;
+}
+
+.choices-div{
+    width: 100%!important;
+    min-width: 350px;
+    display: inline-block!important;
+    margin: 10px;
+}
+
+.choices-row{
+    display: inline-block;
+}
+
 @media (min-width: 576px) {
     .jumbotron {
         padding: 2rem 1rem!important;
@@ -22,7 +46,7 @@
     background-color: #808080!important;
 }
 
-.group-container{
+.mcq-container{
     margin-top: 5%!important;
 }
 
@@ -30,46 +54,14 @@
     font-weight: bold !important;
 }
 
-.group-options{
-    text-align: center;
-    display: inline-block;
-    height: 250px;
-    position: absolute;
-}
-
-#question-drag{
-    position: absolute;
-    text-align: center;
-    line-height: 100px;
-}
-
-.before-drag{
-    top: 50%!important;
-    left: 50%!important;
-    margin-left: -50px;
-    margin-top: -50px;
-}
-
-.correct-group{
-    background-color: green!important;
-}
-
-.wrong-group{
-    background-color: red!important;
-}
-
-.matching-questions{
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    max-width: 100%;
-    max-height: 100%;
+.btn-outline-secondary {
+    color: #6c757d!important;
+    border-color: #6c757d!important;
 }
 
 .box {
+    background-color: white;
+    border: 1px solid #346789;
     text-align: center;
     z-index: 24;
     cursor: pointer;
@@ -89,7 +81,7 @@
     -moz-transition: -moz-box-shadow 0.15s ease-in;
     -o-transition: -o-box-shadow 0.15s ease-in;
     transition: box-shadow 0.15s ease-in;
-    background-color: #808080;    
+    margin-bottom: 20px;
 }
 
 .box:hover {
@@ -101,14 +93,34 @@
     opacity:0.9;
 }
 
-.marker {
-    margin-left: 65px;
-    height: 8px;
-    width: 8px;
-    background-color: black;
-    border-radius: 7px;
+.question{
+    margin-left: 20px;
 }
 
-.selected {
-    border: 2px dotted #808080;
+.answer{
+    margin-right: 40px;
+    position: absolute!important;
+    right:0;
+}
+
+.matching-answers{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.matching-questions{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    max-width: 100%;
+    max-height: 100%;
 }

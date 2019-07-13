@@ -173,6 +173,9 @@ class Scores extends Component {
         if (type === 'FREE_TEXT_INPUT') {
             this.props.history.push('/play/freeText', {exercise: exercise})
         }
+        if (type === 'MATCHING_PAIR') {
+            this.props.history.push('/play/match', {exercise: exercise})
+        }
     };
 
     score = () => {

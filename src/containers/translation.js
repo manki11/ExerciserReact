@@ -13,11 +13,13 @@ export const CLOZE_TEMPLATE_STRING= "Build an exercise with questions that have 
 export const REORDER_TEMPLATE_STRING= "Build an exercise with Jumbled Lists that need to be ordered.";
 export const GROUP_ASSIGNMENT_TEMPLATE_STRING= "Build an exercise with questions that needs to be placed in the correct group.";
 export const FREE_TEXT_INPUT_TEMPLATE_STRING= "Build an exercise with questions that have answers in text format.";
+export const MATCHING_PAIR_STRING= "Build an exercise to match questions with answers.";
 export const CHOOSE="Choose";
 export const MCQ="MCQ";
 export const REORDER_LIST="Reorder List";
 export const GROUP_ASSIGNMENT="Group Assignment";
 export const FREE_TEXT_INPUT="Free Text Input";
+export const MATCHING_PAIR="Matching Pair";
 
 // FORM VIEW
 
@@ -51,12 +53,14 @@ export const BLANK_REUSED_ERROR="Same blank cannot be used more than once";
 
 // REORDER FORM
 export const ITEM="Item {number}";
-export const MATCH_ITEM="Item";
 
 // FREE_TEXT_INPUT FORM
 export const ENTER_ANSWER="Enter Answer";
 export const ANSWER="Answer";
 
+// MATCHING_PAIR FROM
+export const MATCH_ITEM="Item";
+export const MATCHING_ITEM="Matching Item";
 
 // PLAYER VIEW
 

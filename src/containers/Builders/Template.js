@@ -9,12 +9,14 @@ import {
     REORDER_TEMPLATE_STRING,
     GROUP_ASSIGNMENT_TEMPLATE_STRING,
     FREE_TEXT_INPUT_TEMPLATE_STRING,
+    MATCHING_PAIR_STRING,
     CHOOSE,
     CLOZE_TEXT,
     MCQ,
     REORDER_LIST,
     GROUP_ASSIGNMENT,
-    FREE_TEXT_INPUT
+    FREE_TEXT_INPUT,
+    MATCHING_PAIR
 } from "../translation";
 
 const mcqSelected = (history) => {
@@ -36,6 +38,10 @@ const groupAssignmentSelected = (history) => {
 
 const freeTextSelected = (history) => {
     history.push('/new/freeText');
+}
+
+const matchingPairSelected = (history) => {
+    history.push('/new/match')
 };
 
 function Template(props) {
@@ -107,7 +113,8 @@ function Template(props) {
                                     </button>
                                 </div>
                             </div>
-                        </div><div className="col-sm-4">
+                        </div>
+                        <div className="col-sm-4">
                             <div className="card">
                                 <div className="card-img-container">
                                     <div className="card-img-top background-freetext"/>
@@ -118,6 +125,22 @@ function Template(props) {
                                         <FormattedMessage id={FREE_TEXT_INPUT_TEMPLATE_STRING}/>
                                     </p>
                                     <button className="button-choose" onClick={freeTextSelected.bind(null,props.history)}>
+                                    <FormattedMessage id={CHOOSE}/>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-sm-4">
+                            <div className="card">
+                                <div className="card-img-container">
+                                    <div className="card-img-top background-match"/>
+                                </div>
+                                <div className="card-body">
+                                    <h5 className="card-title"><FormattedMessage id={MATCHING_PAIR}/></h5>
+                                    <p className="card-text">
+                                        <FormattedMessage id={MATCHING_PAIR_STRING}/>
+                                    </p>
+                                    <button className="button-choose" onClick={matchingPairSelected.bind(null,props.history)}>
                                         <FormattedMessage id={CHOOSE}/>
                                     </button>
                                 </div>
