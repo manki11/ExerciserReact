@@ -167,6 +167,9 @@ class Scores extends Component {
         if (type === 'REORDER') {
             this.props.history.push('/play/reorder', {exercise: exercise})
         }
+        if (type === 'MATCHING_PAIR') {
+            this.props.history.push('/play/match', {exercise: exercise})
+        }
     };
 
     score = () => {

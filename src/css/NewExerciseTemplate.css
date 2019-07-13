@@ -43,6 +43,12 @@
     background-size: cover;
 }
 
+.background-match{
+    background: url("../images/matching_pair_image.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .button-choose{
     width: 50%;
     background-color: #808080;
@@ -55,10 +61,6 @@
     padding: 4px 6px;
     -moz-user-select: none;
     -webkit-user-select: none;
-}
-
-.template-container{
-    height: 100%;
 }
 
 .card-body{

@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
 import '../css/Exercise.css'
 import {FormattedMessage} from 'react-intl';
-import {QUESTIONS, BEST_SCORE, MCQ, REORDER_LIST, CLOZE_TEXT, QUESTION_SINGULAR, PLAY, EDIT, DELETE} from "../containers/translation";
+import {QUESTIONS, BEST_SCORE, MCQ, REORDER_LIST, CLOZE_TEXT, MATCHING_PAIR, QUESTION_SINGULAR, PLAY, EDIT, DELETE} from "../containers/translation";
 import cloze_background from '../images/cloze_image.svg'
 import mcq_background from '../images/mcq_image.svg'
 import reorder_background from '../images/list_reorder_image.svg'
+import macthing_pair_background from '../images/matching_pair_image.svg';
 
 class Exercise extends Component {
 
@@ -19,7 +20,8 @@ class Exercise extends Component {
         this.background = {
             'CLOZE':cloze_background,
             'MCQ':mcq_background,
-            'REORDER':reorder_background
+            'REORDER':reorder_background,
+            'MATCHING_PAIR': macthing_pair_background
         }
 
     }
@@ -50,7 +52,7 @@ class Exercise extends Component {
     };
 
     render() {
-        const {title, type, questions, scores, answers, list, isShared, isHost, shared} = this.props;
+        const {title, type, questions, scores, answers, list, isShared, isHost, shared, pairs} = this.props;
         let { thumbnail } = this.props; 
         
         let highest = 0;
@@ -107,6 +109,10 @@ class Exercise extends Component {
         if (type === "REORDER") {
             length = list.length;
             localized_type= REORDER_LIST;
+        }
+        if (type === "MATCHING_PAIR") {
+            length = pairs.length;
+            localized_type= MATCHING_PAIR;
         }
 
         let question_string=(<FormattedMessage id={QUESTIONS} values={{number: length}}/>);

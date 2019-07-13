@@ -46,6 +46,9 @@ class ExerciseList extends Component {
         if (exercise.type === 'REORDER') {
             this.props.history.push('/edit/reorder', {exercise: exercise})
         }
+        if (exercise.type === 'MATCHING_PAIR') {
+            this.props.history.push('/edit/match', {exercise: exercise})
+        }
     };
 
     onShare = (id, shared) => {
@@ -70,6 +73,9 @@ class ExerciseList extends Component {
         }
         if (exercise.type === 'REORDER') {
             this.props.history.push('/play/reorder', {exercise: exercise})
+        }
+        if (exercise.type === 'MATCHING_PAIR') {
+            this.props.history.push('/play/match', {exercise: exercise})
         }
     };
 

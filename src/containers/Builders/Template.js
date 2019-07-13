@@ -7,10 +7,12 @@ import {
     MCQ_TEMPLATE_STRING,
     CLOZE_TEMPLATE_STRING,
     REORDER_TEMPLATE_STRING,
+    MATCHING_PAIR_STRING,
     CHOOSE,
     CLOZE_TEXT,
     MCQ,
-    REORDER_LIST
+    REORDER_LIST,
+    MATCHING_PAIR
 } from "../translation";
 
 const mcqSelected = (history) => {
@@ -24,6 +26,10 @@ const clozeSelected = (history) => {
 
 const reorderSelected = (history) => {
     history.push('/new/reorder')
+};
+
+const matchingPairSelected = (history) => {
+    history.push('/new/match')
 };
 
 function Template(props) {
@@ -75,6 +81,22 @@ function Template(props) {
                                         <FormattedMessage id={REORDER_TEMPLATE_STRING}/>
                                     </p>
                                     <button className="button-choose" onClick={reorderSelected.bind(null,props.history)}>
+                                        <FormattedMessage id={CHOOSE}/>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-sm-4">
+                            <div className="card">
+                                <div className="card-img-container">
+                                    <div className="card-img-top background-match"/>
+                                </div>
+                                <div className="card-body">
+                                    <h5 className="card-title"><FormattedMessage id={MATCHING_PAIR}/></h5>
+                                    <p className="card-text">
+                                        <FormattedMessage id={MATCHING_PAIR_STRING}/>
+                                    </p>
+                                    <button className="button-choose" onClick={matchingPairSelected.bind(null,props.history)}>
                                         <FormattedMessage id={CHOOSE}/>
                                     </button>
                                 </div>
