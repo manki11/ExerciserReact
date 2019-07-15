@@ -46,7 +46,7 @@ class GroupAssignmentPlayer extends Component {
             textToSpeech: 'text-to-speech',
             video: 'video'
         };
-        this.colors = ["#f2eea5", "#b2f2a5", "#a5f2f2", "#f2a5a5"]
+        this.colors = ["#fff154", "#92f75c", "#639bf7", "#f74d4d"]
     }
 
     // load the exercise from props
@@ -236,6 +236,7 @@ class GroupAssignmentPlayer extends Component {
 
 
     dragMoveListener = (event) => {
+
         this.setState({
             ...this.state,
             selected: true
@@ -259,7 +260,7 @@ class GroupAssignmentPlayer extends Component {
         const {currentQuestion, groups} = this.state;
         const {showMedia} = this.props;
         const {id} = currentQuestion;
-        
+                
         let groupOptions = groups.map((group, index) => {
             let groupElement;
             if(group.type === this.multimedia.text)
@@ -319,6 +320,7 @@ class GroupAssignmentPlayer extends Component {
                     className = "matching-questions">  
                 </video>
             );
+
         let btnClass;
         if(this.state.submitted){
             if(this.state.selectedAns === currentQuestion.answer)
@@ -331,7 +333,7 @@ class GroupAssignmentPlayer extends Component {
             <div name={id} id="question-drag"
                 className='before-drag'
                 answer = {currentQuestion.answer}>
-                <div className="marker"></div>
+                {(this.state.selected || this.state.submitted ) && <div className="marker"></div>}
                 <div className={`box ${btnClass}`} id = "on-click"
                     onClick={(e)=>{
                         if( questionType === this.multimedia.textToSpeech) {
@@ -351,6 +353,14 @@ class GroupAssignmentPlayer extends Component {
         if (this.state.submitted) {
             buttonText = <FormattedMessage id={NEXT_QUESTION}/>;
             if (this.state.finish) buttonText = <FormattedMessage id={FINISH_EXERCISE}/>;
+        }
+
+        if((!(this.state.submitted || this.state.selected) && document.getElementById("question-drag"))){
+            let drag_object = document.getElementById("question-drag");
+            drag_object.style.webkitTransform =  drag_object.style.transform =
+            'translate(' + 0 + 'px, ' + 0 + 'px)';
+            drag_object.setAttribute('data-x', 0);
+            drag_object.setAttribute('data-y', 0);
         }
 
         return (

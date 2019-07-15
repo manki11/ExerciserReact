@@ -41,13 +41,14 @@
     position: absolute;
     text-align: center;
     line-height: 100px;
+    transform: 0;
 }
 
 .before-drag{
     top: 50%!important;
     left: 50%!important;
-    margin-left: -50px;
-    margin-top: -50px;
+    margin-left: -70px;
+    margin-top: -60px;
 }
 
 .correct-group{
