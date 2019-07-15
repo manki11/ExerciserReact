@@ -46,7 +46,7 @@ class GroupAssignmentPlayer extends Component {
             textToSpeech: 'text-to-speech',
             video: 'video'
         };
-        this.colors = ["#fff154", "#92f75c", "#639bf7", "#f74d4d"]
+        this.colors = ["#d3f6f3", "#f9fce1", "#fee9b2", "#fbd1b7"];
     }
 
     // load the exercise from props
@@ -150,7 +150,7 @@ class GroupAssignmentPlayer extends Component {
         let score = currentScore;
         let updatedUserans = userans;
         updatedUserans.push(selectedAns);
-        if (selectedAns === answer) score = score + 1;
+        if (selectedAns.type === answer.type && selectedAns.data === answer.data) score = score + 1;
         this.setState({
             selected: false,
             submitted: true,
@@ -257,9 +257,9 @@ class GroupAssignmentPlayer extends Component {
     }
 
     render() {
-        const {currentQuestion, groups} = this.state;
+        const {currentQuestion, groups, selectedAns} = this.state;
         const {showMedia} = this.props;
-        const {id} = currentQuestion;
+        const {id, answer} = currentQuestion;
                 
         let groupOptions = groups.map((group, index) => {
             let groupElement;
@@ -323,12 +323,13 @@ class GroupAssignmentPlayer extends Component {
 
         let btnClass;
         if(this.state.submitted){
-            if(this.state.selectedAns === currentQuestion.answer)
+            if(selectedAns.type === answer.type && selectedAns.data === answer.data)
                 btnClass = 'correct-group';
             else  
                 btnClass = 'wrong-group';
             interact("#question-drag").draggable(false);
         }
+
         let question = (
             <div name={id} id="question-drag"
                 className='before-drag'
