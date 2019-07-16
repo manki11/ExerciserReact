@@ -120,5 +120,6 @@
   "Correct / Wrong": "Correct / Mauvais",
   "Correct Answer": "Bonne réponse",
   "Your Answer": "Ta Réponse",
-  "Users": "Utilisatrices"
+  "Users": "Utilisatrices",
+  "Cannot delete group as it is being used in an answer": "Impossible de supprimer le groupe car il est utilisé dans une réponse"
 }

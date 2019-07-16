@@ -120,5 +120,6 @@
   "Correct / Wrong": "Correct / Wrong",
   "Correct Answer": "Correct Answer",
   "Your Answer": "Your Answer",
-  "Users": "Users"
+  "Users": "Users",
+  "Cannot delete group as it is being used in an answer": "Cannot delete group as it is being used in an answer"
 }

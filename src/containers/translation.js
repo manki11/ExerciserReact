@@ -61,6 +61,7 @@ export const ANSWER="Answer";
 // MATCHING_PAIR FROM
 export const MATCH_ITEM="Item";
 export const MATCHING_ITEM="Matching Item";
+export const GROUP_DELETE="Cannot delete group as it is being used in an answer";
 
 // PLAYER VIEW
 

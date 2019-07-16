@@ -16,7 +16,8 @@ import {
     ANSWER_ERROR,
     GROUP_ASSIGNMENT,
     TEXT,
-    MATCH_ITEM
+    MATCH_ITEM,
+    GROUP_DELETE
 } from "../translation";
 import {withRouter} from "react-router-dom";
 import "../../css/GroupAssignmentForm.css";
@@ -43,7 +44,8 @@ class GroupAssignmentForm extends Component {
             errors: {
                 question: false,
                 title: false,
-                groups: false
+                groups: false,
+                groupDel: false
             },
             groups:[{type:'', data: ''},{type:'', data: ''}],
             currentQuestion: {
@@ -99,7 +101,8 @@ class GroupAssignmentForm extends Component {
             groups: groups,
             errors: {
                 ...this.state.errors,
-                groups: error
+                groups: error,
+                groupDel: false
             }
         }, () => {
             this.checkFormValidation();
@@ -115,6 +118,10 @@ class GroupAssignmentForm extends Component {
         }
         this.setState({
             ...this.state,
+            errors:{
+                ...this.state.errors,
+                groupDel: false
+            },
             currentQuestion:{
                 ...this.state.currentQuestion,
                 correctGroup: value
@@ -135,7 +142,8 @@ class GroupAssignmentForm extends Component {
             title: e.target.value,
             errors: {
                 ...this.state.errors,
-                title: error
+                title: error,
+                groupDel: false
             }
         }, () => {
             this.checkFormValidation();
@@ -151,7 +159,8 @@ class GroupAssignmentForm extends Component {
             ...this.state,
             errors: {
                 ...this.state.errors,
-                question: error
+                question: error,
+                groupDel:false
             },
             currentQuestion: {
                 ...this.state.currentQuestion,
@@ -167,17 +176,42 @@ class GroupAssignmentForm extends Component {
 
     handleRemoveGroup = () => {
         const {groups} = this.state;
-        if (groups.length > 2) {
-            groups.pop();
+        if(this.groupAlreadyUsed()){
             this.setState({
                 ...this.state,
-                groups: groups
-                }, () => {
-                    this.checkFormValidation();
+                errors:{
+                    ...this.state.errors,
+                    groupDel: true
                 }
-            )
+            })
+        } else {
+            if (groups.length > 2) {
+                groups.pop();
+                this.setState({
+                    ...this.state,
+                    errors:{
+                        ...this.state.errors,
+                        groupDel: false
+                    },
+                    groups: groups
+                    }, () => {
+                        this.checkFormValidation();
+                    }
+                )
+            }
         }
     };
+
+    groupAlreadyUsed = () => {
+        const {questions, groups} = this.state;
+        let alreadyUsed = false;
+        questions.forEach((question)=>{
+            if(parseInt(question.correctGroup.split('-').pop(), 10) === groups.length){
+                alreadyUsed = true;
+            }
+        })
+        return alreadyUsed;
+    }
 
     handleNewGroup = () => {
         const {groups} = this.state;
@@ -185,6 +219,10 @@ class GroupAssignmentForm extends Component {
             this.setState(
                 this.setState({
                     ...this.state,
+                    errors:{
+                        ...this.state.errors,
+                        groupDel: false
+                    },
                     groups: [...groups, {type:'', data:''}],
                     }, () => {
                         this.checkFormValidation();
@@ -218,6 +256,10 @@ class GroupAssignmentForm extends Component {
             if (currentQuestionNo > noOfQuestions) {
                 this.setState({
                     ...this.state,
+                    errors:{
+                        ...this.state.errors,
+                        groupDel: false
+                    },
                     questions: [
                         ...this.state.questions,
                         Ques
@@ -243,6 +285,10 @@ class GroupAssignmentForm extends Component {
                 if (currentQuestionNo === noOfQuestions) {
                     this.setState({
                         ...this.state,
+                        errors:{
+                            ...this.state.errors,
+                            groupDel: false
+                        },
                         questions: updatedQuestions,
                         isFormValid: false,
                         currentQuestionNo: currentQuestionNo + 1,
@@ -258,6 +304,10 @@ class GroupAssignmentForm extends Component {
 
                      this.setState({
                         ...this.state,
+                        errors:{
+                            ...this.state.errors,
+                            groupDel: false
+                        },
                         questions: updatedQuestions,
                         isFormValid: true,
                         currentQuestionNo: index + 1,
@@ -382,6 +432,10 @@ class GroupAssignmentForm extends Component {
         };
         this.setState({
             ...this.state,
+            errors:{
+                ...this.state.errors,
+                groupDel: false
+            },
             isFormValid: true,
             currentQuestionNo: id,
             currentQuestion: currentQuestion
@@ -452,6 +506,10 @@ class GroupAssignmentForm extends Component {
         if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
             this.setState({
                 ...this.state,
+                errors:{
+                    ...this.state.errors,
+                    groupDel: false
+                },
                 currentQuestion:{
                     ...currentQuestion,
                     question: {
@@ -473,6 +531,10 @@ class GroupAssignmentForm extends Component {
             groups[groupNo] = {type: mediaType, data: ''};
             this.setState({
                 ...this.state,
+                errors:{
+                    ...this.state.errors,
+                    groupDel: false
+                },
                 groups: groups
             },() => {
                 this.checkFormValidation();
@@ -656,6 +718,7 @@ class GroupAssignmentForm extends Component {
         let title_error = '';
         let group_error = '';
         let question_error = '';
+        let group_delete = '';
 
         if (errors['title']) {
             title_error = <span style={{color: "red"}}><FormattedMessage id={TITLE_ERROR}/></span>;
@@ -665,6 +728,9 @@ class GroupAssignmentForm extends Component {
         }
         if (errors['question']) {
             question_error = <span style={{color: "red"}}><FormattedMessage id={QUESTION_ERROR}/></span>;
+        }
+        if (errors['groupDel']) {
+            group_delete = <span style={{color: "red"}}><FormattedMessage id={GROUP_DELETE}/></span>;
         }
         
         return (
@@ -700,6 +766,7 @@ class GroupAssignmentForm extends Component {
                                             <label htmlFor="Correct-Group">Groups: </label>
                                             {groupOptions}
                                             {group_error}
+                                            {group_delete}
                                         </div>
                                     </div>
                                     <div className="row">
