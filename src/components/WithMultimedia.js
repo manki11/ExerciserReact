@@ -69,6 +69,7 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
                         }
                         var dataentry = new datastore.DatastoreObject(entry.objectId);
                         dataentry.loadAsText((err, metadata, text) => {
+                            console.log(text);
                             this.setState({
                                 ...this.state,
                                 thumbnail: text
