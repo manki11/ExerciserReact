@@ -16,7 +16,6 @@ import {
     ENTER_ANSWER,
     FREE_TEXT_INPUT,
     ANSWER,
-    TEXT
 } from "../translation";
 import {withRouter} from "react-router-dom"
 import "../../css/FreeTextInputForm.css";
@@ -25,6 +24,8 @@ import chooser from 'lib/sugar-web/graphics/journalchooser';
 import env from 'lib/sugar-web/env';
 import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
+import {QuestionOptionsJSX} from '../../components/MultimediaJSX';
+import {QuestionJSX} from '../../components/MultimediaJSX';
 
 class FreeTextInputForm extends Component {
 
@@ -395,89 +396,8 @@ class FreeTextInputForm extends Component {
         const {currentQuestion, errors} = this.state;
         const {thumbnail, insertThumbnail, showMedia} = this.props;
         const {id} = currentQuestion;
+        let questionType = currentQuestion.question.type;
         let placeholder_string = ENTER_ANSWER; 
-
-        //Question-Options
-        let questionOptions = (
-            <div className="question-options">
-                <button className="btn button-question-options button-text col-md-2" 
-                    onClick={() => {
-                            this.selectQuestionType(this.multimedia.text)
-                        }}>
-                    <FormattedMessage id={TEXT}/>
-                </button>
-                <button className="btn button-question-options button-image col-md-2" 
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.image);
-                    }}>
-                </button>
-                <button className="btn button-question-options button-audio col-md-2" 
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.audio);
-                    }}>
-                </button>
-                <button className="btn button-question-options button-text-to-speech col-md-2" 
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.textToSpeech);
-                        }}>
-                </button>
-                <button className="btn button-question-options button-video col-md-2" 
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.video);
-                    }}>
-                </button>
-            </div>
-        );
-
-        let question;
-        let questionType = currentQuestion.question.type; 
-        if( questionType === this.multimedia.text)
-            question = (
-                <input
-                    className="input-mcq"
-                    type="text"
-                    id="question"
-                    value={currentQuestion.question.data}
-                    onChange={this.handleChangeQues}
-                />
-            );
-        if( questionType === this.multimedia.image)
-            question = (
-                <div className = "media-background">
-                <img src = {currentQuestion.question.data}
-                        style = {{height: '200px'}}
-                        onClick = {()=>{showMedia(currentQuestion.question.data)}}
-                        alt="Question"/>
-                </div>
-            );
-        if( questionType === this.multimedia.audio)
-            question = (
-                <audio src={currentQuestion.question.data} controls
-                        style={{width: '-webkit-fill-available'}}>
-                </audio>
-            );
-        if( questionType === this.multimedia.textToSpeech)
-            question = (
-                <div>
-                    <input
-                        className="input-text-to-speech"
-                        id="question"
-                        value={currentQuestion.question.data}
-                        onChange={this.handleChangeQues}
-                    />
-                    <button className="btn button-finish button-speaker button-off" 
-                            onClick={(e)=>{this.speak(e, currentQuestion.question.data)}}>
-                    </button>
-                </div>
-            );
-        if( questionType === this.multimedia.video)
-            question = (
-                <div className="media-background">
-                    <video src={currentQuestion.question.data} controls
-                            height="250px">
-                    </video>
-                </div>
-            );
 
         let title_error = '';
         let question_error = '';
@@ -528,8 +448,19 @@ class FreeTextInputForm extends Component {
                                             {questionType && <button className="btn button-edit" 
                                                 onClick={() => {this.setState({...this.state, currentQuestion:{...currentQuestion, question:{type:'', data:''}}})}}>
                                             </button>}
-                                            {!questionType && questionOptions}
-                                            {questionType && question}
+                                            {!questionType && 
+                                                    <QuestionOptionsJSX
+                                                        selectQuestionType = {this.selectQuestionType}
+                                                    />}
+                                            {questionType && 
+                                                <QuestionJSX
+                                                    questionType = {this.state.currentQuestion.question.type}
+                                                    questionData = {this.state.currentQuestion.question.data}
+                                                    showMedia = {showMedia}
+                                                    handleChangeQues = {this.handleChangeQues}
+                                                    speak = {this.speak}
+                                                />
+                                            }
                                             {question_error}
                                         </div>
                                     </div>

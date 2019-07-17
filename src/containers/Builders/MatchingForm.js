@@ -13,17 +13,19 @@ import {
     QUESTION_ERROR,
     MATCHING_PAIR,
     ANSWER_ERROR,
-    TEXT,
     MATCH_ITEM,
     MATCHING_ITEM
 } from "../translation";
 import {withRouter} from "react-router-dom";
 import "../../css/MatchingForm.css";
 import withMultimedia from '../../components/WithMultimedia';
+import {QuestionOptionsJSX} from '../../components/MultimediaJSX';
+import {QuestionJSX} from '../../components/MultimediaJSX';
 import datastore from 'lib/sugar-web/datastore';
 import chooser from 'lib/sugar-web/graphics/journalchooser';
 import env from 'lib/sugar-web/env';
 import meSpeak from 'mespeak';
+
 
 class MATCHING_PAIRForm extends Component {
 
@@ -442,178 +444,8 @@ class MATCHING_PAIRForm extends Component {
     render() {
         const {currentPair, errors} = this.state;
         const {thumbnail, insertThumbnail, showMedia} = this.props
-
-        //Question-Options
-        let questionOptions = (
-            <div className="question-options">
-                <button className="btn button-question-options button-text col-md-2" 
-                    onClick={() => {
-                            this.selectQuestionType(this.multimedia.text)
-                        }}>
-                    <FormattedMessage id={TEXT}/>
-                </button>
-                <button className="btn button-question-options button-image col-md-2" 
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.image);
-                    }}>
-                </button>
-                <button className="btn button-question-options button-audio col-md-2" 
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.audio);
-                    }}>
-                </button>
-                <button className="btn button-question-options button-text-to-speech col-md-2" 
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.textToSpeech);
-                        }}>
-                </button>
-                <button className="btn button-question-options button-video col-md-2" 
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.video);
-                    }}>
-                </button>
-            </div>
-        );
-        
-        let question;
-        let questionType = currentPair.question.type; 
-        if( questionType === this.multimedia.text)
-            question = (
-                <input
-                    className="input-mcq"
-                    type="text"
-                    id="question"
-                    value={currentPair.question.data}
-                    onChange={this.handleChangeQues}
-                />
-            );
-        if( questionType === this.multimedia.image)
-            question = (
-                <div className = "media-background">
-                   <img src = {currentPair.question.data}
-                        style = {{height: '200px'}}
-                        onClick = {()=>{showMedia(currentPair.question.data)}}
-                        alt="Question"/>
-                </div>
-            );
-        if( questionType === this.multimedia.audio)
-            question = (
-                <audio src={currentPair.question.data} controls
-                        style={{width: '-webkit-fill-available'}}>
-                </audio>
-            );
-        if( questionType === this.multimedia.textToSpeech)
-            question = (
-                <div>
-                    <input
-                        className="input-text-to-speech"
-                        id="question"
-                        value={currentPair.question.data}
-                        onChange={this.handleChangeQues}
-                    />
-                    <button className="btn button-finish button-speaker button-off" 
-                            onClick={(e)=>{this.speak(e, currentPair.question.data)}}>
-                    </button>
-                </div>
-            );
-        if( questionType === this.multimedia.video)
-            question = (
-                <div className="media-background">
-                    <video src={currentPair.question.data} controls
-                            height="250px">
-                    </video>
-                </div>
-            );
-
-        let answer;
-        let answerType;
-        // Answer-Options
-        if(!currentPair.answer.type)
-            answer = (
-                <div className="question-options">
-                    <button className="btn button-question-options button-text col-md-2" 
-                        onClick={() => {
-                                this.selectAnswerType(this.multimedia.text);
-                            }}>
-                        <FormattedMessage id={TEXT}/>
-                    </button>
-                    <button className="btn button-question-options button-image col-md-2" 
-                        onClick={() => {
-                            this.selectAnswerType(this.multimedia.image);
-                        }}>                            
-                    </button>
-                    <button className="btn button-question-options button-audio col-md-2" 
-                        onClick={() => {
-                            this.selectAnswerType(this.multimedia.audio);
-                            }}>                        
-                    </button>
-                    <button className="btn button-question-options button-text-to-speech col-md-2" 
-                        onClick={() => {
-                            this.selectAnswerType(this.multimedia.textToSpeech)}}>
-                    </button>
-                    <button className="btn button-question-options button-video col-md-2" 
-                        onClick={() => {
-                            this.selectAnswerType(this.multimedia.video);
-                        }}>
-                    </button>
-                </div>
-            );
-        else {
-            let answerElement;
-            answerType = currentPair.answer.type;
-            if( answerType === this.multimedia.text)
-                answerElement = (
-                    <input
-                        className="input-mcq"
-                        type="text"
-                        id="answer"
-                        value={currentPair.answer.data}
-                        onChange={this.handleChangeAns}
-                    />
-                );
-            if( answerType === this.multimedia.image)
-                answerElement = (
-                    <div className = "media-background">
-                    <img src = {currentPair.answer.data}
-                            style = {{height: '200px'}}
-                            onClick = {()=>{showMedia(currentPair.answer.data)}}
-                            alt="Question"/>
-                    </div>
-                );
-            if( answerType === this.multimedia.audio)
-                answerElement = (
-                    <audio src={currentPair.answer.data} controls
-                            style={{width: '-webkit-fill-available'}}>
-                    </audio>
-                );
-            if( answerType === this.multimedia.textToSpeech)
-                answerElement = (
-                    <div>
-                        <input
-                            className="input-text-to-speech"
-                            id="answer"
-                            value={currentPair.answer.data}
-                            onChange={this.handleChangeAns}
-                        />
-                        <button className="btn button-finish button-speaker button-off" 
-                                onClick={(e)=>{this.speak(e, currentPair.answer.data)}}>
-                        </button>
-                    </div>
-                );
-            if( answerType === this.multimedia.video)
-                answerElement = (
-                    <div className="media-background">
-                        <video src={currentPair.answer.data} controls
-                                height="250px">
-                        </video>
-                    </div>
-                );
-            answer = (
-                <div className="option">
-                    {answerElement}
-                </div>
-            )
-        };
+        let questionType = this.state.currentPair.question.type;
+        let answerType = this.state.currentPair.answer.type;
 
         let title_error = '';
         let question_error = '';
@@ -665,8 +497,19 @@ class MATCHING_PAIRForm extends Component {
                                                 {questionType && <button className="btn button-edit" 
                                                   onClick={() => {this.setState({...this.state, currentPair: {...currentPair, question:{type:'', data:''}}})}}>
                                                 </button>}
-                                                {!questionType && questionOptions}
-                                                {questionType && question}
+                                                {!questionType && 
+                                                    <QuestionOptionsJSX
+                                                        selectQuestionType = {this.selectQuestionType}
+                                                />}
+                                                {questionType && 
+                                                    <QuestionJSX
+                                                        questionType = {this.state.currentPair.question.type}
+                                                        questionData = {this.state.currentPair.question.data}
+                                                        showMedia = {showMedia}
+                                                        handleChangeQues = {this.handleChangeQues}
+                                                        speak = {this.speak}
+                                                    />
+                                                }
                                                 {question_error}
                                             </div>
                                         </div>
@@ -677,7 +520,19 @@ class MATCHING_PAIRForm extends Component {
                                                         style={{marginLeft: '5px'}}                               
                                                         onClick={()=>{this.resetAnswer()}}>
                                                 </button>}
-                                                {answer}
+                                                {!answerType && 
+                                                    <QuestionOptionsJSX
+                                                        selectQuestionType = {this.selectAnswerType}
+                                                />}
+                                                {answerType && 
+                                                    <QuestionJSX
+                                                        questionType = {this.state.currentPair.answer.type}
+                                                        questionData = {this.state.currentPair.answer.data}
+                                                        showMedia = {showMedia}
+                                                        handleChangeQues = {this.handleChangeAns}
+                                                        speak = {this.speak}
+                                                    />
+                                                }
                                                 {answer_error}
                                             </div>
                                         </div>
