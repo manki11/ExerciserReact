@@ -107,6 +107,12 @@
   "Text": "Texte",
   "Correct option": "Option correcte",
   "Wrong option": "Mauvaise option",
+  "Group Assignment": "Affectation de groupe",
+  "Free Text Input": "Entrée de texte libre",
+  "Build an exercise with questions that needs to be placed in the correct group.": "Construire un exercice avec des questions qui doivent être placées dans le bon groupe.",
+  "Build an exercise with questions that have answers in text format.": "Construire un exercice avec des questions qui ont des réponses au format texte.",
+  "Enter Answer": "Entrer une réponse",
+  "Answer": "Réponse",
   "Build an exercise to match questions with answers.": "Construisez un exercice pour faire correspondre les questions aux réponses.",
   "Matching Pair": "Paire assortie",
   "Item": "Article",
@@ -114,5 +120,6 @@
   "Correct / Wrong": "Correct / Mauvais",
   "Correct Answer": "Bonne réponse",
   "Your Answer": "Ta Réponse",
-  "Users": "Utilisatrices"
+  "Users": "Utilisatrices",
+  "Cannot delete group as it is being used in an answer": "Impossible de supprimer le groupe car il est utilisé dans une réponse"
 }

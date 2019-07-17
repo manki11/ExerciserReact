@@ -43,6 +43,18 @@
     background-size: cover;
 }
 
+.background-group{
+    background: url("../images/group_image.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.background-freetext{
+    background: url("../images/freetext_input_image.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .background-match{
     background: url("../images/matching_pair_image.svg");
     background-repeat: no-repeat;

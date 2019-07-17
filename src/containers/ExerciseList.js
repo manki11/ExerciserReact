@@ -46,6 +46,12 @@ class ExerciseList extends Component {
         if (exercise.type === 'REORDER') {
             this.props.history.push('/edit/reorder', {exercise: exercise})
         }
+        if (exercise.type === 'GROUP_ASSIGNMENT') {
+            this.props.history.push('/edit/group', {exercise: exercise})
+        }
+        if (exercise.type === 'FREE_TEXT_INPUT') {
+            this.props.history.push('/edit/freeText', {exercise: exercise})
+        }
         if (exercise.type === 'MATCHING_PAIR') {
             this.props.history.push('/edit/match', {exercise: exercise})
         }
@@ -73,6 +79,12 @@ class ExerciseList extends Component {
         }
         if (exercise.type === 'REORDER') {
             this.props.history.push('/play/reorder', {exercise: exercise})
+        }
+        if (exercise.type === 'GROUP_ASSIGNMENT') {
+            this.props.history.push('/play/group', {exercise: exercise})
+        }
+        if (exercise.type === 'FREE_TEXT_INPUT') {
+            this.props.history.push('/play/freeText', {exercise: exercise})
         }
         if (exercise.type === 'MATCHING_PAIR') {
             this.props.history.push('/play/match', {exercise: exercise})

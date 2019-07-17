@@ -1,10 +1,12 @@
 import React, {Component} from 'react';
 import '../css/Exercise.css'
 import {FormattedMessage} from 'react-intl';
-import {QUESTIONS, BEST_SCORE, MCQ, REORDER_LIST, CLOZE_TEXT, MATCHING_PAIR, QUESTION_SINGULAR, PLAY, EDIT, DELETE} from "../containers/translation";
+import {QUESTIONS, BEST_SCORE, MCQ, REORDER_LIST, CLOZE_TEXT, GROUP_ASSIGNMENT, FREE_TEXT_INPUT, QUESTION_SINGULAR, PLAY, EDIT, DELETE, MATCHING_PAIR} from "../containers/translation";
 import cloze_background from '../images/cloze_image.svg'
 import mcq_background from '../images/mcq_image.svg'
-import reorder_background from '../images/list_reorder_image.svg'
+import reorder_background from '../images/list_reorder_image.svg';
+import group_assignment_background from '../images/group_image.svg';
+import free_text_input_background from '../images/freetext_input_image.svg';
 import macthing_pair_background from '../images/matching_pair_image.svg';
 
 class Exercise extends Component {
@@ -21,6 +23,8 @@ class Exercise extends Component {
             'CLOZE':cloze_background,
             'MCQ':mcq_background,
             'REORDER':reorder_background,
+            'GROUP_ASSIGNMENT': group_assignment_background,
+            'FREE_TEXT_INPUT': free_text_input_background,
             'MATCHING_PAIR': macthing_pair_background
         }
 
@@ -109,6 +113,14 @@ class Exercise extends Component {
         if (type === "REORDER") {
             length = list.length;
             localized_type= REORDER_LIST;
+        }
+        if (type === "GROUP_ASSIGNMENT") {
+            length = questions.length;
+            localized_type= GROUP_ASSIGNMENT;
+        }
+        if (type === "FREE_TEXT_INPUT") {
+            length = questions.length;
+            localized_type= FREE_TEXT_INPUT;
         }
         if (type === "MATCHING_PAIR") {
             length = pairs.length;

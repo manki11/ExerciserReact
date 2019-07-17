@@ -107,6 +107,12 @@
   "Text": "Text",
   "Correct option": "Correct option",
   "Wrong option": "Wrong option",
+  "Group Assignment": "Group Assignment",
+  "Free Text Input": "Free Text Input",
+  "Build an exercise with questions that needs to be placed in the correct group.": "Build an exercise with questions that needs to be placed in the correct group.",
+  "Build an exercise with questions that have answers in text format.": "Build an exercise with questions that have answers in text format.",
+  "Enter Answer": "Enter Answer",
+  "Answer": "Answer",
   "Build an exercise to match questions with answers.": "Build an exercise to match questions with answers.",
   "Matching Pair": "Matching Pair",
   "Item": "Item",
@@ -114,5 +120,6 @@
   "Correct / Wrong": "Correct / Wrong",
   "Correct Answer": "Correct Answer",
   "Your Answer": "Your Answer",
-  "Users": "Users"
+  "Users": "Users",
+  "Cannot delete group as it is being used in an answer": "Cannot delete group as it is being used in an answer"
 }
