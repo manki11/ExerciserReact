@@ -1,6 +1,6 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {TEXT} from '../containers/translation';
+import {TEXT, WRONG_OPTION, CORRECT_OPTION} from '../containers/translation';
 
 let multimedia = {
     text: 'text',
@@ -96,4 +96,155 @@ export function QuestionJSX(props){
             </div>
         );
     return question;
+}
+
+export function AnswerOptionsJSX(props){
+
+    const {selectOptionType, resetOption, showMedia, speak, options, changeOrder, handleChangeOption, templateType} = props;
+    // Answer-Options
+    let answerOptions = options.map((option, i) => {
+        if(!option.type)
+            return (
+                <div className="question-options" key={`options-${i}`}>
+                    <label htmlFor={`answer-${i}`}>
+                        {i + 1}
+                    </label>
+                    <button className="btn button-answer-options button-text col-md-1" 
+                        onClick={() => {
+                                selectOptionType(multimedia.text, i);
+                            }}>
+                        <FormattedMessage id={TEXT}/>
+                    </button>
+                    <button className="btn button-answer-options button-image col-md-1" 
+                        onClick={() => {
+                            selectOptionType(multimedia.image, i);
+                        }}>                            
+                    </button>
+                    <button className="btn button-answer-options button-audio col-md-1" 
+                        onClick={() => {
+                            selectOptionType(multimedia.audio, i);
+                            }}>                        
+                    </button>
+                    <button className="btn button-answer-options button-text-to-speech col-md-1" 
+                        onClick={() => {
+                            selectOptionType(multimedia.textToSpeech, i)}}>
+                    </button>
+                    <button className="btn button-answer-options button-video col-md-1" 
+                        onClick={() => {
+                            selectOptionType(multimedia.video, i);
+                        }}>
+                    </button>
+                    {templateType === 'MCQ' && <span className = "options-placeholder">
+                        <FormattedMessage id={i===0?CORRECT_OPTION:WRONG_OPTION}/>
+                    </span>}
+                    {templateType === 'REORDER' &&  
+                        <div style={{float: 'right'}}>
+                            <button className="up-down-button up-button" onClick={()=>changeOrder(i,i-1)}/>
+                            <button className="up-down-button down-button" onClick={()=>changeOrder(i,i+1)}/>
+                        </div>
+                    }
+                </div>
+            );
+        else {
+            let optionElement;
+            let optionsType = option.type;
+            if( optionsType === multimedia.text)
+                optionElement = (
+                    <div className="answers">
+                        <input
+                            className="answers input-ans"
+                            type="text"
+                            id="option"
+                            name={`option-${i}`}
+                            value={option.data}
+                            onChange={handleChangeOption}
+                            style={{width: 'auto'}}
+                        />
+                        <button className="btn button-choices-edit" 
+                                style={{marginLeft: '5px'}}                               
+                                onClick={()=>{resetOption(i)}}>
+                        </button>
+                    </div>
+                );
+            if( optionsType === multimedia.image)
+                optionElement = (
+                    <div className="answers">
+                        <div className = "media-background answers">
+                            <img src = {option.data}
+                                    style = {{height: '100px'}}
+                                    onClick = {()=>{showMedia(option.data)}}
+                                    alt="Option"/>
+                        </div>                    
+                        <button className="btn button-choices-edit" 
+                                style={{marginLeft: '5px'}}                               
+                                onClick={()=>{resetOption(i)}}>
+                        </button>
+                    </div>    
+                );
+            if( optionsType === multimedia.audio)
+                optionElement = (
+                    <div className="answers" style={{marginBottom: '10px'}}>
+                        <audio  className="answers vertical-align"
+                                src={option.data}
+                                controls>
+                        </audio>
+                        <button className="btn button-choices-edit" 
+                                style={{marginLeft: '5px'}}                               
+                                onClick={()=>{resetOption(i)}}>
+                        </button>
+                    </div>
+                );
+            if( optionsType === multimedia.textToSpeech)
+                optionElement = (
+                    <div className="answers">
+                        <input
+                            className="answers input-ans"
+                            id="option"
+                            type="text"
+                            name={`option-${i}`}
+                            value={option.data}
+                            onChange={handleChangeOption}
+                            style={{width: 'auto'}}
+                        />
+                        <button className="btn button-finish button-speaker button-off" 
+                                onClick={(e)=>{speak(e, option.data)}}>
+                        </button>
+                        <button className="btn button-choices-edit" 
+                                style={{marginLeft: '5px'}}                               
+                                onClick={()=>{resetOption(i)}}>
+                        </button>
+                    </div>
+                );
+            if( optionsType === multimedia.video)
+                optionElement = (
+                    <div className="answers">
+                        <div className="media-background answers vertical-align">
+                            <video src={option.data} controls
+                                    height="100px">
+                            </video>
+                        </div>
+                        <button className="btn button-choices-edit" 
+                                style={{marginLeft: '5px'}}                               
+                                onClick={()=>{resetOption(i)}}>
+                        </button>
+                    </div>
+                );
+            return (
+                <div className="option" key={`options-${i}`}>
+                    <label htmlFor={`answer-${i}`}>
+                        {i + 1}
+                    </label>
+                    {optionElement}
+                    {templateType === 'REORDER' &&  
+                        <div style={{float: 'right'}}>
+                            <button className="up-down-button up-button" onClick={()=>changeOrder(i,i-1)}/>
+                            <button className="up-down-button down-button" onClick={()=>changeOrder(i,i+1)}/>
+                        </div>
+                    }
+                </div>
+            )
+        }
+    });
+
+    return answerOptions;
 }
