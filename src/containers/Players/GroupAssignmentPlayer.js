@@ -55,7 +55,6 @@ class GroupAssignmentPlayer extends Component {
             let intervalId = setInterval(this.timer, 1000);
             const {id, title, questions, scores, times, groups, userLanguage} = this.props.location.state.exercise;
             const currentQuestion = questions[0];
-
             let finish = false;
             if (questions.length === 1) finish = true;
 
@@ -329,7 +328,6 @@ class GroupAssignmentPlayer extends Component {
                 btnClass = 'wrong-group';
             interact("#question-drag").draggable(false);
         }
-
         let question = (
             <div name={id} id="question-drag"
                 className='before-drag'

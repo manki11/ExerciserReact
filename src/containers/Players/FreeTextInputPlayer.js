@@ -6,6 +6,7 @@ import "../../css/FreeTextInputPlayer.css";
 import {FINISH_EXERCISE, SUBMIT_QUESTION} from "../translation";
 import {FormattedMessage} from 'react-intl';
 import withMultimedia from '../../components/WithMultimedia';
+import {PlayerMultimediaJSX} from '../../components/MultimediaJSX';
 import meSpeak from 'mespeak';
 
 class FreeTextInputPlayer extends Component {
@@ -170,44 +171,7 @@ class FreeTextInputPlayer extends Component {
         if (this.state.submitted) buttonText = <FormattedMessage id={FINISH_EXERCISE}/>
 
         let freeTextQuestions = questions.map((currentQuestion, index) => {
-
-            let questionElement;
-            let questionType = currentQuestion.question.type; 
-            if( questionType === this.multimedia.text)
-                questionElement = (
-                    <p style={{overflow: 'auto'}}>
-                        {currentQuestion.question.data}
-                    </p>
-                );
-            if( questionType === this.multimedia.image)
-                questionElement = (
-                    <img src = {currentQuestion.question.data}
-                        className = "matching-questions"                      
-                        onClick = {()=>{showMedia(currentQuestion.question.data)}}
-                        alt="Question"/>
-                );
-            if( questionType === this.multimedia.audio)
-                questionElement = (
-                    <audio 
-                        src={currentQuestion.question.data} controls>
-                    </audio>
-                );
-            if( questionType === this.multimedia.textToSpeech) {
-                questionElement = (
-                    <img className="button-off matching-questions"
-                        onClick={(e)=>{this.speak(e.target, currentQuestion.question.data)}}
-                        alt="text-to-speech-question"
-                    />
-                );
-            }
-            if( questionType === this.multimedia.video)
-                questionElement = (
-                    <video src={currentQuestion.question.data} controls
-                            onClick={()=>{showMedia(currentQuestion.question.data, this.multimedia.video)}}
-                        className = "matching-questions">  
-                    </video>
-                );
-
+            let questionType = currentQuestion.question.type;
             if (this.state.submitted) {
                 let ans = 'wrong';
                 if (this.state.checkans[index]) ans = 'right';
@@ -216,7 +180,13 @@ class FreeTextInputPlayer extends Component {
                         <div className="freetext-question-container"
                             style={{ minHeight: `${(questionType === this.multimedia.image ||questionType === this.multimedia.video)?'80px':''}`}}
                             >
-                            {index+1}.{questionElement}
+                            {index+1}.
+                            <PlayerMultimediaJSX
+                                questionType = {questionType}
+                                questionData = {currentQuestion.question.data}
+                                speak = {this.speak}
+                                showMedia = {showMedia}
+                            />
                         </div>
                         <div className={"freetext-div checked-ans " + ans}>
                             {this.state.userans[index]}
@@ -229,7 +199,14 @@ class FreeTextInputPlayer extends Component {
                         <div className="freetext-question-container"
                             style={{ minHeight: `${(questionType === this.multimedia.image ||questionType === this.multimedia.video)?'80px':''}`}}                        
                             >
-                            {index+1}.{questionElement}
+                            {index+1}.
+                            <PlayerMultimediaJSX
+                                questionType = {questionType}
+                                questionData = {currentQuestion.question.data}
+                                speak = {this.speak}
+                                showMedia = {showMedia}
+                                willSpeak = {true}
+                            />
                         </div>
                         <input
                             className="input-freeText"

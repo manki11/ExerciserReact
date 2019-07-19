@@ -248,3 +248,47 @@ export function AnswerOptionsJSX(props){
 
     return answerOptions;
 }
+
+export function PlayerMultimediaJSX(props){
+
+    const {questionType, questionData, showMedia, speak, willSpeak} = props;
+    let questionElement;
+    if( questionType === multimedia.text)
+        questionElement = (
+            <p style={{overflow: 'auto'}}>
+                {questionData}
+            </p>
+        );
+    if( questionType === multimedia.image)
+        questionElement = (
+            <img src = {questionData}
+                className = "matching-questions"                      
+                onClick = {()=>{showMedia(questionData)}}
+                alt="Question"/>
+        );
+    if( questionType === multimedia.audio)
+        questionElement = (
+            <audio 
+                src={questionData} controls>
+            </audio>
+        );
+    if( questionType === multimedia.textToSpeech) {
+        questionElement = (
+            <img className="button-off matching-questions"
+                onClick={(e)=>{
+                    if(willSpeak)
+                        speak(e.target, questionData);
+                    }}
+                alt="text-to-speech-question"
+            />
+        );
+    }
+    if( questionType === multimedia.video)
+        questionElement = (
+            <video src={questionData} controls
+                    onClick={()=>{showMedia(questionData, multimedia.video)}}
+                className = "matching-questions">  
+            </video>
+        );
+    return questionElement;
+}
