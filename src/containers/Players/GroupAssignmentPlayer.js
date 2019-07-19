@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import meSpeak from 'mespeak';
 import interact from 'interactjs'
 import withMultimedia from '../../components/WithMultimedia';
+import {PlayerMultimediaJSX} from '../../components/MultimediaJSX';
 
 class GroupAssignmentPlayer extends Component {
 
@@ -55,6 +56,7 @@ class GroupAssignmentPlayer extends Component {
             let intervalId = setInterval(this.timer, 1000);
             const {id, title, questions, scores, times, groups, userLanguage} = this.props.location.state.exercise;
             const currentQuestion = questions[0];
+            console.log(currentQuestion);
             let finish = false;
             if (questions.length === 1) finish = true;
 
@@ -283,43 +285,15 @@ class GroupAssignmentPlayer extends Component {
             )
         });
  
-        let questionElement;
+        let questionElement = PlayerMultimediaJSX({
+            questionType: this.state.currentQuestion.question.type,
+            questionData: this.state.currentQuestion.question.data,
+            speak: this.speak,
+            showMedia: showMedia,
+            willSpeak: false,
+            className: 'matching-questions'
+        });
         let questionType = currentQuestion.question.type; 
-        if( questionType === this.multimedia.text)
-            questionElement = (
-                <p
-                    style={{lineHeight: '110px'}}>
-                {currentQuestion.question.data}</p>
-            );
-        if( questionType === this.multimedia.image)
-            questionElement = (
-                <img src = {currentQuestion.question.data}
-                    className = "matching-questions"                      
-                    onClick = {()=>{showMedia(currentQuestion.question.data)}}
-                    alt="Question"/>
-            );
-        if( questionType === this.multimedia.audio)
-            questionElement = (
-                <audio 
-                    className = "matching-questions"
-                    src={currentQuestion.question.data} controls>
-                </audio>
-            );
-        if( questionType === this.multimedia.textToSpeech) {
-            questionElement = (
-                <img className="button-off matching-questions"
-                    alt="text-to-speech-question"
-                />
-            );
-        }
-        if( questionType === this.multimedia.video)
-            questionElement = (
-                <video src={currentQuestion.question.data} controls
-                        onClick={()=>{showMedia(currentQuestion.question.data, this.multimedia.video)}}
-                    className = "matching-questions">  
-                </video>
-            );
-
         let btnClass;
         if(this.state.submitted){
             if(selectedAns.type === answer.type && selectedAns.data === answer.data)
@@ -328,6 +302,7 @@ class GroupAssignmentPlayer extends Component {
                 btnClass = 'wrong-group';
             interact("#question-drag").draggable(false);
         }
+       
         let question = (
             <div name={id} id="question-drag"
                 className='before-drag'

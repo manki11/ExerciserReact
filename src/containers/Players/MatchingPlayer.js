@@ -300,6 +300,7 @@ class MATCHING_PAIRPLAYER extends Component {
                             speak = {this.speak}
                             showMedia = {showMedia}
                             willSpeak = {false}
+                            className = {'matching-questions'}
                         />
                     </div>
                     <div className="col-md-3 col-sm-3 box answer" id={`answer-display-${index+1}`}
@@ -316,6 +317,7 @@ class MATCHING_PAIRPLAYER extends Component {
                             questionData = {this.state.answers[index].data}
                             speak = {this.speak}
                             showMedia = {showMedia}
+                            className = {'matching-questions'}
                         />
                     </div>  
                 </div>

@@ -251,7 +251,7 @@ export function AnswerOptionsJSX(props){
 
 export function PlayerMultimediaJSX(props){
 
-    const {questionType, questionData, showMedia, speak, willSpeak} = props;
+    const {questionType, questionData, showMedia, speak, willSpeak, className, height} = props;
     let questionElement;
     if( questionType === multimedia.text)
         questionElement = (
@@ -262,19 +262,22 @@ export function PlayerMultimediaJSX(props){
     if( questionType === multimedia.image)
         questionElement = (
             <img src = {questionData}
-                className = "matching-questions"                      
+                className = {`${className}`}               
                 onClick = {()=>{showMedia(questionData)}}
-                alt="Question"/>
+                alt="Question"
+                height = {height}
+                />
         );
     if( questionType === multimedia.audio)
         questionElement = (
             <audio 
+                className='width-audio'
                 src={questionData} controls>
             </audio>
         );
     if( questionType === multimedia.textToSpeech) {
         questionElement = (
-            <img className="button-off matching-questions"
+            <img className={` button-off ${className}`} 
                 onClick={(e)=>{
                     if(willSpeak)
                         speak(e.target, questionData);
@@ -287,7 +290,8 @@ export function PlayerMultimediaJSX(props){
         questionElement = (
             <video src={questionData} controls
                     onClick={()=>{showMedia(questionData, multimedia.video)}}
-                className = "matching-questions">  
+                className = {`${className}`}
+                height = {height}>  
             </video>
         );
     return questionElement;

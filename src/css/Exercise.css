@@ -143,3 +143,7 @@ button:hover:disabled{
     height: 200px;
     overflow: hidden;
 }
+
+.width-audio{
+    width: -webkit-fill-available;
+}

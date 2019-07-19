@@ -7,6 +7,7 @@ import {SUBMIT_QUESTION, NEXT_QUESTION, FINISH_EXERCISE} from "../translation";
 import {FormattedMessage} from 'react-intl';
 import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
+import {PlayerMultimediaJSX} from '../../components/MultimediaJSX';
 
 class MCQPlayer extends Component {
 
@@ -215,60 +216,15 @@ class MCQPlayer extends Component {
         const {showMedia} = this.props;
         const {id} = currentQuestion;
 
-        let question;
-        let questionType = currentQuestion.question.type; 
-        if( questionType === this.multimedia.text)
-            question = (
-               <p>{id}. {currentQuestion.question.data}</p>
-            );
-        if( questionType === this.multimedia.image)
-            question = (
-                <div>
-                    {id}.
-                    <p style = {{textAlign: 'center'}}>
-                        <img src = {currentQuestion.question.data}
-                            style = {{height: '200px'}}
-                            onClick = {()=>{showMedia(currentQuestion.question.data)}}
-                            alt="Question"/>
-                    </p>
-                </div>
-            );
-        if( questionType === this.multimedia.audio)
-            question = (
-                <div>
-                    {id}.
-                    <p style = {{textAlign: 'center'}}>
-                        <audio src={currentQuestion.question.data} controls>
-                        </audio>
-                    </p>
-                </div>
-                
-            );
-        if( questionType === this.multimedia.textToSpeech) {
-            question = (
-                <div>
-                    {id}.
-                    <span style={{marginLeft: '10px'}}>
-                        <img className="button-off"
-                            onClick={(e)=>{this.speak(e.target, currentQuestion.question.data)}}
-                            alt="text-to-speech-question"
-                        />
-                    </span>
-                </div>
-                
-            );
-        }
-        if( questionType === this.multimedia.video)
-            question = (
-                <div>
-                    {id}.
-                    <p style = {{textAlign: 'center'}}>
-                        <video src={currentQuestion.question.data} controls
-                            height="250px">
-                        </video>
-                    </p>
-                </div>
-            );
+        let question = PlayerMultimediaJSX({
+            questionType: this.state.currentQuestion.question.type,
+            questionData: this.state.currentQuestion.question.data,
+            speak: this.speak,
+            showMedia: showMedia,
+            willSpeak: true,
+            className: '',
+            height: '100px',
+        });
 
         let choices = currentQuestion.options.map((option, i) => {
             let btn = 'btn-outline-secondary';
@@ -289,37 +245,16 @@ class MCQPlayer extends Component {
                     }
                 }
             }
-            let optionElement;
             let optionsType = option.type;
-            if( optionsType === this.multimedia.text)
-                optionElement = option.data;
-            if( optionsType === this.multimedia.image)
-                optionElement = (
-                    <img src = {option.data}
-                            style = {{height: '100px'}}
-                            onClick = {()=>{showMedia(option.data)}}
-                            alt="Option"/>
-                );
-            if( optionsType === this.multimedia.audio)
-                optionElement = (
-                    <audio  className="audio-option"
-                            src={option.data}
-                            controls>
-                    </audio>
-                );
-            if( optionsType === this.multimedia.textToSpeech) {
-                optionElement = (
-                    <img className="button-off"
-                        alt="text-to-speech-option"
-                    />
-                );
-            }
-            if( optionsType === this.multimedia.video)
-                optionElement = (
-                    <video  src={option.data} controls
-                            height="100px">
-                    </video>
-                );
+            let optionElement = PlayerMultimediaJSX({
+                questionType: option.type,
+                questionData: option.data,
+                speak: this.speak,
+                showMedia: showMedia,
+                willSpeak: false,
+                className: '',
+                height: '100px'
+            });
             return (
                 <div className="choices col-md-6" key={`answers-${i}` }>
                         <input type="radio" 
@@ -371,7 +306,12 @@ class MCQPlayer extends Component {
                             <div className="jumbotron">
                                 <p className="lead">{this.state.title}</p>
                                 <hr className="my-4"/>
-                                {question}
+                                <div>
+                                    {id}.
+                                    <span style={{textAlign: "center"}}>
+                                        {question}
+                                    </span>
+                                </div>
                             </div>
                             <div className="col-md-12">
                                 {choices}

@@ -206,6 +206,7 @@ class FreeTextInputPlayer extends Component {
                                 speak = {this.speak}
                                 showMedia = {showMedia}
                                 willSpeak = {true}
+                                className = {'matching-questions'}
                             />
                         </div>
                         <input
