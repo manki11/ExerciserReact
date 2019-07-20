@@ -425,9 +425,9 @@ class MCQForm extends Component {
                             });
                         }
                     });
-                }, (image?{mimetype: 'image/png'}:null),
-                    (image?{mimetype: 'image/jpeg'}:null),
-                    (audio?{mimetype: 'audio/wav'}:null),
+                }, (image?{mimetype: 'image/png'}:audio?{mimetype: 'audio/mp3'}:null),
+                    (image?{mimetype: 'image/jpeg'}:audio?{mimetype: 'audio/mpeg'}:null),
+                    (audio?{mimetype: 'audio/wav'}:video?{mimetype: 'video/mp4'}:null),
                     (video?{mimetype: 'video/webm'}:null));
             }
         });
