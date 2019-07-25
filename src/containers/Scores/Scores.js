@@ -11,6 +11,7 @@ import {SCORES,
 import "../../css/PresenceScores.css"
 import "../../css/Scores.css"
 import withScoreHOC from './ScoreHoc';
+import { Tutorial } from "../../components/Tutorial";
 
 class Scores extends Component {
 
@@ -272,6 +273,29 @@ class Scores extends Component {
         let score = (<button type="button" className={"score-button " + score_active} onClick={this.score}/>);
         let time = (<button type="button" className={"time-button " + time_active} onClick={this.time}/>);
         let detail = (<button type="button" className={"detail-button " + detail_active} onClick={this.detail}/>);
+        
+        let displayTutorial = true;
+        let history = this.props.history.entries.slice();
+        history.pop(); 
+        history.forEach((entry)=>{
+                if(entry.pathname === this.props.history.location.pathname) {
+                    displayTutorial = false;
+            }
+        });
+        let tourConfig = [
+            {
+                selector: '.score-button',
+                content: ['Scores', 'Shows a graphical representation of the fraction of questions answered correctly.']
+            },
+            {
+                selector: '.time-button',
+                content: ['Time', 'Shows a graphical representation of the time taken.']
+            },
+            {
+                selector: '.detail-button',
+                content: ['Detailed Result', 'Comparison of your answers against the correct answers.']
+            }
+        ]
 
         return (
             <div className="container">
@@ -286,6 +310,7 @@ class Scores extends Component {
                         <button className="button-redo" onClick={this.redo}/>
                     </div>
                 </div>
+                {displayTutorial && <Tutorial tourConfig = {tourConfig}/>}
             </div>
         )
     }
