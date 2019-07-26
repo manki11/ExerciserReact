@@ -439,6 +439,59 @@ class MATCHING_PAIRForm extends Component {
         });
     }
 
+    onDeletePair = () => {
+        const {currentPair, pairs} = this.state;
+        let updatedPair = [];
+        let newCurrentPair; 
+
+        if((pairs.length === 0 || pairs.length === 1) && currentPair.id ===1){
+            updatedPair = [];
+            newCurrentPair = {
+                id: 1,
+                question: {
+                    type:'',
+                    data: ''
+                },
+                answer:  {
+                    type:'',
+                    data: ''
+                }
+            }
+        }
+        else if(currentPair.id > pairs.length){
+            newCurrentPair = pairs[pairs.length-1];
+            updatedPair = pairs;
+        } else {
+            pairs.forEach((pair)=>{
+                if(pair.id !== currentPair.id)
+                    updatedPair.push(pair);
+            })
+            updatedPair = updatedPair.map((pair, index)=>{
+                if(pair.id !== (index+1)){
+                    pair.id = index+1;
+                    return pair;
+                }
+                return pair;
+            })
+    
+            if(currentPair.id === (updatedPair.length+1)){
+                newCurrentPair = updatedPair[currentPair.id-2];
+            } else {
+                newCurrentPair = updatedPair[currentPair.id-1];
+            }
+        }
+
+        this.setState({
+            ...this.state,
+            pairs: updatedPair,
+            noOfQuestions: updatedPair.length,
+            currentPair: newCurrentPair,
+            currentPairNo: newCurrentPair.id
+        }, ()=>{
+            this.checkFormValidation();
+        })
+    }
+
     render() {
         const {currentPair, errors} = this.state;
         const {thumbnail, insertThumbnail, showMedia} = this.props
@@ -662,6 +715,10 @@ class MATCHING_PAIRForm extends Component {
                                                 <p><strong>Pair - {currentPair.id}</strong></p>
                                                 <hr className="my-3"/>
                                                 <label htmlFor="question"><FormattedMessage id={MATCH_ITEM}/>:</label>
+                                                <button className="btn button-delete"
+                                                    onClick={this.onDeletePair}
+                                                    disabled={this.state.pairs.length ===0}
+                                                    />
                                                 {questionType && <button className="btn button-edit" 
                                                   onClick={() => {this.setState({...this.state, currentPair: {...currentPair, question:{type:'', data:''}}})}}>
                                                 </button>}

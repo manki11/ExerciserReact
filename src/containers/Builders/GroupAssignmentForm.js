@@ -557,6 +557,54 @@ class GroupAssignmentForm extends Component {
         }
     }
 
+    onDeleteQuestion = () => {
+        const {currentQuestion, questions} = this.state;
+        let updatedQuestions = [];
+        let newCurrentQuestion; 
+
+        if((questions.length === 0 || questions.length === 1) && currentQuestion.id ===1){
+            updatedQuestions = [];
+            newCurrentQuestion = {
+                id: 1,
+                question: {type:'', data: ''},
+                answer: {type:'', data: ''},
+                correctGroup: ''
+            }
+        }
+        else if(currentQuestion.id > questions.length){
+            newCurrentQuestion = questions[questions.length-1];
+            updatedQuestions = questions;
+        } else {
+            questions.forEach((question)=>{
+                if(question.id !== currentQuestion.id)
+                    updatedQuestions.push(question);
+            })
+            updatedQuestions = updatedQuestions.map((question, index)=>{
+                if(question.id !== (index+1)){
+                    question.id = index+1;
+                    return question;
+                }
+                return question;
+            })
+    
+            if(currentQuestion.id === (updatedQuestions.length+1)){
+                newCurrentQuestion = updatedQuestions[currentQuestion.id-2];
+            } else {
+                newCurrentQuestion = updatedQuestions[currentQuestion.id-1];
+            }
+        }
+
+        this.setState({
+            ...this.state,
+            questions: updatedQuestions,
+            noOfQuestions: updatedQuestions.length,
+            currentQuestion: newCurrentQuestion,
+            currentQuestionNo: newCurrentQuestion.id
+        }, ()=>{
+            this.checkFormValidation();
+        })
+    }
+
     render() {
         const {currentQuestion, errors, groups} = this.state;
         const {id} = currentQuestion;
@@ -788,6 +836,10 @@ class GroupAssignmentForm extends Component {
                                     <div className="row">
                                         <div className="form-group">
                                             <label htmlFor="question">{id}. <FormattedMessage id={MATCH_ITEM}/>:</label>
+                                            <button className="btn button-delete"
+                                                onClick={this.onDeleteQuestion}
+                                                disabled={this.state.questions.length ===0}
+                                                />
                                             {questionType && <button className="btn button-edit" 
                                                 onClick={() => {this.setState({...this.state, currentQuestion:{...currentQuestion, question:{type:'', data:''}}})}}>
                                             </button>}
