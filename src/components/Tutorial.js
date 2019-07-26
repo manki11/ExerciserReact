@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import Tour from 'reactour';
 import {TutorialSteps} from '../tutorialSteps';
+import {injectIntl} from 'react-intl';
 import '../css/Tutorial.css';
 
 class Tutorial extends Component{
@@ -65,7 +66,7 @@ class Tutorial extends Component{
     render() {
         return (
             <Tour
-                steps={TutorialSteps(this.props.pathname)}
+                steps={TutorialSteps(this.props.pathname, this.props.intl)}
                 isOpen={true}
                 maskClassName="mask"
                 className="helper"
@@ -75,4 +76,4 @@ class Tutorial extends Component{
     }
 }
 
-export default Tutorial;
+export default injectIntl(Tutorial);
