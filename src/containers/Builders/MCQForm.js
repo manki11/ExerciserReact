@@ -25,7 +25,6 @@ import {
 } from "../translation";
 import {withRouter} from "react-router-dom"
 import "../../css/MCQForm.css"
-import { Tutorial } from "../../components/Tutorial";
 
 class MCQForm extends Component {
 
@@ -733,34 +732,6 @@ class MCQForm extends Component {
             options_error = <span style={{color: "red"}}><FormattedMessage id={ANSWER_ERROR}/></span>;
         }
 
-
-        let displayTutorial = true;
-        let history = this.props.history.entries.slice();
-        history.pop(); 
-        history.forEach((entry)=>{
-                if(entry.pathname === this.props.history.location.pathname) {
-                    displayTutorial = false;
-            }
-        });
-        let tourConfig = [
-            {
-                selector: '.button-thumbnail',
-                content: ['Select Thumbnail', 'Choose a different thumbnail from the Journal Chooser.']
-            },
-            {
-                selector: '.question-options',
-                content: ['Question Menu', 'Select the type of question you want to insert.']
-            },
-            {
-                selector: '.button-choices-add',
-                content: ['Add Option', 'Use this button to add another option field.']
-            },
-            {
-                selector: '.button-choices-sub',
-                content: ['Remove Option', 'Use this button to remove the last option field.']
-            }
-        ]
-
         return (
             <div className="container">
             <div className="container-fluid">
@@ -860,7 +831,6 @@ class MCQForm extends Component {
                     </div>
                 </div>
             </div>
-            {displayTutorial && <Tutorial tourConfig = {tourConfig}/>}
         </div>
         )
     }

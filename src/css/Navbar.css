@@ -56,3 +56,7 @@
     z-index: 1000;
     width: 100%;
 }
+
+#help-button {
+    background-image: url("../icons/exercise/help.svg");
+}

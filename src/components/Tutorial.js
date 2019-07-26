@@ -1,27 +1,17 @@
 import React, {Component} from 'react';
 import Tour from 'reactour';
+import {TutorialSteps} from '../tutorialSteps';
 import '../css/Tutorial.css';
-import '../css/bootstrap-tour-standalone.min.css'
 
-export class Tutorial extends Component{
+class Tutorial extends Component{
 
-    constructor(props){
-        super(props);
-        this.state = {
-            open: true
-        }
-    }
-
-    MyCustomHelper = ({ current, content, totalSteps, gotoStep, close }) => {
+    MyCustomHelper = ({ current, content, totalSteps, gotoStep, close}) => {
         return (
           <div className='popover tour'>
             <h3 className='popover-title tutorial-title'>{content[0]}</h3>
             <table>
                 <tbody>
                     <tr>
-                        {/* <td style={{verticalAlign: 'top'}}>
-                            <div id='icon-tutorial'></div>
-                        </td> */}
                         <td>
                             <div className='popover-content'>{content[1]}</div>
                         </td>
@@ -48,9 +38,7 @@ export class Tutorial extends Component{
                         if(current !== (totalSteps-1))
                             gotoStep(current+1);
                         else {
-                            this.setState({
-                                open: !this.state.open
-                            })
+                            this.props.unmount();
                         }
                     }} data-role='next'>
                     <div className='tutorial-next-icon1 web-activity'>
@@ -62,9 +50,7 @@ export class Tutorial extends Component{
                 </div>
                 <div className='tutorial-end-icon icon-button' 
                         onClick={()=>{
-                            this.setState({
-                                open: !this.state.open
-                            })
+                            this.props.unmount();
                         }} data-role='end'>
                     <div className='tutorial-end-icon1 web-activity'>
                         <div className='tutorial-end-icon2 web-activity-icon'></div>
@@ -74,17 +60,19 @@ export class Tutorial extends Component{
             </div>
         </div>
         )
-      }
+    }
     
     render() {
         return (
             <Tour
-            steps={this.props.tourConfig}
-            isOpen={this.state.open}
-            maskClassName="mask"
-            className="helper"
+                steps={TutorialSteps(this.props.pathname)}
+                isOpen={true}
+                maskClassName="mask"
+                className="helper"
                 CustomHelper={this.MyCustomHelper}
           />   
         );
     }
 }
+
+export default Tutorial;

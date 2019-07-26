@@ -101,7 +101,8 @@ export default class DragList extends Component {
                                                 provided.draggableProps.style
                                             )}
                                         >
-                                        <div {...provided.dragHandleProps}>
+                                        <div {...provided.dragHandleProps}
+                                            className = "handler">
                                             <img style={{width: '1.5em'}}
                                                  src={require("../icons/exercise/reorder-drag.png")}
                                                  alt="handler"

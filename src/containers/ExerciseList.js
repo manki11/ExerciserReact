@@ -7,7 +7,6 @@ import UserList from "../components/UserList"
 import {withRouter} from "react-router-dom";
 import {connect} from "react-redux";
 import UserIcon from "../components/UserIcon";
-import { Tutorial } from '../components/Tutorial';
 
 class ExerciseList extends Component {
 
@@ -168,43 +167,6 @@ class ExerciseList extends Component {
             )
         }
 
-        let displayTutorial = true;
-        let history = this.props.history.entries.slice();
-        history.pop(); 
-        history.forEach((entry)=>{
-                if(entry.pathname === this.props.history.location.pathname) {
-                    displayTutorial = false;
-            }
-        });
-
-        let tourConfig = [
-            {
-                selector: '#add-button',
-                content: ['Add Exercises', 'This button takes you to a list of templates from which you can choose a one to work with.']
-            },
-            {
-                selector: '#network-button',
-                content: ['Network Button', 'Lets you share your exercises with other users.']
-            },
-            {
-                selector: '#stop-button',
-                content: ['Stop Button', 'Press this button to stop the activity, don\'t worry your changes will be saved in the Journal.']
-            },
-            {
-                selector: '.play-button',
-                content: ['Play Button', 'Use this button if you want to play the Exercise.']
-            },
-            {
-                selector: '.edit-button',
-                content: ['Edit Button', 'Use this button if you want to edit the Exercise.']
-            },
-            {
-                selector: '.delete-button',
-                content: ['Delete Button', 'Use this button if you want to delete the Exercise.']
-            },
-
-        ]
-
         return (
             <div className="home-container" style={styles}>
                 {userIcon}
@@ -213,7 +175,6 @@ class ExerciseList extends Component {
                     <div className="col-md-10 mx-auto">
                         {exercises}
                     </div>
-                    {displayTutorial && <Tutorial tourConfig = {tourConfig}/>}
                 </div>
             </div>
         )
