@@ -616,7 +616,7 @@ class CLOZEForm extends Component {
                                                         onChange={(e) => {
                                                             this.setState({writeIn: e.target.value})
                                                         }}/>
-                                                    <label className="form-check-label">
+                                                    <label className="form-check-label type-write">
                                                         <FormattedMessage id={WRITE_IN}/>
                                                     </label>
                                                 </div>
@@ -627,7 +627,7 @@ class CLOZEForm extends Component {
                                                         onChange={(e) => {
                                                             this.setState({writeIn: e.target.value})
                                                         }}/>
-                                                    <label className="form-check-label">
+                                                    <label className="form-check-label type-options">
                                                         <FormattedMessage id={OPTIONS}/>
                                                     </label>
                                                 </div>
@@ -640,7 +640,7 @@ class CLOZEForm extends Component {
                                                     <div className="justify-content-end">
                                                         <button
                                                             onClick={this.addBlank}
-                                                            className={"btn button-finish"}
+                                                            className={"btn button-finish button-add-blank"}
                                                         >
                                                             <FormattedMessage id={ADD_BLANK}/>
                                                         </button>

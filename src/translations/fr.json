@@ -168,5 +168,19 @@
   "Answer Box": "Answer Box",
   "Type the answer in this box.": "Type the answer in this box.",
   "Draw Connection": "Draw Connection",
-  "Select and drag the semicircle to its corresponding match.": "Select and drag the semicircle to its corresponding match."
+  "Select and drag the semicircle to its corresponding match.": "Select and drag the semicircle to its corresponding match.",
+  "Share Button": "Share Button",
+  "Use this button if you want to share this Exercise.": "Use this button if you want to share this Exercise.",
+  "Let's user write answers in blanks.": "Let's user write answers in blanks.",
+  "Let's user select answer from a drop down menu.": "Let's user select answer from a drop down menu.",
+  "Click on this button to insert blanks in the questions. The number of blanks should be less than the number of options.": "Click on this button to insert blanks in the questions. The number of blanks should be less than the number of options.",
+  "The string represented by -{Number}- is replaced by a blank or a drop down menu in the preview, also the ith blank's answer is represented by the ith option field.": "The string represented by -{Number}- is replaced by a blank or a drop down menu in the preview, also the ith blank's answer is represented by the ith option field.",
+  "Group Type": "Group Type",
+  "Select between group type to be text or image.": "Select between group type to be text or image.",
+  "Edit Group Type": "Edit Group Type",
+  "Edit group type to select between text and image.": "Edit group type to select between text and image.",
+  "Item Menu": "Item Menu",
+  "Edit Item": "Edit Item",
+  "Result Button": "Result Button",
+  "Use this button to see results of the all users.": "Use this button to see results of the all users."
 }

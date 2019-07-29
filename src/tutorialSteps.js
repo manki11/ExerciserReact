@@ -1,35 +1,48 @@
 
-export const TutorialSteps  = (pathname, intl) => {
+export const tutorialSteps  = (pathname, intl) => {
     let steps;
     switch(pathname){
 
         // Exercise List
-        case "/": steps = [
-            {
-                selector: "#add-button",
-                content: [intl.formatMessage({id: "Add Exercises"}), intl.formatMessage({id: "This button takes you to a list of templates from which you can choose a one to work with."})]
-            },
-            {
-                selector: "#network-button",
-                content: [intl.formatMessage({id: "Network Button"}), intl.formatMessage({id: "Lets you share your exercises with other users."})]
-            },
-            {
-                selector: "#stop-button",
-                content: [intl.formatMessage({id: "Stop Button"}), intl.formatMessage({id: "Press this button to stop the activity, don\"t worry your changes will be saved in the Journal."})]
-            },
-            {
-                selector: ".play-button",
-                content: [intl.formatMessage({id: "Play Button"}), intl.formatMessage({id: "Use this button if you want to play the Exercise."})]
-            },
-            {
-                selector: ".edit-button",
-                content: [intl.formatMessage({id: "Edit Button"}), intl.formatMessage({id: "Use this button if you want to edit the Exercise."})]
-            },
-            {
-                selector: ".delete-button",
-                content: [intl.formatMessage({id: "Delete Button"}), intl.formatMessage({id: "Use this button if you want to delete the Exercise."})]
+        case "/": 
+            steps = [
+                {
+                    selector: "#add-button",
+                    content: [intl.formatMessage({id: "Add Exercises"}), intl.formatMessage({id: "This button takes you to a list of templates from which you can choose a one to work with."})]
+                },
+                {
+                    selector: "#network-button",
+                    content: [intl.formatMessage({id: "Network Button"}), intl.formatMessage({id: "Lets you share your exercises with other users."})]
+                },
+                {
+                    selector: "#stop-button",
+                    content: [intl.formatMessage({id: "Stop Button"}), intl.formatMessage({id: "Press this button to stop the activity, don\"t worry your changes will be saved in the Journal."})]
+                },
+                {
+                    selector: ".play-button",
+                    content: [intl.formatMessage({id: "Play Button"}), intl.formatMessage({id: "Use this button if you want to play the Exercise."})]
+                },
+                {
+                    selector: ".edit-button",
+                    content: [intl.formatMessage({id: "Edit Button"}), intl.formatMessage({id: "Use this button if you want to edit the Exercise."})]
+                },
+                {
+                    selector: ".delete-button",
+                    content: [intl.formatMessage({id: "Delete Button"}), intl.formatMessage({id: "Use this button if you want to delete the Exercise."})]
+                }
+            ];
+            if(document.getElementsByClassName("share-button")[0]) {
+                steps.push({
+                    selector: ".share-button",
+                    content: [intl.formatMessage({id: "Share Button"}), intl.formatMessage({id: "Use this button if you want to share this Exercise."})]
+                });
             }
-        ];
+            if(document.getElementsByClassName("result-button")[0]){
+                steps.push({
+                    selector: ".result-button",
+                    content: [intl.formatMessage({id: "Result Button"}), intl.formatMessage({id: "Use this button to see results of the all users."})]
+                });
+            } 
         break;
         
         // Add new Exercise
@@ -127,10 +140,26 @@ export const TutorialSteps  = (pathname, intl) => {
             {
                 selector: ".button-thumbnail",
                 content: [intl.formatMessage({id: "Select Thumbnail"}), intl.formatMessage({id: "Choose a different thumbnail from the Journal Chooser."})]
-            },
+            }, 
             {
                 selector: ".question-options",
                 content: [intl.formatMessage({id: "Question Menu"}), intl.formatMessage({id: "Select the type of question you want to insert."})]
+            },
+            {
+                selector: ".type-write",
+                content: [intl.formatMessage({id: "Blank Type"}), intl.formatMessage({id: "Let's user write answers in blanks."})]
+            },
+            {
+                selector: ".type-options",
+                content: [intl.formatMessage({id: "Blank Type"}), intl.formatMessage({id: "Let's user select answer from a drop down menu."})]
+            },
+            {
+                selector: ".button-add-blank",
+                content: [intl.formatMessage({id: "Add Blank"}), intl.formatMessage({id: "Click on this button to insert blanks in the questions. The number of blanks should be less than the number of options."})]
+            },
+            {
+                selector: "#cloze-text",
+                content: [intl.formatMessage({id: "Cloze Text"}), intl.formatMessage({id: "The string represented by -{Number}- is replaced by a blank or a drop down menu in the preview, also the ith blank's answer is represented by the ith option field."})]
             },
             {
                 selector: ".button-choices-add",
@@ -150,6 +179,22 @@ export const TutorialSteps  = (pathname, intl) => {
             {
                 selector: ".button-edit",
                 content: [intl.formatMessage({id: "Edit Question"}), intl.formatMessage({id: "Use this button to change the type of Question."})]
+            },
+            {
+                selector: ".type-write",
+                content: [intl.formatMessage({id: "Blank Type"}), intl.formatMessage({id: "Let's user write answers in blanks."})]
+            },
+            {
+                selector: ".type-options",
+                content: [intl.formatMessage({id: "Blank Type"}), intl.formatMessage({id: "Let's user select answer from a drop down menu."})]
+            },
+            {
+                selector: ".button-add-blank",
+                content: [intl.formatMessage({id: "Add Blank"}), intl.formatMessage({id: "Click on this button to insert blanks in the questions. The number of blanks should be less than the number of options."})]
+            },
+            {
+                selector: "#cloze-text",
+                content: [intl.formatMessage({id: "Cloze Text"}), intl.formatMessage({id: "The string represented by -{Number}- is replaced by a blank or a drop down menu in the preview, also the ith blank's answer is represented by the ith option field."})]
             },
             {
                 selector: ".button-choices-add",
@@ -239,6 +284,10 @@ export const TutorialSteps  = (pathname, intl) => {
                 content: [intl.formatMessage({id: "Select Thumbnail"}), intl.formatMessage({id: "Choose a different thumbnail from the Journal Chooser."})]
             },
             {
+                selector: ".group-option-type",
+                content: [intl.formatMessage({id: "Group Type"}), intl.formatMessage({id: "Select between group type to be text or image."})]            
+            },
+            {
                 selector: ".button-choices-add",
                 content: [intl.formatMessage({id: "Add Option"}), intl.formatMessage({id: "Use this button to add another option field."})]
             },
@@ -262,6 +311,10 @@ export const TutorialSteps  = (pathname, intl) => {
                 content: [intl.formatMessage({id: "Select Thumbnail"}), intl.formatMessage({id: "Choose a different thumbnail from the Journal Chooser."})]
             },
             {
+                selector: ".button-choices-edit",
+                content: [intl.formatMessage({id: "Edit Group Type"}), intl.formatMessage({id: "Edit group type to select between text and image."})]            
+            },
+            {
                 selector: ".button-choices-add",
                 content: [intl.formatMessage({id: "Add Option"}), intl.formatMessage({id: "Use this button to add another option field."})]
             },
@@ -274,7 +327,7 @@ export const TutorialSteps  = (pathname, intl) => {
                 content: [intl.formatMessage({id: "Edit Question"}), intl.formatMessage({id: "Use this button to change the type of Question."})]
             },
             {
-                selector: ".answers",
+                selector: ".group-answer",
                 content: [intl.formatMessage({id: "Select Group"}), intl.formatMessage({id: "Select the group from the dropdown to which this question belong."})]
             }
         ];
@@ -335,7 +388,7 @@ export const TutorialSteps  = (pathname, intl) => {
             },
             {
                 selector: ".question-options",
-                content: [intl.formatMessage({id: "Question Menu"}), intl.formatMessage({id: "Select the type of question you want to insert."})]
+                content: [intl.formatMessage({id: "Item Menu"}), intl.formatMessage({id: "Select the type of item you want to insert."})]
             }
         ];
         break;  
@@ -346,7 +399,7 @@ export const TutorialSteps  = (pathname, intl) => {
             },
             {
                 selector: ".button-edit",
-                content: [intl.formatMessage({id: "Edit Question"}), intl.formatMessage({id: "Use this button to change the type of Question."})]
+                content: [intl.formatMessage({id: "Edit Item"}), intl.formatMessage({id: "Use this button to change the type of the item."})]
             }
         ];
         break; 

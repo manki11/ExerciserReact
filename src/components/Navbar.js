@@ -84,7 +84,8 @@ class Navbar extends Component {
                     {this.state.showTutorial &&
                         <Tutorial unmount = {this.stopTutorial} 
                             pathname = {this.props.history.location.pathname}
-                    />}
+                        />
+                    }
                 </div>
             );
         }

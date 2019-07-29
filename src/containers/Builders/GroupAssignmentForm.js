@@ -699,7 +699,7 @@ class GroupAssignmentForm extends Component {
                     );
             }
             return (
-                <div className="col-md-8" key={`groups-${i}`}>
+                <div className="col-md-8 group-option-type" key={`groups-${i}`}>
                     <label htmlFor={`group-${i}`}>
                         {i + 1}
                     </label>
@@ -801,7 +801,7 @@ class GroupAssignmentForm extends Component {
                                             <label htmlFor="Correct-Group">Correct Group: </label>
                                             <Select
                                                 key={`answer-${currentQuestion.id}`}
-                                                className="answers input-ans"
+                                                className="answers input-ans group-answer"
                                                 name={`answer-${currentQuestion.id}`}
                                                 value={currentQuestion.correctGroup}
                                                 onChange={value => this.handleChangeAnsSelect(value, `answer-${currentQuestion.id}`)}
