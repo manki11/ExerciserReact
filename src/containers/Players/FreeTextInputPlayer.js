@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import withMultimedia from '../../components/WithMultimedia';
 import {PlayerMultimediaJSX} from '../../components/MultimediaJSX';
 import meSpeak from 'mespeak';
+import {MULTIMEDIA} from '../../utils';
 
 class FreeTextInputPlayer extends Component {
 
@@ -30,14 +31,6 @@ class FreeTextInputPlayer extends Component {
             userLanguage: '',
             userAnswers: ''
         }
-
-        this.multimedia = {
-            text: 'text',
-            image: 'image',
-            audio: 'audio',
-            textToSpeech: 'text-to-speech',
-            video: 'video'
-        };
     }
 
     // load the exercise from props
@@ -178,7 +171,7 @@ class FreeTextInputPlayer extends Component {
                 return (
                     <div className="col-md-3 questions" key={index+1}>
                         <div className="freetext-question-container"
-                            style={{ minHeight: `${(questionType === this.multimedia.image ||questionType === this.multimedia.video)?'80px':''}`}}
+                            style={{ minHeight: `${(questionType === MULTIMEDIA.image ||questionType === MULTIMEDIA.video)?'80px':''}`}}
                             >
                             {index+1}.
                             <PlayerMultimediaJSX
@@ -197,7 +190,7 @@ class FreeTextInputPlayer extends Component {
                 return(
                     <div className="col-md-3 questions" key={index+1}>
                         <div className="freetext-question-container"
-                            style={{ minHeight: `${(questionType === this.multimedia.image ||questionType === this.multimedia.video)?'80px':''}`}}                        
+                            style={{ minHeight: `${(questionType === MULTIMEDIA.image ||questionType === MULTIMEDIA.video)?'80px':''}`}}                        
                             >
                             {index+1}.
                             <PlayerMultimediaJSX

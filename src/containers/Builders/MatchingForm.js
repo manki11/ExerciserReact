@@ -25,7 +25,7 @@ import datastore from 'lib/sugar-web/datastore';
 import chooser from 'lib/sugar-web/graphics/journalchooser';
 import env from 'lib/sugar-web/env';
 import meSpeak from 'mespeak';
-
+import {MULTIMEDIA} from '../../utils';
 
 class MATCHING_PAIRForm extends Component {
 
@@ -57,14 +57,6 @@ class MATCHING_PAIRForm extends Component {
                     data: ''
                 },
             }
-        };
-
-        this.multimedia = {
-            text: 'text',
-            image: 'image',
-            audio: 'audio',
-            textToSpeech: 'text-to-speech',
-            video: 'video'
         };
     }
 
@@ -323,11 +315,11 @@ class MATCHING_PAIRForm extends Component {
         const {currentPair} = this.state;
 
         let image, audio, video = false;
-        if(mediaType === this.multimedia.image)
+        if(mediaType === MULTIMEDIA.image)
             image = true;
-        if(mediaType === this.multimedia.audio)
+        if(mediaType === MULTIMEDIA.audio)
             audio = true;
-        if(mediaType === this.multimedia.video)
+        if(mediaType === MULTIMEDIA.video)
             video = true;
         env.getEnvironment((err, environment) => {
             if(environment.user) {
@@ -389,7 +381,7 @@ class MATCHING_PAIRForm extends Component {
 
     selectQuestionType = (mediaType) => {
         const {currentPair} = this.state;
-        if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
+        if(mediaType === MULTIMEDIA.text || mediaType === MULTIMEDIA.textToSpeech) {
             this.setState({
                 ...this.state,
                 currentPair:{
@@ -409,7 +401,7 @@ class MATCHING_PAIRForm extends Component {
 
     selectAnswerType = (mediaType) => {
         const {currentPair} = this.state;
-        if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
+        if(mediaType === MULTIMEDIA.text || mediaType === MULTIMEDIA.textToSpeech) {
             this.setState({
                 ...this.state,
                 currentPair:{

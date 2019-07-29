@@ -19,6 +19,7 @@ import {
     LIST_ERROR, TITLE_ERROR, REORDER_LIST,
 } from "../translation";
 import "../../css/REORDERForm.css";
+import {MULTIMEDIA} from '../../utils';
 
 class REORDERForm extends Component {
 
@@ -44,14 +45,6 @@ class REORDERForm extends Component {
                 title: false,
             }
         }
-
-        this.multimedia = {
-            text: 'text',
-            image: 'image',
-            audio: 'audio',
-            textToSpeech: 'text-to-speech',
-            video: 'video'
-        };
     }
 
     // in case of edit load the exercise
@@ -233,11 +226,11 @@ class REORDERForm extends Component {
 
     showJournalChooser = (mediaType, options = false, optionNo = -1) => {
         let image, audio, video = false;
-        if(mediaType === this.multimedia.image)
+        if(mediaType === MULTIMEDIA.image)
             image = true;
-        if(mediaType === this.multimedia.audio)
+        if(mediaType === MULTIMEDIA.audio)
             audio = true;
-        if(mediaType === this.multimedia.video)
+        if(mediaType === MULTIMEDIA.video)
             video = true;
         env.getEnvironment((err, environment) => {
             if(environment.user) {
@@ -291,7 +284,7 @@ class REORDERForm extends Component {
     }
 
     selectQuestionType = (mediaType) => {
-        if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
+        if(mediaType === MULTIMEDIA.text || mediaType === MULTIMEDIA.textToSpeech) {
             this.setState({
                 ...this.state,
                 question: {
@@ -307,7 +300,7 @@ class REORDERForm extends Component {
     }
 
     selectOptionType = (mediaType, optionNo) => {
-        if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
+        if(mediaType === MULTIMEDIA.text || mediaType === MULTIMEDIA.textToSpeech) {
             let {list} = this.state;
             list[optionNo] = {type: mediaType, data: ''};
             this.setState({

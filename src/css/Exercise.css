@@ -145,5 +145,5 @@ button:hover:disabled{
 }
 
 .width-audio{
-    width: -webkit-fill-available;
+    max-width: stretch;
 }

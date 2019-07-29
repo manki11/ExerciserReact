@@ -28,6 +28,7 @@ import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
 import {QuestionOptionsJSX} from '../../components/MultimediaJSX';
 import {QuestionJSX} from '../../components/MultimediaJSX';
+import {MULTIMEDIA} from '../../utils';
 
 class GroupAssignmentForm extends Component {
 
@@ -56,14 +57,6 @@ class GroupAssignmentForm extends Component {
                 answer: {type:'', data: ''},
                 correctGroup: ''
             }
-        };
-
-        this.multimedia = {
-            text: 'text',
-            image: 'image',
-            audio: 'audio',
-            textToSpeech: 'text-to-speech',
-            video: 'video'
         };
     }
 
@@ -446,11 +439,11 @@ class GroupAssignmentForm extends Component {
 
     showJournalChooser = (mediaType, groups = false, groupNo = -1) => {
         let image, audio, video = false;
-        if(mediaType === this.multimedia.image)
+        if(mediaType === MULTIMEDIA.image)
             image = true;
-        if(mediaType === this.multimedia.audio)
+        if(mediaType === MULTIMEDIA.audio)
             audio = true;
-        if(mediaType === this.multimedia.video)
+        if(mediaType === MULTIMEDIA.video)
             video = true;
         env.getEnvironment((err, environment) => {
             if(environment.user) {
@@ -505,7 +498,7 @@ class GroupAssignmentForm extends Component {
 
     selectQuestionType = (mediaType) => {
         const {currentQuestion} = this.state;
-        if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
+        if(mediaType === MULTIMEDIA.text || mediaType === MULTIMEDIA.textToSpeech) {
             this.setState({
                 ...this.state,
                 errors:{
@@ -528,7 +521,7 @@ class GroupAssignmentForm extends Component {
     }
 
     selectGroupType = (mediaType, groupNo) => {
-        if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
+        if(mediaType === MULTIMEDIA.text || mediaType === MULTIMEDIA.textToSpeech) {
             let {groups} = this.state;
             groups[groupNo] = {type: mediaType, data: ''};
             this.setState({
@@ -572,20 +565,20 @@ class GroupAssignmentForm extends Component {
                     [
                         <button className="btn button-answer-options button-text col-md-3" key="type-1" 
                                     onClick={() => {
-                                            this.selectGroupType(this.multimedia.text, i);
+                                            this.selectGroupType(MULTIMEDIA.text, i);
                                         }}>
                                     <FormattedMessage id={TEXT}/>
                         </button>,
                         <button className="btn button-answer-options button-image col-md-3" key="type-2"
                             onClick={() => {
-                                this.selectGroupType(this.multimedia.image, i);
+                                this.selectGroupType(MULTIMEDIA.image, i);
                             }}>                            
                         </button>
                     ]
                 );
             } else {
                 let groupType = group.type; 
-                if( groupType === this.multimedia.text)
+                if( groupType === MULTIMEDIA.text)
                     question = (
                         <div className="answers">
                             <input
@@ -603,7 +596,7 @@ class GroupAssignmentForm extends Component {
                             </button>
                         </div>
                     );
-                if( groupType === this.multimedia.image)
+                if( groupType === MULTIMEDIA.image)
                     question = (
                         <div className="answers">
                             <div className = "media-background answers">

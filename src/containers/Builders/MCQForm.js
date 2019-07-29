@@ -23,6 +23,7 @@ import {
 } from "../translation";
 import {withRouter} from "react-router-dom"
 import "../../css/MCQForm.css"
+import{MULTIMEDIA} from '../../utils';
 
 class MCQForm extends Component {
 
@@ -51,14 +52,6 @@ class MCQForm extends Component {
                 },
                 options: [{type: '', data: ''}, {type: '', data: ''}] 
             }
-        };
-
-        this.multimedia = {
-            text: 'text',
-            image: 'image',
-            audio: 'audio',
-            textToSpeech: 'text-to-speech',
-            video: 'video'
         };
     }
 
@@ -282,7 +275,7 @@ class MCQForm extends Component {
         if(!question.type)
             isFormValid  = false;
         
-        if ((question.type === this.multimedia.text || question.type === this.multimedia.textToSpeech)
+        if ((question.type === MULTIMEDIA.text || question.type === MULTIMEDIA.textToSpeech)
              && question.data === '') {
             isFormValid = false;
         }
@@ -381,11 +374,11 @@ class MCQForm extends Component {
         const {currentQuestion} = this.state;
 
         let image, audio, video = false;
-        if(mediaType === this.multimedia.image)
+        if(mediaType === MULTIMEDIA.image)
             image = true;
-        if(mediaType === this.multimedia.audio)
+        if(mediaType === MULTIMEDIA.audio)
             audio = true;
-        if(mediaType === this.multimedia.video)
+        if(mediaType === MULTIMEDIA.video)
             video = true;
         env.getEnvironment((err, environment) => {
             if(environment.user) {
@@ -446,7 +439,7 @@ class MCQForm extends Component {
 
     selectQuestionType = (mediaType) => {
         const {currentQuestion} = this.state;
-        if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
+        if(mediaType === MULTIMEDIA.text || mediaType === MULTIMEDIA.textToSpeech) {
             this.setState({
                 ...this.state,
                 currentQuestion:{
@@ -466,7 +459,7 @@ class MCQForm extends Component {
 
     selectOptionType = (mediaType, optionNo) => {
         const {currentQuestion} = this.state;
-        if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
+        if(mediaType === MULTIMEDIA.text || mediaType === MULTIMEDIA.textToSpeech) {
             let {options} = currentQuestion;
             options[optionNo] = {type: mediaType, data: ''};
             this.setState({
@@ -563,7 +556,7 @@ class MCQForm extends Component {
                                                     speak = {this.speak}
                                                 />
                                             }
-                                            {questionType === this.multimedia.text && question_error}
+                                            {questionType === MULTIMEDIA.text && question_error}
                                         </div>
                                     </div>
                                     <AnswerOptionsJSX 

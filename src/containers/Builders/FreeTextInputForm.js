@@ -26,6 +26,7 @@ import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
 import {QuestionOptionsJSX} from '../../components/MultimediaJSX';
 import {QuestionJSX} from '../../components/MultimediaJSX';
+import {MULTIMEDIA} from '../../utils';
 
 class FreeTextInputForm extends Component {
 
@@ -54,14 +55,6 @@ class FreeTextInputForm extends Component {
                 },
                 answer: "",
             }
-        };
-
-        this.multimedia = {
-            text: 'text',
-            image: 'image',
-            audio: 'audio',
-            textToSpeech: 'text-to-speech',
-            video: 'video'
         };
     }
 
@@ -323,11 +316,11 @@ class FreeTextInputForm extends Component {
     showJournalChooser = (mediaType) => {
         const {currentQuestion} = this.state;
         let image, audio, video = false;
-        if(mediaType === this.multimedia.image)
+        if(mediaType === MULTIMEDIA.image)
             image = true;
-        if(mediaType === this.multimedia.audio)
+        if(mediaType === MULTIMEDIA.audio)
             audio = true;
-        if(mediaType === this.multimedia.video)
+        if(mediaType === MULTIMEDIA.video)
             video = true;
         env.getEnvironment((err, environment) => {
             if(environment.user) {
@@ -374,7 +367,7 @@ class FreeTextInputForm extends Component {
 
     selectQuestionType = (mediaType) => {
         const {currentQuestion} = this.state;
-        if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
+        if(mediaType === MULTIMEDIA.text || mediaType === MULTIMEDIA.textToSpeech) {
             this.setState({
                 ...this.state,
                 currentQuestion:{

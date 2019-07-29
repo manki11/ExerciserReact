@@ -30,6 +30,7 @@ import {
     BLANKS_ERROR,
     BLANK_REUSED_ERROR,
 } from "../translation";
+import {MULTIMEDIA} from '../../utils';
 
 class CLOZEForm extends Component {
 
@@ -62,15 +63,6 @@ class CLOZEForm extends Component {
             },
             typeOfExcercise:'Cloze'
         };
-
-        this.multimedia = {
-            text: 'text',
-            image: 'image',
-            audio: 'audio',
-            textToSpeech: 'text-to-speech',
-            video: 'video'
-        };
-
     }
 
     // in case of edit load the exercise
@@ -370,11 +362,11 @@ class CLOZEForm extends Component {
 
     showJournalChooser = (mediaType) => {
         let image, audio, video = false;
-        if(mediaType === this.multimedia.image)
+        if(mediaType === MULTIMEDIA.image)
             image = true;
-        if(mediaType === this.multimedia.audio)
+        if(mediaType === MULTIMEDIA.audio)
             audio = true;
-        if(mediaType === this.multimedia.video)
+        if(mediaType === MULTIMEDIA.video)
             video = true;
         env.getEnvironment((err, environment) => {
             if(environment.user) {
@@ -417,7 +409,7 @@ class CLOZEForm extends Component {
     }
 
     selectQuestionType = (mediaType) => {
-        if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
+        if(mediaType === MULTIMEDIA.text || mediaType === MULTIMEDIA.textToSpeech) {
             this.setState({
                 ...this.state,
                 question: {

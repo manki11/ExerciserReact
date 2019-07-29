@@ -11,7 +11,6 @@ import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
 import {PlayerMultimediaJSX} from '../../components/MultimediaJSX';
 
-
 class CLOZEPlayer extends Component {
 
     constructor(props) {
@@ -40,14 +39,6 @@ class CLOZEPlayer extends Component {
             userLanguage: '',
             userAnswers: []
         }
-
-        this.multimedia = {
-            text: 'text',
-            image: 'image',
-            audio: 'audio',
-            textToSpeech: 'text-to-speech',
-            video: 'video'
-        };
     }
 
     // load the exercise from props
@@ -81,7 +72,6 @@ class CLOZEPlayer extends Component {
             });
 
             this.shuffleArray(options);
-
             this.setState({
                 ...this.state,
                 id: id,
@@ -233,15 +223,8 @@ class CLOZEPlayer extends Component {
 
     render() {
         const {showMedia} = this.props;
-
-        let question = PlayerMultimediaJSX({
-            questionType: this.state.question.type,
-            questionData: this.state.question.data,
-            speak: this.speak,
-            showMedia: showMedia,
-            willSpeak: true,
-            height: '100px'
-        });;
+        const questionType = this.state.question.type;
+        const questionData = this.state.question.data;
         
         let buttonText = <FormattedMessage id={SUBMIT_QUESTION}/>;
         if (this.state.submitted) buttonText = <FormattedMessage id={FINISH_EXERCISE}/>
@@ -310,7 +293,14 @@ class CLOZEPlayer extends Component {
                             <p className="lead">{this.state.title}</p>
                             <hr className="my-4"/>
                             <div style={{textAlign: "center", marginBottom: "20px"}}>
-                                {question}
+                                <PlayerMultimediaJSX
+                                    questionType =  {questionType || 'text'}
+                                    questionData = {questionData}
+                                    speak  = {this.speak}
+                                    showMedia = {showMedia}
+                                    willSpeak = {true}
+                                    height = '100px'
+                                />
                             </div>
                             <div>
                                 {clozetext}

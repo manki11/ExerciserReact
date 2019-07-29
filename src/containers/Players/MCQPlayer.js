@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
 import {PlayerMultimediaJSX} from '../../components/MultimediaJSX';
+import {MULTIMEDIA} from '../../utils';
 
 class MCQPlayer extends Component {
 
@@ -41,14 +42,6 @@ class MCQPlayer extends Component {
             },
             userAnswers: []
         }
-
-        this.multimedia = {
-            text: 'text',
-            image: 'image',
-            audio: 'audio',
-            textToSpeech: 'text-to-speech',
-            video: 'video'
-        };
     }
 
     // load the exercise from props
@@ -215,16 +208,8 @@ class MCQPlayer extends Component {
         const {currentQuestion} = this.state;
         const {showMedia} = this.props;
         const {id} = currentQuestion;
-
-        let question = PlayerMultimediaJSX({
-            questionType: this.state.currentQuestion.question.type,
-            questionData: this.state.currentQuestion.question.data,
-            speak: this.speak,
-            showMedia: showMedia,
-            willSpeak: true,
-            className: '',
-            height: '100px',
-        });
+        const questionType = currentQuestion.question.type;
+        const questionData = currentQuestion.question.data;
 
         let choices = currentQuestion.options.map((option, i) => {
             let btn = 'btn-outline-secondary';
@@ -245,16 +230,8 @@ class MCQPlayer extends Component {
                     }
                 }
             }
-            let optionsType = option.type;
-            let optionElement = PlayerMultimediaJSX({
-                questionType: option.type,
-                questionData: option.data,
-                speak: this.speak,
-                showMedia: showMedia,
-                willSpeak: false,
-                className: '',
-                height: '100px'
-            });
+            let optionType = option.type;
+            let optionData = option.data; 
             return (
                 <div className="choices col-md-6" key={`answers-${i}` }>
                         <input type="radio" 
@@ -277,7 +254,7 @@ class MCQPlayer extends Component {
                             type="button"
                             id={`answer-${i}`}
                             onClick={(e) => {
-                                if( optionsType === this.multimedia.textToSpeech) {
+                                if( optionType === MULTIMEDIA.textToSpeech) {
                                     let elem = e.target;
                                     if(e.target.getAttribute("type")==='button')
                                         elem = e.target.children[0];
@@ -286,7 +263,15 @@ class MCQPlayer extends Component {
                                 this.choiceSelected(option)}
                             }
                         >
-                        {optionElement}
+                        <PlayerMultimediaJSX
+                            questionType = {optionType || 'text'}
+                            questionData = {optionData}
+                            speak = {this.speak}
+                            showMedia = {showMedia}
+                            willSpeak = {false}
+                            className = ''
+                            height = '100px'
+                        />
                         </button>
                 </div>
             )
@@ -309,7 +294,15 @@ class MCQPlayer extends Component {
                                 <div>
                                     {id}.
                                     <span style={{textAlign: "center"}}>
-                                        {question}
+                                        <PlayerMultimediaJSX
+                                            questionType = {questionType || 'text'}
+                                            questionData = {questionData}
+                                            speak = {this.speak}
+                                            showMedia = {showMedia}
+                                            willSpeak = {true}
+                                            className =  ''
+                                            height = '100px'
+                                        />
                                     </span>
                                 </div>
                             </div>

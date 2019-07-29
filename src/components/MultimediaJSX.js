@@ -1,14 +1,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {TEXT, WRONG_OPTION, CORRECT_OPTION} from '../containers/translation';
-
-let multimedia = {
-    text: 'text',
-    image: 'image',
-    audio: 'audio',
-    textToSpeech: 'text-to-speech',
-    video: 'video'
-};
+import {MULTIMEDIA} from '../utils';
 
 export function QuestionOptionsJSX(props){
     const {selectQuestionType} = props;
@@ -16,28 +9,28 @@ export function QuestionOptionsJSX(props){
         <div className="question-options">
             <button className="btn button-question-options button-text col-md-2" 
                 onClick={() => {
-                        selectQuestionType(multimedia.text)
+                        selectQuestionType(MULTIMEDIA.text)
                     }}>
                 <FormattedMessage id={TEXT}/>
             </button>
             <button className="btn button-question-options button-image col-md-2" 
                 onClick={() => {
-                    selectQuestionType(multimedia.image);
+                    selectQuestionType(MULTIMEDIA.image);
                 }}>
             </button>
             <button className="btn button-question-options button-audio col-md-2" 
                 onClick={() => {
-                    selectQuestionType(multimedia.audio);
+                    selectQuestionType(MULTIMEDIA.audio);
                 }}>
             </button>
             <button className="btn button-question-options button-text-to-speech col-md-2" 
                 onClick={() => {
-                    selectQuestionType(multimedia.textToSpeech);
+                    selectQuestionType(MULTIMEDIA.textToSpeech);
                     }}>
             </button>
             <button className="btn button-question-options button-video col-md-2" 
                 onClick={() => {
-                    selectQuestionType(multimedia.video);
+                    selectQuestionType(MULTIMEDIA.video);
                 }}>
             </button>
         </div>
@@ -48,7 +41,7 @@ export function QuestionJSX(props){
 
     let question;
     let {questionType, questionData, handleChangeQues, showMedia, speak} = props; 
-    if( questionType === multimedia.text)
+    if( questionType === MULTIMEDIA.text)
         question = (
             <input
                 className="input-mcq"
@@ -58,7 +51,7 @@ export function QuestionJSX(props){
                 onChange={handleChangeQues}
             />
         );
-    if( questionType === multimedia.image)
+    if( questionType === MULTIMEDIA.image)
         question = (
             <div className = "media-background">
                 <img src = {questionData}
@@ -67,13 +60,13 @@ export function QuestionJSX(props){
                     alt="Question"/>
             </div>
         );
-    if( questionType === multimedia.audio)
+    if( questionType === MULTIMEDIA.audio)
         question = (
             <audio src={questionData} controls
                     style={{width: '-webkit-fill-available'}}>
             </audio>
         );
-    if( questionType === multimedia.textToSpeech)
+    if( questionType === MULTIMEDIA.textToSpeech)
         question = (
             <div>
                 <input
@@ -87,7 +80,7 @@ export function QuestionJSX(props){
                 </button>
             </div>
         );
-    if( questionType === multimedia.video)
+    if( questionType === MULTIMEDIA.video)
         question = (
             <div className="media-background">
                 <video src={questionData} controls
@@ -111,27 +104,27 @@ export function AnswerOptionsJSX(props){
                     </label>
                     <button className="btn button-answer-options button-text col-md-1" 
                         onClick={() => {
-                                selectOptionType(multimedia.text, i);
+                                selectOptionType(MULTIMEDIA.text, i);
                             }}>
                         <FormattedMessage id={TEXT}/>
                     </button>
                     <button className="btn button-answer-options button-image col-md-1" 
                         onClick={() => {
-                            selectOptionType(multimedia.image, i);
+                            selectOptionType(MULTIMEDIA.image, i);
                         }}>                            
                     </button>
                     <button className="btn button-answer-options button-audio col-md-1" 
                         onClick={() => {
-                            selectOptionType(multimedia.audio, i);
+                            selectOptionType(MULTIMEDIA.audio, i);
                             }}>                        
                     </button>
                     <button className="btn button-answer-options button-text-to-speech col-md-1" 
                         onClick={() => {
-                            selectOptionType(multimedia.textToSpeech, i)}}>
+                            selectOptionType(MULTIMEDIA.textToSpeech, i)}}>
                     </button>
                     <button className="btn button-answer-options button-video col-md-1" 
                         onClick={() => {
-                            selectOptionType(multimedia.video, i);
+                            selectOptionType(MULTIMEDIA.video, i);
                         }}>
                     </button>
                     {templateType === 'MCQ' && <span className = "options-placeholder">
@@ -148,7 +141,7 @@ export function AnswerOptionsJSX(props){
         else {
             let optionElement;
             let optionsType = option.type;
-            if( optionsType === multimedia.text)
+            if( optionsType === MULTIMEDIA.text)
                 optionElement = (
                     <div className="answers">
                         <input
@@ -166,7 +159,7 @@ export function AnswerOptionsJSX(props){
                         </button>
                     </div>
                 );
-            if( optionsType === multimedia.image)
+            if( optionsType === MULTIMEDIA.image)
                 optionElement = (
                     <div className="answers">
                         <div className = "media-background answers">
@@ -181,7 +174,7 @@ export function AnswerOptionsJSX(props){
                         </button>
                     </div>    
                 );
-            if( optionsType === multimedia.audio)
+            if( optionsType === MULTIMEDIA.audio)
                 optionElement = (
                     <div className="answers" style={{marginBottom: '10px'}}>
                         <audio  className="answers vertical-align"
@@ -194,7 +187,7 @@ export function AnswerOptionsJSX(props){
                         </button>
                     </div>
                 );
-            if( optionsType === multimedia.textToSpeech)
+            if( optionsType === MULTIMEDIA.textToSpeech)
                 optionElement = (
                     <div className="answers">
                         <input
@@ -215,7 +208,7 @@ export function AnswerOptionsJSX(props){
                         </button>
                     </div>
                 );
-            if( optionsType === multimedia.video)
+            if( optionsType === MULTIMEDIA.video)
                 optionElement = (
                     <div className="answers">
                         <div className="media-background answers vertical-align">
@@ -250,16 +243,15 @@ export function AnswerOptionsJSX(props){
 }
 
 export function PlayerMultimediaJSX(props){
-
     const {questionType, questionData, showMedia, speak, willSpeak, className, height} = props;
     let questionElement;
-    if( questionType === multimedia.text)
+    if( questionType === MULTIMEDIA.text)
         questionElement = (
-            <p style={{overflow: 'auto'}}>
+            <p style={{overflow: 'auto', marginBottom: '0px'}}>
                 {questionData}
             </p>
         );
-    if( questionType === multimedia.image)
+    if( questionType === MULTIMEDIA.image)
         questionElement = (
             <img src = {questionData}
                 className = {`${className}`}               
@@ -268,14 +260,14 @@ export function PlayerMultimediaJSX(props){
                 height = {height}
                 />
         );
-    if( questionType === multimedia.audio)
+    if( questionType === MULTIMEDIA.audio)
         questionElement = (
             <audio 
                 className='width-audio'
                 src={questionData} controls>
             </audio>
         );
-    if( questionType === multimedia.textToSpeech) {
+    if( questionType === MULTIMEDIA.textToSpeech) {
         questionElement = (
             <img className={` button-off ${className}`} 
                 onClick={(e)=>{
@@ -286,10 +278,10 @@ export function PlayerMultimediaJSX(props){
             />
         );
     }
-    if( questionType === multimedia.video)
+    if( questionType === MULTIMEDIA.video)
         questionElement = (
             <video src={questionData} controls
-                    onClick={()=>{showMedia(questionData, multimedia.video)}}
+                    onClick={()=>{showMedia(questionData, MULTIMEDIA.video)}}
                 className = {`${className}`}
                 height = {height}>  
             </video>

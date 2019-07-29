@@ -9,6 +9,7 @@ import meSpeak from 'mespeak';
 import interact from 'interactjs'
 import withMultimedia from '../../components/WithMultimedia';
 import {PlayerMultimediaJSX} from '../../components/MultimediaJSX';
+import {MULTIMEDIA} from '../../utils';
 
 class GroupAssignmentPlayer extends Component {
 
@@ -40,13 +41,6 @@ class GroupAssignmentPlayer extends Component {
             userans: [],
             userAnswers: []
         }
-        this.multimedia = {
-            text: 'text',
-            image: 'image',
-            audio: 'audio',
-            textToSpeech: 'text-to-speech',
-            video: 'video'
-        };
         this.colors = ["#d3f6f3", "#f9fce1", "#fee9b2", "#fbd1b7"];
     }
 
@@ -56,7 +50,6 @@ class GroupAssignmentPlayer extends Component {
             let intervalId = setInterval(this.timer, 1000);
             const {id, title, questions, scores, times, groups, userLanguage} = this.props.location.state.exercise;
             const currentQuestion = questions[0];
-            console.log(currentQuestion);
             let finish = false;
             if (questions.length === 1) finish = true;
 
@@ -261,12 +254,14 @@ class GroupAssignmentPlayer extends Component {
         const {currentQuestion, groups, selectedAns} = this.state;
         const {showMedia} = this.props;
         const {id, answer} = currentQuestion;
+        const questionType = currentQuestion.question.type;
+        const questionData = currentQuestion.question.data;
                 
         let groupOptions = groups.map((group, index) => {
             let groupElement;
-            if(group.type === this.multimedia.text)
+            if(group.type === MULTIMEDIA.text)
                 groupElement = <span>{group.data}</span>
-            if(group.type === this.multimedia.image)
+            if(group.type === MULTIMEDIA.image)
                 groupElement = (
                     <div className = "matching-questions">
                         <img src = {group.data}
@@ -285,15 +280,7 @@ class GroupAssignmentPlayer extends Component {
             )
         });
  
-        let questionElement = PlayerMultimediaJSX({
-            questionType: this.state.currentQuestion.question.type,
-            questionData: this.state.currentQuestion.question.data,
-            speak: this.speak,
-            showMedia: showMedia,
-            willSpeak: false,
-            className: 'matching-questions'
-        });
-        let questionType = currentQuestion.question.type; 
+        
         let btnClass;
         if(this.state.submitted){
             if(selectedAns.type === answer.type && selectedAns.data === answer.data)
@@ -310,7 +297,7 @@ class GroupAssignmentPlayer extends Component {
                 {(this.state.selected || this.state.submitted ) && <div className="marker"></div>}
                 <div className={`box ${btnClass}`} id = "on-click"
                     onClick={(e)=>{
-                        if( questionType === this.multimedia.textToSpeech) {
+                        if( questionType === MULTIMEDIA.textToSpeech) {
                             let elem = e.target;
                             if(e.target.getAttribute("id"))
                                 elem = e.target.children[0];
@@ -318,7 +305,14 @@ class GroupAssignmentPlayer extends Component {
                         }
                     }} 
                     >
-                    {questionElement}
+                    <PlayerMultimediaJSX
+                        questionType =  {questionType || 'text'}
+                        questionData =  {questionData}
+                        speak = {this.speak}
+                        showMedia = {showMedia}
+                        willSpeak = {false}
+                        className = 'matching-questions'
+                    />;
                 </div>
             </div>
         )

@@ -9,6 +9,7 @@ import {jsPlumb} from 'jsplumb';
 import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
 import {PlayerMultimediaJSX} from '../../components/MultimediaJSX';
+import {MULTIMEDIA} from '../../utils';
 
 class MATCHING_PAIRPLAYER extends Component {
 
@@ -33,15 +34,6 @@ class MATCHING_PAIRPLAYER extends Component {
             connections: [],
             userAnswers:[],
         }
-
-        this.multimedia = {
-            text: 'text',
-            image: 'image',
-            audio: 'audio',
-            textToSpeech: 'text-to-speech',
-            video: 'video'
-        };
-
         this.instance = jsPlumb.getInstance();
     }
 
@@ -287,7 +279,7 @@ class MATCHING_PAIRPLAYER extends Component {
                 <div className="row" key={`pair-${index+1}`}>
                     <div className="col-md-3 col-sm-3 box question" id={`question-${index+1}`}
                             onClick={(e) => {
-                                if( questionType === this.multimedia.textToSpeech) {
+                                if( questionType === MULTIMEDIA.textToSpeech) {
                                     let elem = e.target;
                                     if(e.target.getAttribute("id"))
                                         elem = e.target.children[0];
@@ -305,7 +297,7 @@ class MATCHING_PAIRPLAYER extends Component {
                     </div>
                     <div className="col-md-3 col-sm-3 box answer" id={`answer-display-${index+1}`}
                             onClick={(e) => {
-                                if( answerType === this.multimedia.textToSpeech) {
+                                if( answerType === MULTIMEDIA.textToSpeech) {
                                     let elem = e.target;
                                     if(e.target.getAttribute("id"))
                                         elem = e.target.children[0];

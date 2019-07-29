@@ -9,6 +9,7 @@ import "../../css/REORDERPlayer.css"
 import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
 import {PlayerMultimediaJSX} from '../../components/MultimediaJSX';
+import {MULTIMEDIA} from '../../utils';
 
 class REORDERPlayer extends Component {
 
@@ -35,15 +36,6 @@ class REORDERPlayer extends Component {
             intervalID: -1,
             userAnswers: []
         }
-
-        this.multimedia = {
-            text: 'text',
-            image: 'image',
-            audio: 'audio',
-            textToSpeech: 'text-to-speech',
-            video: 'video'
-        };
-
     }
 
     // load the exercise from props
@@ -181,50 +173,42 @@ class REORDERPlayer extends Component {
     render() {
         const {showMedia} = this.props;
         const {checkAns, userAns} = this.state;
+        const questionType = this.state.question.type;
+        const questionData = this.state.question.data;
 
         let buttonText = <FormattedMessage id={SUBMIT_QUESTION}/>;
         if (this.state.submitted) buttonText = <FormattedMessage id={FINISH_EXERCISE}/>;
 
-        let question = PlayerMultimediaJSX({
-            questionType: this.state.question.type,
-            questionData: this.state.question.data,
-            speak: this.speak,
-            showMedia: showMedia,
-            willSpeak: true,
-            className: '',
-            height: '100px'
-        });
-
         let options = userAns.map((option, i)=>{
-            let optionElement = PlayerMultimediaJSX({
-                questionType: option.type,
-                questionData: option.data,
-                speak: this.speak,
-                showMedia: showMedia,
-                willSpeak: false,
-                className: '',
-                height: '100px'
-            });
-            let optionsType = option.type;
+            const optionType = option.type;
+            const optionData = option.data;
             return (
-                <div type={option.type} data={option.data}
+                <div type={optionType} data={optionData}
                     id={`answer-${i}`}
                     onClick={(e) => {
-                        if( optionsType === this.multimedia.textToSpeech) {
+                        if( optionType === MULTIMEDIA.textToSpeech) {
                             let elem = e.target;
                             if(e.target.getAttribute("id"))
                                 elem = e.target.children[0];
-                            this.speak(elem, option.data);
-                        } else if(optionsType === this.multimedia.video) {
+                            this.speak(elem, optionData);
+                        } else if(optionType === MULTIMEDIA.video) {
                             let videoElem = e.target;
                             if(!(videoElem.getAttribute("id")) && videoElem.paused){
                                 videoElem.pause();
                             }
-                            showMedia(option.data, this.multimedia.video);
+                            showMedia(optionData, MULTIMEDIA.video);
                         }
                     }}
                 >
-                    {optionElement}
+                    <PlayerMultimediaJSX
+                        questionType = {optionType || 'text'}
+                        questionData = {optionData}
+                        speak = {this.speak}
+                        showMedia = {showMedia}
+                        willSpeak = {false}
+                        className = ''
+                        height = '100px'
+                    />
                 </div>
             );
         })
@@ -253,7 +237,15 @@ class REORDERPlayer extends Component {
                                 <p className="lead">{this.state.title}</p>
                                 <hr className="my-4"/>
                                 <div style={{textAlign: "center"}}>
-                                    {question}
+                                    <PlayerMultimediaJSX
+                                        questionType = {questionType || 'text'}
+                                        questionData = {questionData}
+                                        speak = {this.speak}
+                                        showMedia = {showMedia}
+                                        willSpeak = {true}
+                                        className = ''
+                                        height = '100px'
+                                    />
                                 </div>
                                 <div>
                                     {list}
