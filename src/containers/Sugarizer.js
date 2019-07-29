@@ -71,7 +71,8 @@ class Sugarizer extends Component {
             // Load from datastore
             if (!environment.objectId) {
                 // console.log("New instance");
-                temp.setDefaultExercises();
+                if(!environment.sharedId)
+                    temp.setDefaultExercises();
             } else {
                 activity.getDatastoreObject().loadAsText(function (error, metadata, data) {
                     if (error === null && data !== null) {
