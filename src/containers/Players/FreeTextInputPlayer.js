@@ -31,12 +31,12 @@ class FreeTextInputPlayer extends Component {
             userLanguage: '',
             userAnswers: ''
         }
+        this.intervalId = setInterval(this.timer, 1000);
     }
 
     // load the exercise from props
     componentDidMount() {
         if (this.props.location.state) {
-            let intervalId = setInterval(this.timer, 1000);
             const {id, title, questions, scores, times, userLanguage} = this.props.location.state.exercise;
 
             let goBackToEdit = false;
@@ -54,7 +54,6 @@ class FreeTextInputPlayer extends Component {
                 questions: questions,
                 noOfQuestions: questions.length,
                 userans: userans,
-                intervalID: intervalId,
                 scores: scores,
                 times: times,
                 goBackToEdit: goBackToEdit,
@@ -69,7 +68,7 @@ class FreeTextInputPlayer extends Component {
     }
 
     componentWillUnmount() {
-        clearInterval(this.state.intervalID);
+        clearInterval(this.intervalId);
     }
 
     // to measure time

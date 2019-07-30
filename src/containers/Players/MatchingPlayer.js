@@ -35,12 +35,12 @@ class MATCHING_PAIRPLAYER extends Component {
             userAnswers:[],
         }
         this.instance = jsPlumb.getInstance();
+        this.intervalId = setInterval(this.timer, 1000);
     }
 
     // load the exercise from props
     componentDidMount() {
         if (this.props.location.state) {
-            let intervalId = setInterval(this.timer, 1000);
             const {id, title, pairs, scores, times, userLanguage} = this.props.location.state.exercise;
 
             let goBackToEdit = false;
@@ -61,7 +61,6 @@ class MATCHING_PAIRPLAYER extends Component {
                 title: title,
                 noOfPairs: pairs.length,
                 pairs: pairs,
-                intervalID: intervalId,
                 scores: scores,
                 times: times,
                 goBackToEdit: goBackToEdit,
@@ -169,7 +168,7 @@ class MATCHING_PAIRPLAYER extends Component {
     }
 
     componentWillUnmount() {
-        clearInterval(this.state.intervalID);
+        clearInterval(this.intervalId);
     }
 
     shuffleArray(array) {

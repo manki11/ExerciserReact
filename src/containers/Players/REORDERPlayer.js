@@ -36,12 +36,12 @@ class REORDERPlayer extends Component {
             intervalID: -1,
             userAnswers: []
         }
+        this.intervalId = setInterval(this.timer, 1000);
     }
 
     // load the exercise from props
     componentDidMount() {
         if (this.props.location.state) {
-            let intervalId = setInterval(this.timer, 1000);
             const {id, title, question, scores, times, list, userLanguage } = this.props.location.state.exercise;
 
             let goBackToEdit = false;
@@ -61,7 +61,6 @@ class REORDERPlayer extends Component {
                 list: list,
                 userAns: userAns,
                 goBackToEdit: goBackToEdit,
-                intervalId: intervalId,
                 checkAns: checkAns,
                 userLanguage: userLanguage
             }, () => {
@@ -78,7 +77,7 @@ class REORDERPlayer extends Component {
     };
 
     componentWillUnmount() {
-        clearInterval(this.state.intervalID);
+        clearInterval(this.intervalId);
     }
 
     shuffleArray(array) {

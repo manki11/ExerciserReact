@@ -42,12 +42,12 @@ class GroupAssignmentPlayer extends Component {
             userAnswers: []
         }
         this.colors = ["#d3f6f3", "#f9fce1", "#fee9b2", "#fbd1b7"];
+        this.intervalId = setInterval(this.timer, 1000);
     }
 
     // load the exercise from props
     componentDidMount() {
         if (this.props.location.state) {
-            let intervalId = setInterval(this.timer, 1000);
             const {id, title, questions, scores, times, groups, userLanguage} = this.props.location.state.exercise;
             const currentQuestion = questions[0];
             let finish = false;
@@ -63,7 +63,6 @@ class GroupAssignmentPlayer extends Component {
                 title: title,
                 questions: questions,
                 noOfQuestions: questions.length,
-                intervalID: intervalId,
                 scores: scores,
                 times: times,
                 finish: finish,
@@ -127,7 +126,7 @@ class GroupAssignmentPlayer extends Component {
 
 
     componentWillUnmount() {
-        clearInterval(this.state.intervalID);
+        clearInterval(this.intervalId);
         interact("#question-drag").unset();
         interact(".group-options").unset();
     }

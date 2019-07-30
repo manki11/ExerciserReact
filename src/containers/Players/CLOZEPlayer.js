@@ -39,12 +39,12 @@ class CLOZEPlayer extends Component {
             userLanguage: '',
             userAnswers: []
         }
+        this.intervalId = setInterval(this.timer, 1000);
     }
 
     // load the exercise from props
     componentDidMount() {
         if (this.props.location.state) {
-            let intervalId = setInterval(this.timer, 1000);
             const {id, title, question, scores, times, answers, clozeText, writeIn, userLanguage} = this.props.location.state.exercise;
 
             let goBackToEdit = false;
@@ -83,7 +83,6 @@ class CLOZEPlayer extends Component {
                 userans: userans,
                 cloze: cloze,
                 options: options,
-                intervalId: intervalId,
                 checkans: checkans,
                 writeIn: writeIn,
                 goBackToEdit: goBackToEdit,
@@ -105,7 +104,7 @@ class CLOZEPlayer extends Component {
     }
 
     componentWillUnmount() {
-        clearInterval(this.state.intervalID);
+        clearInterval(this.intervalId);
     }
 
     handleChangeAnsSelect = (text, name) => {
