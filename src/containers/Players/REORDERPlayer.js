@@ -8,6 +8,8 @@ import DragList from "../../components/DragList";
 import "../../css/REORDERPlayer.css"
 import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
+import {PlayerMultimediaJSX} from '../../components/MultimediaJSX';
+import {MULTIMEDIA} from '../../utils';
 
 class REORDERPlayer extends Component {
 
@@ -34,21 +36,12 @@ class REORDERPlayer extends Component {
             intervalID: -1,
             userAnswers: []
         }
-
-        this.multimedia = {
-            text: 'text',
-            image: 'image',
-            audio: 'audio',
-            textToSpeech: 'text-to-speech',
-            video: 'video'
-        };
-
+        this.intervalId = setInterval(this.timer, 1000);
     }
 
     // load the exercise from props
     componentDidMount() {
         if (this.props.location.state) {
-            let intervalId = setInterval(this.timer, 1000);
             const {id, title, question, scores, times, list, userLanguage } = this.props.location.state.exercise;
 
             let goBackToEdit = false;
@@ -68,7 +61,6 @@ class REORDERPlayer extends Component {
                 list: list,
                 userAns: userAns,
                 goBackToEdit: goBackToEdit,
-                intervalId: intervalId,
                 checkAns: checkAns,
                 userLanguage: userLanguage
             }, () => {
@@ -85,7 +77,7 @@ class REORDERPlayer extends Component {
     };
 
     componentWillUnmount() {
-        clearInterval(this.state.intervalID);
+        clearInterval(this.intervalId);
     }
 
     shuffleArray(array) {
@@ -180,112 +172,42 @@ class REORDERPlayer extends Component {
     render() {
         const {showMedia} = this.props;
         const {checkAns, userAns} = this.state;
+        const questionType = this.state.question.type;
+        const questionData = this.state.question.data;
 
         let buttonText = <FormattedMessage id={SUBMIT_QUESTION}/>;
         if (this.state.submitted) buttonText = <FormattedMessage id={FINISH_EXERCISE}/>;
 
-        let question;
-        let questionType = this.state.question.type; 
-        if( questionType === this.multimedia.text)
-            question = (
-               <p>{this.state.question.data}</p>
-            );
-        if( questionType === this.multimedia.image)
-            question = (
-                <div>
-                    <p style = {{textAlign: 'center'}}>
-                        <img src = {this.state.question.data}
-                            style = {{height: '200px'}}
-                            onClick = {()=>{showMedia(this.state.question.data)}}
-                            alt="Question"/>
-                    </p>
-                </div>
-            );
-        if( questionType === this.multimedia.audio)
-            question = (
-                <div>
-                    <p style = {{textAlign: 'center'}}>
-                        <audio src={this.state.question.data} controls>
-                        </audio>
-                    </p>
-                </div>
-                
-            );
-        if( questionType === this.multimedia.textToSpeech) {
-            question = (
-                <div>
-                    <p style={{textAlign: 'center'}}>
-                        <img className="button-off"
-                            onClick={(e)=>{this.speak(e.target, this.state.question.data)}}
-                            alt="text-to-speech-question"
-                        />
-                    </p>
-                </div>
-            );
-        }
-        if( questionType === this.multimedia.video)
-            question = (
-                <div>
-                    <p style = {{textAlign: 'center'}}>
-                        <video src={this.state.question.data} controls
-                            height="250px">
-                        </video>
-                    </p>
-                </div>
-            );
-
         let options = userAns.map((option, i)=>{
-            let optionElement;
-            let optionsType = option.type;
-            if( optionsType === this.multimedia.text)
-                optionElement = option.data;
-            if( optionsType === this.multimedia.image)
-                optionElement = (
-                    <img src = {option.data}
-                            style = {{height: '100px'}}
-                            onClick = {()=>{showMedia(option.data)}}
-                            alt="Option"/>
-                );
-            if( optionsType === this.multimedia.audio)
-                optionElement = (
-                    <audio  className="audio-option"
-                            src={option.data}
-                            style={{width: '100%'}}
-                            controls>
-                    </audio>
-                );
-            if( optionsType === this.multimedia.textToSpeech) {
-                optionElement = (
-                    <img className="button-off"
-                        alt="text-to-speech-option"
-                    />
-                );
-            }
-            if( optionsType === this.multimedia.video)
-                optionElement = (
-                    <video  src={option.data} controls
-                            height="100px">
-                    </video>
-                );
+            const optionType = option.type;
+            const optionData = option.data;
             return (
-                <div type={option.type} data={option.data}
+                <div type={optionType} data={optionData}
                     id={`answer-${i}`}
                     onClick={(e) => {
-                        if( optionsType === this.multimedia.textToSpeech) {
+                        if( optionType === MULTIMEDIA.textToSpeech) {
                             let elem = e.target;
                             if(e.target.getAttribute("id"))
                                 elem = e.target.children[0];
-                            this.speak(elem, option.data);
-                        } else if(optionsType === this.multimedia.video) {
+                            this.speak(elem, optionData);
+                        } else if(optionType === MULTIMEDIA.video) {
                             let videoElem = e.target;
                             if(!(videoElem.getAttribute("id")) && videoElem.paused){
                                 videoElem.pause();
                             }
-                            showMedia(option.data, this.multimedia.video);
+                            showMedia(optionData, MULTIMEDIA.video);
                         }
                     }}
                 >
-                    {optionElement}
+                    <PlayerMultimediaJSX
+                        questionType = {optionType || 'text'}
+                        questionData = {optionData}
+                        speak = {this.speak}
+                        showMedia = {showMedia}
+                        willSpeak = {false}
+                        className = ''
+                        height = '100px'
+                    />
                 </div>
             );
         })
@@ -313,7 +235,17 @@ class REORDERPlayer extends Component {
                             <div className="jumbotron">
                                 <p className="lead">{this.state.title}</p>
                                 <hr className="my-4"/>
-                                {question}
+                                <div style={{textAlign: "center"}}>
+                                    <PlayerMultimediaJSX
+                                        questionType = {questionType || 'text'}
+                                        questionData = {questionData}
+                                        speak = {this.speak}
+                                        showMedia = {showMedia}
+                                        willSpeak = {true}
+                                        className = ''
+                                        height = '100px'
+                                    />
+                                </div>
                                 <div>
                                     {list}
                                 </div>

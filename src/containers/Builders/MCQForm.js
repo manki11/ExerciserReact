@@ -8,12 +8,11 @@ import chooser from 'lib/sugar-web/graphics/journalchooser';
 import env from 'lib/sugar-web/env';
 import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
+import {QuestionOptionsJSX, AnswerOptionsJSX, QuestionJSX} from '../../components/MultimediaJSX';
 import {
     QUESTION,
     FINISH_EXERCISE,
     TITLE_OF_EXERCISE,
-    CORRECT_OPTION,
-    WRONG_OPTION,
     NEXT_QUESTION,
     PREVIOUS_QUESTION,
     TEST_EXERCISE,
@@ -21,10 +20,10 @@ import {
     QUESTION_ERROR,
     ANSWER_ERROR,
     MCQ,
-    TEXT
 } from "../translation";
 import {withRouter} from "react-router-dom"
 import "../../css/MCQForm.css"
+import{MULTIMEDIA} from '../../utils';
 
 class MCQForm extends Component {
 
@@ -53,14 +52,6 @@ class MCQForm extends Component {
                 },
                 options: [{type: '', data: ''}, {type: '', data: ''}] 
             }
-        };
-
-        this.multimedia = {
-            text: 'text',
-            image: 'image',
-            audio: 'audio',
-            textToSpeech: 'text-to-speech',
-            video: 'video'
         };
     }
 
@@ -284,7 +275,7 @@ class MCQForm extends Component {
         if(!question.type)
             isFormValid  = false;
         
-        if ((question.type === this.multimedia.text || question.type === this.multimedia.textToSpeech)
+        if ((question.type === MULTIMEDIA.text || question.type === MULTIMEDIA.textToSpeech)
              && question.data === '') {
             isFormValid = false;
         }
@@ -383,11 +374,11 @@ class MCQForm extends Component {
         const {currentQuestion} = this.state;
 
         let image, audio, video = false;
-        if(mediaType === this.multimedia.image)
+        if(mediaType === MULTIMEDIA.image)
             image = true;
-        if(mediaType === this.multimedia.audio)
+        if(mediaType === MULTIMEDIA.audio)
             audio = true;
-        if(mediaType === this.multimedia.video)
+        if(mediaType === MULTIMEDIA.video)
             video = true;
         env.getEnvironment((err, environment) => {
             if(environment.user) {
@@ -448,7 +439,7 @@ class MCQForm extends Component {
 
     selectQuestionType = (mediaType) => {
         const {currentQuestion} = this.state;
-        if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
+        if(mediaType === MULTIMEDIA.text || mediaType === MULTIMEDIA.textToSpeech) {
             this.setState({
                 ...this.state,
                 currentQuestion:{
@@ -468,7 +459,7 @@ class MCQForm extends Component {
 
     selectOptionType = (mediaType, optionNo) => {
         const {currentQuestion} = this.state;
-        if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
+        if(mediaType === MULTIMEDIA.text || mediaType === MULTIMEDIA.textToSpeech) {
             let {options} = currentQuestion;
             options[optionNo] = {type: mediaType, data: ''};
             this.setState({
@@ -502,222 +493,8 @@ class MCQForm extends Component {
         const {currentQuestion, errors} = this.state;
         const {id, options} = currentQuestion;
         const {thumbnail, insertThumbnail, showMedia} = this.props;
-
-        //Question-Options
-        let questionOptions = (
-            <div className="question-options">
-                <button className="btn button-question-options button-text col-md-2" 
-                    onClick={() => {
-                            this.selectQuestionType(this.multimedia.text)
-                        }}>
-                    <FormattedMessage id={TEXT}/>
-                </button>
-                <button className="btn button-question-options button-image col-md-2" 
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.image);
-                    }}>
-                </button>
-                <button className="btn button-question-options button-audio col-md-2" 
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.audio);
-                    }}>
-                </button>
-                <button className="btn button-question-options button-text-to-speech col-md-2" 
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.textToSpeech);
-                        }}>
-                </button>
-                <button className="btn button-question-options button-video col-md-2" 
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.video);
-                    }}>
-                </button>
-            </div>
-        );
+        let questionType = currentQuestion.question.type;
         
-        let question;
-        let questionType = currentQuestion.question.type; 
-        if( questionType === this.multimedia.text)
-            question = (
-                <input
-                    className="input-mcq"
-                    type="text"
-                    id="question"
-                    value={currentQuestion.question.data}
-                    onChange={this.handleChangeQues}
-                />
-            );
-        if( questionType === this.multimedia.image)
-            question = (
-                <div className = "media-background">
-                   <img src = {currentQuestion.question.data}
-                        style = {{height: '200px'}}
-                        onClick = {()=>{showMedia(currentQuestion.question.data)}}
-                        alt="Question"/>
-                </div>
-            );
-        if( questionType === this.multimedia.audio)
-            question = (
-                <audio src={currentQuestion.question.data} controls
-                        style={{width: '-webkit-fill-available'}}>
-                </audio>
-            );
-        if( questionType === this.multimedia.textToSpeech)
-            question = (
-                <div>
-                    <input
-                        className="input-text-to-speech"
-                        id="question"
-                        value={currentQuestion.question.data}
-                        onChange={this.handleChangeQues}
-                    />
-                    <button className="btn button-finish button-speaker button-off" 
-                            onClick={(e)=>{this.speak(e, currentQuestion.question.data)}}>
-                    </button>
-                </div>
-            );
-        if( questionType === this.multimedia.video)
-            question = (
-                <div className="media-background">
-                    <video src={currentQuestion.question.data} controls
-                            height="250px">
-                    </video>
-                </div>
-            );
-        
-        // Answer-Options
-        let answerOptions = options.map((option, i) => {
-            if(!option.type)
-                return (
-                    <div className="question-options" key={`options-${i}`}>
-                        <label htmlFor={`answer-${i}`}>
-                            {i + 1}
-                        </label>
-                        <button className="btn button-answer-options button-text col-md-1" 
-                            onClick={() => {
-                                    this.selectOptionType(this.multimedia.text, i);
-                                }}>
-                            <FormattedMessage id={TEXT}/>
-                        </button>
-                        <button className="btn button-answer-options button-image col-md-1" 
-                            onClick={() => {
-                                this.selectOptionType(this.multimedia.image, i);
-                            }}>                            
-                        </button>
-                        <button className="btn button-answer-options button-audio col-md-1" 
-                            onClick={() => {
-                                this.selectOptionType(this.multimedia.audio, i);
-                                }}>                        
-                        </button>
-                        <button className="btn button-answer-options button-text-to-speech col-md-1" 
-                            onClick={() => {
-                                this.selectOptionType(this.multimedia.textToSpeech, i)}}>
-                        </button>
-                        <button className="btn button-answer-options button-video col-md-1" 
-                            onClick={() => {
-                                this.selectOptionType(this.multimedia.video, i);
-                            }}>
-                        </button>
-                        <span className = "options-placeholder">
-                            <FormattedMessage id={i===0?CORRECT_OPTION:WRONG_OPTION}/>
-                        </span>
-                    </div>
-                );
-            else {
-                let optionElement;
-                let optionsType = option.type;
-                if( optionsType === this.multimedia.text)
-                    optionElement = (
-                        <div className="answers">
-                            <input
-                                className="answers input-ans"
-                                type="text"
-                                id="option"
-                                name={`option-${i}`}
-                                value={option.data}
-                                onChange={this.handleChangeOption}
-                                style={{width: 'auto'}}
-                            />
-                            <button className="btn button-choices-edit" 
-                                    style={{marginLeft: '5px'}}                               
-                                    onClick={()=>{this.resetOption(i)}}>
-                            </button>
-                        </div>
-                    );
-                if( optionsType === this.multimedia.image)
-                    optionElement = (
-                        <div className="answers">
-                            <div className = "media-background answers">
-                                <img src = {option.data}
-                                        style = {{height: '100px'}}
-                                        onClick = {()=>{showMedia(option.data)}}
-                                        alt="Option"/>
-                            </div>                    
-                            <button className="btn button-choices-edit" 
-                                    style={{marginLeft: '5px'}}                               
-                                    onClick={()=>{this.resetOption(i)}}>
-                            </button>
-                        </div>    
-                    );
-                if( optionsType === this.multimedia.audio)
-                    optionElement = (
-                        <div className="answers" style={{marginBottom: '10px'}}>
-                            <audio  className="answers vertical-align"
-                                    src={option.data}
-                                    controls>
-                            </audio>
-                            <button className="btn button-choices-edit" 
-                                    style={{marginLeft: '5px'}}                               
-                                    onClick={()=>{this.resetOption(i)}}>
-                            </button>
-                        </div>
-                    );
-                if( optionsType === this.multimedia.textToSpeech)
-                    optionElement = (
-                        <div className="answers">
-                            <input
-                                className="answers input-ans"
-                                id="option"
-                                type="text"
-                                name={`option-${i}`}
-                                value={option.data}
-                                onChange={this.handleChangeOption}
-                                style={{width: 'auto'}}
-                            />
-                            <button className="btn button-finish button-speaker button-off" 
-                                    onClick={(e)=>{this.speak(e, option.data)}}>
-                            </button>
-                            <button className="btn button-choices-edit" 
-                                    style={{marginLeft: '5px'}}                               
-                                    onClick={()=>{this.resetOption(i)}}>
-                            </button>
-                        </div>
-                    );
-                if( optionsType === this.multimedia.video)
-                    optionElement = (
-                        <div className="answers">
-                            <div className="media-background answers vertical-align">
-                                <video src={option.data} controls
-                                        height="100px">
-                                </video>
-                            </div>
-                            <button className="btn button-choices-edit" 
-                                    style={{marginLeft: '5px'}}                               
-                                    onClick={()=>{this.resetOption(i)}}>
-                            </button>
-                        </div>
-                    );
-                return (
-                    <div className="option" key={`options-${i}`}>
-                        <label htmlFor={`answer-${i}`}>
-                            {i + 1}
-                        </label>
-                        {optionElement}
-                    </div>
-                )
-            }
-        });
-
         let title_error = '';
         let question_error = '';
         let options_error = '';
@@ -766,12 +543,32 @@ class MCQForm extends Component {
                                             {questionType && <button className="btn button-edit" 
                                                 onClick={() => {this.setState({...this.state, currentQuestion:{...currentQuestion, question:{type:'', data:''}}})}}>
                                             </button>}
-                                            {!questionType && questionOptions}
-                                            {questionType && question}
-                                            {questionType === this.multimedia.text && question_error}
+                                            {!questionType && 
+                                                <QuestionOptionsJSX
+                                                    selectQuestionType = {this.selectQuestionType}
+                                                />}
+                                            {questionType && 
+                                                <QuestionJSX
+                                                    questionType = {questionType}
+                                                    questionData = {this.state.currentQuestion.question.data}
+                                                    showMedia = {showMedia}
+                                                    handleChangeQues = {this.handleChangeQues}
+                                                    speak = {this.speak}
+                                                />
+                                            }
+                                            {questionType === MULTIMEDIA.text && question_error}
                                         </div>
                                     </div>
-                                    {answerOptions}
+                                    <AnswerOptionsJSX 
+                                        selectOptionType = {this.selectOptionType}
+                                        resetOption = {this.resetOption}
+                                        showMedia = {this.showMedia}
+                                        speak = {this.speak}
+                                        options = {options}
+                                        changeOrder = {this.changeOrder}
+                                        handleChangeOption = {this.handleChangeOption}
+                                        templateType = "MCQ"
+                                    />
                                     <div>
                                         {options_error}
                                     </div>

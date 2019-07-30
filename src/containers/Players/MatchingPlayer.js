@@ -8,6 +8,8 @@ import {FormattedMessage} from 'react-intl';
 import {jsPlumb} from 'jsplumb';
 import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
+import {PlayerMultimediaJSX} from '../../components/MultimediaJSX';
+import {MULTIMEDIA} from '../../utils';
 
 class MATCHING_PAIRPLAYER extends Component {
 
@@ -32,22 +34,13 @@ class MATCHING_PAIRPLAYER extends Component {
             connections: [],
             userAnswers:[],
         }
-
-        this.multimedia = {
-            text: 'text',
-            image: 'image',
-            audio: 'audio',
-            textToSpeech: 'text-to-speech',
-            video: 'video'
-        };
-
         this.instance = jsPlumb.getInstance();
+        this.intervalId = setInterval(this.timer, 1000);
     }
 
     // load the exercise from props
     componentDidMount() {
         if (this.props.location.state) {
-            let intervalId = setInterval(this.timer, 1000);
             const {id, title, pairs, scores, times, userLanguage} = this.props.location.state.exercise;
 
             let goBackToEdit = false;
@@ -68,7 +61,6 @@ class MATCHING_PAIRPLAYER extends Component {
                 title: title,
                 noOfPairs: pairs.length,
                 pairs: pairs,
-                intervalID: intervalId,
                 scores: scores,
                 times: times,
                 goBackToEdit: goBackToEdit,
@@ -176,7 +168,7 @@ class MATCHING_PAIRPLAYER extends Component {
     }
 
     componentWillUnmount() {
-        clearInterval(this.state.intervalID);
+        clearInterval(this.intervalId);
     }
 
     shuffleArray(array) {
@@ -279,101 +271,45 @@ class MATCHING_PAIRPLAYER extends Component {
         const {showMedia} = this.props;
 
         let matchingTemplate = questions.map((ques, index) => {
-            let question;
             let questionType = ques.type; 
-            if( questionType === this.multimedia.text)
-                question = (
-                    <p style={{paddingTop:'40px'}}>{ques.data}</p>
-                );
-            if( questionType === this.multimedia.image)
-                question = (
-                    <img src = {ques.data}
-                        className = "matching-questions"                      
-                        onClick = {()=>{showMedia(ques.data)}}
-                        alt="Question"/>
-                );
-            if( questionType === this.multimedia.audio)
-                question = (
-                    <audio 
-                        className = "matching-questions"
-                        src={ques.data} controls>
-                    </audio>
-                );
-            if( questionType === this.multimedia.textToSpeech) {
-                question = (
-                    <img className="button-off matching-questions"
-                        alt="text-to-speech-question"
-                    />
-                );
-            }
-            if( questionType === this.multimedia.video)
-                question = (
-                    <video src={ques.data} controls
-                            onClick={()=>{showMedia(ques.data, this.multimedia.video)}}
-                        className = "matching-questions">  
-                    </video>
-                );
-
-            let answer;
             let answerType = this.state.answers[index].type;
-            if( answerType === this.multimedia.text)
-                answer = (
-                    <p style={{paddingTop:'40px'}}>
-                        {this.state.answers[index].data}
-                    </p>
-                );
-            if( answerType === this.multimedia.image)
-                answer = (
-                    <img src = {this.state.answers[index].data}
-                        className = "matching-answers"
-                        onClick = {()=>{showMedia(this.state.answers[index].data)}}
-                        alt="Option"/>
-                );
-            if( answerType === this.multimedia.audio)
-                answer = (
-                    <audio  className="audio-option matching-answers"
-                            src={this.state.answers[index].data}
-                            controls>
-                    </audio>
-                );
-            if( answerType === this.multimedia.textToSpeech) {
-                answer = (
-                    <img className="button-off matching-answers"
-                        alt="text-to-speech-option"
-                    />
-                );
-            }
-            if( answerType === this.multimedia.video)
-                answer = (
-                    <video  src={this.state.answers[index].data} controls
-                        onClick={()=>{showMedia(this.state.answers[index].data, this.multimedia.video)}}
-                        className = "matching-answers"> 
-                    </video>
-                );
 
             return (
                 <div className="row" key={`pair-${index+1}`}>
                     <div className="col-md-3 col-sm-3 box question" id={`question-${index+1}`}
                             onClick={(e) => {
-                                if( questionType === this.multimedia.textToSpeech) {
+                                if( questionType === MULTIMEDIA.textToSpeech) {
                                     let elem = e.target;
                                     if(e.target.getAttribute("id"))
                                         elem = e.target.children[0];
                                     this.speak(elem, ques.data);
                                 }
                             }}>
-                        {question}
+                        <PlayerMultimediaJSX
+                            questionType = {ques.type}
+                            questionData = {ques.data}
+                            speak = {this.speak}
+                            showMedia = {showMedia}
+                            willSpeak = {false}
+                            className = {'matching-questions'}
+                        />
                     </div>
                     <div className="col-md-3 col-sm-3 box answer" id={`answer-display-${index+1}`}
                             onClick={(e) => {
-                                if( answerType === this.multimedia.textToSpeech) {
+                                if( answerType === MULTIMEDIA.textToSpeech) {
                                     let elem = e.target;
                                     if(e.target.getAttribute("id"))
                                         elem = e.target.children[0];
                                     this.speak(elem, this.state.answers[index].data);
                                 }
                             }}>
-                        {answer}
+                        <PlayerMultimediaJSX
+                            questionType = {this.state.answers[index].type}
+                            questionData = {this.state.answers[index].data}
+                            speak = {this.speak}
+                            showMedia = {showMedia}
+                            className = {'matching-questions'}
+                        />
                     </div>  
                 </div>
             );

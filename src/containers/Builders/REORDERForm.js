@@ -9,6 +9,7 @@ import chooser from 'lib/sugar-web/graphics/journalchooser';
 import env from 'lib/sugar-web/env';
 import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
+import {QuestionOptionsJSX, QuestionJSX, AnswerOptionsJSX} from '../../components/MultimediaJSX';
 import {
     FINISH_EXERCISE,
     QUESTION,
@@ -16,9 +17,9 @@ import {
     TEST_EXERCISE,
     QUESTION_ERROR,
     LIST_ERROR, TITLE_ERROR, REORDER_LIST,
-    TEXT
 } from "../translation";
 import "../../css/REORDERForm.css";
+import {MULTIMEDIA} from '../../utils';
 
 class REORDERForm extends Component {
 
@@ -44,14 +45,6 @@ class REORDERForm extends Component {
                 title: false,
             }
         }
-
-        this.multimedia = {
-            text: 'text',
-            image: 'image',
-            audio: 'audio',
-            textToSpeech: 'text-to-speech',
-            video: 'video'
-        };
     }
 
     // in case of edit load the exercise
@@ -233,11 +226,11 @@ class REORDERForm extends Component {
 
     showJournalChooser = (mediaType, options = false, optionNo = -1) => {
         let image, audio, video = false;
-        if(mediaType === this.multimedia.image)
+        if(mediaType === MULTIMEDIA.image)
             image = true;
-        if(mediaType === this.multimedia.audio)
+        if(mediaType === MULTIMEDIA.audio)
             audio = true;
-        if(mediaType === this.multimedia.video)
+        if(mediaType === MULTIMEDIA.video)
             video = true;
         env.getEnvironment((err, environment) => {
             if(environment.user) {
@@ -291,7 +284,7 @@ class REORDERForm extends Component {
     }
 
     selectQuestionType = (mediaType) => {
-        if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
+        if(mediaType === MULTIMEDIA.text || mediaType === MULTIMEDIA.textToSpeech) {
             this.setState({
                 ...this.state,
                 question: {
@@ -307,7 +300,7 @@ class REORDERForm extends Component {
     }
 
     selectOptionType = (mediaType, optionNo) => {
-        if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
+        if(mediaType === MULTIMEDIA.text || mediaType === MULTIMEDIA.textToSpeech) {
             let {list} = this.state;
             list[optionNo] = {type: mediaType, data: ''};
             this.setState({
@@ -333,224 +326,7 @@ class REORDERForm extends Component {
     render() {
         const {errors, list} = this.state;
         const {thumbnail, insertThumbnail, showMedia} = this.props;
-
-        //Question-Options
-        let questionOptions = (
-            <div className="question-options">
-                <button className="btn button-question-options button-text col-md-2"
-                    onClick={() => {
-                            this.selectQuestionType(this.multimedia.text)
-                        }}>
-                    <FormattedMessage id={TEXT}/>
-                </button>
-                <button className="btn button-question-options button-image col-md-2"
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.image);
-                    }}>
-                </button>
-                <button className="btn button-question-options button-audio col-md-2"
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.audio);
-                    }}>
-                </button>
-                <button className="btn button-question-options button-text-to-speech col-md-2"
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.textToSpeech);
-                        }}>
-                </button>
-                <button className="btn button-question-options button-video col-md-2"
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.video);
-                    }}>
-                </button>
-            </div>
-        );
-
-        let question;
         let questionType = this.state.question.type;
-        if( questionType === this.multimedia.text)
-            question = (
-                <input
-                    className="input-mcq"
-                    type="text"
-                    id="question"
-                    value={this.state.question.data}
-                    onChange={this.handleChangeQues}
-                />
-            );
-        if( questionType === this.multimedia.image)
-            question = (
-                <div className = "media-background">
-                   <img src = {this.state.question.data}
-                        style = {{height: '200px'}}
-                        onClick = {()=>{showMedia(this.state.question.data)}}
-                        alt="Question"/>
-                </div>
-            );
-        if( questionType === this.multimedia.audio)
-            question = (
-                <audio src={this.state.question.data} controls
-                        style={{width: '-webkit-fill-available'}}>
-                </audio>
-            );
-        if( questionType === this.multimedia.textToSpeech)
-            question = (
-                <div>
-                    <input
-                        className="input-text-to-speech"
-                        id="question"
-                        value={this.state.question.data}
-                        onChange={this.handleChangeQues}
-                    />
-                    <button className="btn button-finish button-speaker button-off"
-                            onClick={(e)=>{this.speak(e, this.state.question.data)}}>
-                    </button>
-                </div>
-            );
-        if( questionType === this.multimedia.video)
-            question = (
-                <div className="media-background">
-                    <video src={this.state.question.data} controls
-                            height="250px">
-                    </video>
-                </div>
-            );
-
-        // Answer-Options
-        let lists = list.map((option, i) => {
-            if(!option.type)
-                return (
-                    <div className="question-list" key={`options-${i}`}>
-                        <label htmlFor={`answer-${i}`}>
-                            {i + 1}
-                        </label>
-                        <button className="btn button-answer-options button-text col-md-1"
-                            onClick={() => {
-                                    this.selectOptionType(this.multimedia.text, i);
-                                }}>
-                            <FormattedMessage id={TEXT}/>
-                        </button>
-                        <button className="btn button-answer-options button-image col-md-1"
-                            onClick={() => {
-                                this.selectOptionType(this.multimedia.image, i);
-                            }}>
-                        </button>
-                        <button className="btn button-answer-options button-audio col-md-1"
-                            onClick={() => {
-                                this.selectOptionType(this.multimedia.audio, i);
-                                }}>
-                        </button>
-                        <button className="btn button-answer-options button-text-to-speech col-md-1"
-                            onClick={() => {
-                                this.selectOptionType(this.multimedia.textToSpeech, i)}}>
-                        </button>
-                        <button className="btn button-answer-options button-video col-md-1"
-                            onClick={() => {
-                                this.selectOptionType(this.multimedia.video, i);
-                            }}>
-                        </button>
-                        <div style={{float: 'right'}}>
-                            <button className="up-down-button up-button" onClick={()=>this.changeOrder(i,i-1)}/>
-                            <button className="up-down-button down-button" onClick={()=>this.changeOrder(i,i+1)}/>
-                        </div>
-                    </div>
-                );
-            else {
-                let optionElement;
-                let optionsType = option.type;
-                if( optionsType === this.multimedia.text)
-                    optionElement = (
-                        <div className="answers">
-                            <input
-                                className="answers input-ans"
-                                type="text"
-                                id="option"
-                                name={`option-${i}`}
-                                value={option.data}
-                                onChange={this.handleChangeOption}
-                            />
-                            <button className="btn button-choices-edit"
-                                    style={{marginLeft: '5px'}}
-                                    onClick={()=>{this.resetOption(i)}}>
-                            </button>
-                        </div>
-                    );
-                if( optionsType === this.multimedia.image)
-                    optionElement = (
-                        <div className="answers">
-                            <div className = "media-background answers">
-                                <img src = {option.data}
-                                        style = {{height: '100px'}}
-                                        onClick = {()=>{showMedia(option.data)}}
-                                        alt="Option"/>
-                            </div>
-                            <button className="btn button-choices-edit"
-                                    style={{marginLeft: '5px'}}
-                                    onClick={()=>{this.resetOption(i)}}>
-                            </button>
-                        </div>
-                    );
-                if( optionsType === this.multimedia.audio)
-                    optionElement = (
-                        <div className="answers" style={{marginBottom: '10px'}}>
-                            <audio  className="answers vertical-align"
-                                    src={option.data}
-                                    controls>
-                            </audio>
-                            <button className="btn button-choices-edit"
-                                    style={{marginLeft: '5px'}}
-                                    onClick={()=>{this.resetOption(i)}}>
-                            </button>
-                        </div>
-                    );
-                if( optionsType === this.multimedia.textToSpeech)
-                    optionElement = (
-                        <div className="answers">
-                            <input
-                                className="answers input-ans"
-                                id="option"
-                                type="text"
-                                name={`option-${i}`}
-                                value={option.data}
-                                onChange={this.handleChangeOption}
-                            />
-                            <button className="btn button-finish button-speaker button-off"
-                                    onClick={(e)=>{this.speak(e, option.data)}}>
-                            </button>
-                            <button className="btn button-choices-edit"
-                                    style={{marginLeft: '5px'}}
-                                    onClick={()=>{this.resetOption(i)}}>
-                            </button>
-                        </div>
-                    );
-                if( optionsType === this.multimedia.video)
-                    optionElement = (
-                        <div className="answers">
-                            <div className="media-background answers vertical-align">
-                                <video src={option.data} controls
-                                        height="100px">
-                                </video>
-                            </div>
-                            <button className="btn button-choices-edit"
-                                    style={{marginLeft: '5px'}}
-                                    onClick={()=>{this.resetOption(i)}}>
-                            </button>
-                        </div>
-                    );
-                return (
-                    <div className="option" key={`options-${i}`}>
-                        <label htmlFor={`answer-${i}`}>
-                            {i + 1}
-                        </label>
-                        {optionElement}
-                        <div style={{float: 'right'}}>
-                            <button className="up-down-button up-button" onClick={()=>this.changeOrder(i,i-1)}/>
-                            <button className="up-down-button down-button" onClick={()=>this.changeOrder(i,i+1)}/>
-                        </div>
-                    </div>
-                )
-            }
-        });
 
         let title_error = '';
         let question_error = '';
@@ -601,12 +377,32 @@ class REORDERForm extends Component {
                                             {questionType && <button className="btn button-edit"
                                                 onClick={() => {this.setState({...this.state, question:{type:'', data:''}})}}>
                                             </button>}
-                                            {!this.state.question.type && questionOptions}
-                                            {this.state.question.type && question}
+                                            {!questionType && 
+                                                    <QuestionOptionsJSX
+                                                        selectQuestionType = {this.selectQuestionType}
+                                                    />}
+                                            {questionType && 
+                                                <QuestionJSX
+                                                    questionType = {this.state.question.type}
+                                                    questionData = {this.state.question.data}
+                                                    showMedia = {showMedia}
+                                                    handleChangeQues = {this.handleChangeQues}
+                                                    speak = {this.speak}
+                                                />
+                                            }
                                             {question_error}
                                         </div>
                                     </div>
-                                        {lists}
+                                        <AnswerOptionsJSX 
+                                            selectOptionType = {this.selectOptionType}
+                                            resetOption = {this.resetOption}
+                                            showMedia = {this.showMedia}
+                                            speak = {this.speak}
+                                            options = {list}
+                                            changeOrder = {this.changeOrder}
+                                            handleChangeOption = {this.handleChangeOption}
+                                            templateType = "REORDER"
+                                        />
                                     <div>
                                         {list_error}
                                     </div>

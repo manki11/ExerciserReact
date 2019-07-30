@@ -26,6 +26,9 @@ import chooser from 'lib/sugar-web/graphics/journalchooser';
 import env from 'lib/sugar-web/env';
 import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
+import {QuestionOptionsJSX} from '../../components/MultimediaJSX';
+import {QuestionJSX} from '../../components/MultimediaJSX';
+import {MULTIMEDIA} from '../../utils';
 
 class GroupAssignmentForm extends Component {
 
@@ -54,14 +57,6 @@ class GroupAssignmentForm extends Component {
                 answer: {type:'', data: ''},
                 correctGroup: ''
             }
-        };
-
-        this.multimedia = {
-            text: 'text',
-            image: 'image',
-            audio: 'audio',
-            textToSpeech: 'text-to-speech',
-            video: 'video'
         };
     }
 
@@ -444,11 +439,11 @@ class GroupAssignmentForm extends Component {
 
     showJournalChooser = (mediaType, groups = false, groupNo = -1) => {
         let image, audio, video = false;
-        if(mediaType === this.multimedia.image)
+        if(mediaType === MULTIMEDIA.image)
             image = true;
-        if(mediaType === this.multimedia.audio)
+        if(mediaType === MULTIMEDIA.audio)
             audio = true;
-        if(mediaType === this.multimedia.video)
+        if(mediaType === MULTIMEDIA.video)
             video = true;
         env.getEnvironment((err, environment) => {
             if(environment.user) {
@@ -503,7 +498,7 @@ class GroupAssignmentForm extends Component {
 
     selectQuestionType = (mediaType) => {
         const {currentQuestion} = this.state;
-        if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
+        if(mediaType === MULTIMEDIA.text || mediaType === MULTIMEDIA.textToSpeech) {
             this.setState({
                 ...this.state,
                 errors:{
@@ -526,7 +521,7 @@ class GroupAssignmentForm extends Component {
     }
 
     selectGroupType = (mediaType, groupNo) => {
-        if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
+        if(mediaType === MULTIMEDIA.text || mediaType === MULTIMEDIA.textToSpeech) {
             let {groups} = this.state;
             groups[groupNo] = {type: mediaType, data: ''};
             this.setState({
@@ -561,89 +556,8 @@ class GroupAssignmentForm extends Component {
         const {currentQuestion, errors, groups} = this.state;
         const {id} = currentQuestion;
         const {thumbnail, insertThumbnail, showMedia} = this.props;
+        let questionType = currentQuestion.question.type;
 
-        //Question-Options
-        let questionOptions = (
-            <div className="question-options">
-                <button className="btn button-question-options button-text col-md-2" 
-                    onClick={() => {
-                            this.selectQuestionType(this.multimedia.text)
-                        }}>
-                    <FormattedMessage id={TEXT}/>
-                </button>
-                <button className="btn button-question-options button-image col-md-2" 
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.image);
-                    }}>
-                </button>
-                <button className="btn button-question-options button-audio col-md-2" 
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.audio);
-                    }}>
-                </button>
-                <button className="btn button-question-options button-text-to-speech col-md-2" 
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.textToSpeech);
-                        }}>
-                </button>
-                <button className="btn button-question-options button-video col-md-2" 
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.video);
-                    }}>
-                </button>
-            </div>
-        );
-        
-        let question;
-        let questionType = currentQuestion.question.type; 
-        if( questionType === this.multimedia.text)
-            question = (
-                <input
-                    className="input-mcq"
-                    type="text"
-                    id="question"
-                    value={currentQuestion.question.data}
-                    onChange={this.handleChangeQues}
-                />
-            );
-        if( questionType === this.multimedia.image)
-            question = (
-                <div className = "media-background">
-                   <img src = {currentQuestion.question.data}
-                        style = {{height: '200px'}}
-                        onClick = {()=>{showMedia(currentQuestion.question.data)}}
-                        alt="Question"/>
-                </div>
-            );
-        if( questionType === this.multimedia.audio)
-            question = (
-                <audio src={currentQuestion.question.data} controls
-                        style={{width: '-webkit-fill-available'}}>
-                </audio>
-            );
-        if( questionType === this.multimedia.textToSpeech)
-            question = (
-                <div>
-                    <input
-                        className="input-text-to-speech"
-                        id="question"
-                        value={currentQuestion.question.data}
-                        onChange={this.handleChangeQues}
-                    />
-                    <button className="btn button-finish button-speaker button-off" 
-                            onClick={(e)=>{this.speak(e, currentQuestion.question.data)}}>
-                    </button>
-                </div>
-            );
-        if( questionType === this.multimedia.video)
-            question = (
-                <div className="media-background">
-                    <video src={currentQuestion.question.data} controls
-                            height="250px">
-                    </video>
-                </div>
-            );
-        
         let groupOptions = groups.map((group, i) => {
             let question;            
             if(!group.type){
@@ -651,20 +565,20 @@ class GroupAssignmentForm extends Component {
                     [
                         <button className="btn button-answer-options button-text col-md-3" key="type-1" 
                                     onClick={() => {
-                                            this.selectGroupType(this.multimedia.text, i);
+                                            this.selectGroupType(MULTIMEDIA.text, i);
                                         }}>
                                     <FormattedMessage id={TEXT}/>
                         </button>,
                         <button className="btn button-answer-options button-image col-md-3" key="type-2"
                             onClick={() => {
-                                this.selectGroupType(this.multimedia.image, i);
+                                this.selectGroupType(MULTIMEDIA.image, i);
                             }}>                            
                         </button>
                     ]
                 );
             } else {
                 let groupType = group.type; 
-                if( groupType === this.multimedia.text)
+                if( groupType === MULTIMEDIA.text)
                     question = (
                         <div className="answers">
                             <input
@@ -682,7 +596,7 @@ class GroupAssignmentForm extends Component {
                             </button>
                         </div>
                     );
-                if( groupType === this.multimedia.image)
+                if( groupType === MULTIMEDIA.image)
                     question = (
                         <div className="answers">
                             <div className = "media-background answers">
@@ -791,8 +705,19 @@ class GroupAssignmentForm extends Component {
                                             {questionType && <button className="btn button-edit" 
                                                 onClick={() => {this.setState({...this.state, currentQuestion:{...currentQuestion, question:{type:'', data:''}}})}}>
                                             </button>}
-                                            {!questionType && questionOptions}
-                                            {questionType && question}
+                                            {!questionType && 
+                                                    <QuestionOptionsJSX
+                                                        selectQuestionType = {this.selectQuestionType}
+                                                    />}
+                                            {questionType && 
+                                                <QuestionJSX
+                                                    questionType = {this.state.currentQuestion.question.type}
+                                                    questionData = {this.state.currentQuestion.question.data}
+                                                    showMedia = {showMedia}
+                                                    handleChangeQues = {this.handleChangeQues}
+                                                    speak = {this.speak}
+                                                />
+                                            }
                                             {question_error}
                                         </div>
                                     </div>

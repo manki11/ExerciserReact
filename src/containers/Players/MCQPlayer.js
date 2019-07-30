@@ -7,6 +7,8 @@ import {SUBMIT_QUESTION, NEXT_QUESTION, FINISH_EXERCISE} from "../translation";
 import {FormattedMessage} from 'react-intl';
 import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
+import {PlayerMultimediaJSX} from '../../components/MultimediaJSX';
+import {MULTIMEDIA} from '../../utils';
 
 class MCQPlayer extends Component {
 
@@ -40,20 +42,12 @@ class MCQPlayer extends Component {
             },
             userAnswers: []
         }
-
-        this.multimedia = {
-            text: 'text',
-            image: 'image',
-            audio: 'audio',
-            textToSpeech: 'text-to-speech',
-            video: 'video'
-        };
+        this.intervalId = setInterval(this.timer, 1000);
     }
 
     // load the exercise from props
     componentDidMount() {
         if (this.props.location.state) {
-            let intervalId = setInterval(this.timer, 1000);
             const {id, title, questions, scores, times, userLanguage} = this.props.location.state.exercise;
             const currentQuestion = questions[0];
 
@@ -72,7 +66,6 @@ class MCQPlayer extends Component {
                 title: title,
                 questions: questions,
                 noOfQuestions: questions.length,
-                intervalID: intervalId,
                 scores: scores,
                 times: times,
                 finish: finish,
@@ -94,7 +87,7 @@ class MCQPlayer extends Component {
     }
 
     componentWillUnmount() {
-        clearInterval(this.state.intervalID);
+        clearInterval(this.intervalId);
     }
 
     shuffleArray(array) {
@@ -214,61 +207,8 @@ class MCQPlayer extends Component {
         const {currentQuestion} = this.state;
         const {showMedia} = this.props;
         const {id} = currentQuestion;
-
-        let question;
-        let questionType = currentQuestion.question.type; 
-        if( questionType === this.multimedia.text)
-            question = (
-               <p>{id}. {currentQuestion.question.data}</p>
-            );
-        if( questionType === this.multimedia.image)
-            question = (
-                <div>
-                    {id}.
-                    <p style = {{textAlign: 'center'}}>
-                        <img src = {currentQuestion.question.data}
-                            style = {{height: '200px'}}
-                            onClick = {()=>{showMedia(currentQuestion.question.data)}}
-                            alt="Question"/>
-                    </p>
-                </div>
-            );
-        if( questionType === this.multimedia.audio)
-            question = (
-                <div>
-                    {id}.
-                    <p style = {{textAlign: 'center'}}>
-                        <audio src={currentQuestion.question.data} controls>
-                        </audio>
-                    </p>
-                </div>
-                
-            );
-        if( questionType === this.multimedia.textToSpeech) {
-            question = (
-                <div>
-                    {id}.
-                    <span style={{marginLeft: '10px'}}>
-                        <img className="button-off"
-                            onClick={(e)=>{this.speak(e.target, currentQuestion.question.data)}}
-                            alt="text-to-speech-question"
-                        />
-                    </span>
-                </div>
-                
-            );
-        }
-        if( questionType === this.multimedia.video)
-            question = (
-                <div>
-                    {id}.
-                    <p style = {{textAlign: 'center'}}>
-                        <video src={currentQuestion.question.data} controls
-                            height="250px">
-                        </video>
-                    </p>
-                </div>
-            );
+        const questionType = currentQuestion.question.type;
+        const questionData = currentQuestion.question.data;
 
         let choices = currentQuestion.options.map((option, i) => {
             let btn = 'btn-outline-secondary';
@@ -289,37 +229,8 @@ class MCQPlayer extends Component {
                     }
                 }
             }
-            let optionElement;
-            let optionsType = option.type;
-            if( optionsType === this.multimedia.text)
-                optionElement = option.data;
-            if( optionsType === this.multimedia.image)
-                optionElement = (
-                    <img src = {option.data}
-                            style = {{height: '100px'}}
-                            onClick = {()=>{showMedia(option.data)}}
-                            alt="Option"/>
-                );
-            if( optionsType === this.multimedia.audio)
-                optionElement = (
-                    <audio  className="audio-option"
-                            src={option.data}
-                            controls>
-                    </audio>
-                );
-            if( optionsType === this.multimedia.textToSpeech) {
-                optionElement = (
-                    <img className="button-off"
-                        alt="text-to-speech-option"
-                    />
-                );
-            }
-            if( optionsType === this.multimedia.video)
-                optionElement = (
-                    <video  src={option.data} controls
-                            height="100px">
-                    </video>
-                );
+            let optionType = option.type;
+            let optionData = option.data; 
             return (
                 <div className="choices col-md-6" key={`answers-${i}` }>
                         <input type="radio" 
@@ -342,7 +253,7 @@ class MCQPlayer extends Component {
                             type="button"
                             id={`answer-${i}`}
                             onClick={(e) => {
-                                if( optionsType === this.multimedia.textToSpeech) {
+                                if( optionType === MULTIMEDIA.textToSpeech) {
                                     let elem = e.target;
                                     if(e.target.getAttribute("type")==='button')
                                         elem = e.target.children[0];
@@ -351,7 +262,15 @@ class MCQPlayer extends Component {
                                 this.choiceSelected(option)}
                             }
                         >
-                        {optionElement}
+                        <PlayerMultimediaJSX
+                            questionType = {optionType || 'text'}
+                            questionData = {optionData}
+                            speak = {this.speak}
+                            showMedia = {showMedia}
+                            willSpeak = {false}
+                            className = ''
+                            height = '100px'
+                        />
                         </button>
                 </div>
             )
@@ -371,7 +290,20 @@ class MCQPlayer extends Component {
                             <div className="jumbotron">
                                 <p className="lead">{this.state.title}</p>
                                 <hr className="my-4"/>
-                                {question}
+                                <div>
+                                    {id}.
+                                    <span style={{textAlign: "center"}}>
+                                        <PlayerMultimediaJSX
+                                            questionType = {questionType || 'text'}
+                                            questionData = {questionData}
+                                            speak = {this.speak}
+                                            showMedia = {showMedia}
+                                            willSpeak = {true}
+                                            className =  ''
+                                            height = '100px'
+                                        />
+                                    </span>
+                                </div>
                             </div>
                             <div className="col-md-12">
                                 {choices}

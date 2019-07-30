@@ -6,7 +6,9 @@ import "../../css/FreeTextInputPlayer.css";
 import {FINISH_EXERCISE, SUBMIT_QUESTION} from "../translation";
 import {FormattedMessage} from 'react-intl';
 import withMultimedia from '../../components/WithMultimedia';
+import {PlayerMultimediaJSX} from '../../components/MultimediaJSX';
 import meSpeak from 'mespeak';
+import {MULTIMEDIA} from '../../utils';
 
 class FreeTextInputPlayer extends Component {
 
@@ -29,20 +31,12 @@ class FreeTextInputPlayer extends Component {
             userLanguage: '',
             userAnswers: ''
         }
-
-        this.multimedia = {
-            text: 'text',
-            image: 'image',
-            audio: 'audio',
-            textToSpeech: 'text-to-speech',
-            video: 'video'
-        };
+        this.intervalId = setInterval(this.timer, 1000);
     }
 
     // load the exercise from props
     componentDidMount() {
         if (this.props.location.state) {
-            let intervalId = setInterval(this.timer, 1000);
             const {id, title, questions, scores, times, userLanguage} = this.props.location.state.exercise;
 
             let goBackToEdit = false;
@@ -60,7 +54,6 @@ class FreeTextInputPlayer extends Component {
                 questions: questions,
                 noOfQuestions: questions.length,
                 userans: userans,
-                intervalID: intervalId,
                 scores: scores,
                 times: times,
                 goBackToEdit: goBackToEdit,
@@ -75,7 +68,7 @@ class FreeTextInputPlayer extends Component {
     }
 
     componentWillUnmount() {
-        clearInterval(this.state.intervalID);
+        clearInterval(this.intervalId);
     }
 
     // to measure time
@@ -170,53 +163,22 @@ class FreeTextInputPlayer extends Component {
         if (this.state.submitted) buttonText = <FormattedMessage id={FINISH_EXERCISE}/>
 
         let freeTextQuestions = questions.map((currentQuestion, index) => {
-
-            let questionElement;
-            let questionType = currentQuestion.question.type; 
-            if( questionType === this.multimedia.text)
-                questionElement = (
-                    <p style={{overflow: 'auto'}}>
-                        {currentQuestion.question.data}
-                    </p>
-                );
-            if( questionType === this.multimedia.image)
-                questionElement = (
-                    <img src = {currentQuestion.question.data}
-                        className = "matching-questions"                      
-                        onClick = {()=>{showMedia(currentQuestion.question.data)}}
-                        alt="Question"/>
-                );
-            if( questionType === this.multimedia.audio)
-                questionElement = (
-                    <audio 
-                        src={currentQuestion.question.data} controls>
-                    </audio>
-                );
-            if( questionType === this.multimedia.textToSpeech) {
-                questionElement = (
-                    <img className="button-off matching-questions"
-                        onClick={(e)=>{this.speak(e.target, currentQuestion.question.data)}}
-                        alt="text-to-speech-question"
-                    />
-                );
-            }
-            if( questionType === this.multimedia.video)
-                questionElement = (
-                    <video src={currentQuestion.question.data} controls
-                            onClick={()=>{showMedia(currentQuestion.question.data, this.multimedia.video)}}
-                        className = "matching-questions">  
-                    </video>
-                );
-
+            let questionType = currentQuestion.question.type;
             if (this.state.submitted) {
                 let ans = 'wrong';
                 if (this.state.checkans[index]) ans = 'right';
                 return (
                     <div className="col-md-3 questions" key={index+1}>
                         <div className="freetext-question-container"
-                            style={{ minHeight: `${(questionType === this.multimedia.image ||questionType === this.multimedia.video)?'80px':''}`}}
+                            style={{ minHeight: `${(questionType === MULTIMEDIA.image ||questionType === MULTIMEDIA.video)?'80px':''}`}}
                             >
-                            {index+1}.{questionElement}
+                            {index+1}.
+                            <PlayerMultimediaJSX
+                                questionType = {questionType}
+                                questionData = {currentQuestion.question.data}
+                                speak = {this.speak}
+                                showMedia = {showMedia}
+                            />
                         </div>
                         <div className={"freetext-div checked-ans " + ans}>
                             {this.state.userans[index]}
@@ -227,9 +189,17 @@ class FreeTextInputPlayer extends Component {
                 return(
                     <div className="col-md-3 questions" key={index+1}>
                         <div className="freetext-question-container"
-                            style={{ minHeight: `${(questionType === this.multimedia.image ||questionType === this.multimedia.video)?'80px':''}`}}                        
+                            style={{ minHeight: `${(questionType === MULTIMEDIA.image ||questionType === MULTIMEDIA.video)?'80px':''}`}}                        
                             >
-                            {index+1}.{questionElement}
+                            {index+1}.
+                            <PlayerMultimediaJSX
+                                questionType = {questionType}
+                                questionData = {currentQuestion.question.data}
+                                speak = {this.speak}
+                                showMedia = {showMedia}
+                                willSpeak = {true}
+                                className = {'matching-questions'}
+                            />
                         </div>
                         <input
                             className="input-freeText"
