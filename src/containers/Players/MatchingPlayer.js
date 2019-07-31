@@ -268,7 +268,7 @@ class MATCHING_PAIRPLAYER extends Component {
 
     render() {
         const {questions} =  this.state;
-        const {showMedia} = this.props;
+        const {showMedia, ShowModalWindow} = this.props;
 
         let matchingTemplate = questions.map((ques, index) => {
             let questionType = ques.type; 
@@ -347,6 +347,7 @@ class MATCHING_PAIRPLAYER extends Component {
                         </div>
                     </div>
                 </div>
+                <ShowModalWindow/>
             </div>
         )
     }

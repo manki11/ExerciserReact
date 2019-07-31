@@ -170,7 +170,7 @@ class REORDERPlayer extends Component {
 
 
     render() {
-        const {showMedia} = this.props;
+        const {showMedia, ShowModalWindow} = this.props;
         const {checkAns, userAns} = this.state;
         const questionType = this.state.question.type;
         const questionData = this.state.question.data;
@@ -266,6 +266,7 @@ class REORDERPlayer extends Component {
                         </div>
                     </div>
                 </div>
+                <ShowModalWindow/>
             </div>
         )
     }

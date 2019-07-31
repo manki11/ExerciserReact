@@ -325,7 +325,7 @@ class REORDERForm extends Component {
 
     render() {
         const {errors, list} = this.state;
-        const {thumbnail, insertThumbnail, showMedia} = this.props;
+        const {thumbnail, insertThumbnail, showMedia, ShowEditableModalWindow} = this.props;
         let questionType = this.state.question.type;
 
         let title_error = '';
@@ -448,6 +448,7 @@ class REORDERForm extends Component {
                     </div>
                 </div>
             </div>
+            <ShowEditableModalWindow/>
         </div>
         )
     }

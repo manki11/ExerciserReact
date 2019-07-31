@@ -205,7 +205,7 @@ class MCQPlayer extends Component {
 
     render() {
         const {currentQuestion} = this.state;
-        const {showMedia} = this.props;
+        const {showMedia, ShowModalWindow} = this.props;
         const {id} = currentQuestion;
         const questionType = currentQuestion.question.type;
         const questionData = currentQuestion.question.data;
@@ -325,6 +325,7 @@ class MCQPlayer extends Component {
                         </div>
                     </div>
                 </div>
+                <ShowModalWindow/>
             </div>
         )
     }

@@ -424,7 +424,7 @@ class CLOZEForm extends Component {
 
     render() {
         const {errors, answers} = this.state;
-        const { thumbnail, insertThumbnail, showMedia} = this.props;
+        const { thumbnail, insertThumbnail, showMedia, ShowEditableModalWindow} = this.props;
         let questionType = this.state.question.type; 
         
         let inputs = answers.map((ans, i) => {
@@ -630,6 +630,7 @@ class CLOZEForm extends Component {
                         </div>
                     </div>
                 </div>
+                <ShowEditableModalWindow/>
             </div>
         )
     }

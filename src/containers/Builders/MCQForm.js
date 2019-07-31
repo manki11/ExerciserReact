@@ -492,7 +492,7 @@ class MCQForm extends Component {
     render() {
         const {currentQuestion, errors} = this.state;
         const {id, options} = currentQuestion;
-        const {thumbnail, insertThumbnail, showMedia} = this.props;
+        const {thumbnail, insertThumbnail, showMedia, ShowEditableModalWindow} = this.props;
         let questionType = currentQuestion.question.type;
         
         let title_error = '';
@@ -628,6 +628,7 @@ class MCQForm extends Component {
                     </div>
                 </div>
             </div>
+            <ShowEditableModalWindow/>
         </div>
         )
     }

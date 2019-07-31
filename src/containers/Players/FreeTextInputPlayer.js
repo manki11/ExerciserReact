@@ -158,7 +158,7 @@ class FreeTextInputPlayer extends Component {
 
     render() {
         const {questions} = this.state;
-        const {showMedia} =  this.props;
+        const {showMedia, ShowModalWindow} =  this.props;
         let buttonText = <FormattedMessage id={SUBMIT_QUESTION}/>;
         if (this.state.submitted) buttonText = <FormattedMessage id={FINISH_EXERCISE}/>
 
@@ -241,6 +241,7 @@ class FreeTextInputPlayer extends Component {
                         </div>
                     </div>
                 </div>
+                <ShowModalWindow/>
             </div>
         );
     }

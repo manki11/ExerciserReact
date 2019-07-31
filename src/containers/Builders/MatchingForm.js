@@ -435,7 +435,7 @@ class MATCHING_PAIRForm extends Component {
 
     render() {
         const {currentPair, errors} = this.state;
-        const {thumbnail, insertThumbnail, showMedia} = this.props
+        const {thumbnail, insertThumbnail, showMedia, ShowEditableModalWindow} = this.props
         let questionType = this.state.currentPair.question.type;
         let answerType = this.state.currentPair.answer.type;
 
@@ -568,6 +568,7 @@ class MATCHING_PAIRForm extends Component {
                         </div>
                     </div>
                 </div>
+                <ShowEditableModalWindow/>
             </div>
         )
     }

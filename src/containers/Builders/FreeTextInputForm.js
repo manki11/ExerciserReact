@@ -387,7 +387,7 @@ class FreeTextInputForm extends Component {
 
     render() {
         const {currentQuestion, errors} = this.state;
-        const {thumbnail, insertThumbnail, showMedia} = this.props;
+        const {thumbnail, insertThumbnail, showMedia, ShowEditableModalWindow} = this.props;
         const {id} = currentQuestion;
         let questionType = currentQuestion.question.type;
         let placeholder_string = ENTER_ANSWER; 
@@ -515,6 +515,7 @@ class FreeTextInputForm extends Component {
                     </div>
                 </div>
             </div>
+            <ShowEditableModalWindow/>
         </div>
         )
     }

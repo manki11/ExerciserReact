@@ -555,7 +555,7 @@ class GroupAssignmentForm extends Component {
     render() {
         const {currentQuestion, errors, groups} = this.state;
         const {id} = currentQuestion;
-        const {thumbnail, insertThumbnail, showMedia} = this.props;
+        const {thumbnail, insertThumbnail, showMedia, ShowEditableModalWindow} = this.props;
         let questionType = currentQuestion.question.type;
 
         let groupOptions = groups.map((group, i) => {
@@ -774,6 +774,7 @@ class GroupAssignmentForm extends Component {
                     </div>
                 </div>
             </div>
+            <ShowEditableModalWindow/>
         </div>
         )
     }
