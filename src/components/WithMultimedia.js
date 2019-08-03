@@ -16,7 +16,8 @@ const modalStyle = {
         marginRight : '-50%',
         transform : 'translate(-50%, -50%)',
         height : '85%',
-        width : '80%' 
+        width : '80%',
+        backgroundColor: '#e5e5e5'
     }
 };
 
@@ -105,12 +106,13 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
             });
         }
 
-        showMedia = (imageSource, mediaType = 'img') => {
+        showMedia = (imageSource, mediaType = 'img', setImageEditorSource = null) => {
             this.setState({
                 ...this.state,
                 modalSource: imageSource,
                 modalMediaType: mediaType,
-                modalIsOpen: true
+                modalIsOpen: true,
+                setImageEditorSource: setImageEditorSource
             })
         }
 
@@ -146,7 +148,9 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
                     style={modalStyle}
                 >
                     {this.state.modalMediaType === 'img' && 
-                        <ImageEditor mediaSource = {this.state.modalSource}/>
+                        <ImageEditor mediaSource = {this.state.modalSource}
+                                    setMediaSource = {this.state.setImageEditorSource}
+                        />
                     }
                     {this.state.modalMediaType === 'video' && 
                         <video src = {this.state.modalSource} controls
@@ -176,7 +180,9 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
                     <div className = "media-background">
                         <img src = {defaultThumbnail}
                             style = {{height: '200px'}}
-                            onClick = {() => {this.showMedia(defaultThumbnail)}}
+                            onClick = {() => {this.showMedia(defaultThumbnail, 'img', (url)=>{
+                                this.setState({...this.state, thumbnail: url})
+                            })}}
                             alt="Thumbnail"/>
                     </div>
                 );
@@ -185,7 +191,9 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
                     <div className = "media-background">
                         <img src = {this.state.thumbnail}
                                 style = {{height: '200px'}}
-                                onClick = {() => {this.showMedia(this.state.thumbnail)}}
+                                onClick = {() => {this.showMedia(this.state.thumbnail, 'img', (url)=>{
+                                    this.setState({...this.state, thumbnail: url})
+                                })}}
                                 alt="Thumbnail"/>
                         <button className="btn button-cancel" 
                             onClick={this.deleteThumbnail}>

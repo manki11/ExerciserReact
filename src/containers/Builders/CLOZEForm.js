@@ -422,6 +422,16 @@ class CLOZEForm extends Component {
         }
     }
 
+    setSourceFromImageEditor = (url) => {
+        this.setState({
+            ...this.state,
+            question: {
+                ...this.state.question,
+                data: url
+            }
+        })
+    }
+
     render() {
         const {errors, answers} = this.state;
         const { thumbnail, insertThumbnail, showMedia, ShowEditableModalWindow} = this.props;
@@ -524,6 +534,7 @@ class CLOZEForm extends Component {
                                                         showMedia = {showMedia}
                                                         handleChangeQues = {this.handleChangeQues}
                                                         speak = {this.speak}
+                                                        setImageEditorSource = {this.setSourceFromImageEditor}
                                                     />
                                                 }
                                                 {question_error}

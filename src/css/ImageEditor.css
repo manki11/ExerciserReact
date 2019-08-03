@@ -36,3 +36,34 @@
     background-size: contain;
     background-repeat: no-repeat;
 }
+
+
+.canvas-image-editor {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.toolbar-image-editor {
+    background-color: rgba(0, 0, 0, .5);
+    bottom: 1rem;
+    color: #fff;
+    height: 2rem;
+    left: 50%;
+    margin-left: -22em;
+    position: absolute;
+    width: 44rem;
+}
+
+.toolbar__button {
+    background-color: transparent;
+    border-width: 0;
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    float: left;
+    font-size: 1.2rem;
+    height: 2rem;
+    text-align: center;
+    width: 3rem;
+}

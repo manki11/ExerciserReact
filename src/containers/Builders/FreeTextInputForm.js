@@ -385,6 +385,19 @@ class FreeTextInputForm extends Component {
         }
     }
 
+    setSourceFromImageEditor = (url) => {
+        this.setState({
+            ...this.state,
+            currentQuestion: {
+                ...this.state.currentQuestion,
+                question: {
+                    ...this.state.currentQuestion.question,
+                    data: url
+                }
+            }
+        })
+    }
+
     render() {
         const {currentQuestion, errors} = this.state;
         const {thumbnail, insertThumbnail, showMedia, ShowEditableModalWindow} = this.props;
@@ -452,6 +465,7 @@ class FreeTextInputForm extends Component {
                                                     showMedia = {showMedia}
                                                     handleChangeQues = {this.handleChangeQues}
                                                     speak = {this.speak}
+                                                    setImageEditorSource = {this.setSourceFromImageEditor}
                                                 />
                                             }
                                             {question_error}

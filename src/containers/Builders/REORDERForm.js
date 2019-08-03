@@ -314,13 +314,33 @@ class REORDERForm extends Component {
         }
     }
 
-    resetOption = (OptionNo)=>{
+    resetOption = (OptionNo) => {
         const {list} = this.state;
         list[OptionNo] = {type: '', data: ''};
         this.setState({
             ...this.state,
             list: list
         });
+    }
+
+    setQuestionSourceFromImageEditor = (url) => {
+        this.setState({
+            ...this.state,
+            question: {
+                ...this.state.question,
+                data: url
+            }
+        })
+    }
+
+    setListSourceFromImageEditor = (index) => (url) => { 
+        const {list} = this.state;
+        let updatedList = list;
+        updatedList[index].data = url;
+        this.setState({
+            ...this.state,
+            list: updatedList
+        })
     }
 
     render() {
@@ -388,6 +408,7 @@ class REORDERForm extends Component {
                                                     showMedia = {showMedia}
                                                     handleChangeQues = {this.handleChangeQues}
                                                     speak = {this.speak}
+                                                    setImageEditorSource = {this.setQuestionSourceFromImageEditor}                                                    
                                                 />
                                             }
                                             {question_error}
@@ -396,12 +417,13 @@ class REORDERForm extends Component {
                                         <AnswerOptionsJSX 
                                             selectOptionType = {this.selectOptionType}
                                             resetOption = {this.resetOption}
-                                            showMedia = {this.showMedia}
+                                            showMedia = {showMedia}
                                             speak = {this.speak}
                                             options = {list}
                                             changeOrder = {this.changeOrder}
                                             handleChangeOption = {this.handleChangeOption}
                                             templateType = "REORDER"
+                                            setImageEditorSource = {this.setListSourceFromImageEditor}
                                         />
                                     <div>
                                         {list_error}

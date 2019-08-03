@@ -489,6 +489,32 @@ class MCQForm extends Component {
         });
     }
 
+    setQuestionSourceFromImageEditor = (url) => {
+        this.setState({
+            ...this.state,
+            currentQuestion: {
+                ...this.state.currentQuestion,
+                question: {
+                    ...this.state.currentQuestion.question,
+                    data: url
+                }
+            }
+        });
+    }
+
+    setOptionSourceFromImageEditor = (index) => (url) => {
+        const { options } = this.state.currentQuestion;
+        let updatedOptions = options;
+        updatedOptions[index].data = url;
+        this.setState({
+            ...this.state,
+            currentQuestion: {
+                ...this.state.currentQuestion,
+                options : updatedOptions
+            }
+        });
+    }
+
     render() {
         const {currentQuestion, errors} = this.state;
         const {id, options} = currentQuestion;
@@ -554,6 +580,7 @@ class MCQForm extends Component {
                                                     showMedia = {showMedia}
                                                     handleChangeQues = {this.handleChangeQues}
                                                     speak = {this.speak}
+                                                    setImageEditorSource = {this.setQuestionSourceFromImageEditor}                                                    
                                                 />
                                             }
                                             {questionType === MULTIMEDIA.text && question_error}
@@ -562,12 +589,13 @@ class MCQForm extends Component {
                                     <AnswerOptionsJSX 
                                         selectOptionType = {this.selectOptionType}
                                         resetOption = {this.resetOption}
-                                        showMedia = {this.showMedia}
+                                        showMedia = {showMedia}
                                         speak = {this.speak}
                                         options = {options}
                                         changeOrder = {this.changeOrder}
                                         handleChangeOption = {this.handleChangeOption}
                                         templateType = "MCQ"
+                                        setImageEditorSource = {this.setOptionSourceFromImageEditor}                                                                                            
                                     />
                                     <div>
                                         {options_error}

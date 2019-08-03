@@ -433,6 +433,32 @@ class MATCHING_PAIRForm extends Component {
         });
     }
 
+    setQuestionSourceFromImageEditor = (url) => {
+        this.setState({
+            ...this.state,
+            currentPair: {
+                ...this.state.currentPair,
+                question: {
+                    ...this.state.currentPair.question,
+                    data: url
+                }
+            }
+        });
+    }
+
+    setAnswerSourceFromImageEditor = (url) => {
+        this.setState({
+            ...this.state,
+            currentPair: {
+                ...this.state.currentPair,
+                answer: {
+                    ...this.state.currentPair.answer,
+                    data: url
+                }
+            }
+        });
+    }
+
     render() {
         const {currentPair, errors} = this.state;
         const {thumbnail, insertThumbnail, showMedia, ShowEditableModalWindow} = this.props
@@ -500,6 +526,7 @@ class MATCHING_PAIRForm extends Component {
                                                         showMedia = {showMedia}
                                                         handleChangeQues = {this.handleChangeQues}
                                                         speak = {this.speak}
+                                                        setImageEditorSource = {this.setQuestionSourceFromImageEditor}                                                    
                                                     />
                                                 }
                                                 {question_error}
@@ -523,6 +550,7 @@ class MATCHING_PAIRForm extends Component {
                                                         showMedia = {showMedia}
                                                         handleChangeQues = {this.handleChangeAns}
                                                         speak = {this.speak}
+                                                        setImageEditorSource = {this.setAnswerSourceFromImageEditor}                                                    
                                                     />
                                                 }
                                                 {answer_error}
