@@ -200,7 +200,7 @@ class ImageEditor extends Component {
                 <div className="canvas-image-editor">
                     <img src = {this.state.url} controls
                         alt="editable-img"
-                        className = "image"
+                        className = "image center-element"
                         >
                     </img>
                 </div>
