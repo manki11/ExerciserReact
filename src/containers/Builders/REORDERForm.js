@@ -242,6 +242,9 @@ class REORDERForm extends Component {
                     var dataentry = new datastore.DatastoreObject(entry.objectId);
                     dataentry.loadAsText((err, metadata, text) => {
                         if(options){
+                            if(mediaType === MULTIMEDIA.image)
+                                this.props.showMedia(text, 'img', this.setListSourceFromImageEditor(optionNo));
+
                             let {list} = this.state;
                             list[optionNo] = {type: mediaType, data: text};
                             this.setState({
@@ -251,6 +254,9 @@ class REORDERForm extends Component {
                                 this.checkFormValidation();
                             });
                         } else{
+                            if(mediaType === MULTIMEDIA.image)
+                                this.props.showMedia(text, 'img', this.setQuestionSourceFromImageEditor);
+
                             this.setState({
                                 ...this.state,
                                 question:{
@@ -330,7 +336,9 @@ class REORDERForm extends Component {
                 ...this.state.question,
                 data: url
             }
-        })
+        }, () => {
+            this.checkFormValidation();
+        });
     }
 
     setListSourceFromImageEditor = (index) => (url) => { 
@@ -340,7 +348,9 @@ class REORDERForm extends Component {
         this.setState({
             ...this.state,
             list: updatedList
-        })
+        }, () => {
+            this.checkFormValidation();
+        });
     }
 
     render() {

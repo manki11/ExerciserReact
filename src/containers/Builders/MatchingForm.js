@@ -331,6 +331,8 @@ class MATCHING_PAIRForm extends Component {
                     var dataentry = new datastore.DatastoreObject(entry.objectId);
                     dataentry.loadAsText((err, metadata, text) => {
                         if(answer){
+                            if(mediaType === MULTIMEDIA.image)
+                                this.props.showMedia(text, 'img', this.setAnswerSourceFromImageEditor);
                             this.setState({
                                 ...this.state,
                                 currentPair:{
@@ -344,6 +346,9 @@ class MATCHING_PAIRForm extends Component {
                                 this.checkFormValidation();
                             });
                         } else{
+                            if(mediaType === MULTIMEDIA.image)
+                                this.props.showMedia(text, 'img', this.setQuestionSourceFromImageEditor);
+                                
                             this.setState({
                                 ...this.state,
                                 currentPair:{
@@ -443,6 +448,8 @@ class MATCHING_PAIRForm extends Component {
                     data: url
                 }
             }
+        }, () => {
+            this.checkFormValidation();
         });
     }
 
@@ -456,6 +463,8 @@ class MATCHING_PAIRForm extends Component {
                     data: url
                 }
             }
+        }, () => {
+            this.checkFormValidation();
         });
     }
 

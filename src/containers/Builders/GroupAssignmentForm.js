@@ -454,7 +454,10 @@ class GroupAssignmentForm extends Component {
                     }
                     var dataentry = new datastore.DatastoreObject(entry.objectId);
                     dataentry.loadAsText((err, metadata, text) => {
-                        if(groups){
+                        if(groups) {
+                            if(mediaType === MULTIMEDIA.image)
+                                this.props.showMedia(text, 'img', this.setGroupSourceFromImageEditor(groupNo));
+
                             let {groups} = this.state;
                             groups[groupNo] = {type: mediaType, data: text};
                             this.setState({
@@ -463,7 +466,10 @@ class GroupAssignmentForm extends Component {
                             },() => {
                                 this.checkFormValidation();
                             });
-                        } else{
+                        } else {
+                            if(mediaType === MULTIMEDIA.image)
+                                this.props.showMedia(text, 'img', this.setQuestionSourceFromImageEditor);
+
                             let {currentQuestion} = this.state;
                             this.setState({
                                 ...this.state,
@@ -562,6 +568,8 @@ class GroupAssignmentForm extends Component {
                     data: url
                 }
             }
+        }, () => {
+            this.checkFormValidation();
         });
     }
 
@@ -572,6 +580,8 @@ class GroupAssignmentForm extends Component {
         this.setState({
             ...this.state,
             groups: updatedGroups
+        }, () => {
+            this.checkFormValidation();
         });
     }
 

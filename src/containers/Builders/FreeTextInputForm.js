@@ -331,6 +331,8 @@ class FreeTextInputForm extends Component {
                     }
                     var dataentry = new datastore.DatastoreObject(entry.objectId);
                     dataentry.loadAsText((err, metadata, text) => {
+                        if(mediaType === MULTIMEDIA.image)
+                            this.props.showMedia(text, 'img', this.setSourceFromImageEditor);
                         this.setState({
                             ...this.state,
                             currentQuestion:{
@@ -395,6 +397,8 @@ class FreeTextInputForm extends Component {
                     data: url
                 }
             }
+        }, () => {
+            this.checkFormValidation();
         })
     }
 

@@ -377,6 +377,8 @@ class CLOZEForm extends Component {
                     }
                     var dataentry = new datastore.DatastoreObject(entry.objectId);
                     dataentry.loadAsText((err, metadata, text) => {
+                        if(mediaType === MULTIMEDIA.image)
+                            this.props.showMedia(text, 'img', this.setSourceFromImageEditor);
                         this.setState({
                             ...this.state,
                             question:{
@@ -429,6 +431,8 @@ class CLOZEForm extends Component {
                 ...this.state.question,
                 data: url
             }
+        }, () => {
+            this.checkFormValidation();
         })
     }
 
