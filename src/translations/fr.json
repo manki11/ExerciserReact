@@ -182,5 +182,7 @@
   "Item Menu": "Item Menu",
   "Edit Item": "Edit Item",
   "Result Button": "Result Button",
-  "Use this button to see results of the all users.": "Use this button to see results of the all users."
+  "Use this button to see results of all the users.": "Use this button to see results of all the users.",
+  "User List Button": "User List Button",
+  "Use this button to see list of all the users.": "Use this button to see list of all the users."
 }

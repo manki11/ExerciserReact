@@ -62,6 +62,10 @@ class Tutorial extends Component{
         </div>
         )
     }
+
+    requestClose = (e) => {
+        e.preventDefault();
+    }
     
     render() {
         return (
@@ -71,6 +75,7 @@ class Tutorial extends Component{
                 maskClassName="mask"
                 className="helper"
                 CustomHelper={this.MyCustomHelper}
+                onRequestClose={this.requestClose}
           />   
         );
     }

@@ -2,35 +2,37 @@
 export const tutorialSteps  = (pathname, intl) => {
     let steps;
     switch(pathname){
-
         // Exercise List
         case "/": 
-            steps = [
-                {
-                    selector: "#add-button",
-                    content: [intl.formatMessage({id: "Add Exercises"}), intl.formatMessage({id: "This button takes you to a list of templates from which you can choose a one to work with."})]
-                },
-                {
-                    selector: "#network-button",
-                    content: [intl.formatMessage({id: "Network Button"}), intl.formatMessage({id: "Lets you share your exercises with other users."})]
-                },
-                {
-                    selector: "#stop-button",
-                    content: [intl.formatMessage({id: "Stop Button"}), intl.formatMessage({id: "Press this button to stop the activity, don\"t worry your changes will be saved in the Journal."})]
-                },
-                {
-                    selector: ".play-button",
-                    content: [intl.formatMessage({id: "Play Button"}), intl.formatMessage({id: "Use this button if you want to play the Exercise."})]
-                },
-                {
-                    selector: ".edit-button",
-                    content: [intl.formatMessage({id: "Edit Button"}), intl.formatMessage({id: "Use this button if you want to edit the Exercise."})]
-                },
-                {
-                    selector: ".delete-button",
-                    content: [intl.formatMessage({id: "Delete Button"}), intl.formatMessage({id: "Use this button if you want to delete the Exercise."})]
-                }
-            ];
+            steps = [];
+            if(!(document.getElementsByClassName("share-button")[0])) {
+                steps = [
+                    {
+                        selector: "#add-button",
+                        content: [intl.formatMessage({id: "Add Exercises"}), intl.formatMessage({id: "This button takes you to a list of templates from which you can choose a one to work with."})]
+                    },
+                    {
+                        selector: "#network-button",
+                        content: [intl.formatMessage({id: "Network Button"}), intl.formatMessage({id: "Lets you share your exercises with other users."})]
+                    },
+                    {
+                        selector: "#stop-button",
+                        content: [intl.formatMessage({id: "Stop Button"}), intl.formatMessage({id: "Press this button to stop the activity, don\"t worry your changes will be saved in the Journal."})]
+                    },
+                    {
+                        selector: ".play-button",
+                        content: [intl.formatMessage({id: "Play Button"}), intl.formatMessage({id: "Use this button if you want to play the Exercise."})]
+                    },
+                    {
+                        selector: ".edit-button",
+                        content: [intl.formatMessage({id: "Edit Button"}), intl.formatMessage({id: "Use this button if you want to edit the Exercise."})]
+                    },
+                    {
+                        selector: ".delete-button",
+                        content: [intl.formatMessage({id: "Delete Button"}), intl.formatMessage({id: "Use this button if you want to delete the Exercise."})]
+                    }
+                ];
+            }
             if(document.getElementsByClassName("share-button")[0]) {
                 steps.push({
                     selector: ".share-button",
@@ -40,7 +42,13 @@ export const tutorialSteps  = (pathname, intl) => {
             if(document.getElementsByClassName("result-button")[0]){
                 steps.push({
                     selector: ".result-button",
-                    content: [intl.formatMessage({id: "Result Button"}), intl.formatMessage({id: "Use this button to see results of the all users."})]
+                    content: [intl.formatMessage({id: "Result Button"}), intl.formatMessage({id: "Use this button to see results of all the users."})]
+                });
+            } 
+            if(document.getElementsByClassName("user-list-button")[0]){
+                steps.push({
+                    selector: ".user-list-button",
+                    content: [intl.formatMessage({id: "User List Button"}), intl.formatMessage({id: "Use this button to see list of all the users."})]
                 });
             } 
         break;
