@@ -184,3 +184,19 @@ div label{
 .button-off{
     background-image: url(../icons/exercise/sound_off_white.png);
 }
+
+.button-delete{
+    background-image: url(../icons/exercise/sub.svg);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;    
+    float: right;
+    margin-left: 10px;
+    margin-right: 0px!important;
+    width: 30px;
+    height: 30px;
+    border-radius: 16px!important;
+    text-align: center;
+    color: white;
+    background-color: #808080!important;
+}
