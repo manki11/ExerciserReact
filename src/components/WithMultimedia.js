@@ -23,9 +23,9 @@ const modalStyle = {
 
 const withMultimedia = (defaultThumbnail) => (Component) => {
 	class MultimediaHoc extends React.Component {
-        
+
         constructor(props) {
-            super(props);            
+            super(props);
             this.state = {
                 thumbnail: '',
                 userLanguage: '',
@@ -38,12 +38,12 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
 		componentDidMount() {
 	        if (this.props.location.state) {
 	            const { thumbnail, userLanguage } = this.props.location.state.exercise;
-				let newThumbnail = thumbnail;
-                
+				      let newThumbnail = thumbnail;
+
                 // For default exercises
 	            if(thumbnail && !thumbnail.startsWith('data:image')  && !thumbnail.includes('/static/'))
 	                newThumbnail = require(`../images/defaultExerciseThumbnail/${thumbnail}`);
-                
+
 	            this.setState({
 	                ...this.state,
                     thumbnail: newThumbnail,
@@ -92,13 +92,13 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
                             this.setState({
                                 ...this.state,
                                 thumbnail: text
-                            }); 
+                            });
                         });
                     }, {mimetype: 'image/png'}, {mimetype: 'image/jpeg'});
                 }
             });
         };
-         
+
         closeModal = () => {
             this.setState({
                 ...this.state,
@@ -123,17 +123,17 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
                     onRequestClose={this.closeModal}
                     style={modalStyle}
                 >
-                    {this.state.modalMediaType === 'img' && 
+                    {this.state.modalMediaType === 'img' &&
                         <img src = {this.state.modalSource} controls
                             alt="non-editable img"
                             className = "center-element">
                         </img>}
-                    {this.state.modalMediaType === 'video' && 
+                    {this.state.modalMediaType === 'video' &&
                         <video src = {this.state.modalSource} controls
                                 className = "center-element">
                         </video>}
-                    <button onClick = {this.closeModal} 
-                            id='close-button' 
+                    <button onClick = {this.closeModal}
+                            id='close-button'
                             className = "modal-close-button">
                     </button>
                 </Modal>
@@ -147,29 +147,40 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
                     onRequestClose={this.closeModal}
                     style={modalStyle}
                 >
-                    {this.state.modalMediaType === 'img' && 
+                    {this.state.modalMediaType === 'img' &&
                         <ImageEditor mediaSource = {this.state.modalSource}
                                     setMediaSource = {this.state.setImageEditorSource}
+                                    onClose = {this.closeModal}
                         />
                     }
-                    {this.state.modalMediaType === 'video' && 
-                        <video src = {this.state.modalSource} controls
-                            className = "center-element">
-                        </video>}
-                    <button onClick = {this.closeModal} 
-                            id='close-button'
-                            className = "modal-close-button">
-                    </button>
+                    {this.state.modalMediaType === 'video' &&
+                        <div>
+                            <video src = {this.state.modalSource} controls
+                                className = "center-element">
+                            </video>
+                            <button onClick = {this.closeModal}
+                                id='close-button'
+                                className = "modal-close-button">
+                            </button>
+                        </div>
+                    }
                 </Modal>
             );
         }
-        
+
 		deleteThumbnail = () => {
 			this.setState({
 				...this.state,
 				thumbnail:''
 			});
 		}
+
+    setThumbnail = (url) => {
+      this.setState({
+        ...this.state,
+        thumbnail: url
+      });
+    }
 
 		render() {
 
@@ -180,9 +191,7 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
                     <div className = "media-background">
                         <img src = {defaultThumbnail}
                             style = {{height: '200px'}}
-                            onClick = {() => {this.showMedia(defaultThumbnail, 'img', (url)=>{
-                                this.setState({...this.state, thumbnail: url})
-                            })}}
+                            onClick = {() => {this.showMedia(defaultThumbnail, 'img', this.setThumbnail)}}
                             alt="Thumbnail"/>
                     </div>
                 );
@@ -191,11 +200,9 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
                     <div className = "media-background">
                         <img src = {this.state.thumbnail}
                                 style = {{height: '200px'}}
-                                onClick = {() => {this.showMedia(this.state.thumbnail, 'img', (url)=>{
-                                    this.setState({...this.state, thumbnail: url})
-                                })}}
+                                onClick = {() => {this.showMedia(this.state.thumbnail, 'img', this.setThumbnail)}}
                                 alt="Thumbnail"/>
-                        <button className="btn button-cancel" 
+                        <button className="btn button-cancel"
                             onClick={this.deleteThumbnail}>
                         </button>
                     </div>
@@ -207,8 +214,8 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
                     {...this.props}
                     srcThumbnail={this.state.thumbnail}
                     userLanguage={this.state.userLanguage}
-					thumbnail={thumbnail}
-					insertThumbnail={this.insertThumbnail}
+          					thumbnail={thumbnail}
+          					insertThumbnail={this.insertThumbnail}
                     showMedia={this.showMedia}
                     ShowModalWindow = {this.showModalWindow}
                     ShowEditableModalWindow = {this.showEditableModalWindow}

@@ -12,7 +12,6 @@ class ImageEditor extends Component {
         this.state = {
             cropped: false,
             cropping: false,
-            name: '',
             previousUrl: '',
             type: '',
             url: '',
@@ -65,16 +64,6 @@ class ImageEditor extends Component {
           });
     }
 
-    stop() {
-        if (this.cropper) {
-            this.cropper.destroy();
-            this.canvasData = null;
-            this.cropBoxData = null;
-            this.croppedData = null;
-            this.cropper = null;
-        }
-    }
-
     crop = () => {
         const { cropper} = this;
         const { cropping, url, type } = this.state;
@@ -97,20 +86,23 @@ class ImageEditor extends Component {
 
     save = () => {
       const { cropper} = this;
-      const { cropping, url, type } = this.state;
+      const {url, type } = this.state;
 
-      this.croppedData = cropper.getData();
-      this.canvasData = cropper.getCanvasData();
-      this.cropBoxData = cropper.getCropBoxData();
-      this.update({
-          cropped: true,
-          cropping: false,
-          previousUrl: url,
-          url: cropper.getCroppedCanvas(type === 'image/png' ? {} : {
-              fillColor: '#fff',
-          }).toDataURL(type),
-      });
-      cropper.clear();
+      if(cropper) {
+        this.croppedData = cropper.getData();
+        this.canvasData = cropper.getCanvasData();
+        this.cropBoxData = cropper.getCropBoxData();
+        this.update({
+            previousUrl: url,
+            url: cropper.getCroppedCanvas(type === 'image/png' ? {} : {
+                fillColor: '#fff',
+            }).toDataURL(type),
+        });
+        cropper.clear();
+        this.canvasData = null;
+        this.cropBoxData = null;
+        this.croppedData = null;
+      }
     }
 
     clear = () => {
@@ -124,17 +116,16 @@ class ImageEditor extends Component {
     }
 
     restore = () => {
-        const { cropped } = this.state;
-        if (cropped) {
+        const { previousUrl } = this.state;
+        if (previousUrl) {
             this.setState({
                 ...this.state,
-                cropped: false,
+                cropper: false,
+                cropping: false,
                 previousUrl: '',
                 url: this.state.previousUrl
             }, () => {
-                    this.cropper.destroy();
-                    this.cropper = null;
-                    this.cropperSetup();
+                    this.updateCropper();
                 }
             );
         }
@@ -146,9 +137,12 @@ class ImageEditor extends Component {
             ...updatedData
         }, () => {
             if(this.state.cropped) {
-                this.cropper.destroy();
-                this.cropper = null;
-                this.cropperSetup();
+                this.updateCropper();
+                this.setState({
+                  ...this.state,
+                  cropped: false,
+                  cropping: false
+                })
             }
         });
     }
@@ -190,14 +184,17 @@ class ImageEditor extends Component {
 
                 case 'rotate-right':
                 cropper.rotate(90);
+                this.save();
                 break;
 
                 case 'flip-horizontal':
                 cropper.scaleX(-cropper.getData().scaleX || -1);
+                this.save();
                 break;
 
                 case 'flip-vertical':
                 cropper.scaleY(-cropper.getData().scaleY || -1);
+                this.save();
                 break;
 
                 default:
@@ -223,10 +220,32 @@ class ImageEditor extends Component {
                         >
                     </img>
                 </div>
-                {!this.state.enableEditor && <button onClick = {this.enableEditor}
-                        id='edit-button'
-                        className = "modal-edit-button">
-                    </button>
+                {!this.state.enableEditor &&
+                    <div>
+                        <button onClick = {this.enableEditor}
+                            id='edit-button'
+                            className = "modal-edit-button">
+                        </button>,
+                        <button onClick = {this.props.onClose}
+                            id='close-button'
+                            className = "modal-close-button">
+                        </button>
+                    </div>
+                }
+                {this.state.enableEditor &&
+                    <div>
+                        <button onClick={()=>{
+                                this.props.setMediaSource(this.state.url);
+                                this.props.onClose();
+                            }}
+                            id='save-button'
+                            className = "modal-save-button">
+                        </button>
+                        <button onClick = {this.props.onClose}
+                            id='close-button'
+                            className = "modal-close-button">
+                        </button>
+                    </div>
                 }
                 {this.state.enableEditor &&
                     <div className="toolbar-image-editor">
@@ -241,9 +260,6 @@ class ImageEditor extends Component {
                         <button className="toolbar__button" data-action="restore" title="Undo (Ctrl + Z)" onClick={this.restore}><span className="fa fa-undo"></span></button>
                         <button className="toolbar__button" data-action="clear" title="Cancel (Esc)" onClick={this.clear}><span className="fa fa-ban"></span></button>
                         <button className="toolbar__button" data-action="crop" title="OK (Enter)" onClick={this.crop}><span className="fa fa-check"></span></button>
-                        <button className="toolbar__button" data-action="save" title="Save" onClick={()=>{
-                          this.props.setMediaSource(this.state.url);
-                        }}><span className="fa fa-floppy-o"></span></button>
                     </div>
                 }
         </div>

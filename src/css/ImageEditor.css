@@ -10,9 +10,23 @@
 }
 
 .modal-close-button {
-    background-image: url('../icons/exercise/delete.svg');
+    background-image: url('../icons/exercise/dialog-cancel.svg');
     position: absolute;
     right: 0px;
+    width: 50px;
+    height: 50px;
+    margin-top: 10px;
+    top: 0px;
+    border-radius: 25px;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.modal-save-button {
+    background-image: url('../icons/exercise/dialog-ok.svg');
+    position: absolute;
+    right: 60px;
     width: 50px;
     height: 50px;
     margin-top: 10px;
@@ -58,9 +72,9 @@
     color: #fff;
     height: 2rem;
     left: 50%;
-    margin-left: -22em;
+    margin-left: -20em;
     position: absolute;
-    width: 44rem;
+    width: 40rem;
 }
 
 .toolbar__button {
