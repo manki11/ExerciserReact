@@ -30,8 +30,10 @@
     "react-scripts": "1.1.4",
     "react-select": "^1.2.1",
     "react-tooltip": "^3.6.1",
+    "reactour": "^1.15.0",
     "redux": "^4.0.0",
     "source-map-explorer": "^2.0.0",
+    "styled-components": "^4.3.2",
     "text-loader": "0.0.1"
   },
   "scripts": {
