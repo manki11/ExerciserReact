@@ -40,7 +40,7 @@ class ImageEditor extends Component {
             autoCrop: false,
             dragMode: 'move',
             background: false,
-  
+
             ready: () => {
               if (this.croppedData) {
                 this.cropper
@@ -48,13 +48,13 @@ class ImageEditor extends Component {
                   .setData(this.croppedData)
                   .setCanvasData(this.canvasData)
                   .setCropBoxData(this.cropBoxData);
-  
+
                 this.croppedData = null;
                 this.canvasData = null;
                 this.cropBoxData = null;
               }
             },
-  
+
             crop: ({ detail }) => {
               if (detail.width > 0 && detail.height > 0 && !this.state.cropping) {
                 this.update({
@@ -93,6 +93,24 @@ class ImageEditor extends Component {
             });
             cropper.clear();
         }
+    }
+
+    save = () => {
+      const { cropper} = this;
+      const { cropping, url, type } = this.state;
+
+      this.croppedData = cropper.getData();
+      this.canvasData = cropper.getCanvasData();
+      this.cropBoxData = cropper.getCropBoxData();
+      this.update({
+          cropped: true,
+          cropping: false,
+          previousUrl: url,
+          url: cropper.getCroppedCanvas(type === 'image/png' ? {} : {
+              fillColor: '#fff',
+          }).toDataURL(type),
+      });
+      cropper.clear();
     }
 
     clear = () => {
@@ -148,7 +166,7 @@ class ImageEditor extends Component {
     editAction = (e) => {
         if(this.state.url!=='') {
             const { cropper } = this;
-            let action = e.currentTarget.dataset.action; 
+            let action = e.currentTarget.dataset.action;
             switch (action) {
                 case 'move':
                 break;
@@ -156,31 +174,32 @@ class ImageEditor extends Component {
                 case 'crop':
                 cropper.setDragMode(action);
                 break;
-    
+
                 case 'zoom-in':
                 cropper.zoom(0.1);
                 break;
-    
+
                 case 'zoom-out':
                 cropper.zoom(-0.1);
                 break;
-    
+
                 case 'rotate-left':
                 cropper.rotate(-90);
+                this.save();
                 break;
-    
+
                 case 'rotate-right':
                 cropper.rotate(90);
                 break;
-    
+
                 case 'flip-horizontal':
                 cropper.scaleX(-cropper.getData().scaleX || -1);
                 break;
-    
+
                 case 'flip-vertical':
                 cropper.scaleY(-cropper.getData().scaleY || -1);
                 break;
-    
+
                 default:
             }
         }
@@ -204,12 +223,12 @@ class ImageEditor extends Component {
                         >
                     </img>
                 </div>
-                {!this.state.enableEditor && <button onClick = {this.enableEditor} 
+                {!this.state.enableEditor && <button onClick = {this.enableEditor}
                         id='edit-button'
                         className = "modal-edit-button">
                     </button>
                 }
-                {this.state.enableEditor && 
+                {this.state.enableEditor &&
                     <div className="toolbar-image-editor">
                         <button className="toolbar__button" data-action="move" title="Move (M)" onClick={this.editAction}><span className="fa fa-arrows"></span></button>
                         <button className="toolbar__button" data-action="crop" title="Crop (C)" onClick={this.editAction}><span className="fa fa-crop"></span></button>
@@ -222,7 +241,9 @@ class ImageEditor extends Component {
                         <button className="toolbar__button" data-action="restore" title="Undo (Ctrl + Z)" onClick={this.restore}><span className="fa fa-undo"></span></button>
                         <button className="toolbar__button" data-action="clear" title="Cancel (Esc)" onClick={this.clear}><span className="fa fa-ban"></span></button>
                         <button className="toolbar__button" data-action="crop" title="OK (Enter)" onClick={this.crop}><span className="fa fa-check"></span></button>
-                        <button className="toolbar__button" data-action="save" title="Save" onClick={()=>{this.props.setMediaSource(this.state.url)}}><span className="fa fa-floppy-o"></span></button>                    
+                        <button className="toolbar__button" data-action="save" title="Save" onClick={()=>{
+                          this.props.setMediaSource(this.state.url);
+                        }}><span className="fa fa-floppy-o"></span></button>
                     </div>
                 }
         </div>
