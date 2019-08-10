@@ -12,7 +12,7 @@
 .modal-close-button {
     background-image: url('../icons/exercise/dialog-cancel.svg');
     position: absolute;
-    right: 0px;
+    right: 60px;    
     width: 50px;
     height: 50px;
     margin-top: 10px;
@@ -26,7 +26,7 @@
 .modal-save-button {
     background-image: url('../icons/exercise/dialog-ok.svg');
     position: absolute;
-    right: 60px;
+    right: 0px;
     width: 50px;
     height: 50px;
     margin-top: 10px;
@@ -72,9 +72,9 @@
     color: #fff;
     height: 2rem;
     left: 50%;
-    margin-left: -20em;
+    margin-left: -16.5em;
     position: absolute;
-    width: 40rem;
+    width: 33rem;
 }
 
 .toolbar__button {

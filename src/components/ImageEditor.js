@@ -171,10 +171,12 @@ class ImageEditor extends Component {
 
                 case 'zoom-in':
                 cropper.zoom(0.1);
+                this.save();
                 break;
 
                 case 'zoom-out':
                 cropper.zoom(-0.1);
+                this.save();
                 break;
 
                 case 'rotate-left':
@@ -227,21 +229,25 @@ class ImageEditor extends Component {
                             className = "modal-edit-button">
                         </button>,
                         <button onClick = {this.props.onClose}
-                            id='close-button'
-                            className = "modal-close-button">
+                            id='save-button'
+                            className = "modal-save-button">
                         </button>
                     </div>
                 }
                 {this.state.enableEditor &&
                     <div>
                         <button onClick={()=>{
+                                this.crop();
                                 this.props.setMediaSource(this.state.url);
                                 this.props.onClose();
                             }}
                             id='save-button'
                             className = "modal-save-button">
                         </button>
-                        <button onClick = {this.props.onClose}
+                        <button onClick = {()=>{
+                                this.clear();
+                                this.props.onClose()
+                            }}
                             id='close-button'
                             className = "modal-close-button">
                         </button>
@@ -258,8 +264,6 @@ class ImageEditor extends Component {
                         <button className="toolbar__button" data-action="flip-horizontal" title="Flip Horizontal (H)" onClick={this.editAction}><span className="fa fa-arrows-h"></span></button>
                         <button className="toolbar__button" data-action="flip-vertical" title="Flip Vertical (V)" onClick={this.editAction}><span className="fa fa-arrows-v"></span></button>
                         <button className="toolbar__button" data-action="restore" title="Undo (Ctrl + Z)" onClick={this.restore}><span className="fa fa-undo"></span></button>
-                        <button className="toolbar__button" data-action="clear" title="Cancel (Esc)" onClick={this.clear}><span className="fa fa-ban"></span></button>
-                        <button className="toolbar__button" data-action="crop" title="OK (Enter)" onClick={this.crop}><span className="fa fa-check"></span></button>
                     </div>
                 }
         </div>
