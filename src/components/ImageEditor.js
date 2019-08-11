@@ -18,9 +18,6 @@ class ImageEditor extends Component {
             enableEditor: false
         } ;
 
-        this.canvasData = null;
-        this.cropBoxData = null;
-        this.croppedData = null;
         this.cropper = null;
     }
 
@@ -40,20 +37,6 @@ class ImageEditor extends Component {
             dragMode: 'move',
             background: false,
 
-            ready: () => {
-              if (this.croppedData) {
-                this.cropper
-                  .crop()
-                  .setData(this.croppedData)
-                  .setCanvasData(this.canvasData)
-                  .setCropBoxData(this.cropBoxData);
-
-                this.croppedData = null;
-                this.canvasData = null;
-                this.cropBoxData = null;
-              }
-            },
-
             crop: ({ detail }) => {
               if (detail.width > 0 && detail.height > 0 && !this.state.cropping) {
                 this.update({
@@ -69,9 +52,6 @@ class ImageEditor extends Component {
         const { cropping, url, type } = this.state;
 
         if (cropping) {
-            this.croppedData = cropper.getData();
-            this.canvasData = cropper.getCanvasData();
-            this.cropBoxData = cropper.getCropBoxData();
             this.update({
                 cropped: true,
                 cropping: false,
@@ -89,9 +69,6 @@ class ImageEditor extends Component {
       const {url, type } = this.state;
 
       if(cropper) {
-        this.croppedData = cropper.getData();
-        this.canvasData = cropper.getCanvasData();
-        this.cropBoxData = cropper.getCropBoxData();
         this.update({
             previousUrl: url,
             url: cropper.getCroppedCanvas(type === 'image/png' ? {} : {
@@ -99,9 +76,6 @@ class ImageEditor extends Component {
             }).toDataURL(type),
         });
         cropper.clear();
-        this.canvasData = null;
-        this.cropBoxData = null;
-        this.croppedData = null;
       }
     }
 
@@ -138,11 +112,8 @@ class ImageEditor extends Component {
         }, () => {
             if(this.state.cropped) {
                 this.updateCropper();
-                this.setState({
-                  ...this.state,
-                  cropped: false,
-                  cropping: false
-                })
+                this.props.setMediaSource(this.state.url);
+                this.props.onClose();
             }
         });
     }
@@ -150,9 +121,6 @@ class ImageEditor extends Component {
     updateCropper = () => {
         if(this.cropper)
             this.cropper.destroy();
-        this.canvasData = null;
-        this.cropBoxData = null;
-        this.croppedData = null;
         this.cropper = null;
         this.cropperSetup();
     }
@@ -237,9 +205,12 @@ class ImageEditor extends Component {
                 {this.state.enableEditor &&
                     <div>
                         <button onClick={()=>{
+                            if(this.state.cropping) {
                                 this.crop();
+                            } else {
                                 this.props.setMediaSource(this.state.url);
                                 this.props.onClose();
+                            }
                             }}
                             id='save-button'
                             className = "modal-save-button">
