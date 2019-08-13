@@ -454,7 +454,10 @@ class GroupAssignmentForm extends Component {
                     }
                     var dataentry = new datastore.DatastoreObject(entry.objectId);
                     dataentry.loadAsText((err, metadata, text) => {
-                        if(groups){
+                        if(groups) {
+                            if(mediaType === MULTIMEDIA.image)
+                                this.props.showMedia(text, 'img', this.setGroupSourceFromImageEditor(groupNo));
+
                             let {groups} = this.state;
                             groups[groupNo] = {type: mediaType, data: text};
                             this.setState({
@@ -463,7 +466,10 @@ class GroupAssignmentForm extends Component {
                             },() => {
                                 this.checkFormValidation();
                             });
-                        } else{
+                        } else {
+                            if(mediaType === MULTIMEDIA.image)
+                                this.props.showMedia(text, 'img', this.setQuestionSourceFromImageEditor);
+
                             let {currentQuestion} = this.state;
                             this.setState({
                                 ...this.state,
@@ -552,6 +558,33 @@ class GroupAssignmentForm extends Component {
         }
     }
 
+    setQuestionSourceFromImageEditor = (url) => {
+        this.setState({
+            ...this.state,
+            currentQuestion: {
+                ...this.state.currentQuestion,
+                question: {
+                    ...this.state.currentQuestion.question,
+                    data: url
+                }
+            }
+        }, () => {
+            this.checkFormValidation();
+        });
+    }
+
+    setGroupSourceFromImageEditor = (index) => (url) => {
+        const {groups} = this.state;
+        const updatedGroups = groups;
+        updatedGroups[index].data = url;
+        this.setState({
+            ...this.state,
+            groups: updatedGroups
+        }, () => {
+            this.checkFormValidation();
+        });
+    }
+    
     onDeleteQuestion = () => {
         const {currentQuestion, questions} = this.state;
         let updatedQuestions = [];
@@ -603,7 +636,7 @@ class GroupAssignmentForm extends Component {
     render() {
         const {currentQuestion, errors, groups} = this.state;
         const {id} = currentQuestion;
-        const {thumbnail, insertThumbnail, showMedia} = this.props;
+        const {thumbnail, insertThumbnail, showMedia, ShowEditableModalWindow} = this.props;
         let questionType = currentQuestion.question.type;
 
         let groupOptions = groups.map((group, i) => {
@@ -612,10 +645,10 @@ class GroupAssignmentForm extends Component {
                 question = (
                     [
                         <button className="btn button-answer-options button-text col-md-3" key="type-1" 
-                                    onClick={() => {
-                                            this.selectGroupType(MULTIMEDIA.text, i);
-                                        }}>
-                                    <FormattedMessage id={TEXT}/>
+                            onClick={() => {
+                                    this.selectGroupType(MULTIMEDIA.text, i);
+                                }}>
+                            <FormattedMessage id={TEXT}/>
                         </button>,
                         <button className="btn button-answer-options button-image col-md-3" key="type-2"
                             onClick={() => {
@@ -650,7 +683,7 @@ class GroupAssignmentForm extends Component {
                             <div className = "media-background answers">
                                 <img src = {group.data}
                                         style = {{height: '100px'}}
-                                        onClick = {()=>{showMedia(group.data)}}
+                                        onClick = {()=>{showMedia(group.data, 'img', this.setGroupSourceFromImageEditor(i))}}
                                         alt="Option"/>
                             </div>                    
                             <button className="btn button-choices-edit" 
@@ -768,6 +801,7 @@ class GroupAssignmentForm extends Component {
                                                     showMedia = {showMedia}
                                                     handleChangeQues = {this.handleChangeQues}
                                                     speak = {this.speak}
+                                                    setImageEditorSource = {this.setQuestionSourceFromImageEditor}                                                    
                                                 />
                                             }
                                             {question_error}
@@ -826,6 +860,7 @@ class GroupAssignmentForm extends Component {
                     </div>
                 </div>
             </div>
+            <ShowEditableModalWindow/>
         </div>
         )
     }

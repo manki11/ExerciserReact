@@ -390,6 +390,9 @@ class MCQForm extends Component {
                     var dataentry = new datastore.DatastoreObject(entry.objectId);
                     dataentry.loadAsText((err, metadata, text) => {
                         if(options){
+                            if(mediaType === MULTIMEDIA.image)
+                                this.props.showMedia(text, 'img', this.setOptionSourceFromImageEditor(optionNo));
+
                             let options = currentQuestion.options;
                             options[optionNo] = {type: mediaType, data: text};
                             this.setState({
@@ -402,6 +405,9 @@ class MCQForm extends Component {
                                 this.checkFormValidation();
                             });
                         } else{
+                            if(mediaType === MULTIMEDIA.image)
+                                this.props.showMedia(text, 'img', this.setQuestionSourceFromImageEditor);
+
                             this.setState({
                                 ...this.state,
                                 currentQuestion:{
@@ -489,6 +495,36 @@ class MCQForm extends Component {
         });
     }
 
+    setQuestionSourceFromImageEditor = (url) => {
+        this.setState({
+            ...this.state,
+            currentQuestion: {
+                ...this.state.currentQuestion,
+                question: {
+                    ...this.state.currentQuestion.question,
+                    data: url
+                }
+            }
+        }, () => {
+            this.checkFormValidation();
+        });
+    }
+
+    setOptionSourceFromImageEditor = (index) => (url) => {
+        const { options } = this.state.currentQuestion;
+        let updatedOptions = options;
+        updatedOptions[index].data = url;
+        this.setState({
+            ...this.state,
+            currentQuestion: {
+                ...this.state.currentQuestion,
+                options : updatedOptions
+            }
+        }, () => {
+            this.checkFormValidation();
+        });
+    }
+    
     onDeleteQuestion = () => {
         const {currentQuestion, questions} = this.state;
         let updatedQuestions = [];
@@ -542,7 +578,7 @@ class MCQForm extends Component {
     render() {
         const {currentQuestion, errors} = this.state;
         const {id, options} = currentQuestion;
-        const {thumbnail, insertThumbnail, showMedia} = this.props;
+        const {thumbnail, insertThumbnail, showMedia, ShowEditableModalWindow} = this.props;
         let questionType = currentQuestion.question.type;
         
         let title_error = '';
@@ -608,6 +644,7 @@ class MCQForm extends Component {
                                                     showMedia = {showMedia}
                                                     handleChangeQues = {this.handleChangeQues}
                                                     speak = {this.speak}
+                                                    setImageEditorSource = {this.setQuestionSourceFromImageEditor}                                                    
                                                 />
                                             }
                                             {questionType === MULTIMEDIA.text && question_error}
@@ -616,12 +653,13 @@ class MCQForm extends Component {
                                     <AnswerOptionsJSX 
                                         selectOptionType = {this.selectOptionType}
                                         resetOption = {this.resetOption}
-                                        showMedia = {this.showMedia}
+                                        showMedia = {showMedia}
                                         speak = {this.speak}
                                         options = {options}
                                         changeOrder = {this.changeOrder}
                                         handleChangeOption = {this.handleChangeOption}
                                         templateType = "MCQ"
+                                        setImageEditorSource = {this.setOptionSourceFromImageEditor}                                                                                            
                                     />
                                     <div>
                                         {options_error}
@@ -682,6 +720,7 @@ class MCQForm extends Component {
                     </div>
                 </div>
             </div>
+            <ShowEditableModalWindow/>
         </div>
         )
     }

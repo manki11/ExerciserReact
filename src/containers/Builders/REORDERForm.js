@@ -242,6 +242,9 @@ class REORDERForm extends Component {
                     var dataentry = new datastore.DatastoreObject(entry.objectId);
                     dataentry.loadAsText((err, metadata, text) => {
                         if(options){
+                            if(mediaType === MULTIMEDIA.image)
+                                this.props.showMedia(text, 'img', this.setListSourceFromImageEditor(optionNo));
+
                             let {list} = this.state;
                             list[optionNo] = {type: mediaType, data: text};
                             this.setState({
@@ -251,6 +254,9 @@ class REORDERForm extends Component {
                                 this.checkFormValidation();
                             });
                         } else{
+                            if(mediaType === MULTIMEDIA.image)
+                                this.props.showMedia(text, 'img', this.setQuestionSourceFromImageEditor);
+
                             this.setState({
                                 ...this.state,
                                 question:{
@@ -314,7 +320,7 @@ class REORDERForm extends Component {
         }
     }
 
-    resetOption = (OptionNo)=>{
+    resetOption = (OptionNo) => {
         const {list} = this.state;
         list[OptionNo] = {type: '', data: ''};
         this.setState({
@@ -323,9 +329,33 @@ class REORDERForm extends Component {
         });
     }
 
+    setQuestionSourceFromImageEditor = (url) => {
+        this.setState({
+            ...this.state,
+            question: {
+                ...this.state.question,
+                data: url
+            }
+        }, () => {
+            this.checkFormValidation();
+        });
+    }
+
+    setListSourceFromImageEditor = (index) => (url) => { 
+        const {list} = this.state;
+        let updatedList = list;
+        updatedList[index].data = url;
+        this.setState({
+            ...this.state,
+            list: updatedList
+        }, () => {
+            this.checkFormValidation();
+        });
+    }
+
     render() {
         const {errors, list} = this.state;
-        const {thumbnail, insertThumbnail, showMedia} = this.props;
+        const {thumbnail, insertThumbnail, showMedia, ShowEditableModalWindow} = this.props;
         let questionType = this.state.question.type;
 
         let title_error = '';
@@ -388,6 +418,7 @@ class REORDERForm extends Component {
                                                     showMedia = {showMedia}
                                                     handleChangeQues = {this.handleChangeQues}
                                                     speak = {this.speak}
+                                                    setImageEditorSource = {this.setQuestionSourceFromImageEditor}                                                    
                                                 />
                                             }
                                             {question_error}
@@ -396,12 +427,13 @@ class REORDERForm extends Component {
                                         <AnswerOptionsJSX 
                                             selectOptionType = {this.selectOptionType}
                                             resetOption = {this.resetOption}
-                                            showMedia = {this.showMedia}
+                                            showMedia = {showMedia}
                                             speak = {this.speak}
                                             options = {list}
                                             changeOrder = {this.changeOrder}
                                             handleChangeOption = {this.handleChangeOption}
                                             templateType = "REORDER"
+                                            setImageEditorSource = {this.setListSourceFromImageEditor}
                                         />
                                     <div>
                                         {list_error}
@@ -448,6 +480,7 @@ class REORDERForm extends Component {
                     </div>
                 </div>
             </div>
+            <ShowEditableModalWindow/>
         </div>
         )
     }

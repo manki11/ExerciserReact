@@ -251,7 +251,7 @@ class GroupAssignmentPlayer extends Component {
 
     render() {
         const {currentQuestion, groups, selectedAns} = this.state;
-        const {showMedia} = this.props;
+        const {showMedia, ShowModalWindow} = this.props;
         const {id, answer} = currentQuestion;
         const questionType = currentQuestion.question.type;
         const questionData = currentQuestion.question.data;
@@ -361,6 +361,7 @@ class GroupAssignmentPlayer extends Component {
                         </div>
                     </div>
                 </div>
+                <ShowModalWindow/>
             </div>
         )
     }

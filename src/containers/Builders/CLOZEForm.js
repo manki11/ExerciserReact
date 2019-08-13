@@ -377,6 +377,8 @@ class CLOZEForm extends Component {
                     }
                     var dataentry = new datastore.DatastoreObject(entry.objectId);
                     dataentry.loadAsText((err, metadata, text) => {
+                        if(mediaType === MULTIMEDIA.image)
+                            this.props.showMedia(text, 'img', this.setSourceFromImageEditor);
                         this.setState({
                             ...this.state,
                             question:{
@@ -422,9 +424,21 @@ class CLOZEForm extends Component {
         }
     }
 
+    setSourceFromImageEditor = (url) => {
+        this.setState({
+            ...this.state,
+            question: {
+                ...this.state.question,
+                data: url
+            }
+        }, () => {
+            this.checkFormValidation();
+        })
+    }
+
     render() {
         const {errors, answers} = this.state;
-        const { thumbnail, insertThumbnail, showMedia} = this.props;
+        const { thumbnail, insertThumbnail, showMedia, ShowEditableModalWindow} = this.props;
         let questionType = this.state.question.type; 
         
         let inputs = answers.map((ans, i) => {
@@ -524,6 +538,7 @@ class CLOZEForm extends Component {
                                                         showMedia = {showMedia}
                                                         handleChangeQues = {this.handleChangeQues}
                                                         speak = {this.speak}
+                                                        setImageEditorSource = {this.setSourceFromImageEditor}
                                                     />
                                                 }
                                                 {question_error}
@@ -630,6 +645,7 @@ class CLOZEForm extends Component {
                         </div>
                     </div>
                 </div>
+                <ShowEditableModalWindow/>
             </div>
         )
     }

@@ -331,6 +331,8 @@ class FreeTextInputForm extends Component {
                     }
                     var dataentry = new datastore.DatastoreObject(entry.objectId);
                     dataentry.loadAsText((err, metadata, text) => {
+                        if(mediaType === MULTIMEDIA.image)
+                            this.props.showMedia(text, 'img', this.setSourceFromImageEditor);
                         this.setState({
                             ...this.state,
                             currentQuestion:{
@@ -385,6 +387,21 @@ class FreeTextInputForm extends Component {
         }
     }
 
+    setSourceFromImageEditor = (url) => {
+        this.setState({
+            ...this.state,
+            currentQuestion: {
+                ...this.state.currentQuestion,
+                question: {
+                    ...this.state.currentQuestion.question,
+                    data: url
+                }
+            }
+        }, ()=>{
+            this.checkFormValidation();
+        })
+    }
+    
     onDeleteQuestion = () => {
         const {currentQuestion, questions} = this.state;
         let updatedQuestions = [];
@@ -437,7 +454,7 @@ class FreeTextInputForm extends Component {
 
     render() {
         const {currentQuestion, errors} = this.state;
-        const {thumbnail, insertThumbnail, showMedia} = this.props;
+        const {thumbnail, insertThumbnail, showMedia, ShowEditableModalWindow} = this.props;
         const {id} = currentQuestion;
         let questionType = currentQuestion.question.type;
         let placeholder_string = ENTER_ANSWER; 
@@ -506,6 +523,7 @@ class FreeTextInputForm extends Component {
                                                     showMedia = {showMedia}
                                                     handleChangeQues = {this.handleChangeQues}
                                                     speak = {this.speak}
+                                                    setImageEditorSource = {this.setSourceFromImageEditor}
                                                 />
                                             }
                                             {question_error}
@@ -569,6 +587,7 @@ class FreeTextInputForm extends Component {
                     </div>
                 </div>
             </div>
+            <ShowEditableModalWindow/>
         </div>
         )
     }

@@ -72,7 +72,6 @@
 
 .box {
     text-align: center;
-    z-index: 24;
     cursor: pointer;
     box-shadow: 2px 2px 19px #aaa;
     -o-box-shadow: 2px 2px 19px #aaa;

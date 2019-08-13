@@ -40,7 +40,7 @@ export function QuestionOptionsJSX(props){
 export function QuestionJSX(props){
 
     let question;
-    let {questionType, questionData, handleChangeQues, showMedia, speak} = props; 
+    let {questionType, questionData, handleChangeQues, showMedia, speak, setImageEditorSource} = props; 
     if( questionType === MULTIMEDIA.text)
         question = (
             <input
@@ -56,7 +56,7 @@ export function QuestionJSX(props){
             <div className = "media-background">
                 <img src = {questionData}
                     style = {{height: '200px'}}
-                    onClick = {()=>{showMedia(questionData)}}
+                    onClick = {()=>{showMedia(questionData, 'img', setImageEditorSource)}}
                     alt="Question"/>
             </div>
         );
@@ -93,7 +93,7 @@ export function QuestionJSX(props){
 
 export function AnswerOptionsJSX(props){
 
-    const {selectOptionType, resetOption, showMedia, speak, options, changeOrder, handleChangeOption, templateType} = props;
+    const {selectOptionType, resetOption, showMedia, speak, options, changeOrder, handleChangeOption, templateType, setImageEditorSource} = props;
     // Answer-Options
     let answerOptions = options.map((option, i) => {
         if(!option.type)
@@ -165,7 +165,7 @@ export function AnswerOptionsJSX(props){
                         <div className = "media-background answers">
                             <img src = {option.data}
                                     style = {{height: '100px'}}
-                                    onClick = {()=>{showMedia(option.data)}}
+                                    onClick = {()=>{showMedia(option.data, 'img', setImageEditorSource(i))}}
                                     alt="Option"/>
                         </div>                    
                         <button className="btn button-choices-edit" 

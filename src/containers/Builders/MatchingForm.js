@@ -331,6 +331,8 @@ class MATCHING_PAIRForm extends Component {
                     var dataentry = new datastore.DatastoreObject(entry.objectId);
                     dataentry.loadAsText((err, metadata, text) => {
                         if(answer){
+                            if(mediaType === MULTIMEDIA.image)
+                                this.props.showMedia(text, 'img', this.setAnswerSourceFromImageEditor);
                             this.setState({
                                 ...this.state,
                                 currentPair:{
@@ -344,6 +346,9 @@ class MATCHING_PAIRForm extends Component {
                                 this.checkFormValidation();
                             });
                         } else{
+                            if(mediaType === MULTIMEDIA.image)
+                                this.props.showMedia(text, 'img', this.setQuestionSourceFromImageEditor);
+                                
                             this.setState({
                                 ...this.state,
                                 currentPair:{
@@ -418,6 +423,7 @@ class MATCHING_PAIRForm extends Component {
             this.showJournalChooser(mediaType, true)
         }
     }
+    
 
     resetAnswer = () => {
         const {currentPair} = this.state;
@@ -432,6 +438,37 @@ class MATCHING_PAIRForm extends Component {
             }
         });
     }
+
+    setQuestionSourceFromImageEditor = (url) => {
+        this.setState({
+            ...this.state,
+            currentPair: {
+                ...this.state.currentPair,
+                question: {
+                    ...this.state.currentPair.question,
+                    data: url
+                }
+            }
+        }, () => {
+            this.checkFormValidation();
+        });
+    }
+
+    setAnswerSourceFromImageEditor = (url) => {
+        this.setState({
+            ...this.state,
+            currentPair: {
+                ...this.state.currentPair,
+                answer: {
+                    ...this.state.currentPair.answer,
+                    data: url
+                }
+            }
+        }, () => {
+            this.checkFormValidation();
+        });
+    }
+
 
     onDeletePair = () => {
         const {currentPair, pairs} = this.state;
@@ -488,7 +525,7 @@ class MATCHING_PAIRForm extends Component {
 
     render() {
         const {currentPair, errors} = this.state;
-        const {thumbnail, insertThumbnail, showMedia} = this.props
+        const {thumbnail, insertThumbnail, showMedia, ShowEditableModalWindow} = this.props
         let questionType = this.state.currentPair.question.type;
         let answerType = this.state.currentPair.answer.type;
 
@@ -557,6 +594,7 @@ class MATCHING_PAIRForm extends Component {
                                                         showMedia = {showMedia}
                                                         handleChangeQues = {this.handleChangeQues}
                                                         speak = {this.speak}
+                                                        setImageEditorSource = {this.setQuestionSourceFromImageEditor}                                                    
                                                     />
                                                 }
                                                 {question_error}
@@ -580,6 +618,7 @@ class MATCHING_PAIRForm extends Component {
                                                         showMedia = {showMedia}
                                                         handleChangeQues = {this.handleChangeAns}
                                                         speak = {this.speak}
+                                                        setImageEditorSource = {this.setAnswerSourceFromImageEditor}                                                    
                                                     />
                                                 }
                                                 {answer_error}
@@ -625,6 +664,7 @@ class MATCHING_PAIRForm extends Component {
                         </div>
                     </div>
                 </div>
+                <ShowEditableModalWindow/>
             </div>
         )
     }
