@@ -272,7 +272,7 @@ class Scores extends Component {
         let score = (<button type="button" className={"score-button " + score_active} onClick={this.score}/>);
         let time = (<button type="button" className={"time-button " + time_active} onClick={this.time}/>);
         let detail = (<button type="button" className={"detail-button " + detail_active} onClick={this.detail}/>);
-
+        
         return (
             <div className="container">
                 <div className="container-fluid">

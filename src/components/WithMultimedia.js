@@ -2,29 +2,48 @@ import React from 'react';
 import datastore from 'lib/sugar-web/datastore';
 import chooser from 'lib/sugar-web/graphics/journalchooser';
 import env from 'lib/sugar-web/env';
-import picoModal from 'picomodal';
 import meSpeak from 'mespeak';
+import Modal from 'react-modal';
+import ImageEditor from '../components/ImageEditor';
+import '../css/ImageEditor.css';
+
+const modalStyle = {
+    content : {
+        top : '55%',
+        left : '50%',
+        right : 'auto',
+        bottom : 'auto',
+        marginRight : '-50%',
+        transform : 'translate(-50%, -50%)',
+        height : '85%',
+        width : '80%',
+        backgroundColor: '#e5e5e5'
+    }
+};
 
 const withMultimedia = (defaultThumbnail) => (Component) => {
 	class MultimediaHoc extends React.Component {
-        
+
         constructor(props) {
-            super(props);            
+            super(props);
             this.state = {
                 thumbnail: '',
-                userLanguage: ''
+                userLanguage: '',
+                modalSource: '',
+                modalMediaType: '',
+                modalIsOpen: false,
             }
         }
 
 		componentDidMount() {
 	        if (this.props.location.state) {
 	            const { thumbnail, userLanguage } = this.props.location.state.exercise;
-				let newThumbnail = thumbnail;
-                
+				      let newThumbnail = thumbnail;
+
                 // For default exercises
-	            if(thumbnail && !thumbnail.startsWith('data:image')  && !thumbnail.startsWith('/static/'))
+	            if(thumbnail && !thumbnail.startsWith('data:image')  && !thumbnail.includes('/static/'))
 	                newThumbnail = require(`../images/defaultExerciseThumbnail/${thumbnail}`);
-                
+
 	            this.setState({
 	                ...this.state,
                     thumbnail: newThumbnail,
@@ -73,51 +92,81 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
                             this.setState({
                                 ...this.state,
                                 thumbnail: text
-                            }); 
+                            });
                         });
                     }, {mimetype: 'image/png'}, {mimetype: 'image/jpeg'});
                 }
             });
         };
 
-        showMedia = (imageSource, mediaType = 'img') => {
-            picoModal({
-                content: (
-                    `<${mediaType} src = ${imageSource} \
-                        controls \
-                        style='max-height: 100%;\
-                            max-width: 100%;\
-                            margin: auto;\
-                            left: 0;\
-                            right: 0;\
-                            top: 0;\
-                            bottom: 0;\
-                            position: absolute;'>\
-                    </${mediaType}>\
-                    <button id='close-button' style='background-image: url(${require('../icons/exercise/delete.svg')});\
-                            position: absolute; right: 0px; width: 50px; height: 50px; margin-top: 5px;\
-                            border-radius: 25px; background-position: center; background-size: contain; \
-                            background-repeat: no-repeat'>\
-                    </button>`),
-                closeButton: false,
-                modalStyles: {
-                    backgroundColor: "#e5e5e5",
-                    height: "400px",
-                    width: "600px",
-                    maxWidth: "90%"
-                }
+        closeModal = () => {
+            this.setState({
+                ...this.state,
+                modalIsOpen: false
+            });
+        }
+
+        showMedia = (imageSource, mediaType = 'img', setImageEditorSource = null) => {
+            this.setState({
+                ...this.state,
+                modalSource: imageSource,
+                modalMediaType: mediaType,
+                modalIsOpen: true,
+                setImageEditorSource: setImageEditorSource
             })
-            .afterShow(function(modal) {
-                let closeButton = document.getElementById('close-button');
-                closeButton.addEventListener('click', function() {
-                    modal.close();
-                });
-            })
-            .afterClose((modal) => {
-                modal.destroy();
-            })
-            .show();
-        };
+        }
+
+        showModalWindow = () => {
+            return (
+                <Modal
+                    isOpen={this.state.modalIsOpen}
+                    onRequestClose={this.closeModal}
+                    style={modalStyle}
+                >
+                    {this.state.modalMediaType === 'img' &&
+                        <img src = {this.state.modalSource} controls
+                            alt="non-editable img"
+                            className = "center-element">
+                        </img>}
+                    {this.state.modalMediaType === 'video' &&
+                        <video src = {this.state.modalSource} controls
+                                className = "center-element">
+                        </video>}
+                    <button onClick = {this.closeModal}
+                            id='close-button'
+                            className = "modal-close-button">
+                    </button>
+                </Modal>
+            );
+        }
+
+        showEditableModalWindow = () => {
+            return (
+                <Modal
+                    isOpen={this.state.modalIsOpen}
+                    onRequestClose={this.closeModal}
+                    style={modalStyle}
+                >
+                    {this.state.modalMediaType === 'img' &&
+                        <ImageEditor mediaSource = {this.state.modalSource}
+                                    setMediaSource = {this.state.setImageEditorSource}
+                                    onClose = {this.closeModal}
+                        />
+                    }
+                    {this.state.modalMediaType === 'video' &&
+                        <div>
+                            <video src = {this.state.modalSource} controls
+                                className = "center-element">
+                            </video>
+                            <button onClick = {this.closeModal}
+                                id='close-button'
+                                className = "modal-close-button">
+                            </button>
+                        </div>
+                    }
+                </Modal>
+            );
+        }
 
 		deleteThumbnail = () => {
 			this.setState({
@@ -125,6 +174,13 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
 				thumbnail:''
 			});
 		}
+
+    setThumbnail = (url) => {
+      this.setState({
+        ...this.state,
+        thumbnail: url
+      });
+    }
 
 		render() {
 
@@ -135,7 +191,7 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
                     <div className = "media-background">
                         <img src = {defaultThumbnail}
                             style = {{height: '200px'}}
-                            onClick = {() => {this.showMedia(defaultThumbnail)}}
+                            onClick = {() => {this.showMedia(defaultThumbnail, 'img', this.setThumbnail)}}
                             alt="Thumbnail"/>
                     </div>
                 );
@@ -144,9 +200,9 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
                     <div className = "media-background">
                         <img src = {this.state.thumbnail}
                                 style = {{height: '200px'}}
-                                onClick = {() => {this.showMedia(this.state.thumbnail)}}
+                                onClick = {() => {this.showMedia(this.state.thumbnail, 'img', this.setThumbnail)}}
                                 alt="Thumbnail"/>
-                        <button className="btn button-cancel" 
+                        <button className="btn button-cancel"
                             onClick={this.deleteThumbnail}>
                         </button>
                     </div>
@@ -158,9 +214,11 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
                     {...this.props}
                     srcThumbnail={this.state.thumbnail}
                     userLanguage={this.state.userLanguage}
-					thumbnail={thumbnail}
-					insertThumbnail={this.insertThumbnail}
+          					thumbnail={thumbnail}
+          					insertThumbnail={this.insertThumbnail}
                     showMedia={this.showMedia}
+                    ShowModalWindow = {this.showModalWindow}
+                    ShowEditableModalWindow = {this.showEditableModalWindow}
                 />
 			);
 		}

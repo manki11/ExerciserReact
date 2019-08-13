@@ -10,6 +10,8 @@ import chooser from 'lib/sugar-web/graphics/journalchooser';
 import env from 'lib/sugar-web/env';
 import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
+import {QuestionOptionsJSX} from '../../components/MultimediaJSX';
+import {QuestionJSX} from '../../components/MultimediaJSX';
 import {
     FINISH_EXERCISE,
     QUESTION,
@@ -27,8 +29,8 @@ import {
     TITLE_ERROR,
     BLANKS_ERROR,
     BLANK_REUSED_ERROR,
-    TEXT
 } from "../translation";
+import {MULTIMEDIA} from '../../utils';
 
 class CLOZEForm extends Component {
 
@@ -61,15 +63,6 @@ class CLOZEForm extends Component {
             },
             typeOfExcercise:'Cloze'
         };
-
-        this.multimedia = {
-            text: 'text',
-            image: 'image',
-            audio: 'audio',
-            textToSpeech: 'text-to-speech',
-            video: 'video'
-        };
-
     }
 
     // in case of edit load the exercise
@@ -369,11 +362,11 @@ class CLOZEForm extends Component {
 
     showJournalChooser = (mediaType) => {
         let image, audio, video = false;
-        if(mediaType === this.multimedia.image)
+        if(mediaType === MULTIMEDIA.image)
             image = true;
-        if(mediaType === this.multimedia.audio)
+        if(mediaType === MULTIMEDIA.audio)
             audio = true;
-        if(mediaType === this.multimedia.video)
+        if(mediaType === MULTIMEDIA.video)
             video = true;
         env.getEnvironment((err, environment) => {
             if(environment.user) {
@@ -384,6 +377,8 @@ class CLOZEForm extends Component {
                     }
                     var dataentry = new datastore.DatastoreObject(entry.objectId);
                     dataentry.loadAsText((err, metadata, text) => {
+                        if(mediaType === MULTIMEDIA.image)
+                            this.props.showMedia(text, 'img', this.setSourceFromImageEditor);
                         this.setState({
                             ...this.state,
                             question:{
@@ -416,7 +411,7 @@ class CLOZEForm extends Component {
     }
 
     selectQuestionType = (mediaType) => {
-        if(mediaType === this.multimedia.text || mediaType === this.multimedia.textToSpeech) {
+        if(mediaType === MULTIMEDIA.text || mediaType === MULTIMEDIA.textToSpeech) {
             this.setState({
                 ...this.state,
                 question: {
@@ -429,91 +424,22 @@ class CLOZEForm extends Component {
         }
     }
 
+    setSourceFromImageEditor = (url) => {
+        this.setState({
+            ...this.state,
+            question: {
+                ...this.state.question,
+                data: url
+            }
+        }, () => {
+            this.checkFormValidation();
+        })
+    }
+
     render() {
         const {errors, answers} = this.state;
-        const { thumbnail, insertThumbnail, showMedia} = this.props;
-
-        //Question-Options
-        let questionOptions = (
-            <div className="question-options">
-                <button className="btn button-question-options button-text col-md-2" 
-                    onClick={() => {
-                            this.selectQuestionType(this.multimedia.text)
-                        }}>
-                    <FormattedMessage id={TEXT}/>
-                </button>
-                <button className="btn button-question-options button-image col-md-2" 
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.image);
-                    }}>
-                </button>
-                <button className="btn button-question-options button-audio col-md-2" 
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.audio);
-                    }}>
-                </button>
-                <button className="btn button-question-options button-text-to-speech col-md-2" 
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.textToSpeech);
-                        }}>
-                </button>
-                <button className="btn button-question-options button-video col-md-2" 
-                    onClick={() => {
-                        this.selectQuestionType(this.multimedia.video);
-                    }}>
-                </button>
-            </div>
-        );
-        
-        let question;
+        const { thumbnail, insertThumbnail, showMedia, ShowEditableModalWindow} = this.props;
         let questionType = this.state.question.type; 
-        if( questionType === this.multimedia.text)
-            question = (
-                <input
-                    className="input-mcq"
-                    type="text"
-                    id="question"
-                    value={this.state.question.data}
-                    onChange={this.handleChangeQues}
-                />
-            );
-        if( questionType === this.multimedia.image)
-            question = (
-                <div className = "media-background">
-                   <img src = {this.state.question.data}
-                        style = {{height: '200px'}}
-                        onClick = {()=>{showMedia(this.state.question.data)}}
-                        alt="Question"/>
-                </div>
-            );
-        if( questionType === this.multimedia.audio)
-            question = (
-                <audio src={this.state.question.data} controls
-                        style={{width: '-webkit-fill-available'}}>
-                </audio>
-            );
-        if( questionType === this.multimedia.textToSpeech)
-            question = (
-                <div>
-                    <input
-                        className="input-text-to-speech"
-                        id="question"
-                        value={this.state.question.data}
-                        onChange={this.handleChangeQues}
-                    />
-                    <button className="btn button-finish button-speaker button-off" 
-                            onClick={(e)=>{this.speak(e, this.state.question.data)}}>
-                    </button>
-                </div>
-            );
-        if( questionType === this.multimedia.video)
-            question = (
-                <div className="media-background">
-                    <video src={this.state.question.data} controls
-                            height="250px">
-                    </video>
-                </div>
-            );
         
         let inputs = answers.map((ans, i) => {
             return (
@@ -601,8 +527,20 @@ class CLOZEForm extends Component {
                                                 {questionType && <button className="btn button-edit" 
                                                     onClick={() => {this.setState({...this.state, question:{type:'', data:''}})}}>
                                                 </button>}
-                                                {!questionType && questionOptions}
-                                                {questionType && question}
+                                                {!questionType && 
+                                                    <QuestionOptionsJSX
+                                                        selectQuestionType = {this.selectQuestionType}
+                                                    />}
+                                                {questionType && 
+                                                    <QuestionJSX
+                                                        questionType = {this.state.question.type}
+                                                        questionData = {this.state.question.data}
+                                                        showMedia = {showMedia}
+                                                        handleChangeQues = {this.handleChangeQues}
+                                                        speak = {this.speak}
+                                                        setImageEditorSource = {this.setSourceFromImageEditor}
+                                                    />
+                                                }
                                                 {question_error}
                                             </div>
                                         </div>
@@ -616,7 +554,7 @@ class CLOZEForm extends Component {
                                                         onChange={(e) => {
                                                             this.setState({writeIn: e.target.value})
                                                         }}/>
-                                                    <label className="form-check-label">
+                                                    <label className="form-check-label type-write">
                                                         <FormattedMessage id={WRITE_IN}/>
                                                     </label>
                                                 </div>
@@ -627,7 +565,7 @@ class CLOZEForm extends Component {
                                                         onChange={(e) => {
                                                             this.setState({writeIn: e.target.value})
                                                         }}/>
-                                                    <label className="form-check-label">
+                                                    <label className="form-check-label type-options">
                                                         <FormattedMessage id={OPTIONS}/>
                                                     </label>
                                                 </div>
@@ -640,7 +578,7 @@ class CLOZEForm extends Component {
                                                     <div className="justify-content-end">
                                                         <button
                                                             onClick={this.addBlank}
-                                                            className={"btn button-finish"}
+                                                            className={"btn button-finish button-add-blank"}
                                                         >
                                                             <FormattedMessage id={ADD_BLANK}/>
                                                         </button>
@@ -707,6 +645,7 @@ class CLOZEForm extends Component {
                         </div>
                     </div>
                 </div>
+                <ShowEditableModalWindow/>
             </div>
         )
     }

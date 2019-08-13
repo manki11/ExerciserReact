@@ -8,6 +8,8 @@ import {FormattedMessage} from 'react-intl';
 import meSpeak from 'mespeak';
 import interact from 'interactjs'
 import withMultimedia from '../../components/WithMultimedia';
+import {PlayerMultimediaJSX} from '../../components/MultimediaJSX';
+import {MULTIMEDIA} from '../../utils';
 
 class GroupAssignmentPlayer extends Component {
 
@@ -39,23 +41,15 @@ class GroupAssignmentPlayer extends Component {
             userans: [],
             userAnswers: []
         }
-        this.multimedia = {
-            text: 'text',
-            image: 'image',
-            audio: 'audio',
-            textToSpeech: 'text-to-speech',
-            video: 'video'
-        };
         this.colors = ["#d3f6f3", "#f9fce1", "#fee9b2", "#fbd1b7"];
+        this.intervalId = setInterval(this.timer, 1000);
     }
 
     // load the exercise from props
     componentDidMount() {
         if (this.props.location.state) {
-            let intervalId = setInterval(this.timer, 1000);
             const {id, title, questions, scores, times, groups, userLanguage} = this.props.location.state.exercise;
             const currentQuestion = questions[0];
-
             let finish = false;
             if (questions.length === 1) finish = true;
 
@@ -69,7 +63,6 @@ class GroupAssignmentPlayer extends Component {
                 title: title,
                 questions: questions,
                 noOfQuestions: questions.length,
-                intervalID: intervalId,
                 scores: scores,
                 times: times,
                 finish: finish,
@@ -133,7 +126,7 @@ class GroupAssignmentPlayer extends Component {
 
 
     componentWillUnmount() {
-        clearInterval(this.state.intervalID);
+        clearInterval(this.intervalId);
         interact("#question-drag").unset();
         interact(".group-options").unset();
     }
@@ -258,14 +251,16 @@ class GroupAssignmentPlayer extends Component {
 
     render() {
         const {currentQuestion, groups, selectedAns} = this.state;
-        const {showMedia} = this.props;
+        const {showMedia, ShowModalWindow} = this.props;
         const {id, answer} = currentQuestion;
+        const questionType = currentQuestion.question.type;
+        const questionData = currentQuestion.question.data;
                 
         let groupOptions = groups.map((group, index) => {
             let groupElement;
-            if(group.type === this.multimedia.text)
+            if(group.type === MULTIMEDIA.text)
                 groupElement = <span>{group.data}</span>
-            if(group.type === this.multimedia.image)
+            if(group.type === MULTIMEDIA.image)
                 groupElement = (
                     <div className = "matching-questions">
                         <img src = {group.data}
@@ -284,43 +279,7 @@ class GroupAssignmentPlayer extends Component {
             )
         });
  
-        let questionElement;
-        let questionType = currentQuestion.question.type; 
-        if( questionType === this.multimedia.text)
-            questionElement = (
-                <p
-                    style={{lineHeight: '110px'}}>
-                {currentQuestion.question.data}</p>
-            );
-        if( questionType === this.multimedia.image)
-            questionElement = (
-                <img src = {currentQuestion.question.data}
-                    className = "matching-questions"                      
-                    onClick = {()=>{showMedia(currentQuestion.question.data)}}
-                    alt="Question"/>
-            );
-        if( questionType === this.multimedia.audio)
-            questionElement = (
-                <audio 
-                    className = "matching-questions"
-                    src={currentQuestion.question.data} controls>
-                </audio>
-            );
-        if( questionType === this.multimedia.textToSpeech) {
-            questionElement = (
-                <img className="button-off matching-questions"
-                    alt="text-to-speech-question"
-                />
-            );
-        }
-        if( questionType === this.multimedia.video)
-            questionElement = (
-                <video src={currentQuestion.question.data} controls
-                        onClick={()=>{showMedia(currentQuestion.question.data, this.multimedia.video)}}
-                    className = "matching-questions">  
-                </video>
-            );
-
+        
         let btnClass;
         if(this.state.submitted){
             if(selectedAns.type === answer.type && selectedAns.data === answer.data)
@@ -329,7 +288,7 @@ class GroupAssignmentPlayer extends Component {
                 btnClass = 'wrong-group';
             interact("#question-drag").draggable(false);
         }
-
+       
         let question = (
             <div name={id} id="question-drag"
                 className='before-drag'
@@ -337,7 +296,7 @@ class GroupAssignmentPlayer extends Component {
                 {(this.state.selected || this.state.submitted ) && <div className="marker"></div>}
                 <div className={`box ${btnClass}`} id = "on-click"
                     onClick={(e)=>{
-                        if( questionType === this.multimedia.textToSpeech) {
+                        if( questionType === MULTIMEDIA.textToSpeech) {
                             let elem = e.target;
                             if(e.target.getAttribute("id"))
                                 elem = e.target.children[0];
@@ -345,7 +304,14 @@ class GroupAssignmentPlayer extends Component {
                         }
                     }} 
                     >
-                    {questionElement}
+                    <PlayerMultimediaJSX
+                        questionType =  {questionType || 'text'}
+                        questionData =  {questionData}
+                        speak = {this.speak}
+                        showMedia = {showMedia}
+                        willSpeak = {false}
+                        className = 'matching-questions'
+                    />;
                 </div>
             </div>
         )
@@ -395,6 +361,7 @@ class GroupAssignmentPlayer extends Component {
                         </div>
                     </div>
                 </div>
+                <ShowModalWindow/>
             </div>
         )
     }

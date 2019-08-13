@@ -1,0 +1,91 @@
+.center-element {
+    max-height: 100%;
+    max-width: 100%;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+}
+
+.modal-close-button {
+    background-image: url('../icons/exercise/dialog-cancel.svg');
+    position: absolute;
+    right: 60px;    
+    width: 50px;
+    height: 50px;
+    margin-top: 10px;
+    top: 0px;
+    border-radius: 25px;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.modal-save-button {
+    background-image: url('../icons/exercise/dialog-ok.svg');
+    position: absolute;
+    right: 0px;
+    width: 50px;
+    height: 50px;
+    margin-top: 10px;
+    top: 0px;
+    border-radius: 25px;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.modal-edit-button {
+    background-image: url('../icons/exercise/edit.svg');
+    position: absolute;
+    right: 60px;
+    width: 50px;
+    height: 50px;
+    margin-top: 10px;
+    top: 0px;
+    border-radius: 25px;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+
+.canvas-image-editor {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    max-height: 90%;
+    max-width: 90%;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+}
+
+.toolbar-image-editor {
+    background-color: rgba(0, 0, 0, .5);
+    bottom: 1rem;
+    color: #fff;
+    height: 2rem;
+    left: 50%;
+    margin-left: -16.5em;
+    position: absolute;
+    width: 33rem;
+}
+
+.toolbar__button {
+    background-color: transparent;
+    border-width: 0;
+    color: #fff;
+    cursor: pointer;
+    display: block;
+    float: left;
+    font-size: 1.2rem;
+    height: 2rem;
+    text-align: center;
+    width: 3rem;
+}

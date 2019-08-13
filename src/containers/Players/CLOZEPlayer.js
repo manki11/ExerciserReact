@@ -9,6 +9,7 @@ import {SUBMIT_QUESTION, FINISH_EXERCISE} from "../translation";
 import {FormattedMessage} from 'react-intl';
 import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
+import {PlayerMultimediaJSX} from '../../components/MultimediaJSX';
 
 class CLOZEPlayer extends Component {
 
@@ -38,20 +39,12 @@ class CLOZEPlayer extends Component {
             userLanguage: '',
             userAnswers: []
         }
-
-        this.multimedia = {
-            text: 'text',
-            image: 'image',
-            audio: 'audio',
-            textToSpeech: 'text-to-speech',
-            video: 'video'
-        };
+        this.intervalId = setInterval(this.timer, 1000);
     }
 
     // load the exercise from props
     componentDidMount() {
         if (this.props.location.state) {
-            let intervalId = setInterval(this.timer, 1000);
             const {id, title, question, scores, times, answers, clozeText, writeIn, userLanguage} = this.props.location.state.exercise;
 
             let goBackToEdit = false;
@@ -79,7 +72,6 @@ class CLOZEPlayer extends Component {
             });
 
             this.shuffleArray(options);
-
             this.setState({
                 ...this.state,
                 id: id,
@@ -91,7 +83,6 @@ class CLOZEPlayer extends Component {
                 userans: userans,
                 cloze: cloze,
                 options: options,
-                intervalId: intervalId,
                 checkans: checkans,
                 writeIn: writeIn,
                 goBackToEdit: goBackToEdit,
@@ -113,7 +104,7 @@ class CLOZEPlayer extends Component {
     }
 
     componentWillUnmount() {
-        clearInterval(this.state.intervalID);
+        clearInterval(this.intervalId);
     }
 
     handleChangeAnsSelect = (text, name) => {
@@ -230,51 +221,10 @@ class CLOZEPlayer extends Component {
     }
 
     render() {
-        const {showMedia} = this.props;
-
-        let question;
-        let questionType = this.state.question.type; 
-        if( questionType === this.multimedia.text)
-            question = (
-               this.state.question.data
-            );
-        if( questionType === this.multimedia.image)
-            question = (
-                <p style = {{textAlign: 'center'}}>
-                    <img src = {this.state.question.data}
-                        style = {{height: '200px'}}
-                        onClick = {()=>{showMedia(this.state.question.data)}}
-                        alt="Question"/>
-                </p>
-            );
-        if( questionType === this.multimedia.audio)
-            question = (
-                <p style = {{textAlign: 'center'}}>
-                    <audio src={this.state.question.data} controls>
-                    </audio>
-                </p>
-                
-            );
-        if( questionType === this.multimedia.textToSpeech) {
-            question = (
-                <p style={{textAlign: 'center'}}>
-                    <img className="button-off"
-                        onClick={(e)=>{this.speak(e.target, this.state.question.data)}}
-                        alt="text-to-speech-question"
-                    />
-                </p>
-                
-            );
-        }
-        if( questionType === this.multimedia.video)
-            question = (
-                <p style = {{textAlign: 'center'}}>
-                    <video src={this.state.question.data} controls
-                        height="250px">
-                    </video>
-                </p>
-            );
-
+        const {showMedia, ShowModalWindow} = this.props;
+        const questionType = this.state.question.type;
+        const questionData = this.state.question.data;
+        
         let buttonText = <FormattedMessage id={SUBMIT_QUESTION}/>;
         if (this.state.submitted) buttonText = <FormattedMessage id={FINISH_EXERCISE}/>
 
@@ -341,8 +291,15 @@ class CLOZEPlayer extends Component {
                         <div className="jumbotron">
                             <p className="lead">{this.state.title}</p>
                             <hr className="my-4"/>
-                            <div style={{marginBottom: "20px"}}>
-                                {question}
+                            <div style={{textAlign: "center", marginBottom: "20px"}}>
+                                <PlayerMultimediaJSX
+                                    questionType =  {questionType || 'text'}
+                                    questionData = {questionData}
+                                    speak  = {this.speak}
+                                    showMedia = {showMedia}
+                                    willSpeak = {true}
+                                    height = '100px'
+                                />
                             </div>
                             <div>
                                 {clozetext}
@@ -363,6 +320,7 @@ class CLOZEPlayer extends Component {
                         </div>
                     </div>
                 </div>
+                <ShowModalWindow/>
             </div>
         )
     }
