@@ -257,83 +257,86 @@ class PresenceScores extends Component {
                 allUserAnswers.push(result.userAnswers);
             });
 
-            let userAnswers = allUserAnswers[this.state.userDetailsIndex];
-            let resultDetails = userAnswers.map((answer, index) => {
-                return (
-                    <tr key={index}>
-                        <td>
-                            {getResultsTableElement(answer.question)}
-                        </td>
-                        <td>
-                            {getResultsTableElement(answer.correctAns)}
-                        </td> 
-                        <td>
-                            {getResultsTableElement(answer.userAns)}
-                        </td>
-                        <td>
-                            {getWrongRightMarker(answer)}
-                        </td>
-                    </tr>
-                );
-            });
+            if(shared_results.length) {
+                let userAnswers = allUserAnswers[this.state.userDetailsIndex];
+                let resultDetails = userAnswers.map((answer, index) => {
+                    return (
+                        <tr key={index}>
+                            <td>
+                                {getResultsTableElement(answer.question)}
+                            </td>
+                            <td>
+                                {getResultsTableElement(answer.correctAns)}
+                            </td> 
+                            <td>
+                                {getResultsTableElement(answer.userAns)}
+                            </td>
+                            <td>
+                                {getWrongRightMarker(answer)}
+                            </td>
+                        </tr>
+                    );
+                });
 
-            let usersMenu = shared_results.map((sharedUser, index) => {
-                return (
-                    <tr className = {this.state.userDetailsIndex!==index?'shared-results-user-selected':''}>
-                        <td onClick={()=>{this.setDetailedResultUser(index)}}
-                            style = {{backgroundColor: (this.state.userDetailsIndex===index)?`#808080`:''}}>                        
-                                <span className="user-icon">
-                                    <UserIcon
-                                        width="60%"
-                                        height="80%"
-                                        stroke_color={sharedUser.user.colorvalue.stroke}
-                                        fill_color={sharedUser.user.colorvalue.fill}/>
-                                </span>
-                                <span>
-                                    {sharedUser.user.name}
-                                </span>
-                        </td>
-                    </tr>
-                );
-            });
+                let usersMenu = shared_results.map((sharedUser, index) => {
+                    return (
+                        <tr className = {this.state.userDetailsIndex!==index?'shared-results-user-selected':''}>
+                            <td onClick={()=>{this.setDetailedResultUser(index)}}
+                                style = {{backgroundColor: (this.state.userDetailsIndex===index)?`#808080`:''}}>                        
+                                    <span className="user-icon">
+                                        <UserIcon
+                                            width="60%"
+                                            height="80%"
+                                            stroke_color={sharedUser.user.colorvalue.stroke}
+                                            fill_color={sharedUser.user.colorvalue.fill}/>
+                                    </span>
+                                    <span>
+                                        {sharedUser.user.name}
+                                    </span>
+                            </td>
+                        </tr>
+                    );
+                });
 
-            chart = (
-                <div style={{display: 'flex'}}>
-                    <div className="col-md-3">
-                        <br></br>
-                        <br></br>
-                        <br></br>
-                        <table style={{width:'100%'}}>
-                            <thead>
-                                <tr>
-                                    <th><FormattedMessage id={USERS}/></th>                                    
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {usersMenu}
-                            </tbody> 
-                        </table>
+                chart = (
+                    <div style={{display: 'flex'}}>
+                        <div className="col-md-3">
+                            <br></br>
+                            <br></br>
+                            <br></br>
+                            <table style={{width:'100%'}}>
+                                <thead>
+                                    <tr>
+                                        <th><FormattedMessage id={USERS}/></th>                                    
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {usersMenu}
+                                </tbody> 
+                            </table>
+                        </div>
+                        <div className="col-md-9">
+                            <br></br>
+                            <br></br>
+                            <table style={{width:'100%'}}>
+                                <thead>
+                                    <tr>
+                                        <th><FormattedMessage id={QUESTION}/></th>
+                                        <th><FormattedMessage id={CORRECT_ANSWER}/></th> 
+                                        <th>{users[this.state.userDetailsIndex]}</th>
+                                        <th><FormattedMessage id={CORRECT_WRONG}/></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {resultDetails}
+                                </tbody> 
+                            </table>
+                        </div>
                     </div>
-                    <div className="col-md-9">
-                        <br></br>
-                        <br></br>
-                        <table style={{width:'100%'}}>
-                            <thead>
-                                <tr>
-                                    <th><FormattedMessage id={QUESTION}/></th>
-                                    <th><FormattedMessage id={CORRECT_ANSWER}/></th> 
-                                    <th>{users[this.state.userDetailsIndex]}</th>
-                                    <th><FormattedMessage id={CORRECT_WRONG}/></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {resultDetails}
-                            </tbody> 
-                        </table>
-                    </div>
-                </div>
-            );
+                );
+            }
         }
+        
 
         let score = (<button type="button" className={"score-button " + score_active} onClick={this.score}/>);
         let time = (<button type="button" className={"time-button " + time_active} onClick={this.time}/>);
