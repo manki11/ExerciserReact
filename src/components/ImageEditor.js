@@ -220,7 +220,7 @@ class ImageEditor extends Component {
                                 this.props.onClose()
                             }}
                             id='close-button'
-                            className = "modal-close-button">
+                            className = "editor-close-button">
                         </button>
                     </div>
                 }

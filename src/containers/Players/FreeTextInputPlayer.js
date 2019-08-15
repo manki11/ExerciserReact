@@ -178,6 +178,8 @@ class FreeTextInputPlayer extends Component {
                                 questionData = {currentQuestion.question.data}
                                 speak = {this.speak}
                                 showMedia = {showMedia}
+                                willSpeak = {true}
+                                className = {'matching-questions'}
                             />
                         </div>
                         <div className={"freetext-div checked-ans " + ans}>

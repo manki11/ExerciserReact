@@ -276,7 +276,7 @@ class MATCHING_PAIRPLAYER extends Component {
 
             return (
                 <div className="row" key={`pair-${index+1}`}>
-                    <div className="col-md-3 col-sm-3 box question" id={`question-${index+1}`}
+                    <div className="col-md-4 col-sm-4 box question" id={`question-${index+1}`}
                             onClick={(e) => {
                                 if( questionType === MULTIMEDIA.textToSpeech) {
                                     let elem = e.target;
@@ -294,7 +294,7 @@ class MATCHING_PAIRPLAYER extends Component {
                             className = {'matching-questions'}
                         />
                     </div>
-                    <div className="col-md-3 col-sm-3 box answer" id={`answer-display-${index+1}`}
+                    <div className="col-md-4 col-sm-4 box answer" id={`answer-display-${index+1}`}
                             onClick={(e) => {
                                 if( answerType === MULTIMEDIA.textToSpeech) {
                                     let elem = e.target;
@@ -308,6 +308,7 @@ class MATCHING_PAIRPLAYER extends Component {
                             questionData = {this.state.answers[index].data}
                             speak = {this.speak}
                             showMedia = {showMedia}
+                            willSpeak = {false}
                             className = {'matching-questions'}
                         />
                     </div>  
