@@ -102,11 +102,11 @@
 }
 
 .box-width {
-    width: 170px;
+    width: 170px!important;
 }
 
 .marker {
-    margin-left: 65px;
+    margin-left: 85px;
     height: 8px;
     width: 8px;
     background-color: black;
