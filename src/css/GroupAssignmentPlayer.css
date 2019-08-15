@@ -81,7 +81,7 @@
     border-radius: 0.5em;
     color: black;
     height: 120px;
-    width: 170px;
+    width: 140px;
     line-height: 120px;
     padding: 5px;
     position: relative;
@@ -99,6 +99,10 @@
     -webkit-box-shadow: 2px 2px 19px #444;
     -moz-box-shadow: 2px 2px 19px #fff;
     opacity:0.9;
+}
+
+.box-width {
+    width: 170px;
 }
 
 .marker {

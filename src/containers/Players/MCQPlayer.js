@@ -292,7 +292,7 @@ class MCQPlayer extends Component {
                                 <hr className="my-4"/>
                                 <div>
                                     {id}.
-                                    <span style={{textAlign: "center"}}>
+                                    <div style={{textAlign: "center"}}>
                                         <PlayerMultimediaJSX
                                             questionType = {questionType || 'text'}
                                             questionData = {questionData}
@@ -302,7 +302,7 @@ class MCQPlayer extends Component {
                                             className =  ''
                                             height = '100px'
                                         />
-                                    </span>
+                                    </div>
                                 </div>
                             </div>
                             <div className="col-md-12">

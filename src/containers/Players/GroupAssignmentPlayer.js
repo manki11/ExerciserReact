@@ -294,7 +294,7 @@ class GroupAssignmentPlayer extends Component {
                 className='before-drag'
                 answer = {currentQuestion.answer}>
                 {(this.state.selected || this.state.submitted ) && <div className="marker"></div>}
-                <div className={`box ${btnClass}`} id = "on-click"
+                <div className={`box box-width ${btnClass}`} id = "on-click"
                     onClick={(e)=>{
                         if( questionType === MULTIMEDIA.textToSpeech) {
                             let elem = e.target;
