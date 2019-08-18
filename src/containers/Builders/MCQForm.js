@@ -23,7 +23,7 @@ import {
 } from "../translation";
 import { withRouter } from "react-router-dom"
 import "../../css/MCQForm.css"
-import { MULTIMEDIA } from '../../utils';
+import { MULTIMEDIA, setDefaultMedia } from '../../utils';
 
 class MCQForm extends Component {
 
@@ -59,15 +59,26 @@ class MCQForm extends Component {
 	componentDidMount() {
 		if (this.props.location.state) {
 			const { id, title, questions, scores, times } = this.props.location.state.exercise;
-			const currentQuestion = questions[0];
 
+			let updatedQuestions = questions.map((ques) => {
+				let updatedOptions = ques.options.map((option) => {
+					return setDefaultMedia(option);
+				})
+				return {
+					...ques,
+					question: setDefaultMedia(ques.question),
+					options: updatedOptions
+				}
+			})
+
+			const currentQuestion = updatedQuestions[0];
 			this.setState({
 				...this.state,
 				id: id,
 				title: title,
 				edit: true,
 				isFormValid: true,
-				questions: questions,
+				questions: updatedQuestions,
 				scores: scores,
 				times: times,
 				noOfQuestions: questions.length,
@@ -736,7 +747,7 @@ function MapStateToProps(state) {
 	}
 }
 
-export default withMultimedia(require('../../images/mcq_image.svg'))(withRouter(
+export default withMultimedia(require('../../media/template/mcq_image.svg'))(withRouter(
 	connect(MapStateToProps,
 		{ addNewExercise, incrementExerciseCounter, editExercise }
 	)(MCQForm)));

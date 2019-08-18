@@ -9,7 +9,7 @@ import { jsPlumb } from 'jsplumb';
 import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
 import { PlayerMultimediaJSX } from '../../components/MultimediaJSX';
-import { MULTIMEDIA } from '../../utils';
+import { MULTIMEDIA, setDefaultMedia } from '../../utils';
 
 class MATCHING_PAIRPLAYER extends Component {
 
@@ -43,15 +43,23 @@ class MATCHING_PAIRPLAYER extends Component {
 		if (this.props.location.state) {
 			const { id, title, pairs, scores, times, userLanguage } = this.props.location.state.exercise;
 
+			let updatedPairs = pairs.map((pair) => {
+				return {
+					...pair,
+					question: setDefaultMedia(pair.question),
+					answer: setDefaultMedia(pair.answer)
+				}
+			})
+
 			let goBackToEdit = false;
 			if (this.props.location.state.edit) goBackToEdit = true;
 
-			let answers = pairs.map((pair) => {
+			let answers = updatedPairs.map((pair) => {
 				return pair.answer;
 			});
 			this.shuffleArray(answers);
 
-			let questions = pairs.map((pair) => {
+			let questions = updatedPairs.map((pair) => {
 				return pair.question;
 			});
 
@@ -59,8 +67,8 @@ class MATCHING_PAIRPLAYER extends Component {
 				...this.state,
 				id: id,
 				title: title,
-				noOfPairs: pairs.length,
-				pairs: pairs,
+				noOfPairs: updatedPairs.length,
+				pairs: updatedPairs,
 				scores: scores,
 				times: times,
 				goBackToEdit: goBackToEdit,
@@ -359,5 +367,5 @@ function MapStateToProps(state) {
 	return {}
 }
 
-export default withMultimedia(require("../../images/matching_pair_image.svg"))(withRouter(
+export default withMultimedia(require("../../media/template/matching_pair_image.svg"))(withRouter(
 	connect(MapStateToProps, { addScoreTime })(MATCHING_PAIRPLAYER)));

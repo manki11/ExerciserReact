@@ -10,6 +10,7 @@ import { FormattedMessage } from 'react-intl';
 import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
 import { PlayerMultimediaJSX } from '../../components/MultimediaJSX';
+import { setDefaultMedia } from '../../utils';
 
 class CLOZEPlayer extends Component {
 
@@ -47,6 +48,8 @@ class CLOZEPlayer extends Component {
 		if (this.props.location.state) {
 			const { id, title, question, scores, times, answers, clozeText, writeIn, userLanguage } = this.props.location.state.exercise;
 
+			let updatedQuetion = setDefaultMedia(question);
+
 			let goBackToEdit = false;
 			if (this.props.location.state.edit) goBackToEdit = true;
 
@@ -76,7 +79,7 @@ class CLOZEPlayer extends Component {
 				...this.state,
 				id: id,
 				title: title,
-				question: question,
+				question: updatedQuetion,
 				scores: scores,
 				times: times,
 				answers: answers,
@@ -330,6 +333,6 @@ function MapStateToProps(state) {
 	return {}
 }
 
-export default withMultimedia(require('../../images/list_reorder_image.svg'))(withRouter(
+export default withMultimedia(require('../../media/template/list_reorder_image.svg'))(withRouter(
 	connect(MapStateToProps, { addScoreTime })(CLOZEPlayer)));
 

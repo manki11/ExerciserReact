@@ -8,7 +8,7 @@ import { FormattedMessage } from 'react-intl';
 import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
 import { PlayerMultimediaJSX } from '../../components/MultimediaJSX';
-import { MULTIMEDIA } from '../../utils';
+import { MULTIMEDIA, setDefaultMedia } from '../../utils';
 
 class MCQPlayer extends Component {
 
@@ -49,7 +49,18 @@ class MCQPlayer extends Component {
 	componentDidMount() {
 		if (this.props.location.state) {
 			const { id, title, questions, scores, times, userLanguage } = this.props.location.state.exercise;
-			const currentQuestion = questions[0];
+
+			let updatedQuestions = questions.map((ques) => {
+				let updatedOptions = ques.options.map((option) => {
+					return setDefaultMedia(option);
+				})
+				return {
+					...ques,
+					question: setDefaultMedia(ques.question),
+					options: updatedOptions
+				}
+			})
+			const currentQuestion = updatedQuestions[0];
 
 			let finish = false;
 			if (questions.length === 1) finish = true;
@@ -64,7 +75,7 @@ class MCQPlayer extends Component {
 				...this.state,
 				id: id,
 				title: title,
-				questions: questions,
+				questions: updatedQuestions,
 				noOfQuestions: questions.length,
 				scores: scores,
 				times: times,
@@ -337,5 +348,5 @@ function MapStateToProps(state) {
 	return {}
 }
 
-export default withMultimedia(require('../../images/mcq_image.svg'))(withRouter(
+export default withMultimedia(require('../../media/template/mcq_image.svg'))(withRouter(
 	connect(MapStateToProps, { addScoreTime })(MCQPlayer)));

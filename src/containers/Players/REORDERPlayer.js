@@ -9,7 +9,7 @@ import "../../css/REORDERPlayer.css"
 import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
 import { PlayerMultimediaJSX } from '../../components/MultimediaJSX';
-import { MULTIMEDIA } from '../../utils';
+import { MULTIMEDIA, setDefaultMedia } from '../../utils';
 
 class REORDERPlayer extends Component {
 
@@ -47,18 +47,22 @@ class REORDERPlayer extends Component {
 			let goBackToEdit = false;
 			if (this.props.location.state.edit) goBackToEdit = true;
 
-			let userAns = this.shuffleArray(list.slice());
+			let updatedQuestion = setDefaultMedia(question);
+			let updatedList = list.map((li) => {
+				return setDefaultMedia(li);
+			});
 
+			let userAns = this.shuffleArray(updatedList.slice());
 			let checkAns = list.map(() => false);
 
 			this.setState({
 				...this.state,
 				id: id,
 				title: title,
-				question: question,
+				question: updatedQuestion,
 				scores: scores,
 				times: times,
-				list: list,
+				list: updatedList,
 				userAns: userAns,
 				goBackToEdit: goBackToEdit,
 				checkAns: checkAns,
@@ -276,5 +280,5 @@ function MapStateToProps(state) {
 	return {}
 }
 
-export default withMultimedia(require('../../images/list_reorder_image.svg'))(withRouter(
+export default withMultimedia(require('../../media/template/list_reorder_image.svg'))(withRouter(
 	connect(MapStateToProps, { addScoreTime })(REORDERPlayer)));

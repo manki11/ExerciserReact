@@ -19,7 +19,7 @@ import {
 	LIST_ERROR, TITLE_ERROR, REORDER_LIST,
 } from "../translation";
 import "../../css/REORDERForm.css";
-import { MULTIMEDIA } from '../../utils';
+import { MULTIMEDIA, setDefaultMedia } from '../../utils';
 
 class REORDERForm extends Component {
 
@@ -52,16 +52,21 @@ class REORDERForm extends Component {
 		if (this.props.location.state) {
 			const { id, title, question, scores, times, list } = this.props.location.state.exercise;
 
+			let updatedQuestion = setDefaultMedia(question);
+			let updatedList = list.map((li) => {
+				return setDefaultMedia(li);
+			});
+
 			this.setState({
 				...this.state,
 				id: id,
 				title: title,
 				edit: true,
 				isFormValid: true,
-				question: question,
+				question: updatedQuestion,
 				scores: scores,
 				times: times,
-				list: list
+				list: updatedList
 			});
 		}
 	}
@@ -496,7 +501,7 @@ function MapStateToProps(state) {
 	}
 }
 
-export default withMultimedia(require('../../images/list_reorder_image.svg'))(withRouter(
+export default withMultimedia(require('../../media/template/list_reorder_image.svg'))(withRouter(
 	connect(MapStateToProps,
 		{ addNewExercise, incrementExerciseCounter, editExercise }
 	)(REORDERForm)));

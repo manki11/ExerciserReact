@@ -25,7 +25,7 @@ import datastore from 'lib/sugar-web/datastore';
 import chooser from 'lib/sugar-web/graphics/journalchooser';
 import env from 'lib/sugar-web/env';
 import meSpeak from 'mespeak';
-import { MULTIMEDIA } from '../../utils';
+import { MULTIMEDIA, setDefaultMedia } from '../../utils';
 
 class MATCHING_PAIRForm extends Component {
 
@@ -64,14 +64,23 @@ class MATCHING_PAIRForm extends Component {
 	componentDidMount() {
 		if (this.props.location.state) {
 			const { id, title, pairs, scores, times } = this.props.location.state.exercise;
-			const currentPair = pairs[0];
+
+			let updatedPairs = pairs.map((pair) => {
+				return {
+					...pair,
+					question: setDefaultMedia(pair.question),
+					answer: setDefaultMedia(pair.answer)
+				}
+			})
+
+			const currentPair = updatedPairs[0];
 			this.setState({
 				...this.state,
 				id: id,
 				title: title,
 				edit: true,
 				isFormValid: true,
-				pairs: pairs,
+				pairs: updatedPairs,
 				scores: scores,
 				times: times,
 				noOfPairs: pairs.length,
@@ -679,7 +688,7 @@ function MapStateToProps(state) {
 	}
 }
 
-export default withMultimedia(require("../../images/matching_pair_image.svg"))(withRouter(
+export default withMultimedia(require("../../media/template/matching_pair_image.svg"))(withRouter(
 	connect(MapStateToProps,
 		{ addNewExercise, incrementExerciseCounter, editExercise }
 	)(MATCHING_PAIRForm)));

@@ -30,7 +30,7 @@ import {
 	BLANKS_ERROR,
 	BLANK_REUSED_ERROR,
 } from "../translation";
-import { MULTIMEDIA } from '../../utils';
+import { MULTIMEDIA, setDefaultMedia } from '../../utils';
 
 class CLOZEForm extends Component {
 
@@ -71,13 +71,14 @@ class CLOZEForm extends Component {
 			const { id, title, question, scores, times, clozeText, answers, writeIn } = this.props.location.state.exercise;
 			let nextBlank = answers.length + 1;
 
+			let updatedQuetion = setDefaultMedia(question);
 			this.setState({
 				...this.state,
 				id: id,
 				title: title,
 				edit: true,
 				isFormValid: true,
-				question: question,
+				question: updatedQuetion,
 				scores: scores,
 				times: times,
 				clozeText: clozeText,
@@ -658,7 +659,7 @@ function MapStateToProps(state) {
 	}
 }
 
-export default withMultimedia(require('../../images/cloze_image.svg'))(withRouter(
+export default withMultimedia(require('../../media/template/mcq_image.svg'))(withRouter(
 	connect(MapStateToProps,
 		{ addNewExercise, incrementExerciseCounter, editExercise }
 	)(CLOZEForm)));

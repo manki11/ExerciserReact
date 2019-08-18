@@ -8,7 +8,7 @@ import { FormattedMessage } from 'react-intl';
 import withMultimedia from '../../components/WithMultimedia';
 import { PlayerMultimediaJSX } from '../../components/MultimediaJSX';
 import meSpeak from 'mespeak';
-import { MULTIMEDIA } from '../../utils';
+import { MULTIMEDIA, setDefaultMedia } from '../../utils';
 
 class FreeTextInputPlayer extends Component {
 
@@ -47,11 +47,18 @@ class FreeTextInputPlayer extends Component {
 				return "Wrong";
 			});
 
+			let updatedQuestions = questions.map((ques) => {
+				return {
+					...ques,
+					question: setDefaultMedia(ques.question)
+				}
+			})
+
 			this.setState({
 				...this.state,
 				id: id,
 				title: title,
-				questions: questions,
+				questions: updatedQuestions,
 				noOfQuestions: questions.length,
 				userans: userans,
 				scores: scores,
@@ -254,5 +261,5 @@ function MapStateToProps(state) {
 	return {}
 }
 
-export default withMultimedia(require('../../images/freetext_input_image.svg'))(withRouter(
+export default withMultimedia(require('../../media/template/freetext_input_image.svg'))(withRouter(
 	connect(MapStateToProps, { addScoreTime })(FreeTextInputPlayer)));

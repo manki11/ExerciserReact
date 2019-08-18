@@ -2,12 +2,12 @@ import React, { Component } from 'react';
 import '../css/Exercise.css'
 import { FormattedMessage } from 'react-intl';
 import { QUESTIONS, BEST_SCORE, MCQ, REORDER_LIST, CLOZE_TEXT, GROUP_ASSIGNMENT, FREE_TEXT_INPUT, QUESTION_SINGULAR, PLAY, EDIT, DELETE, MATCHING_PAIR } from "../containers/translation";
-import cloze_background from '../images/cloze_image.svg'
-import mcq_background from '../images/mcq_image.svg'
-import reorder_background from '../images/list_reorder_image.svg';
-import group_assignment_background from '../images/group_image.svg';
-import free_text_input_background from '../images/freetext_input_image.svg';
-import macthing_pair_background from '../images/matching_pair_image.svg';
+import cloze_background from '../media/template/cloze_image.svg'
+import mcq_background from '../media/template/mcq_image.svg'
+import reorder_background from '../media/template/list_reorder_image.svg';
+import group_assignment_background from '../media/template/group_image.svg';
+import free_text_input_background from '../media/template/freetext_input_image.svg';
+import macthing_pair_background from '../media/template/matching_pair_image.svg';
 
 class Exercise extends Component {
 
@@ -69,7 +69,7 @@ class Exercise extends Component {
 		}
 
 		if (thumbnail && !thumbnail.startsWith('data:image') && !thumbnail.includes('/static/'))
-			thumbnail = require(`../images/defaultExerciseThumbnail/${thumbnail}`);
+			thumbnail = require(`../media/defaultExerciseThumbnail/images/${thumbnail}`);
 
 		let play = (<FormattedMessage id={PLAY} defaultMessage={PLAY}>
 			{(msg) => (<button type="button" title={msg} className="play-button" onClick={this.playExercise} />)}

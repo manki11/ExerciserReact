@@ -9,7 +9,7 @@ import meSpeak from 'mespeak';
 import interact from 'interactjs'
 import withMultimedia from '../../components/WithMultimedia';
 import { PlayerMultimediaJSX } from '../../components/MultimediaJSX';
-import { MULTIMEDIA } from '../../utils';
+import { MULTIMEDIA, setDefaultMedia } from '../../utils';
 
 class GroupAssignmentPlayer extends Component {
 
@@ -49,7 +49,19 @@ class GroupAssignmentPlayer extends Component {
 	componentDidMount() {
 		if (this.props.location.state) {
 			const { id, title, questions, scores, times, groups, userLanguage } = this.props.location.state.exercise;
-			const currentQuestion = questions[0];
+
+			let updatedQuestions = questions.map((ques) => {
+				return {
+					...ques,
+					question: setDefaultMedia(ques.question),
+					answer: setDefaultMedia(ques.answer)
+				}
+			});
+			let updatedGroups = groups.map((group) => {
+				return setDefaultMedia(group);
+			})
+
+			const currentQuestion = updatedQuestions[0];
 			let finish = false;
 			if (questions.length === 1) finish = true;
 
@@ -61,13 +73,13 @@ class GroupAssignmentPlayer extends Component {
 				...this.state,
 				id: id,
 				title: title,
-				questions: questions,
+				questions: updatedQuestions,
 				noOfQuestions: questions.length,
 				scores: scores,
 				times: times,
 				finish: finish,
 				goBackToEdit: goBackToEdit,
-				groups: groups,
+				groups: updatedGroups,
 				userLanguage: userLanguage,
 				currentQuestion: currentQuestion,
 			}, () => {
@@ -372,5 +384,5 @@ function MapStateToProps(state) {
 	return {}
 }
 
-export default withMultimedia(require('../../images/group_image.svg'))(withRouter(
+export default withMultimedia(require('../../media/template/group_image.svg'))(withRouter(
 	connect(MapStateToProps, { addScoreTime })(GroupAssignmentPlayer)));

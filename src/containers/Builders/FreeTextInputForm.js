@@ -26,7 +26,7 @@ import meSpeak from 'mespeak';
 import withMultimedia from '../../components/WithMultimedia';
 import { QuestionOptionsJSX } from '../../components/MultimediaJSX';
 import { QuestionJSX } from '../../components/MultimediaJSX';
-import { MULTIMEDIA } from '../../utils';
+import { MULTIMEDIA, setDefaultMedia } from '../../utils';
 
 class FreeTextInputForm extends Component {
 
@@ -62,14 +62,21 @@ class FreeTextInputForm extends Component {
 	componentDidMount() {
 		if (this.props.location.state) {
 			const { id, title, questions, scores, times } = this.props.location.state.exercise;
-			const currentQuestion = questions[0];
+
+			let updatedQuestions = questions.map((ques) => {
+				return {
+					...ques,
+					question: setDefaultMedia(ques.question)
+				}
+			})
+			const currentQuestion = updatedQuestions[0];
 			this.setState({
 				...this.state,
 				id: id,
 				title: title,
 				edit: true,
 				isFormValid: true,
-				questions: questions,
+				questions: updatedQuestions,
 				scores: scores,
 				times: times,
 				noOfQuestions: questions.length,
@@ -601,7 +608,7 @@ function MapStateToProps(state) {
 	}
 }
 
-export default withMultimedia(require('../../images/freetext_input_image.svg'))(withRouter(
+export default withMultimedia(require('../../media/template/freetext_input_image.svg'))(withRouter(
 	connect(MapStateToProps,
 		{ addNewExercise, incrementExerciseCounter, editExercise }
 	)(FreeTextInputForm)));
