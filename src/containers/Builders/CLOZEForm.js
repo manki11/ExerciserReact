@@ -433,6 +433,7 @@ class CLOZEForm extends Component {
 			}
 		}, () => {
 			this.checkFormValidation();
+			this.props.closeModal();
 		})
 	}
 

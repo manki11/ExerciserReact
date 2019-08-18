@@ -451,6 +451,7 @@ class MATCHING_PAIRForm extends Component {
 			}
 		}, () => {
 			this.checkFormValidation();
+			this.props.closeModal();
 		});
 	}
 
@@ -466,6 +467,7 @@ class MATCHING_PAIRForm extends Component {
 			}
 		}, () => {
 			this.checkFormValidation();
+			this.props.closeModal();
 		});
 	}
 

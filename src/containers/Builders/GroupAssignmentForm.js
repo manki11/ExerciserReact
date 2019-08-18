@@ -571,6 +571,7 @@ class GroupAssignmentForm extends Component {
 			}
 		}, () => {
 			this.checkFormValidation();
+			this.props.closeModal();
 		});
 	}
 
@@ -583,6 +584,7 @@ class GroupAssignmentForm extends Component {
 			groups: updatedGroups
 		}, () => {
 			this.checkFormValidation();
+			this.props.closeModal();
 		});
 	}
 

@@ -150,7 +150,6 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
 					{this.state.modalMediaType === 'img' &&
 						<ImageEditor mediaSource={this.state.modalSource}
 							setMediaSource={this.state.setImageEditorSource}
-							onClose={this.closeModal}
 						/>
 					}
 					{this.state.modalMediaType === 'video' &&
@@ -179,6 +178,8 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
 			this.setState({
 				...this.state,
 				thumbnail: url
+			}, () => {
+				this.closeModal();
 			});
 		}
 
@@ -219,6 +220,7 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
 					showMedia={this.showMedia}
 					ShowModalWindow={this.showModalWindow}
 					ShowEditableModalWindow={this.showEditableModalWindow}
+					closeModal={this.closeModal}
 				/>
 			);
 		}

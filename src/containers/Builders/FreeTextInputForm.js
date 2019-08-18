@@ -399,6 +399,7 @@ class FreeTextInputForm extends Component {
 			}
 		}, () => {
 			this.checkFormValidation();
+			this.props.closeModal();
 		})
 	}
 

@@ -508,6 +508,7 @@ class MCQForm extends Component {
 			}
 		}, () => {
 			this.checkFormValidation();
+			this.props.closeModal();
 		});
 	}
 
@@ -523,6 +524,7 @@ class MCQForm extends Component {
 			}
 		}, () => {
 			this.checkFormValidation();
+			this.props.closeModal();
 		});
 	}
 

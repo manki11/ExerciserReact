@@ -339,6 +339,7 @@ class REORDERForm extends Component {
 			}
 		}, () => {
 			this.checkFormValidation();
+			this.props.closeModal();
 		});
 	}
 
@@ -351,6 +352,7 @@ class REORDERForm extends Component {
 			list: updatedList
 		}, () => {
 			this.checkFormValidation();
+			this.props.closeModal();
 		});
 	}
 

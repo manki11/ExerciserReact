@@ -113,7 +113,6 @@ class ImageEditor extends Component {
 			if (this.state.cropped) {
 				this.updateCropper();
 				this.props.setMediaSource(this.state.url);
-				this.props.onClose();
 			}
 		});
 	}
@@ -209,7 +208,6 @@ class ImageEditor extends Component {
 								this.crop();
 							} else {
 								this.props.setMediaSource(this.state.url);
-								this.props.onClose();
 							}
 						}}
 							id='save-button'
