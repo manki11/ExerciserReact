@@ -9,6 +9,20 @@ Learn more about this work on [Mankirat's blog](https://mankiratsinghtech.wordpr
 
 The Exerciser Activity is written using ReactJS framework. The ReactJS source code is maintain here and, once build, the code is integrated in [Sugarizer](https://github.com/llaske/sugarizer).
 
+## Templates present in the application
+1. Multiple Choice Questions -  
+Build an exercise with questions and option choices. Here the user is supposed to select the correct answer to the question from the set of given options.
+2. Cloze Text -  
+Build an exercise with questions that have blanks to be filled. Here the user is supposed to fill in the blanks with the most appropriate answer.
+3. Reorder List -  
+Build an exercise with Jumbled Lists that need to be ordered.
+4. Group Assignment -  
+Build an exercise with questions that need to be placed in the correct group.
+5. Free text Input -   
+Build an exercise with questions that have answers in text format.
+6. Matching Pair -  
+Build an exercise to match questions with answers. Here the user is supposed to match one item in the left column to its corresponding item in the right column by connecting their two points.
+
 ### Steps to run project
 
 Make sure npm and nodejs are installed on your machine.

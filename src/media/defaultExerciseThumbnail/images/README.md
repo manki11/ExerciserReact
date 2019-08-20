@@ -1,2 +1,2 @@
-## Guideline
-This file contains images used in default Exercises. The supported formats are - png, jpeg.
+## Guidelines
+This file contains images used in default exercises. The supported formats are - png, jpeg, jpg.
