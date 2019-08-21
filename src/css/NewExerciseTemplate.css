@@ -25,38 +25,38 @@
 }
 
 .background-mcq{
-    background: url("../images/mcq_image.svg");
+    background: url("../media/template/mcq_image.svg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
 }
 
 .background-cloze{
-    background: url("../images/cloze_image.svg");
+    background: url("../media/template/cloze_image.svg");
     background-repeat: no-repeat;
     background-size: cover;
 }
 
 .background-reorder{
-    background: url("../images/list_reorder_image.svg");
+    background: url("../media/template/list_reorder_image.svg");
     background-repeat: no-repeat;
     background-size: cover;
 }
 
 .background-group{
-    background: url("../images/group_image.svg");
+    background: url("../media/template/group_image.svg");
     background-repeat: no-repeat;
     background-size: cover;
 }
 
 .background-freetext{
-    background: url("../images/freetext_input_image.svg");
+    background: url("../media/template/freetext_input_image.svg");
     background-repeat: no-repeat;
     background-size: cover;
 }
 
 .background-match{
-    background: url("../images/matching_pair_image.svg");
+    background: url("../media/template/matching_pair_image.svg");
     background-repeat: no-repeat;
     background-size: cover;
 }
