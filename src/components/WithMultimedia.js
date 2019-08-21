@@ -150,6 +150,7 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
 					{this.state.modalMediaType === 'img' &&
 						<ImageEditor mediaSource={this.state.modalSource}
 							setMediaSource={this.state.setImageEditorSource}
+							onClose={this.closeModal}
 						/>
 					}
 					{this.state.modalMediaType === 'video' &&
