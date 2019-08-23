@@ -184,5 +184,9 @@
 	"Result Button": "Result Button",
 	"Use this button to see results of all the users.": "Use this button to see results of all the users.",
 	"User List Button": "User List Button",
-	"Use this button to see list of all the users.": "Use this button to see list of all the users."
+	"Use this button to see list of all the users.": "Use this button to see list of all the users.",
+	"Select the type of item you want to insert.": "Select the type of item you want to insert.",
+	"Correct Group": "Correct Group",
+	"Prev": "Prev",
+	"End": "End"
 }

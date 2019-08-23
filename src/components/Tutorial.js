@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import Tour from 'reactour';
 import { tutorialSteps } from '../tutorialSteps';
 import { injectIntl } from 'react-intl';
+import { FormattedMessage } from 'react-intl';
+import { NEXT, PREV, END } from '../containers/translation';
 import '../css/Tutorial.css';
 
 class Tutorial extends Component {
@@ -31,7 +33,7 @@ class Tutorial extends Component {
 						</div>
 						<div className='icon-tutorial-text'
 							style={{ color: `${current === 0 ? 'black' : 'white'}` }}
-						>Prev</div>
+						><FormattedMessage id={PREV} /></div>
 					</div>
 					<span data-role='separator' style={{ margin: '4px' }}>|</span>
 					<div className='tutorial-next-icon icon-button'
@@ -47,7 +49,7 @@ class Tutorial extends Component {
 						</div>
 						<div className='icon-tutorial-text'
 							style={{ color: `${current === (totalSteps - 1) ? 'black' : 'white'}` }}
-						>Next</div>
+						><FormattedMessage id={NEXT} /></div>
 					</div>
 					<div className='tutorial-end-icon icon-button'
 						onClick={() => {
@@ -56,7 +58,7 @@ class Tutorial extends Component {
 						<div className='tutorial-end-icon1 web-activity'>
 							<div className='tutorial-end-icon2 web-activity-icon'></div>
 						</div>
-						<div className='icon-tutorial-text'>End</div>
+						<div className='icon-tutorial-text'><FormattedMessage id={END} /></div>
 					</div>
 				</div>
 			</div>

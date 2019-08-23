@@ -30,6 +30,7 @@ import { setExercises } from "../store/actions/exercises";
 import { setUser } from "../store/actions/sugarizer";
 import { setExerciseCounter } from "../store/actions/increment_counter";
 import { setIsHost, setIsShared, addUser, removeUser, addSharedResult } from "../store/actions/presence";
+import { MULTIMEDIA } from '../utils';
 
 
 class Sugarizer extends Component {
@@ -236,16 +237,23 @@ class Sugarizer extends Component {
 		};
 
 		let translateItem = function (item) {
-			let localized = ["title", "question", "clozeText", "answers", "correctAns"];
+			let localized = ["title", "question", "clozeText", "answers", "groups", "list"];
 			for (let property in item) {
 				if (localized.indexOf(property) === -1) {
 					continue;
 				}
 				if (!Array.isArray(item[property])) {
-					item[property] = translate(item[property]);
+					if (typeof (item[property]) === 'object' && item[property].type === MULTIMEDIA.text)
+						item[property].data = translate(item[property].data);
+					else if (typeof (item[property]) !== 'object')
+						item[property] = translate(item[property]);
 				} else {
 					let elements = [];
 					for (let j = 0; j < item[property].length; j++) {
+						if (typeof (item[property][j]) === 'object' && item[property][j].type === MULTIMEDIA.text)
+							item[property][j].data = translate(item[property][j].data);
+						else if (typeof (item[property][j]) !== 'object')
+							item[property][j] = translate(item[property][j]);
 						elements.push(translate(item[property][j]));
 					}
 					item[property] = elements;
@@ -254,15 +262,43 @@ class Sugarizer extends Component {
 			return item;
 		};
 
-		for (let i = 0; i < defaultExercises.length; i++) {
-			let exercice = defaultExercises[i];
-			translateItem(exercice);
-			if (exercice.type === "MCQ") {
-				let questions = [];
-				for (let j = 0; j < exercice.questions.length; j++) {
-					questions.push(translateItem(exercice.questions[j]));
+		let translateMultipleItems = function (items) {
+			let localized = ["answer", "question", "correctAns", "options", "correctGroup"];
+			for (var index = 0; index < items.length; index++) {
+				for (let property in items[index]) {
+					if (localized.indexOf(property) === -1) {
+						continue;
+					}
+					// Translate item
+					if (localized.indexOf(property) === 3) {
+						let elements = [];
+						for (let j = 0; j < items[index][property].length; j++) {
+							if (typeof (items[index][property][j]) === 'object' && items[index][property][j].type === MULTIMEDIA.text)
+								items[index][property][j].data = translate(items[index][property][j].data);
+							else if (typeof (items[index][property][j]) !== 'object')
+								items[index][property][j] = translate(items[index][property][j]);
+							elements.push(translate(items[index][property][j]));
+						}
+						items[index][property] = elements;
+					} else {
+						if (typeof (items[index][property]) === 'object' && items[index][property].type === MULTIMEDIA.text)
+							items[index][property].data = translate(items[index][property].data);
+						else if (typeof (items[index][property]) !== 'object')
+							items[index][property] = translate(items[index][property]);
+					}
 				}
-				exercice.questions = questions;
+			}
+			return items;
+		};
+
+		for (let i = 0; i < defaultExercises.length; i++) {
+			let exercise = defaultExercises[i];
+			exercise = translateItem(exercise);
+			if (exercise.type === "MCQ" || exercise.type === "FREE_TEXT_INPUT" ||
+				exercise.type === "GROUP_ASSIGNMENT") {
+				exercise.questions = translateMultipleItems(exercise.questions);
+			} else if (exercise.type === "MATCHING_PAIR") {
+				exercise.pairs = translateMultipleItems(exercise.pairs);
 			}
 		}
 		// Add to Exercise list
