@@ -350,5 +350,113 @@
 		"type": "MCQ",
 		"userLanguage": "en",
 		"thumbnail": "world.png"
+	},
+	{
+		"id": 5,
+		"title": "Animal sounds",
+		"pairs": [
+			{
+				"id": 1,
+				"question": {
+					"type": "image",
+					"data": "dog.png"
+				},
+				"answer": {
+					"type": "audio",
+					"data": "dog.mp3"
+				}
+			},
+			{
+				"id": 2,
+				"question": {
+					"type": "image",
+					"data": "cat.png"
+				},
+				"answer": {
+					"type": "audio",
+					"data": "cat.mp3"
+				}
+			},
+			{
+				"id": 3,
+				"question": {
+					"type": "image",
+					"data": "cow.png"
+				},
+				"answer": {
+					"type": "audio",
+					"data": "cow.mp3"
+				}
+			},
+			{
+				"id": 4,
+				"question": {
+					"type": "image",
+					"data": "sheep.png"
+				},
+				"answer": {
+					"type": "audio",
+					"data": "sheep.mp3"
+				}
+			}
+		],
+		"scores": [],
+		"times": [],
+		"shared": false,
+		"type": "MATCHING_PAIR",
+		"userLanguage": "en",
+		"thumbnail": "bark.png"
+	},
+	{
+		"id": 6,
+		"title": "Percent and proportion",
+		"questions": [
+			{
+				"id": 1,
+				"question": {
+					"type": "text",
+					"data": "Add 10% tax to 1530$ give a total of"
+				},
+				"answer": "1683$"
+			},
+			{
+				"id": 2,
+				"question": {
+					"type": "text",
+					"data": "With a discount of 20% on 300$, you should pay"
+				},
+				"answer": "240$"
+			},
+			{
+				"id": 3,
+				"question": {
+					"type": "text",
+					"data": "You will have 1/3 of a 270oz cake, you will eat"
+				},
+				"answer": "90oz"
+			},
+			{
+				"id": 4,
+				"question": {
+					"type": "text",
+					"data": "If you pay 18$ for 6 tickets, the price of one ticket is"
+				},
+				"answer": "3$"
+			},
+			{
+				"id": 5,
+				"question": {
+					"type": "text",
+					"data": "You have seven pawns. I have five time more. How many pawns I have?"
+				},
+				"answer": "35"
+			}
+		],
+		"scores": [],
+		"times": [],
+		"shared": false,
+		"type": "FREE_TEXT_INPUT",
+		"userLanguage": "en",
+		"thumbnail": "discount.png"
 	}
 ]
