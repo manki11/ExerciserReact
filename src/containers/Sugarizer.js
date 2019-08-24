@@ -237,7 +237,7 @@ class Sugarizer extends Component {
 		};
 
 		let translateItem = function (item) {
-			let localized = ["title", "question", "clozeText", "answers", "groups", "list"];
+			let localized = ["title", "question", "clozeText", "answers", "groups", "list", "answer", "correctAns", "options", "correctGroup"];
 			for (let property in item) {
 				if (localized.indexOf(property) === -1) {
 					continue;
@@ -262,43 +262,16 @@ class Sugarizer extends Component {
 			return item;
 		};
 
-		let translateMultipleItems = function (items) {
-			let localized = ["answer", "question", "correctAns", "options", "correctGroup"];
-			for (var index = 0; index < items.length; index++) {
-				for (let property in items[index]) {
-					if (localized.indexOf(property) === -1) {
-						continue;
-					}
-					// Translate item
-					if (localized.indexOf(property) === 3) {
-						let elements = [];
-						for (let j = 0; j < items[index][property].length; j++) {
-							if (typeof (items[index][property][j]) === 'object' && items[index][property][j].type === MULTIMEDIA.text)
-								items[index][property][j].data = translate(items[index][property][j].data);
-							else if (typeof (items[index][property][j]) !== 'object')
-								items[index][property][j] = translate(items[index][property][j]);
-							elements.push(translate(items[index][property][j]));
-						}
-						items[index][property] = elements;
-					} else {
-						if (typeof (items[index][property]) === 'object' && items[index][property].type === MULTIMEDIA.text)
-							items[index][property].data = translate(items[index][property].data);
-						else if (typeof (items[index][property]) !== 'object')
-							items[index][property] = translate(items[index][property]);
-					}
-				}
-			}
-			return items;
-		};
-
 		for (let i = 0; i < defaultExercises.length; i++) {
 			let exercise = defaultExercises[i];
 			exercise = translateItem(exercise);
 			if (exercise.type === "MCQ" || exercise.type === "FREE_TEXT_INPUT" ||
 				exercise.type === "GROUP_ASSIGNMENT") {
-				exercise.questions = translateMultipleItems(exercise.questions);
+				for (let index = 0; index < exercise.questions.length; index++)
+					exercise.questions[index] = translateItem(exercise.questions[index]);
 			} else if (exercise.type === "MATCHING_PAIR") {
-				exercise.pairs = translateMultipleItems(exercise.pairs);
+				for (let index = 0; index < exercise.pairs.length; index++)
+					exercise.pairs[index] = translateItem(exercise.pairs[index]);
 			}
 		}
 		// Add to Exercise list
