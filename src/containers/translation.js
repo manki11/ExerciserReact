@@ -81,10 +81,10 @@ export const HOME = "Home";
 export const ADD_EXERCISE = "Add Exercise";
 export const NETWORK = "Network";
 export const STOP = "Stop";
+export const HELP = "Help";
 
 // RESULTS
 export const CORRECT_WRONG = "Correct / Wrong";
 export const CORRECT_ANSWER = "Correct Answer";
 export const YOUR_ANSWER = "Your Answer";
 export const USERS = "Users";
-

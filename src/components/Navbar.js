@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import '../css/Navbar.css'
 import { injectIntl } from 'react-intl';
-import { MY_ACTIVITY, HOME, ADD_EXERCISE, STOP, NETWORK } from "../containers/translation";
+import { MY_ACTIVITY, HOME, ADD_EXERCISE, STOP, NETWORK, HELP } from "../containers/translation";
 import Tutorial from '../components/Tutorial';
 
 class Navbar extends Component {
@@ -43,6 +43,7 @@ class Navbar extends Component {
 		let addTitle = intl.formatMessage({ id: ADD_EXERCISE });
 		let networkTitle = intl.formatMessage({ id: NETWORK });
 		let stopTitle = intl.formatMessage({ id: STOP });
+		let helpTitle = intl.formatMessage({ id: HELP });
 
 		return (
 			<div id="main-toolbar" className="toolbar">
@@ -79,7 +80,7 @@ class Navbar extends Component {
 				<button
 					className="toolbutton pull-right"
 					id="help-button"
-					title="Help"
+					title={helpTitle}
 					onClick={this.startTutorial} />
 				{this.state.showTutorial &&
 					<Tutorial unmount={this.stopTutorial}

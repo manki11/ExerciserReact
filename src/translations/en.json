@@ -147,10 +147,12 @@
 	"Remove Option": "Remove Option",
 	"Choose a different thumbnail from the Journal Chooser.": "Choose a different thumbnail from the Journal Chooser.",
 	"Select the type of question you want to insert.": "Select the type of question you want to insert.",
+	"Select the type of item you want to insert.": "Select the type of item you want to insert.",
 	"Use this button to add another option field.": "Use this button to add another option field.",
 	"Use this button to remove the last option field.": "Use this button to remove the last option field.",
 	"Edit Question": "Edit Question",
 	"Use this button to change the type of Question.": "Use this button to change the type of Question.",
+	"Use this button to change the type of the item": "Use this button to change the type of the item.",
 	"Select Choices": "Select Choices",
 	"Select one of the options as your answer.": "Select one of the options as your answer.",
 	"Cloze Answer": "Cloze Answer",
@@ -195,5 +197,6 @@
 	"90oz": "90oz",
 	"If you pay 18$ for 6 tickets, the price of one ticket is": "If you pay 18$ for 6 tickets, the price of one ticket is",
 	"3$": "3$",
-	"You have seven pawns. I have five time more. How many pawns I have?": "You have seven pawns. I have five time more. How many pawns I have?"
+	"You have seven pawns. I have five time more. How many pawns I have?": "You have seven pawns. I have five time more. How many pawns I have?",
+	"Help": "Help"
 }
