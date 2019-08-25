@@ -3,7 +3,7 @@ import Tour from 'reactour';
 import { tutorialSteps } from '../tutorialSteps';
 import { injectIntl } from 'react-intl';
 import { FormattedMessage } from 'react-intl';
-import { NEXT, PREV, END } from '../containers/translation';
+import { NEXT_SHORT, PREV, END } from '../containers/translation';
 import '../css/Tutorial.css';
 
 class Tutorial extends Component {
@@ -49,7 +49,7 @@ class Tutorial extends Component {
 						</div>
 						<div className='icon-tutorial-text'
 							style={{ color: `${current === (totalSteps - 1) ? 'black' : 'white'}` }}
-						><FormattedMessage id={NEXT} /></div>
+						><FormattedMessage id={NEXT_SHORT} /></div>
 					</div>
 					<div className='tutorial-end-icon icon-button'
 						onClick={() => {

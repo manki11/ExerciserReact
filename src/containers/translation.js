@@ -72,6 +72,7 @@ export const SUBMIT_QUESTION = "Submit Question";
 export const NEXT_QUESTION = "Next Question";
 
 // TUTORIALS
+export const NEXT_SHORT = "NextShort";
 export const PREV = "Prev";
 export const END = "End";
 
