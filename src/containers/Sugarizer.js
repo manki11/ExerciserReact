@@ -30,6 +30,7 @@ import { setExercises } from "../store/actions/exercises";
 import { setUser } from "../store/actions/sugarizer";
 import { setExerciseCounter } from "../store/actions/increment_counter";
 import { setIsHost, setIsShared, addUser, removeUser, addSharedResult } from "../store/actions/presence";
+import { MULTIMEDIA } from '../utils';
 
 
 class Sugarizer extends Component {
@@ -236,16 +237,23 @@ class Sugarizer extends Component {
 		};
 
 		let translateItem = function (item) {
-			let localized = ["title", "question", "clozeText", "answers", "correctAns"];
+			let localized = ["title", "question", "clozeText", "answers", "groups", "list", "answer", "correctAns", "options", "correctGroup"];
 			for (let property in item) {
 				if (localized.indexOf(property) === -1) {
 					continue;
 				}
 				if (!Array.isArray(item[property])) {
-					item[property] = translate(item[property]);
+					if (typeof (item[property]) === 'object' && item[property].type === MULTIMEDIA.text)
+						item[property].data = translate(item[property].data);
+					else if (typeof (item[property]) !== 'object')
+						item[property] = translate(item[property]);
 				} else {
 					let elements = [];
 					for (let j = 0; j < item[property].length; j++) {
+						if (typeof (item[property][j]) === 'object' && item[property][j].type === MULTIMEDIA.text)
+							item[property][j].data = translate(item[property][j].data);
+						else if (typeof (item[property][j]) !== 'object')
+							item[property][j] = translate(item[property][j]);
 						elements.push(translate(item[property][j]));
 					}
 					item[property] = elements;
@@ -255,14 +263,15 @@ class Sugarizer extends Component {
 		};
 
 		for (let i = 0; i < defaultExercises.length; i++) {
-			let exercice = defaultExercises[i];
-			translateItem(exercice);
-			if (exercice.type === "MCQ") {
-				let questions = [];
-				for (let j = 0; j < exercice.questions.length; j++) {
-					questions.push(translateItem(exercice.questions[j]));
-				}
-				exercice.questions = questions;
+			let exercise = defaultExercises[i];
+			exercise = translateItem(exercise);
+			if (exercise.type === "MCQ" || exercise.type === "FREE_TEXT_INPUT" ||
+				exercise.type === "GROUP_ASSIGNMENT") {
+				for (let index = 0; index < exercise.questions.length; index++)
+					exercise.questions[index] = translateItem(exercise.questions[index]);
+			} else if (exercise.type === "MATCHING_PAIR") {
+				for (let index = 0; index < exercise.pairs.length; index++)
+					exercise.pairs[index] = translateItem(exercise.pairs[index]);
 			}
 		}
 		// Add to Exercise list

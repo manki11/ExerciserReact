@@ -13,7 +13,7 @@
 	"Title of Exercise": "Titre de l'exercice",
 	"Question": "Question",
 	"Previous": "Précédent",
-	"Next": "Prochain",
+	"Next": "Suivant",
 	"Finish Exercise": "Terminer l'exercice",
 	"Correct Option": "Réponse correcte",
 	"Wrong Option": "Mauvaise réponse",
@@ -117,7 +117,7 @@
 	"Matching Pair": "Classer par paire",
 	"Item": "Elément",
 	"Matching Item": "Elément correspondant",
-	"Correct / Wrong": "Correct / Erreur",
+	"Correct / Wrong": "Correct / Faux",
 	"Correct Answer": "Réponse correcte",
 	"Your Answer": "Votre réponse",
 	"Users": "Utilisateurs",
@@ -198,5 +198,9 @@
 	"If you pay 18$ for 6 tickets, the price of one ticket is": "Si vous payez 18€ pour 6 tickets, le prix d'un ticket est de",
 	"3$": "3€",
 	"You have seven pawns. I have five time more. How many pawns I have?": "Vous avez sept pions, j'en ai cinq fois plus. Combien ai-je de pions ?",
-	"Help": "Aide"
+	"Help": "Aide",
+	"Correct Group": "Groupe correct",
+	"Prev": "Préc",
+	"NextShort": "Suiv",
+	"End": "Fin"
 }

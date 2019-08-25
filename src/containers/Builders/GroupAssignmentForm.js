@@ -17,7 +17,8 @@ import {
 	GROUP_ASSIGNMENT,
 	TEXT,
 	MATCH_ITEM,
-	GROUP_DELETE
+	GROUP_DELETE,
+	CORRECT_GROUP
 } from "../translation";
 import { withRouter } from "react-router-dom";
 import "../../css/GroupAssignmentForm.css";
@@ -823,7 +824,7 @@ class GroupAssignmentForm extends Component {
 										</div>
 										<div className="row">
 											<div className="form-group">
-												<label htmlFor="Correct-Group">Correct Group: </label>
+												<label htmlFor="Correct-Group"><FormattedMessage id={CORRECT_GROUP} />: </label>
 												<Select
 													key={`answer-${currentQuestion.id}`}
 													className="answers input-ans group-answer"

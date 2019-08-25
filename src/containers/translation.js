@@ -58,15 +58,22 @@ export const ITEM = "Item {number}";
 export const ENTER_ANSWER = "Enter Answer";
 export const ANSWER = "Answer";
 
-// MATCHING_PAIR FROM
+// MATCHING_PAIR FORM
 export const MATCH_ITEM = "Item";
 export const MATCHING_ITEM = "Matching Item";
 export const GROUP_DELETE = "Cannot delete group as it is being used in an answer";
+
+// GROUP ASSIGNMENT FORM
+export const CORRECT_GROUP = "Correct Group";
 
 // PLAYER VIEW
 
 export const SUBMIT_QUESTION = "Submit Question";
 export const NEXT_QUESTION = "Next Question";
+
+// TUTORIALS
+export const PREV = "Prev";
+export const END = "End";
 
 
 // SCORES VIEW
