@@ -44,7 +44,7 @@ class FreeTextInputPlayer extends Component {
 
 			let { userans } = this.state;
 			userans = questions.map((quest, index) => {
-				return "Wrong";
+				return "_____________";
 			});
 
 			let updatedQuestions = questions.map((ques) => {

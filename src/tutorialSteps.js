@@ -8,6 +8,10 @@ export const tutorialSteps = (pathname, intl) => {
 			if (!(document.getElementsByClassName("share-button")[0])) {
 				steps = [
 					{
+						selector: "",
+						content: [intl.formatMessage({ id: "Exerciser" }), intl.formatMessage({ id: "This activity is an academic focused activity for the Sugarizer platform. It provides teachers to build interactive exercises for students, using multiple templates, and share them with their students using the sugarizer-server." })]
+					},
+					{
 						selector: "#add-button",
 						content: [intl.formatMessage({ id: "Add Exercises" }), intl.formatMessage({ id: "This button takes you to a list of templates from which you can choose a one to work with." })]
 					},

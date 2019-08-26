@@ -97,7 +97,9 @@
 .freetext-div{
     width: 100%!important;
     margin-bottom: 15px;
-    min-height: max-content;
+	min-height: max-content;
+	text-align: center;
+	overflow: overlay;
 }
 
 .freetext-question-container{

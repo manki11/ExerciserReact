@@ -202,5 +202,7 @@
 	"Correct Group": "Correct Group",
 	"Prev": "Prev",
 	"NextShort": "Next",
-	"End": "End"
+	"End": "End",
+	"Exerciser": "Exerciser",
+	"This activity is an academic focused activity for the Sugarizer platform. It provides teachers to build interactive exercises for students, using multiple templates, and share them with their students using the sugarizer-server.": "This activity is an academic focused activity for the Sugarizer platform. It provides teachers to build interactive exercises for students, using multiple templates, and share them with their students using the sugarizer-server."
 }
