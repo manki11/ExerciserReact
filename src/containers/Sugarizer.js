@@ -276,6 +276,7 @@ class Sugarizer extends Component {
 		}
 		// Add to Exercise list
 		this.props.setExercises(defaultExercises);
+		this.props.setExerciseCounter(defaultExercises.length + 1);
 	}
 
 	render() {
