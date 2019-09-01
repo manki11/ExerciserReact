@@ -51,6 +51,10 @@ class Navbar extends Component {
 					className="toolbutton"
 					id="activity-button"
 					title={activityTitle} />
+				<button
+					className="toolbutton"
+					id="network-button"
+					title={networkTitle} />
 				{this.props.location.pathname !== '/' &&
 					<button
 						className="toolbutton"
@@ -68,10 +72,6 @@ class Navbar extends Component {
 						title={addTitle}
 						onClick={this.directToNew} />
 				}
-				<button
-					className="toolbutton"
-					id="network-button"
-					title={networkTitle} />
 				<button
 					className="toolbutton pull-right"
 					id="stop-button"
