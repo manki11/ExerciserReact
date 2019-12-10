@@ -6,9 +6,6 @@ import { injectIntl } from 'react-intl';
 import { MY_ACTIVITY, HOME, ADD_EXERCISE, STOP, NETWORK, HELP, EDITOR, PLAY } from "../containers/translation";
 import Tutorial from '../components/Tutorial';
 
-
-
-
 class Navbar extends Component {
 	constructor(props) {
 		super(props);
@@ -40,7 +37,6 @@ class Navbar extends Component {
 		this.setState({
 			showTutorial: true
 		})
-		console.log("hello")
 	}
 
 	stopTutorial = () => {
@@ -48,8 +44,6 @@ class Navbar extends Component {
 			showTutorial: false
 		})
 	}
-
-	
 
 	render() {
 		let { intl } = this.props;
@@ -131,6 +125,5 @@ function mapStateToProps(state) {
 		exercises: state.exercises
 	};
 }
-
 
 export default injectIntl(withRouter(connect(mapStateToProps)(Navbar)));

@@ -8,9 +8,6 @@ import reorder_background from '../media/template/list_reorder_image.svg';
 import group_assignment_background from '../media/template/group_image.svg';
 import free_text_input_background from '../media/template/freetext_input_image.svg';
 import macthing_pair_background from '../media/template/matching_pair_image.svg';
-// import Navbar from '../components/Navbar'
-
-
 
 class Exercise extends Component {
 
@@ -31,22 +28,8 @@ class Exercise extends Component {
 			'FREE_TEXT_INPUT': free_text_input_background,
 			'MATCHING_PAIR': macthing_pair_background
 		}
-		this.enterEditMode2=this.enterEditMode2.bind(this)
 
 	}
-
-	enterEditMode2 = () => {
-		this.setState({
-			inEditMode: true
-		});
-		console.log("hello")
-	};
-
-	exitEditMode = () => {
-		this.setState({
-			inEditMode: false
-		});
-	};
 
 
 	// when play button is clicked
@@ -74,9 +57,7 @@ class Exercise extends Component {
 		this.props.presenceResult(this.state.id)
 	};
 
-
 	render() {
-
 		const { title, type, questions, scores, answers, list, isShared, isHost, shared, pairs } = this.props;
 		let { thumbnail } = this.props;
 
@@ -179,9 +160,6 @@ class Exercise extends Component {
 						}	
 					</div>
 				</div>
-				{/* {
-				<Navbar enterEditMode2={this.enterEditMode2}/>
-				} */}
 			</div>
 			
 		);

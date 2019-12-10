@@ -97,9 +97,6 @@ class ExerciseList extends Component {
 	};
 
 	render() {
-
-		console.log('Is in edit mode:', this.props.inEditMode);
-
 		const { isHost, isShared, users, current_user } = this.props;
 		let exercises = <p>Exercise List</p>;
 		let userList = "";
