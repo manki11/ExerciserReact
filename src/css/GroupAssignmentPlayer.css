@@ -1,0 +1,118 @@
+@media (min-width: 576px) {
+    .jumbotron {
+        padding: 2rem 1rem!important;
+    }
+}
+
+.jumbotron{
+    margin-bottom: 1rem!important;
+    background-color: #dfdfdf!important;
+}
+
+.d-flex{
+    margin-top: 1rem;
+}
+
+.next-button{
+    width: 180px;
+    text-align: center;
+    align-self: center;
+    border-radius: 20px!important;
+    font-size: 15px!important;
+    background-color: #808080!important;
+}
+
+.group-container{
+    margin-top: 5%!important;
+}
+
+.lead {
+    font-weight: bold !important;
+}
+
+.group-options{
+    text-align: center;
+    display: inline-block;
+    height: 250px;
+    position: absolute;
+}
+
+#question-drag{
+    position: absolute;
+    text-align: center;
+    line-height: 100px;
+    transform: 0;
+}
+
+.before-drag{
+    top: 50%!important;
+    left: 50%!important;
+    margin-left: -70px;
+    margin-top: -60px;
+}
+
+.correct-group{
+    background-color: green!important;
+}
+
+.wrong-group{
+    background-color: red!important;
+}
+
+.matching-questions{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.box {
+    text-align: center;
+    cursor: pointer;
+    box-shadow: 2px 2px 19px #aaa;
+    -o-box-shadow: 2px 2px 19px #aaa;
+    -webkit-box-shadow: 2px 2px 19px #aaa;
+    -moz-box-shadow: 2px 2px 19px #aaa;
+    -moz-border-radius: 0.5em;
+    border-radius: 0.5em;
+    color: black;
+    height: 120px;
+    width: 140px;
+    line-height: 120px;
+    padding: 5px;
+    position: relative;
+    -webkit-transition: -webkit-box-shadow 0.15s ease-in;
+    -moz-transition: -moz-box-shadow 0.15s ease-in;
+    -o-transition: -o-box-shadow 0.15s ease-in;
+    transition: box-shadow 0.15s ease-in;
+    background-color: #808080;    
+}
+
+.box:hover {
+    border:1px solid #123456;
+    box-shadow: 2px 2px 19px #444;
+    -o-box-shadow: 2px 2px 19px #444;
+    -webkit-box-shadow: 2px 2px 19px #444;
+    -moz-box-shadow: 2px 2px 19px #fff;
+    opacity:0.9;
+}
+
+.box-width {
+    width: 170px!important;
+}
+
+.marker {
+    margin-left: 85px;
+    height: 8px;
+    width: 8px;
+    background-color: black;
+    border-radius: 7px;
+}
+
+.selected {
+    border: 2px dotted #808080;
+}

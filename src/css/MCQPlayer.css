@@ -1,0 +1,92 @@
+.form-group{
+    /*margin-top: 20px;*/
+}
+
+.choices-but{
+    width: 85%;
+    margin-right: 0px!important;
+}
+
+.choices-button:focus, .choices-button:active{
+  box-shadow: none!important;
+  border: 2px solid #808080!important;
+}
+
+.choices{
+    display: inline-block!important;
+    margin: 10px 0px;
+}
+
+@media (min-width: 576px) {
+    .jumbotron {
+        padding: 2rem 1rem!important;
+    }
+}
+
+.jumbotron{
+    margin-bottom: 1rem!important;
+    background-color: #dfdfdf!important;
+}
+
+.d-flex{
+    margin-top: 1rem;
+}
+
+.next-button{
+    width: 180px;
+    text-align: center;
+    align-self: center;
+    border-radius: 20px!important;
+    font-size: 15px!important;
+    background-color: #808080!important;
+}
+
+.mcq-container{
+    margin-top: 5%!important;
+}
+
+.lead {
+    font-weight: bold !important;
+}
+
+.btn-outline-secondary {
+    color: #6c757d!important;
+    border-color: #6c757d!important;
+}
+
+.btn-selected{
+    color: #6c757d!important;
+    border: 2px solid #808080!important;
+}
+
+.button-on{
+    content: url(../icons/exercise/sound_on_black.png);
+    vertical-align: middle;
+}
+
+.button-off{
+    content: url(../icons/exercise/sound_off_black.png);
+    vertical-align: middle;
+}   
+
+.options-radio{
+    margin-right: 5px!important;
+    background: #6c757d;
+    border-radius: 15px;
+    border: 4px solid #dfdfdf;
+}
+
+.options-radio:hover{
+    border: 4px solid #808080;
+}
+
+
+input[type=radio]:checked{
+    background: #6c757d;
+    border-radius: 15px;
+    border: 4px solid #dfdfdf;
+}
+
+.audio-option{
+    width: inherit;
+}

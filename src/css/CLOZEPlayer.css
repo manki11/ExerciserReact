@@ -1,0 +1,60 @@
+.input-ans{
+    display: block;
+    font-size: 15px;
+    max-height: 30px!important;
+    border-radius: 10px;
+    border-width: 0;
+    min-width: 180px;
+    margin-bottom: 5px;
+}
+
+.checked-ans{
+    font-size: 15px;
+    max-height: 30px!important;
+    border-radius: 10px;
+    border-width: 0;
+    min-width: 180px;
+}
+
+.Select-placeholder{
+    border-radius: 15px!important;
+}
+
+.Select{
+    padding: 0!important;
+}
+
+
+.wrong{
+    padding: 4px 8px;
+    border-radius: 10px;
+    background-color: orangered;
+}
+
+.right{
+    padding: 4px 8px;
+    border-radius: 10px;
+    background-color: lime;
+}
+
+.cloze-span{
+    display: inline-block;
+    margin-bottom: 15px;
+}
+
+div{
+    line-height: 1.5;
+}
+
+.cloze-container{
+    margin-top: 5%!important;
+}
+
+
+.jumbotron {
+    background-color: #dfdfdf !important;
+}
+
+.lead {
+    font-weight: bold !important;
+}

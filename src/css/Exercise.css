@@ -1,0 +1,149 @@
+.card{
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);
+    border-radius: 0 0 2px 2px;
+    border: 1px solid rgba(160,160,160,0.2);
+    margin-top: 50px;
+}
+
+button{
+    margin-right: 10px!important;
+    background-color: #808080;
+    color: white!important;
+    border: 2px solid transparent;
+    border-radius: 22px;
+    line-height: 22px;
+    padding: 2px 4px;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+}
+
+button:focus{
+    border-color: transparent!important;
+}
+
+.play-button{
+    width: 40px;
+    height: 40px;
+    background-image: url("../icons/exercise/play-button.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.result-button{
+    width: 40px;
+    height: 40px;
+    background-image: url("../icons/exercise/result.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 20px;
+}
+
+.shared-exercise, .shared-exercise:hover{
+    background-color: lightskyblue;
+    border: 2px solid transparent;
+}
+
+.non-shared-exercise, .non-shared-exercise:hover{
+    background-color: #808080;
+    border: 2px solid transparent;
+}
+
+.share-button{
+    width: 40px;
+    height: 40px;
+    background-image: url("../icons/navbar/zoom-neighborhood.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.exercise-card-question {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: gray;
+}
+
+.exercise-title {
+    margin: 0;
+}
+
+.exercise-card-hiscore{
+    margin-bottom: 20px;
+}
+
+.delete-button{
+    width: 40px;
+    height: 40px;
+    background-image: url("../icons/exercise/sub.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.edit-button{
+    width: 40px;
+    height: 40px;
+    background-image: url("../icons/exercise/edit.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+button:disabled{
+    background-color: lightgrey!important;
+}
+
+button:hover:disabled{
+    background-color: lightgrey!important;
+    border-color: transparent!important;
+}
+
+.play-button:hover{
+    background-color: limegreen!important;
+    border: 2px solid transparent!important;
+}
+
+.edit-button:hover{
+    background-color: darkorange!important;
+    border: 2px solid transparent!important;
+}
+
+.delete-button:hover{
+    background-color: red!important;
+    border: 2px solid transparent!important;
+}
+
+.result-button:hover{
+    background-color: green!important;
+    border: 2px solid transparent!important;
+}
+
+.card-img-top {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 100%;
+    width: auto;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.card-img-container {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+}
+
+.width-audio{
+    max-width: stretch;
+}
