@@ -11,11 +11,6 @@ const store = configureStore();
 
 class App extends Component {
 
-	constructor(props) {
-		super(props);
-		this.state = {inEditMode: false};
-	  }
-
 	render() {
 		return (
 			<div className="App">

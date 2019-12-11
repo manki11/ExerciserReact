@@ -24,14 +24,14 @@ import '../css/index.css';
 import NewExerciseTemplate from "./Builders/Template";
 import PresenceScores from "./Scores/PresenceScores";
 
-const Main = properties => {
+const Main = props => {
 
-	const { onSharedResult } = properties;
+	const { onUpdate, onSharedResult, inEditMode } = props;
 
 	return (
 		<div className="main-container">
 			<Switch>
-				<Route exact path="/" render={props => <ExerciseList {...properties} {...props} />} />
+				<Route exact path="/" render={props => <ExerciseList onUpdate={onUpdate} inEditMode={inEditMode} {...props} />} />
 				<Route exact path="/new" render={props => <NewExerciseTemplate {...props} />} />
 				<Route exact path="/scores" render={props => <Scores onSharedResult={onSharedResult} {...props} />} />
 

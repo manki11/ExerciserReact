@@ -16,8 +16,7 @@ class Exercise extends Component {
 		const { id } = this.props;
 
 		this.state = {
-			id: id,
-			inEditMode: false
+			id: id
 		}
 
 		this.background = {
@@ -145,19 +144,20 @@ class Exercise extends Component {
 							<div className="exercise-card-question">{question_string}</div>
 							<div className="exercise-card-hiscore"><FormattedMessage id={BEST_SCORE} />: {highest}/{length}</div>
 						</span>
-						{this.props.inEditMode &&
 						<div className="buttons">
-							{edit}
-							{cross}
-							{share}
-							{results}
-						</div>
+						{this.props.inEditMode ?
+							<React.Fragment>
+								{edit}
+								{cross}
+								{share}
+								{results}
+							</React.Fragment>
+						:
+							<React.Fragment>
+								{play}
+							</React.Fragment>
 						}
-						{!this.props.inEditMode &&
-						<div className="buttons">
-							{play}
 						</div>
-						}	
 					</div>
 				</div>
 			</div>
