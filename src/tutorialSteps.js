@@ -5,19 +5,20 @@ export const tutorialSteps = (pathname, intl) => {
 		// Exercise List
 		case "/":
 			steps = [];
-			if (!(document.getElementsByClassName("share-button")[0])) {
+			if (!(document.getElementsByClassName("share-button")[0]) && document.getElementById("editor-button")){
 				steps = [
 					{
 						selector: "",
 						content: [intl.formatMessage({ id: "Exerciser" }), intl.formatMessage({ id: "This activity is an academic focused activity for the Sugarizer platform. It provides teachers to build interactive exercises for students, using multiple templates, and share them with their students using the sugarizer-server." })]
 					},
-					{
-						selector: "#add-button",
-						content: [intl.formatMessage({ id: "Add Exercises" }), intl.formatMessage({ id: "This button takes you to a list of templates from which you can choose a one to work with." })]
-					},
+					
 					{
 						selector: "#network-button",
 						content: [intl.formatMessage({ id: "Network Button" }), intl.formatMessage({ id: "Lets you share your exercises with other users." })]
+					},
+					{
+						selector: "#editor-button",
+						content: [intl.formatMessage({ id: "Editor Button" }), intl.formatMessage({ id: "Press this button to enter editor mode and edit/add/delete your exercises" })]
 					},
 					{
 						selector: "#stop-button",
@@ -27,6 +28,17 @@ export const tutorialSteps = (pathname, intl) => {
 						selector: ".play-button",
 						content: [intl.formatMessage({ id: "Play Button" }), intl.formatMessage({ id: "Use this button if you want to play the Exercise." })]
 					},
+				];
+			} else if (document.getElementById("play-button")) {
+				steps = [
+					{
+						selector: "#play-button",
+						content: [intl.formatMessage({ id: "Play button" }), intl.formatMessage({ id: "Press this button to exit edit mode and return to the play mode." })]
+					},
+					{
+						selector: "#add-button",
+						content: [intl.formatMessage({ id: "Add Exercises" }), intl.formatMessage({ id: "This button takes you to a list of templates from which you can choose a one to work with." })]
+					},
 					{
 						selector: ".edit-button",
 						content: [intl.formatMessage({ id: "Edit Button" }), intl.formatMessage({ id: "Use this button if you want to edit the Exercise." })]
@@ -35,7 +47,7 @@ export const tutorialSteps = (pathname, intl) => {
 						selector: ".delete-button",
 						content: [intl.formatMessage({ id: "Delete Button" }), intl.formatMessage({ id: "Use this button if you want to delete the Exercise." })]
 					}
-				];
+				]
 			}
 			if (document.getElementsByClassName("share-button")[0]) {
 				steps.push({
