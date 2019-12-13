@@ -131,6 +131,8 @@ class Exercise extends Component {
 		let question_string = (<FormattedMessage id={QUESTIONS} values={{ number: length }} />);
 		if (length === 1) question_string = (<FormattedMessage id={QUESTION_SINGULAR} values={{ number: length }} />);
 
+		console.log(edit)
+
 		return (
 			<div className="col-md-10">
 				<div className="card">
@@ -155,6 +157,7 @@ class Exercise extends Component {
 						:
 							<React.Fragment>
 								{play}
+								{share}
 							</React.Fragment>
 						}
 						</div>
