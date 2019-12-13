@@ -99,7 +99,6 @@ class Exercise extends Component {
 			share = (<button type="button" className={"share-button " + bg} onClick={this.shareExercise} />);
 		}
 
-
 		let length = 0;
 		let localized_type = "";
 
@@ -156,6 +155,7 @@ class Exercise extends Component {
 							<React.Fragment>
 								{play}
 								{share}
+								{results}
 							</React.Fragment>
 						}
 						</div>
