@@ -26,12 +26,12 @@ import PresenceScores from "./Scores/PresenceScores";
 
 const Main = props => {
 
-	const { onUpdate, onSharedResult } = props;
+	const { onUpdate, onSharedResult, inEditMode } = props;
 
 	return (
 		<div className="main-container">
 			<Switch>
-				<Route exact path="/" render={props => <ExerciseList onUpdate={onUpdate} {...props} />} />
+				<Route exact path="/" render={props => <ExerciseList onUpdate={onUpdate} inEditMode={inEditMode} {...props} />} />
 				<Route exact path="/new" render={props => <NewExerciseTemplate {...props} />} />
 				<Route exact path="/scores" render={props => <Scores onSharedResult={onSharedResult} {...props} />} />
 

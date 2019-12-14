@@ -112,6 +112,7 @@ class ExerciseList extends Component {
 						isShared={isShared}
 						onShare={this.onShare}
 						presenceResult={this.presenceResult}
+						inEditMode={this.props.inEditMode}
 						{...r} />
 				</div>
 			))

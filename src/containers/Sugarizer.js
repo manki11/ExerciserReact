@@ -46,6 +46,14 @@ class Sugarizer extends Component {
 		this.presence = null;
 		this.onNetworkDataReceived = this.onNetworkDataReceived.bind(this);
 		this.onNetworkUserChanged = this.onNetworkUserChanged.bind(this);
+
+		this.state = {
+			inEditMode: false
+		}
+	}
+
+	toggleEditMode(edit) {
+		this.setState({inEditMode: edit})
 	}
 
 	componentDidMount() {
@@ -284,8 +292,12 @@ class Sugarizer extends Component {
 			<IntlProvider locale={this.language} messages={messages[this.language]}>
 				<Router>
 					<div className="App-container">
-						<Navbar onStop={() => this.stopActivity()} />
+						<Navbar onStop={() => this.stopActivity()} 
+						 inEditMode={this.state.inEditMode} 
+						 toggleEditMode={(edit) => this.toggleEditMode(edit)}
+						 />
 						<Main
+							inEditMode={this.state.inEditMode} 
 							onUpdate={this.onExerciseUpdate}
 							onSharedResult={this.onExerciseResult}
 						/>

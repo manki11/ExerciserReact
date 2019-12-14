@@ -16,7 +16,7 @@ class Exercise extends Component {
 		const { id } = this.props;
 
 		this.state = {
-			id: id,
+			id: id
 		}
 
 		this.background = {
@@ -29,6 +29,7 @@ class Exercise extends Component {
 		}
 
 	}
+
 
 	// when play button is clicked
 	playExercise = () => {
@@ -98,7 +99,6 @@ class Exercise extends Component {
 			share = (<button type="button" className={"share-button " + bg} onClick={this.shareExercise} />);
 		}
 
-
 		let length = 0;
 		let localized_type = "";
 
@@ -144,15 +144,25 @@ class Exercise extends Component {
 							<div className="exercise-card-hiscore"><FormattedMessage id={BEST_SCORE} />: {highest}/{length}</div>
 						</span>
 						<div className="buttons">
-							{play}
-							{edit}
-							{cross}
-							{share}
-							{results}
+						{this.props.inEditMode ?
+							<React.Fragment>
+								{edit}
+								{cross}
+								{share}
+								{results}
+							</React.Fragment>
+						:
+							<React.Fragment>
+								{play}
+								{share}
+								{results}
+							</React.Fragment>
+						}
 						</div>
 					</div>
 				</div>
 			</div>
+			
 		);
 	}
 
