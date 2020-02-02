@@ -90,6 +90,7 @@ export const ADD_EXERCISE = "Add Exercise";
 export const NETWORK = "Network";
 export const STOP = "Stop";
 export const HELP = "Help";
+export const EDITOR = "Editor"
 
 // RESULTS
 export const CORRECT_WRONG = "Correct / Wrong";

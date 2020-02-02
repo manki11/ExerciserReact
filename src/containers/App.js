@@ -6,9 +6,11 @@ import Sugarizer from "./Sugarizer";
 
 import '../css/index.css';
 
+
 const store = configureStore();
 
 class App extends Component {
+
 	render() {
 		return (
 			<div className="App">
