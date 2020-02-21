@@ -10,6 +10,17 @@ class Navbar extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			ElementStyle1: {
+				
+				display: 'block'},
+			ElementStyle2: {
+			
+				display: 'none'},
+			ElementStyle3: {
+			
+				height: '55px'},		
+			
+			isfullScreen:false,
 			showTutorial: false
 		}
 	}
@@ -44,6 +55,40 @@ class Navbar extends Component {
 			showTutorial: false
 		})
 	}
+	goFullscreen = () => {
+		this.setState({
+			ElementStyle1: {
+				...this.state.ElementStyle1,
+				display: 'none'
+			},
+			ElementStyle2: {
+				...this.state.ElementStyle2,
+				display: 'block'
+			},
+			ElementStyle3: {
+				...this.state.ElementStyle3,
+				height: '0px'
+			},
+			isfullScreen:true
+		})
+	}
+	gounFullScreen = () => {
+		this.setState({
+			ElementStyle2: {
+				...this.state.ElementStyle2,
+				display: 'none'
+			},
+			ElementStyle1: {
+				...this.state.ElementStyle1,
+				display: 'block'
+			},
+			ElementStyle3: {
+				...this.state.ElementStyle3,
+				height: '55px'
+			},
+			isfullScreen:false
+		})
+	}
 
 	render() {
 		let { intl } = this.props;
@@ -58,8 +103,8 @@ class Navbar extends Component {
 		let fullScreen = intl.formatMessage({id:FULL_SCREEN});
 		let unfullScreen = intl.formatMessage({id:UNFULL_SCREEN});
 		return (
-			<div>
-				<div id="main-toolbar" className="toolbar">
+			<div id="main-toolbar" className="toolbar" style={this.state.ElementStyle3}>
+				<div id="main-toolbar" className="toolbar" style={this.state.ElementStyle1}>
 				<button
 					className="toolbutton"
 					id="activity-button"
