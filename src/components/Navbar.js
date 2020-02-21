@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import '../css/Navbar.css'
 import { injectIntl } from 'react-intl';
-import { MY_ACTIVITY, HOME, ADD_EXERCISE, STOP, NETWORK, HELP, EDITOR, PLAY } from "../containers/translation";
+import { MY_ACTIVITY, HOME, ADD_EXERCISE, STOP, NETWORK, HELP, EDITOR, PLAY,UNFULL_SCREEN,FULL_SCREEN } from "../containers/translation";
 import Tutorial from '../components/Tutorial';
 
 class Navbar extends Component {
@@ -55,9 +55,11 @@ class Navbar extends Component {
 		let helpTitle = intl.formatMessage({ id: HELP });
 		let editorButton = intl.formatMessage({ id: EDITOR});
 		let playButton = intl.formatMessage({ id: PLAY});
-
+		let fullScreen = intl.formatMessage({id:FULL_SCREEN});
+		let unfullScreen = intl.formatMessage({id:UNFULL_SCREEN});
 		return (
-			<div id="main-toolbar" className="toolbar">
+			<div>
+				<div id="main-toolbar" className="toolbar">
 				<button
 					className="toolbutton"
 					id="activity-button"
@@ -108,6 +110,11 @@ class Navbar extends Component {
 					onClick={this.props.onStop} />
 				<button
 					className="toolbutton pull-right"
+					id="full-screen"
+					title={fullScreen}
+					onClick={this.goFullscreen} />
+				<button
+					className="toolbutton pull-right"
 					id="help-button"
 					title={helpTitle}
 					onClick={this.startTutorial} />
@@ -117,6 +124,14 @@ class Navbar extends Component {
 					/>
 				}
 			</div>
+			<div id="main-toolbar" style={this.state.ElementStyle2} ><button 
+				className="toolbutton main-toolbar pull-right "
+				id="unfull-screen"
+				title={unfullScreen}
+				onClick={this.gounFullScreen} />
+			</div>
+		</div>
+			
 		);
 	}
 }
