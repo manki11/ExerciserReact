@@ -20,6 +20,33 @@
     outline: none;
 }
 
+.fullScreend1{
+
+    height: 0px;
+}
+.fullScreend2{
+    display:none;
+
+}
+
+.fullScreend3{
+    display:block;
+    height: 0px;
+}
+
+
+.unfullScreend1{
+    height: 55px;
+}
+.unfullScreend2{
+    display: block;
+
+}
+.unfullScreend3{
+    display: none;
+    
+}
+
 #private-button {
     background-image: url(../icons/navbar/zoom-home.svg);
     outline: none;

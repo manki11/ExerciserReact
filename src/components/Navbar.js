@@ -10,16 +10,6 @@ class Navbar extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			ElementStyle1: {
-				
-				display: 'block'},
-			ElementStyle2: {
-			
-				display: 'none'},
-			ElementStyle3: {
-			
-				height: '55px'},		
-			
 			isfullScreen:false,
 			showTutorial: false
 		}
@@ -57,35 +47,11 @@ class Navbar extends Component {
 	}
 	goFullscreen = () => {
 		this.setState({
-			ElementStyle1: {
-				...this.state.ElementStyle1,
-				display: 'none'
-			},
-			ElementStyle2: {
-				...this.state.ElementStyle2,
-				display: 'block'
-			},
-			ElementStyle3: {
-				...this.state.ElementStyle3,
-				height: '0px'
-			},
 			isfullScreen:true
 		})
 	}
 	gounFullScreen = () => {
 		this.setState({
-			ElementStyle2: {
-				...this.state.ElementStyle2,
-				display: 'none'
-			},
-			ElementStyle1: {
-				...this.state.ElementStyle1,
-				display: 'block'
-			},
-			ElementStyle3: {
-				...this.state.ElementStyle3,
-				height: '55px'
-			},
 			isfullScreen:false
 		})
 	}
@@ -103,8 +69,8 @@ class Navbar extends Component {
 		let fullScreen = intl.formatMessage({id:FULL_SCREEN});
 		let unfullScreen = intl.formatMessage({id:UNFULL_SCREEN});
 		return (
-			<div id="main-toolbar" className="toolbar" style={this.state.ElementStyle3}>
-				<div id="main-toolbar" className="toolbar" style={this.state.ElementStyle1}>
+			<div id="main-toolbar" className={`toolbar ${this.state.isfullScreen ? 'fullScreend1':'unfullScreend1'}`} >
+				<div className={`toolbar ${this.state.isfullScreen? 'fullScreend2':'unfullScreend2'}`}>
 				<button
 					className="toolbutton"
 					id="activity-button"
@@ -170,7 +136,7 @@ class Navbar extends Component {
 				}
 			</div>
 			<div id="main-toolbar" style={this.state.ElementStyle2} ><button 
-				className="toolbutton main-toolbar pull-right "
+				className={`toolbutton main-toolbar pull-right ${this.state.isfullScreen?'fullScreend3':'unfullScreend3'}` }
 				id="unfull-screen"
 				title={unfullScreen}
 				onClick={this.gounFullScreen} />
