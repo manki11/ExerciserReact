@@ -28,7 +28,7 @@ body {
     margin: 0;
     padding: 0;
     font-family: sans-serif;
-    overflow-x: hidden;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
 }
@@ -36,4 +36,14 @@ body {
 .main-container{
     overflow-y: auto;
     flex-grow: 1;
+}
+
+.fullScreenMargin, .fullScreenPaddingMargin{
+    margin-top: 4px !important;
+    margin-bottom: 4px !important;
+}
+
+.fullScreenPadding, .fullScreenPaddingMargin{
+    padding-left: 0px !important;
+    padding-right: 0px !important;
 }

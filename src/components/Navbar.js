@@ -3,8 +3,8 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import '../css/Navbar.css'
 import { injectIntl } from 'react-intl';
-import { MY_ACTIVITY, HOME, ADD_EXERCISE, STOP, NETWORK, HELP, EDITOR, PLAY,UNFULL_SCREEN,FULL_SCREEN } from "../containers/translation";
-import Tutorial from '../components/Tutorial';
+import { UNFULLSCREEN } from "../containers/translation";
+import MainToolbar from './MainToolbar';
 
 class Navbar extends Component {
 	constructor(props) {
@@ -26,24 +26,24 @@ class Navbar extends Component {
 	};
 
 	enterEditMode = () => {
-		this.props.toggleEditMode(true)
+		this.props.toggleEditMode(true);
 	}
 
 	exitEditMode = () => {
-		this.props.toggleEditMode(false)
-		this.props.history.push('/')
+		this.props.toggleEditMode(false);
+		this.props.history.push('/');
 	}
 
 	startTutorial = () => {
 		this.setState({
 			showTutorial: true
-		})
+		});
 	}
 
 	stopTutorial = () => {
 		this.setState({
 			showTutorial: false
-		})
+		});
 	}
 	goFullscreen = () => {
 		this.setState({
@@ -57,6 +57,7 @@ class Navbar extends Component {
 	}
 
 	render() {
+<<<<<<< HEAD
 		let { intl } = this.props;
 		let activityTitle = intl.formatMessage({ id: MY_ACTIVITY });
 		let homeTitle = intl.formatMessage({ id: HOME });
@@ -143,9 +144,34 @@ class Navbar extends Component {
 			</div>
 		</div>
 			
+=======
+		let unFullScreen = this.props.intl.formatMessage({ id: UNFULLSCREEN});
+		let navFunctions = {
+			directToNew: this.directToNew,
+			directToHome: this.directToHome,
+			enterEditMode: this.enterEditMode,
+			exitEditMode: this.exitEditMode,
+			startTutorial: this.startTutorial,
+			stopTutorial: this.stopTutorial
+		};
+		return (
+			<React.Fragment>
+				<MainToolbar 
+					{...this.props}
+					{...navFunctions}
+					showTutorial = {this.state.showTutorial}
+				/>
+				<button
+					className={"toolbutton" + (!this.props.inFullscreenMode? " toolbar-hide" : "")}
+					id="unfullscreen-button"
+					title={unFullScreen}
+					onClick={this.props.toggleFullscreen} />
+			</React.Fragment>
+>>>>>>> oktillhere4
 		);
 	}
 }
+
 function mapStateToProps(state) {
 	return {
 		exercises: state.exercises

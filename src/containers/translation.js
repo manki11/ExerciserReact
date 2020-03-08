@@ -90,9 +90,9 @@ export const ADD_EXERCISE = "Add Exercise";
 export const NETWORK = "Network";
 export const STOP = "Stop";
 export const HELP = "Help";
-export const EDITOR = "Editor"
-export const FULL_SCREEN = "Full Screen";
-export const UNFULL_SCREEN = "Un Full Screen";
+export const EDITOR = "Editor";
+export const FULLSCREEN = "Full Screen";
+export const UNFULLSCREEN = "Exit Full Screen";
 
 // RESULTS
 export const CORRECT_WRONG = "Correct / Wrong";
