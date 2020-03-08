@@ -53,7 +53,7 @@
 
 .exercise-list-container{
     margin: 0!important;
-    padding: 3%!important;
+    padding: 3%;
     height: 100%;
 }
 
@@ -70,4 +70,8 @@
 .home-container{
     height: auto;
     min-height: 100%;
+}
+
+.Exercise-List-NoPadding{
+    padding: 0px !important;
 }
