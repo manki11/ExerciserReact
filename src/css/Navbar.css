@@ -20,6 +20,33 @@
     outline: none;
 }
 
+.fullScreend1{
+
+    height: 0px;
+}
+.fullScreend2{
+    display:none;
+
+}
+
+.fullScreend3{
+    display:block;
+    height: 0px;
+}
+
+
+.unfullScreend1{
+    height: 55px;
+}
+.unfullScreend2{
+    display: block;
+
+}
+.unfullScreend3{
+    display: none;
+    
+}
+
 #private-button {
     background-image: url(../icons/navbar/zoom-home.svg);
     outline: none;
@@ -77,6 +104,36 @@
     border-radius: 5.5px;
 }
 
+#full-screen {
+    background-image: url("../icons/navbar/fullscreen.svg");
+    outline: none;
+    width: 49px;
+    height: 49px;
+    margin: 4px 2px;
+    color: white;
+    color: transparent;
+    background-color: transparent;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border: 0;
+    border-radius: 5.5px;
+}
+#unfull-screen {
+    background-image: url("../icons/navbar/unfullscreen.svg");
+    outline: none;
+    width: 49px;
+    height: 49px;
+    margin: 4px 2px;
+    color: white;
+    color: transparent;
+    background-color: transparent;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border: 0;
+    border-radius: 5.5px;
+}
 #play-button {
     background-image: url("../icons/navbar/play.svg");
     outline: none;
