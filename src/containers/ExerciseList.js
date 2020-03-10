@@ -172,8 +172,8 @@ class ExerciseList extends Component {
 			<div className="home-container" style={styles}>
 				{userIcon}
 				{userAdmin}
-				<div className="exercise-list-container">
-					<div className="col-md-10 mx-auto">
+				<div className={"exercise-list-container" + (this.props.inFullscreenMode? " Exercise-List-NoPadding" : "")} >
+					<div className={"col-md-10 mx-auto" + (this.props.inFullscreenMode? " Exercise-List-NoPadding" : "")} >
 						{exercises}
 					</div>
 				</div>
