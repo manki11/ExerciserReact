@@ -19,9 +19,6 @@ Clone the repository on your local machine and run.
 npm install
 ```
 
-#### Setting up the development environment
-
-Copy the lib folder, inside the main directory of the project folder, into the node_modules folder (after npm install). These are dependencies required by the sugarizer platform.
 
 #### Running the project
 
