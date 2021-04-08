@@ -59,11 +59,12 @@ class Sugarizer extends Component {
 
 	componentDidMount() {
 		const { setExercises, setExerciseCounter, setIsHost, setIsShared, setUser } = this.props;
-		activity.setup();
-		meSpeak.loadConfig(require("../mespeak_config.json"));
 
 		let temp = this;
-		env.getEnvironment(function (err, environment) {
+		window.setTimeout(function() {
+			activity.setup();
+			meSpeak.loadConfig(require("../mespeak_config.json"));
+		env.getEnvironment(function (err, environment) {			
 
 			if (environment.user) {
 				let user = {
@@ -126,6 +127,7 @@ class Sugarizer extends Component {
 				network.onSharedActivityUserChanged(temp.onNetworkUserChanged);
 			});
 		});
+		}, 500);
 	}
 
 	onNetworkDataReceived(msg) {
