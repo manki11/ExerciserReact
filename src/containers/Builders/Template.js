@@ -134,7 +134,7 @@ function Template(props) {
 						</div>
 					</div>
 					<div className="col-sm-4">
-						<div className="card">
+						<div className="card mb-3">
 							<div className="card-img-container">
 								<div className="card-img-top background-match" style={props.inFullscreenMode? fullScreenStyles : {}}/>
 							</div>

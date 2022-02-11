@@ -638,12 +638,12 @@ class MATCHING_PAIRForm extends Component {
 										<div className="form-group row justify-content-between">
 											<button
 												onClick={this.previousPair}
-												className={"btn button-previous"}
+												className={"btn button-previous mb-2"}
 												disabled={this.state.currentPairNo === 1}
 											>
 												<FormattedMessage id={PREVIOUS_QUESTION} />
 											</button>
-											<div className="justify-content-end">
+											<div className="justify-content-end mb-2">
 												<button
 													onClick={this.saveCurrentPair}
 													className={"btn button-next"}
@@ -656,14 +656,14 @@ class MATCHING_PAIRForm extends Component {
 										<div className="form-group row justify-content-between">
 											<button
 												onClick={(e) => this.submitExercise(false, e)}
-												className={"btn button-finish"}
+												className={"btn button-finish mb-2"}
 												disabled={!this.state.isFormValid}
 											>
 												<FormattedMessage id={FINISH_EXERCISE} />
 											</button>
 											<button
 												onClick={(e) => this.submitExercise(true, e)}
-												className={"btn button-finish"}
+												className={"btn button-finish mb-2"}
 												disabled={!this.state.isFormValid}
 											>
 												<FormattedMessage id={TEST_EXERCISE} />

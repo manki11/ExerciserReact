@@ -838,7 +838,7 @@ class GroupAssignmentForm extends Component {
 										<div className="form-group row justify-content-between">
 											<button
 												onClick={this.previousQues}
-												className={"btn button-previous"}
+												className={"btn button-previous mb-2"}
 												disabled={this.state.currentQuestionNo === 1}
 											>
 												<FormattedMessage id={PREVIOUS_QUESTION} />
@@ -846,7 +846,7 @@ class GroupAssignmentForm extends Component {
 											<div className="justify-content-end">
 												<button
 													onClick={this.saveCurrentForm}
-													className={"btn button-next"}
+													className={"btn button-next mb-2"}
 													disabled={!this.state.isFormValid}
 												>
 													<FormattedMessage id={NEXT_QUESTION} />
@@ -856,14 +856,14 @@ class GroupAssignmentForm extends Component {
 										<div className="form-group row justify-content-between">
 											<button
 												onClick={(e) => this.submitExercise(false, e)}
-												className={"btn button-finish"}
+												className={"btn button-finish mb-2"}
 												disabled={!this.state.isFormValid}
 											>
 												<FormattedMessage id={FINISH_EXERCISE} />
 											</button>
 											<button
 												onClick={(e) => this.submitExercise(true, e)}
-												className={"btn button-finish"}
+												className={"btn button-finish mb-2"}
 												disabled={!this.state.isFormValid}
 											>
 												<FormattedMessage id={TEST_EXERCISE} />

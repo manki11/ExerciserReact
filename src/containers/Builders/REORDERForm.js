@@ -467,14 +467,14 @@ class REORDERForm extends Component {
 											<div className="justify-content-end">
 												<button
 													onClick={(e) => this.submitExercise(false, e)}
-													className={"btn button-finish"}
+													className={"btn button-finish mb-2"}
 													disabled={!this.state.isFormValid}
 												>
 													<FormattedMessage id={FINISH_EXERCISE} />
 												</button>
 												<button
 													onClick={(e) => this.submitExercise(true, e)}
-													className={"btn button-finish"}
+													className={"btn button-finish mb-2"}
 													disabled={!this.state.isFormValid}
 												>
 													<FormattedMessage id={TEST_EXERCISE} />
