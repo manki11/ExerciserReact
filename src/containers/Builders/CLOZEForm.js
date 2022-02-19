@@ -577,7 +577,7 @@ class CLOZEForm extends Component {
 											<div className="form-group">
 												<div className="row  justify-content-between">
 													<label htmlFor="cloze-text"><FormattedMessage id={CLOZE_TEXT} />:</label>
-													<div className="justify-content-end">
+													<div className="justify-content-end mb-2">
 														<button
 															onClick={this.addBlank}
 															className={"btn button-finish button-add-blank"}
@@ -627,14 +627,14 @@ class CLOZEForm extends Component {
 											<div className="justify-content-end">
 												<button
 													onClick={(e) => this.submitExercise(false, e)}
-													className={"btn button-finish"}
+													className={"btn button-finish mb-2"}
 													disabled={!this.state.isFormValid}
 												>
 													<FormattedMessage id={FINISH_EXERCISE} />
 												</button>
 												<button
 													onClick={(e) => this.submitExercise(true, e)}
-													className={"btn button-finish"}
+													className={"btn button-finish mb-2"}
 													disabled={!this.state.isFormValid}
 												>
 													<FormattedMessage id={TEST_EXERCISE} />
