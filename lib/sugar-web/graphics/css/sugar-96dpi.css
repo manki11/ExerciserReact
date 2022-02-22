@@ -23,6 +23,7 @@ a {
 }
 /* Toolbar */
 .toolbar {
+  height: 55px;
   padding: 0 57px;
   color: white;
   background-color: #282828;
