@@ -323,7 +323,7 @@ class GroupAssignmentPlayer extends Component {
 						showMedia={showMedia}
 						willSpeak={false}
 						className='matching-questions'
-					/>;
+					/>
                 </div>
 			</div>
 		)
