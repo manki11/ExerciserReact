@@ -50,13 +50,21 @@ class Scores extends Component {
 								beginAtZero: true,
 								min: 0,
 								max: 100
-							}
+							},
+							scaleLabel: {
+								display: true,
+								labelString: 'Percentage'
+							 }
 						}],
 						xAxes: [{
 							barThickness: 30,
 							ticks: {
 								fontSize: 15
-							}
+							},
+							scaleLabel: {
+								display: true,
+								labelString: 'Users'
+							 }
 						}]
 					}
 				}
@@ -81,17 +89,25 @@ class Scores extends Component {
 							ticks: {
 								beginAtZero: true,
 								min: 0,
-								max: 10,
+								max: 0,
 								gridLines: {
 									drawTicks: false,
 								}
-							}
+							},
+							scaleLabel: {
+								display: true,
+								labelString: 'Minutes'
+							 }
 						}],
 						xAxes: [{
 							barThickness: 30,
 							ticks: {
 								fontSize: 15
-							}
+							},
+							scaleLabel: {
+								display: true,
+								labelString: 'Users'
+							 }
 						}]
 					}
 				}
@@ -118,7 +134,7 @@ class Scores extends Component {
 
 		let score = Math.ceil(userScore / noOfQuestions * 100);
 		let time = Math.ceil(userTime / 60);
-
+		let y_limit = Math.max(time, 10);
 		const { name } = this.props.current_user;
 
 		this.setState({
@@ -151,7 +167,29 @@ class Scores extends Component {
 							borderColor: stroke,
 							borderWidth: 5
 						}]
+				},
+				options: {
+					scales: {
+						yAxes: [{
+							id: 'A',
+							type: 'linear',
+							position: 'left',
+							ticks: {
+								beginAtZero: true,
+								min: 0,
+								max: y_limit,
+								gridLines: {
+									drawTicks: false,
+								}
+							},
+							scaleLabel: {
+								display: true,
+								labelString: 'Minutes'
+							 }
+						}],
+					}
 				}
+				
 			}
 
 		})
