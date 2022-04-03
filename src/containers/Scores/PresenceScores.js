@@ -44,22 +44,17 @@ class PresenceScores extends Component {
 							ticks: {
 								beginAtZero: true,
 								min: 0,
-								max: 100
-							},
-							scaleLabel: {
-								display: true,
-								labelString: 'Percentage'
-							 }
+								max: 100,
+								callback: function(value, index, ticks) {
+									return  value + ' %';
+								    }
+							}
 						}],
 						xAxes: [{
 							barThickness: 30,
 							ticks: {
 								fontSize: 15
-							},
-							scaleLabel: {
-								display: true,
-								labelString: 'Users'
-							 }
+							}
 						}]
 					}
 				}
@@ -87,22 +82,17 @@ class PresenceScores extends Component {
 								max: 0,
 								gridLines: {
 									drawTicks: false,
-								}
-							},
-							scaleLabel: {
-								display: true,
-								labelString: 'Minutes'
-							 }
+								},
+								callback: function(value, index, ticks) {
+									return  value + ' mn';
+								    }
+							}
 						}],
 						xAxes: [{
 							barThickness: 30,
 							ticks: {
 								fontSize: 15
-							},
-							scaleLabel: {
-								display: true,
-								labelString: 'Users'
-							 }
+							}
 						}]
 					}
 				}
@@ -215,12 +205,11 @@ class PresenceScores extends Component {
 									max: y_limit,
 									gridLines: {
 										drawTicks: false,
-									}
-								},
-								scaleLabel: {
-									display: true,
-									labelString: 'Minutes'
-								 }
+									},
+									callback: function(value, index, ticks) {
+										return  value + ' mn';
+									    }
+								}
 							}],
 						}
 					}
