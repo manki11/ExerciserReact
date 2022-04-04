@@ -54,7 +54,7 @@ function Template(props) {
 			<div className="col-md-10 mx-auto">
 				<div className="row justify-content-center align-self-center">
 					<div className="col-sm-4">
-						<div className="card">
+						<div className="card grow" onClick={mcqSelected.bind(null, props.history)}>
 							<div className="card-img-container">
 								<div className="card-img-top background-mcq" style={props.inFullscreenMode? fullScreenStyles : {}}/>
 							</div>
@@ -70,7 +70,7 @@ function Template(props) {
 						</div>
 					</div>
 					<div className="col-sm-4">
-						<div className="card">
+						<div className="card grow" onClick={clozeSelected.bind(null, props.history)}>
 							<div className="card-img-container">
 								<div className="card-img-top background-cloze" style={props.inFullscreenMode? fullScreenStyles : {}}/>
 							</div>
@@ -86,7 +86,7 @@ function Template(props) {
 						</div>
 					</div>
 					<div className="col-sm-4">
-						<div className="card">
+						<div className="card grow" onClick={reorderSelected.bind(null, props.history)}>
 							<div className="card-img-container">
 								<div className="card-img-top background-reorder" style={props.inFullscreenMode? fullScreenStyles : {}}/>
 							</div>
@@ -102,7 +102,7 @@ function Template(props) {
 						</div>
 					</div>
 					<div className="col-sm-4">
-						<div className="card">
+						<div className="card grow" onClick={groupAssignmentSelected.bind(null, props.history)}>
 							<div className="card-img-container">
 								<div className="card-img-top background-group" style={props.inFullscreenMode? fullScreenStyles : {}}/>
 							</div>
@@ -118,7 +118,7 @@ function Template(props) {
 						</div>
 					</div>
 					<div className="col-sm-4">
-						<div className="card">
+						<div className="card grow" onClick={freeTextSelected.bind(null, props.history)}>
 							<div className="card-img-container">
 								<div className="card-img-top background-freetext" style={props.inFullscreenMode? fullScreenStyles : {}}/>
 							</div>
@@ -134,7 +134,7 @@ function Template(props) {
 						</div>
 					</div>
 					<div className="col-sm-4">
-						<div className="card mb-3">
+						<div className="card mb-3 grow" onClick={matchingPairSelected.bind(null, props.history)}>
 							<div className="card-img-container">
 								<div className="card-img-top background-match" style={props.inFullscreenMode? fullScreenStyles : {}}/>
 							</div>
