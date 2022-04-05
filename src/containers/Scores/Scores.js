@@ -8,7 +8,8 @@ import {
 	QUESTION,
 	CORRECT_WRONG,
 	CORRECT_ANSWER,
-	YOUR_ANSWER, TIME, YOUR_RESULTS
+	YOUR_ANSWER, TIME, YOUR_RESULTS,
+	DETAILS
 } from "../translation";
 import "../../css/PresenceScores.css"
 import "../../css/Scores.css"
@@ -271,9 +272,19 @@ class Scores extends Component {
 
 		}
 
-		let score = (<button type="button" className={"score-button " + score_active} onClick={this.score} />);
-		let time = (<button type="button" className={"time-button " + time_active} onClick={this.time} />);
-		let detail = (<button type="button" className={"detail-button " + detail_active} onClick={this.detail} />);
+
+		let score = (<FormattedMessage id={SCORES} defaultMessage={SCORES}>
+			{(msg) => (<button type="button" title={msg} className={"score-button " + score_active} onClick={this.score} />)}
+		</FormattedMessage>);
+		let time = (<FormattedMessage id={TIME} defaultMessage={TIME}>
+			{(msg) => (<button type="button" title={msg} className={"time-button " + time_active} onClick={this.time} />)}
+		</FormattedMessage>);
+		let detail = (<FormattedMessage id={DETAILS} defaultMessage={DETAILS}>
+			{(msg) => (<button type="button" title={msg} className={"detail-button " + detail_active} onClick={this.detail} />)}
+		</FormattedMessage>);
+
+
+
 
 		return (
 			<div className="container">
