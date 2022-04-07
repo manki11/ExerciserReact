@@ -82,7 +82,7 @@ export const AVERAGE = "Average";
 export const YOUR_RESULTS = "Your Results";
 export const SCORES = "Scores";
 export const TIME = "Time";
-
+export const DETAILS = "Details";
 // NAVBAR
 export const MY_ACTIVITY = "My Activity";
 export const HOME = "Home";
