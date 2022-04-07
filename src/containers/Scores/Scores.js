@@ -176,6 +176,12 @@ class Scores extends Component {
 								    }
 							},
 						}],
+						xAxes: [{
+							barThickness: 30,
+							ticks: {
+								fontSize: 15
+							}
+						}]
 					}
 				}
 				
