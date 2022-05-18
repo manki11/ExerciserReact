@@ -50,7 +50,10 @@ class Scores extends Component {
 							ticks: {
 								beginAtZero: true,
 								min: 0,
-								max: 100
+								max: 100,
+								callback: function(value, index, ticks) {
+									return  value + ' %';
+								    }
 							}
 						}],
 						xAxes: [{
@@ -82,10 +85,13 @@ class Scores extends Component {
 							ticks: {
 								beginAtZero: true,
 								min: 0,
-								max: 10,
+								max: 0,
 								gridLines: {
 									drawTicks: false,
-								}
+								},
+								callback: function(value, index, ticks) {
+									return  value + ' mn';
+								    }
 							}
 						}],
 						xAxes: [{
@@ -119,7 +125,7 @@ class Scores extends Component {
 
 		let score = Math.ceil(userScore / noOfQuestions * 100);
 		let time = Math.ceil(userTime / 60);
-
+		let y_limit = Math.max(time, 10);
 		const { name } = this.props.current_user;
 
 		this.setState({
@@ -152,7 +158,34 @@ class Scores extends Component {
 							borderColor: stroke,
 							borderWidth: 5
 						}]
+				},
+				options: {
+					scales: {
+						yAxes: [{
+							id: 'A',
+							type: 'linear',
+							position: 'left',
+							ticks: {
+								beginAtZero: true,
+								min: 0,
+								max: y_limit,
+								gridLines: {
+									drawTicks: false,
+								},
+								callback: function(value, index, ticks) {
+									return value + ' mn';
+								    }
+							},
+						}],
+						xAxes: [{
+							barThickness: 30,
+							ticks: {
+								fontSize: 15
+							}
+						}]
+					}
 				}
+				
 			}
 
 		})

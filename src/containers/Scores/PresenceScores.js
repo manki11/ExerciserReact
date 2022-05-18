@@ -44,7 +44,10 @@ class PresenceScores extends Component {
 							ticks: {
 								beginAtZero: true,
 								min: 0,
-								max: 100
+								max: 100,
+								callback: function(value, index, ticks) {
+									return  value + ' %';
+								    }
 							}
 						}],
 						xAxes: [{
@@ -76,10 +79,13 @@ class PresenceScores extends Component {
 							ticks: {
 								beginAtZero: true,
 								min: 0,
-								max: 10,
+								max: 0,
 								gridLines: {
 									drawTicks: false,
-								}
+								},
+								callback: function(value, index, ticks) {
+									return  value + ' mn';
+								    }
 							}
 						}],
 						xAxes: [{
@@ -150,7 +156,7 @@ class PresenceScores extends Component {
 			scores.push(result.score);
 			times.push(result.time);
 		});
-
+		let y_limit = Math.max(...times, 10);
 		if (this.state.mode === this.modes.SCORE) {
 			this.setState({
 				...this.state,
@@ -186,6 +192,32 @@ class PresenceScores extends Component {
 								borderColor: strokes,
 								borderWidth: 5
 							}]
+					},
+					options: {
+						scales: {
+							yAxes: [{
+								id: 'A',
+								type: 'linear',
+								position: 'left',
+								ticks: {
+									beginAtZero: true,
+									min: 0,
+									max: y_limit,
+									gridLines: {
+										drawTicks: false,
+									},
+									callback: function(value, index, ticks) {
+										return  value + ' mn';
+									    }
+								}
+							}],
+							xAxes: [{
+								barThickness: 30,
+								ticks: {
+									fontSize: 15
+								}
+							}]
+						}
 					}
 				}
 			})
