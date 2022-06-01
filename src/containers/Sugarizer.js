@@ -217,7 +217,6 @@ class Sugarizer extends Component {
 
 	stopActivity() {
 		const { counter, exercises } = this.props;
-		console.log("called")
 		let journalExercises = exercises.map((exercise) => {
 			return ({
 				...exercise,
@@ -236,9 +235,9 @@ class Sugarizer extends Component {
 		activity.getDatastoreObject().setDataAsText(jsonData);
 		activity.getDatastoreObject().save(function (error) {
 			if (error === null) {
-				console.log("write done.");
+				// console.log("write done.");
 			} else {
-				console.log("write failed.");
+				// console.log("write failed.");
 			}
 		});
 	}
