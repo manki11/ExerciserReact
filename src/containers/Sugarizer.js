@@ -216,8 +216,7 @@ class Sugarizer extends Component {
 	};
 
 	stopActivity() {
-		const { counter, exercises } = this.props;
-		
+		const { counter, exercises } = this.props;		
 		let journalExercises = exercises.map((exercise) => {
 			return ({
 				...exercise,
