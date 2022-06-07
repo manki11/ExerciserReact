@@ -84,6 +84,7 @@ class Sugarizer extends Component {
 				// console.log("New instance");
 				if (!environment.sharedId)
 					temp.setDefaultExercises();
+					temp.stopActivity();
 			} else {
 				activity.getDatastoreObject().loadAsText(function (error, metadata, data) {
 					if (error === null && data !== null) {
