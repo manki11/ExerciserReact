@@ -126,6 +126,7 @@ button:hover:disabled{
 
 .card-img-top {
     width: 100%;
+    object-fit: contain;
 }
 
 .card-img-container {
