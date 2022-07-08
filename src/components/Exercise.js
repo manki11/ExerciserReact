@@ -89,7 +89,9 @@ class Exercise extends Component {
 			edit = "";
 			cross = "";
 		}
-
+		if(!isShared){
+			share = (<button type="button" className={"share-button"} onClick={this.shareExercise} />)
+		}
 		if (isShared && isHost) {
 			let bg = "non-shared-exercise";
 			if (shared) {
@@ -134,7 +136,7 @@ class Exercise extends Component {
 			<div className="col-md-10">
 				<div className="card">
 					<div className="card-img-container">
-					<img className="card-img-top" src = {thumbnail !== '' ? thumbnail : this.background[type]}></img>
+					<img className="card-img-top" src = {thumbnail !== '' ? thumbnail : this.background[type]} alt="Exercise Thumbnail"></img>
 					</div>
 					<div className="card-body">
 						<h3 className="card-title">{title}</h3>

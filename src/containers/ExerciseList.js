@@ -58,6 +58,9 @@ class ExerciseList extends Component {
 	};
 
 	onShare = (id, shared) => {
+		if(!this.props.isShared){
+			document.getElementById("shared-button").click();
+		}
 		let exercise = this.props.exercises.find(x => x.id === id);
 		exercise = { ...exercise, shared: shared };
 		this.props.editExercise(exercise);
