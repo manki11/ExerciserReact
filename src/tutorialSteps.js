@@ -5,7 +5,7 @@ export const tutorialSteps = (pathname, intl) => {
 		// Exercise List
 		case "/":
 			steps = [];
-			if (!(document.getElementsByClassName("share-button")[0]) && document.getElementById("editor-button")){
+			if (document.getElementById("editor-button")){
 				steps = [
 					{
 						selector: "",
