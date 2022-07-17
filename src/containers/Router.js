@@ -34,12 +34,11 @@ const Main = (props) => {
 		const paddingPercent = 3;
 		zoom = `${((boardSize/containerSize.height) + paddingPercent/100) * 100}%`;
 	}
-	const { onUpdate, onSharedResult, inEditMode, inFullscreenMode } = props;
-
+	const { onUpdate, onSharedResult, inEditMode, inFullscreenMode, setExercises } = props;
 	return (
 		<div className="main-container" ref={ref} style={{zoom: zoom, padding: (props.inFullscreenMode && "0px")}}>
 			<Switch>
-				<Route exact path="/" render={props => <ExerciseList onUpdate={onUpdate} inEditMode={inEditMode} inFullscreenMode={inFullscreenMode} {...props} />} />
+				<Route exact path="/" render={props => <ExerciseList onUpdate={onUpdate} inEditMode={inEditMode} inFullscreenMode={inFullscreenMode} setExercise={setExercises} {...props} />} />
 				<Route exact path="/new" render={props => <NewExerciseTemplate inFullscreenMode={inFullscreenMode} {...props} />} />
 				<Route exact path="/scores" render={props => <Scores onSharedResult={onSharedResult} inFullscreenMode={inFullscreenMode} {...props} />} />
 

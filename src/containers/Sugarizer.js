@@ -316,6 +316,7 @@ class Sugarizer extends Component {
 							inEditMode={this.state.inEditMode} 
 							onUpdate={this.onExerciseUpdate}
 							onSharedResult={this.onExerciseResult}
+							setExercises={this.props.setExercises}
 						/>
 					</div>
 				</Router>
