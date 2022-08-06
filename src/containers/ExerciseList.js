@@ -1,258 +1,259 @@
 import React, { Component } from "react";
 import { removeExercises, editExercise } from "../store/actions/exercises";
 import {
-  addSharedExercise,
-  removeSharedExercise,
+	addSharedExercise,
+	removeSharedExercise,
 } from "../store/actions/presence";
+import { setRunAllExercise } from "../store/actions/sugarizer";
 import "../css/ExerciseList.css";
 import UserList from "../components/UserList";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import UserIcon from "../components/UserIcon";
-import { ExerciseListItem } from "../components/ExerciseListItem.js";
+import ExerciseDragList from "../components/ExerciseListItem.js";
 import Exercise from "../components/Exercise";
 
 class ExerciseList extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      menuOpen: false,
-      exercises: [],
-    };
-  }
+	constructor(props) {
+		super(props);
+		this.state = {
+			menuOpen: false,
+			exercises: [],
+		};
+	}
 
-  handleStateChange = (state) => {
-    this.setState({ menuOpen: state.isOpen });
-  };
+	handleStateChange = (state) => {
+		this.setState({ menuOpen: state.isOpen });
+	};
 
-  toggleMenu = () => {
-    this.setState({ menuOpen: !this.state.menuOpen });
-  };
+	toggleMenu = () => {
+		this.setState({ menuOpen: !this.state.menuOpen });
+	};
 
-  componentWillReceiveProps() {
-    this.setState({ exercises: this.props.exercises });
-    if (this.props.isShared && this.props.isHost) {
-      this.props.onUpdate();
-    }
-  }
+	componentWillReceiveProps() {
+		this.setState({ exercises: this.props.exercises });
+		if (this.props.isShared && this.props.isHost) {
+			this.props.onUpdate();
+		}
+	}
 
-  onDelete = (id) => {
-    this.props.removeExercises(id);
-  };
+	onDelete = (id) => {
+		this.props.removeExercises(id);
+	};
 
-  onEdit = (id) => {
-    let exercise = this.props.exercises.find((x) => x.id === id);
-    if (exercise.type === "MCQ") {
-      this.props.history.push("/edit/mcq", { exercise: exercise });
-    }
-    if (exercise.type === "CLOZE") {
-      this.props.history.push("/edit/cloze", { exercise: exercise });
-    }
-    if (exercise.type === "REORDER") {
-      this.props.history.push("/edit/reorder", { exercise: exercise });
-    }
-    if (exercise.type === "GROUP_ASSIGNMENT") {
-      this.props.history.push("/edit/group", { exercise: exercise });
-    }
-    if (exercise.type === "FREE_TEXT_INPUT") {
-      this.props.history.push("/edit/freeText", { exercise: exercise });
-    }
-    if (exercise.type === "MATCHING_PAIR") {
-      this.props.history.push("/edit/match", { exercise: exercise });
-    }
-  };
+	onEdit = (id) => {
+		let exercise = this.props.exercises.find((x) => x.id === id);
+		if (exercise.type === "MCQ") {
+			this.props.history.push("/edit/mcq", { exercise: exercise });
+		}
+		if (exercise.type === "CLOZE") {
+			this.props.history.push("/edit/cloze", { exercise: exercise });
+		}
+		if (exercise.type === "REORDER") {
+			this.props.history.push("/edit/reorder", { exercise: exercise });
+		}
+		if (exercise.type === "GROUP_ASSIGNMENT") {
+			this.props.history.push("/edit/group", { exercise: exercise });
+		}
+		if (exercise.type === "FREE_TEXT_INPUT") {
+			this.props.history.push("/edit/freeText", { exercise: exercise });
+		}
+		if (exercise.type === "MATCHING_PAIR") {
+			this.props.history.push("/edit/match", { exercise: exercise });
+		}
+	};
 
-  onShare = (id, shared) => {
-    if (!this.props.isShared) {
-      document.getElementById("shared-button").click();
-    }
-    let exercise = this.props.exercises.find((x) => x.id === id);
-    exercise = { ...exercise, shared: shared };
-    this.props.editExercise(exercise);
+	onShare = (id, shared) => {
+		if (!this.props.isShared) {
+			document.getElementById("shared-button").click();
+		}
 
-    if (shared) {
-      this.props.addSharedExercise(exercise);
-    } else {
-      this.props.removeSharedExercise(id);
-    }
-  };
+		let exercise = this.props.exercises.find((x) => x.id === id);
+		exercise = { ...exercise, shared: shared };
+		this.props.editExercise(exercise);
 
-  onPlay = (id) => {
-    let exercise = this.props.exercises.find((x) => x.id === id);
-    if (exercise.type === "MCQ") {
-      this.props.history.push("/play/mcq", { exercise: exercise });
-    }
-    if (exercise.type === "CLOZE") {
-      this.props.history.push("/play/cloze", { exercise: exercise });
-    }
-    if (exercise.type === "REORDER") {
-      this.props.history.push("/play/reorder", { exercise: exercise });
-    }
-    if (exercise.type === "GROUP_ASSIGNMENT") {
-      this.props.history.push("/play/group", { exercise: exercise });
-    }
-    if (exercise.type === "FREE_TEXT_INPUT") {
-      this.props.history.push("/play/freeText", { exercise: exercise });
-    }
-    if (exercise.type === "MATCHING_PAIR") {
-      this.props.history.push("/play/match", { exercise: exercise });
-    }
-  };
+		if (shared) {
+			this.props.addSharedExercise(exercise);
+		} else {
+			this.props.removeSharedExercise(id);
+		}
+	};
 
-  presenceResult = (id) => {
-    let exercise = this.props.shared_exercises.find((x) => x.id === id);
-    this.props.history.push("/presence/scores", { exercise: exercise });
-  };
+	onPlay = (id) => {
+		let exercise = this.props.exercises.find((x) => x.id === id);
+		this.props.setRunAllExercise(false);
+		if (exercise.type === "MCQ") {
+			this.props.history.push("/play/mcq", { exercise: exercise });
+		}
+		if (exercise.type === "CLOZE") {
+			this.props.history.push("/play/cloze", { exercise: exercise });
+		}
+		if (exercise.type === "REORDER") {
+			this.props.history.push("/play/reorder", { exercise: exercise });
+		}
+		if (exercise.type === "GROUP_ASSIGNMENT") {
+			this.props.history.push("/play/group", { exercise: exercise });
+		}
+		if (exercise.type === "FREE_TEXT_INPUT") {
+			this.props.history.push("/play/freeText", { exercise: exercise });
+		}
+		if (exercise.type === "MATCHING_PAIR") {
+			this.props.history.push("/play/match", { exercise: exercise });
+		}
+	};
 
-  moveExerciseListItem = (dragIndex, hoverIndex) => {
-    const dragItem = this.props.exercises[dragIndex];
-    const hoverItem = this.props.exercises[hoverIndex];
-    let updatedExercises = this.props.exercises;
-    updatedExercises[dragIndex] = hoverItem;
-    updatedExercises[hoverIndex] = dragItem;
+	presenceResult = (id) => {
+		let exercise = this.props.shared_exercises.find((x) => x.id === id);
+		this.props.history.push("/presence/scores", { exercise: exercise });
+	};
 
-    this.props.setExercise(updatedExercises);
-  };
+	reorderExercise = (list) => {
+		this.props.setExercise(list);
+	};
 
-  moveExerciseListItemProp = this.moveExerciseListItem.bind(this);
+	render() {
+		const { isHost, isShared, users, current_user } = this.props;
+		let exercises = <p>Exercise List</p>;
+		let userList = "";
+		let userAdmin = "";
+		if (this.props.exercises) {
+			const dragListItemProps = {
+				isHost,
+				isShared,
+				onDelete: this.onDelete,
+				onPlay: this.onPlay,
+				onEdit: this.onEdit,
+				onShare: this.onShare,
+				presenceResult: this.presenceResult,
+				inEditMode: this.props.inEditMode,
+			};
+			if (this.props.inEditMode) {
+				exercises = (
+					<ExerciseDragList
+						list={this.props.exercises}
+						updateExercises={this.reorderExercise}
+						{...dragListItemProps}
+					/>
+				);
+			} else {
+				exercises = this.props.exercises.map((r, index) => (
+					<div className='col-md-6 exercise-div' key={r.id}>
+						<Exercise
+							onDelete={this.onDelete}
+							onPlay={this.onPlay}
+							onEdit={this.onEdit}
+							isHost={isHost}
+							isShared={isShared}
+							onShare={this.onShare}
+							presenceResult={this.presenceResult}
+							inEditMode={this.props.inEditMode}
+							{...r}
+						/>
+					</div>
+				));
+			}
+		}
 
-  render() {
-    const { isHost, isShared, users, current_user } = this.props;
-    let exercises = <p>Exercise List</p>;
-    let userList = "";
-    let userAdmin = "";
-    if (this.props.exercises) {
-      const dragListItemProps = {
-        isHost,
-        isShared,
-        onDelete: this.onDelete,
-        onPlay: this.onPlay,
-        onEdit: this.onEdit,
-        onShare: this.onShare,
-        presenceResult: this.presenceResult,
-        inEditMode: this.props.inEditMode,
-      };
-      if (this.props.inEditMode) {
-        exercises = this.props.exercises.map((r, index) => (
-          <ExerciseListItem
-            exerciseData={r}
-            props={dragListItemProps}
-            key={r.id}
-            moveListItem={this.moveExerciseListItemProp}
-            index={index}
-          />
-        ));
-      } else {
-        exercises = this.props.exercises.map((r, index) => (
-          <div className="col-md-6 exercise-div" key={r.id}>
-            <Exercise
-              onDelete={this.onDelete}
-              onPlay={this.onPlay}
-              onEdit={this.onEdit}
-              isHost={isHost}
-              isShared={isShared}
-              onShare={this.onShare}
-              presenceResult={this.presenceResult}
-              inEditMode={this.props.inEditMode}
-              {...r}
-            />
-          </div>
-        ));
-      }
-    }
+		let stroke = "#000000";
+		let fill = "#FFFFFF";
 
-    let stroke = "#000000";
-    let fill = "#FFFFFF";
+		if (current_user.colorvalue) {
+			stroke = current_user.colorvalue.stroke;
+			fill = current_user.colorvalue.fill;
+		}
+		let styles = { backgroundColor: fill };
 
-    if (current_user.colorvalue) {
-      stroke = current_user.colorvalue.stroke;
-      fill = current_user.colorvalue.fill;
-    }
-    let styles = { backgroundColor: fill };
+		let userIcon = "";
 
-    let userIcon = "";
+		if (this.props.isShared && this.props.isHost) {
+			userList = users.map((user, index) => {
+				return (
+					<div className='user-list col-sm-12 row' key={index}>
+						<div className='user-icon col-sm-4'>
+							<UserIcon
+								width='60%'
+								height='80%'
+								stroke_color={user.colorvalue.stroke}
+								fill_color={user.colorvalue.fill}
+							/>
+						</div>
+						<div className='user-text col-sm-8'>{user.name}</div>
+					</div>
+				);
+			});
 
-    if (this.props.isShared && this.props.isHost) {
-      userList = users.map((user, index) => {
-        return (
-          <div className="user-list col-sm-12 row" key={index}>
-            <div className="user-icon col-sm-4">
-              <UserIcon
-                width="60%"
-                height="80%"
-                stroke_color={user.colorvalue.stroke}
-                fill_color={user.colorvalue.fill}
-              />
-            </div>
-            <div className="user-text col-sm-8">{user.name}</div>
-          </div>
-        );
-      });
+			userIcon = (
+				<div className='user-container'>
+					<button
+						className='user-list-button'
+						onClick={() => this.toggleMenu()}
+					/>
+					<span className='badge badge-notify'>{users.length}</span>
+				</div>
+			);
 
-      userIcon = (
-        <div className="user-container">
-          <button
-            className="user-list-button"
-            onClick={() => this.toggleMenu()}
-          />
-          <span className="badge badge-notify">{users.length}</span>
-        </div>
-      );
+			userAdmin = (
+				<div>
+					<UserList
+						isOpen={this.state.menuOpen}
+						onStateChange={(state) => this.handleStateChange(state)}
+						userList={userList}
+						stroke={stroke}
+						fill={fill}
+					/>
+				</div>
+			);
+		}
 
-      userAdmin = (
-        <div>
-          <UserList
-            isOpen={this.state.menuOpen}
-            onStateChange={(state) => this.handleStateChange(state)}
-            userList={userList}
-            stroke={stroke}
-            fill={fill}
-          />
-        </div>
-      );
-    }
-
-    return (
-      <div className="home-container" style={styles}>
-        {userIcon}
-        {userAdmin}
-        <div
-          className={
-            "exercise-list-container" +
-            (this.props.inFullscreenMode ? " Exercise-List-NoPadding" : "")
-          }
-        >
-          <div
-            className={
-              "col-md-10 mx-auto" +
-              (this.props.inFullscreenMode ? " Exercise-List-NoPadding" : "")
-            }
-          >
-            {exercises}
-          </div>
-        </div>
-      </div>
-    );
-  }
+		return (
+			<div className='home-container' style={styles}>
+				{userIcon}
+				{userAdmin}
+				<div
+					className={
+						"exercise-list-container" +
+						(this.props.inFullscreenMode ? " Exercise-List-NoPadding" : "")
+					}
+				>
+					{this.props.isRunAll && (
+						<div className='total-score'>
+							Your Score: {this.props.total_score}
+						</div>
+					)}
+					<div
+						className={
+							"col-md-10 mx-auto" +
+							(this.props.inFullscreenMode ? " Exercise-List-NoPadding" : "")
+						}
+					>
+						{exercises}
+					</div>
+				</div>
+			</div>
+		);
+	}
 }
 
 function MapStateToProps(state) {
-  return {
-    counter: state.exercise_counter,
-    isHost: state.isHost,
-    isShared: state.isShared,
-    exercises: state.exercises,
-    shared_exercises: state.shared_exercises,
-    users: state.users,
-    current_user: state.current_user,
-  };
+	return {
+		counter: state.exercise_counter,
+		isHost: state.isHost,
+		isRunAll: state.isRunAll,
+		isShared: state.isShared,
+		exercises: state.exercises,
+		shared_exercises: state.shared_exercises,
+		users: state.users,
+		current_user: state.current_user,
+		total_score: state.totalScore,
+	};
 }
 
 export default withRouter(
-  connect(MapStateToProps, {
-    removeExercises,
-    editExercise,
-    addSharedExercise,
-    removeSharedExercise,
-  })(ExerciseList)
+	connect(MapStateToProps, {
+		removeExercises,
+		editExercise,
+		addSharedExercise,
+		removeSharedExercise,
+		setRunAllExercise,
+	})(ExerciseList)
 );

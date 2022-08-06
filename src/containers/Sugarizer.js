@@ -1,40 +1,44 @@
-import React, { Component } from 'react';
-import { connect } from "react-redux"
+import React, { Component } from "react";
+import { connect } from "react-redux";
 import { MemoryRouter as Router } from "react-router-dom";
 
 // Localization Dependencies
 import { IntlProvider } from "react-intl";
 import { addLocaleData } from "react-intl";
-import messages from "../translations/lang"
-import locale_en from 'react-intl/locale-data/en';
-import locale_fr from 'react-intl/locale-data/fr';
-import locale_es from 'react-intl/locale-data/es';
+import messages from "../translations/lang";
+import locale_en from "react-intl/locale-data/en";
+import locale_fr from "react-intl/locale-data/fr";
+import locale_es from "react-intl/locale-data/es";
 
 import default_activities from "../default_activities";
 
 // Sugarizer Dependencies
-import activity from 'lib/sugar-web/activity/activity'
-import env from 'lib/sugar-web/env'
-import presencepalette from 'lib/sugar-web/graphics/presencepalette'
+import activity from "lib/sugar-web/activity/activity";
+import env from "lib/sugar-web/env";
+import presencepalette from "lib/sugar-web/graphics/presencepalette";
 
 //Components
 import Main from "./Router";
-import Navbar from '../components/Navbar'
+import Navbar from "../components/Navbar";
 
-import '../css/index.css';
-import meSpeak from 'mespeak';
-import LZ from 'lz-string';
+import "../css/index.css";
+import meSpeak from "mespeak";
+import LZ from "lz-string";
 
 // actions
 import { setExercises } from "../store/actions/exercises";
-import { setUser } from "../store/actions/sugarizer";
+import { setUser, setRunAllExercise } from "../store/actions/sugarizer";
 import { setExerciseCounter } from "../store/actions/increment_counter";
-import { setIsHost, setIsShared, addUser, removeUser, addSharedResult } from "../store/actions/presence";
-import { MULTIMEDIA } from '../utils';
-
+import {
+	setIsHost,
+	setIsShared,
+	addUser,
+	removeUser,
+	addSharedResult,
+} from "../store/actions/presence";
+import { MULTIMEDIA } from "../utils";
 
 class Sugarizer extends Component {
-
 	constructor(props) {
 		super(props);
 
@@ -43,107 +47,121 @@ class Sugarizer extends Component {
 		this.language = navigator.language.split(/[-_]/)[0];
 
 		this.isHost = false;
+		this.isRunAllExercise = false;
 		this.presence = null;
 		this.onNetworkDataReceived = this.onNetworkDataReceived.bind(this);
 		this.onNetworkUserChanged = this.onNetworkUserChanged.bind(this);
 
 		this.state = {
 			inEditMode: false,
-			inFullscreenMode: false
-		}
+			inFullscreenMode: false,
+		};
 	}
 
 	toggleEditMode(edit) {
-		this.setState({inEditMode: edit})
+		this.setState({ inEditMode: edit });
 	}
 
 	componentDidMount() {
-		const { setExercises, setExerciseCounter, setIsHost, setIsShared, setUser } = this.props;
+		const {
+			setExercises,
+			setExerciseCounter,
+			setIsHost,
+			setIsShared,
+			setUser,
+			setRunAllExercise,
+		} = this.props;
 
 		let temp = this;
-		window.setTimeout(function() {
+		window.setTimeout(function () {
 			activity.setup();
 			meSpeak.loadConfig(require("../mespeak_config.json"));
-		env.getEnvironment(function (err, environment) {			
-
-			if (environment.user) {
-				let user = {
-					name: environment.user.name,
-					colorvalue: environment.user.colorvalue
-				};
-				setUser(user);
-				temp.language = environment.user.language;
-				// setting default lang
-				if (!messages[temp.language]) {
-					temp.language = 'en';
-				}
-			}
-
-			// Load from datastore
-			if (!environment.objectId) {
-				// console.log("New instance");
-				if (!environment.sharedId)
-					temp.setDefaultExercises();
-					temp.stopActivity();
-			} else {
-				activity.getDatastoreObject().loadAsText(function (error, metadata, data) {
-					if (error === null && data !== null) {
-						// console.log("object found!");
-						// Decompressing jsonData to be stored in Local Storage
-						let uncompressedData = LZ.decompressFromUTF16(data);
-						let json = JSON.parse(uncompressedData);
-						setExercises(json.exercises);
-						setExerciseCounter(json.counter);
+			env.getEnvironment(function (err, environment) {
+				if (environment.user) {
+					let user = {
+						name: environment.user.name,
+						colorvalue: environment.user.colorvalue,
+					};
+					setUser(user);
+					temp.language = environment.user.language;
+					// setting default lang
+					if (!messages[temp.language]) {
+						temp.language = "en";
 					}
-				});
-			}
+				}
 
-			if (environment.sharedId) {
-				// console.log("Shared instance");
+				// Load from datastore
+				if (!environment.objectId) {
+					// console.log("New instance");
+					if (!environment.sharedId) temp.setDefaultExercises();
+					temp.stopActivity();
+				} else {
+					activity
+						.getDatastoreObject()
+						.loadAsText(function (error, metadata, data) {
+							if (error === null && data !== null) {
+								// console.log("object found!");
+								// Decompressing jsonData to be stored in Local Storage
+								let uncompressedData = LZ.decompressFromUTF16(data);
+								let json = JSON.parse(uncompressedData);
+								setExercises(json.exercises);
+								setExerciseCounter(json.counter);
+								setRunAllExercise(json.isRunAll);
+							}
+						});
+				}
+
+				if (environment.sharedId) {
+					// console.log("Shared instance");
+					temp.presence = activity.getPresenceObject(function (error, network) {
+						setIsShared(true);
+						network.onDataReceived(temp.onNetworkDataReceived);
+						network.onSharedActivityUserChanged(temp.onNetworkUserChanged);
+					});
+				}
+			});
+
+			let palette = new presencepalette.PresencePalette(
+				document.getElementById("network-button"),
+				undefined
+			);
+			palette.addEventListener("shared", function () {
+				palette.popDown();
+				// console.log("Want to share");
 				temp.presence = activity.getPresenceObject(function (error, network) {
-					setIsShared(true);
+					if (error) {
+						// console.log("Sharing error");
+						return;
+					}
+					network.createSharedActivity(
+						"org.sugarlabs.Exerciser",
+						function (groupId) {
+							// console.log("Activity shared");
+							setIsHost(true);
+							setIsShared(true);
+							temp.isHost = true;
+							// console.log("after sharing:");
+						}
+					);
 					network.onDataReceived(temp.onNetworkDataReceived);
 					network.onSharedActivityUserChanged(temp.onNetworkUserChanged);
 				});
-			}
-		});
-
-		let palette = new presencepalette.PresencePalette(document.getElementById("network-button"), undefined);
-		palette.addEventListener('shared', function () {
-			palette.popDown();
-			// console.log("Want to share");
-			temp.presence = activity.getPresenceObject(function (error, network) {
-				if (error) {
-					// console.log("Sharing error");
-					return;
-				}
-				network.createSharedActivity('org.sugarlabs.Exerciser', function (groupId) {
-					// console.log("Activity shared");
-					setIsHost(true);
-					setIsShared(true);
-					temp.isHost = true;
-					// console.log("after sharing:");
-				});
-				network.onDataReceived(temp.onNetworkDataReceived);
-				network.onSharedActivityUserChanged(temp.onNetworkUserChanged);
 			});
-		});
 		}, 500);
 	}
 
 	onNetworkDataReceived(msg) {
-
 		if (this.presence.getUserInfo().networkId === msg.user.networkId) {
 			return;
 		}
 		switch (msg.content.action) {
-			case 'init':
+			case "init":
 				this.props.setExercises(msg.content.data.shared_exercises);
 				break;
-			case 'update':
+			case "update":
 				this.props.setExercises(msg.content.data.shared_exercises);
 				break;
-			case 'result':
+			case "result":
 				if (this.isHost) {
 					this.props.addSharedResult(msg.content.result);
 				}
@@ -151,83 +169,87 @@ class Sugarizer extends Component {
 			default:
 				break;
 		}
-	};
+	}
 
 	onNetworkUserChanged(msg) {
 		if (this.isHost) {
-
 			const { shared_exercises } = this.props;
 			let data = {
-				shared_exercises: shared_exercises
+				shared_exercises: shared_exercises,
 			};
 			let presence = this.presence;
 			presence.sendMessage(presence.getSharedInfo().id, {
 				user: presence.getUserInfo(),
 				content: {
-					action: 'init',
-					data: data
-				}
+					action: "init",
+					data: data,
+				},
 			});
 		}
 
 		if (msg.move === 1) this.props.addUser(msg.user);
 		else this.props.removeUser(msg.user);
 		// console.log("User " + msg.user.name + " " + (msg.move === 1 ? "join" : "leave"));
-	};
+	}
 
 	onExerciseUpdate = () => {
 		const { shared_exercises } = this.props;
 		let data = {
-			shared_exercises: shared_exercises
+			shared_exercises: shared_exercises,
 		};
 		let presence = this.presence;
 		presence.sendMessage(presence.getSharedInfo().id, {
 			user: presence.getUserInfo(),
 			content: {
-				action: 'update',
-				data: data
-			}
+				action: "update",
+				data: data,
+			},
 		});
 	};
 
 	toggleFullscreen = () => {
-		this.setState((state)=>{
+		this.setState((state) => {
 			return {
-				inFullscreenMode: !state.inFullscreenMode
-			}
+				inFullscreenMode: !state.inFullscreenMode,
+			};
 		});
-	}
+	};
 
 	onExerciseResult = (id, score, time, userAnswers) => {
 		let presence = this.presence;
 		presence.sendMessage(presence.getSharedInfo().id, {
 			user: presence.getUserInfo(),
 			content: {
-				action: 'result',
+				action: "result",
 				result: {
 					user: presence.getUserInfo(),
 					id: id,
 					score: score,
 					time: time,
-					userAnswers: userAnswers
-				}
-			}
+					userAnswers: userAnswers,
+				},
+			},
 		});
+	};
+
+	onRunAllExercise = () => {
+		this.props.setRunAllExercise(true);
 	};
 
 	stopActivity() {
 		const { counter, exercises } = this.props;
 
 		let journalExercises = exercises.map((exercise) => {
-			return ({
+			return {
 				...exercise,
-				shared: false
-			});
-		})
+				shared: false,
+			};
+		});
 
 		let json = {
 			counter: counter,
 			exercises: journalExercises,
+			isRunAll: this.isRunAllExercise,
 		};
 
 		let jsonData = JSON.stringify(json);
@@ -257,22 +279,39 @@ class Sugarizer extends Component {
 		};
 
 		let translateItem = function (item) {
-			let localized = ["title", "question", "clozeText", "answers", "groups", "list", "answer", "correctAns", "options", "correctGroup"];
+			let localized = [
+				"title",
+				"question",
+				"clozeText",
+				"answers",
+				"groups",
+				"list",
+				"answer",
+				"correctAns",
+				"options",
+				"correctGroup",
+			];
 			for (let property in item) {
 				if (localized.indexOf(property) === -1) {
 					continue;
 				}
 				if (!Array.isArray(item[property])) {
-					if (typeof (item[property]) === 'object' && item[property].type === MULTIMEDIA.text)
+					if (
+						typeof item[property] === "object" &&
+						item[property].type === MULTIMEDIA.text
+					)
 						item[property].data = translate(item[property].data);
-					else if (typeof (item[property]) !== 'object')
+					else if (typeof item[property] !== "object")
 						item[property] = translate(item[property]);
 				} else {
 					let elements = [];
 					for (let j = 0; j < item[property].length; j++) {
-						if (typeof (item[property][j]) === 'object' && item[property][j].type === MULTIMEDIA.text)
+						if (
+							typeof item[property][j] === "object" &&
+							item[property][j].type === MULTIMEDIA.text
+						)
 							item[property][j].data = translate(item[property][j].data);
-						else if (typeof (item[property][j]) !== 'object')
+						else if (typeof item[property][j] !== "object")
 							item[property][j] = translate(item[property][j]);
 						elements.push(translate(item[property][j]));
 					}
@@ -285,8 +324,11 @@ class Sugarizer extends Component {
 		for (let i = 0; i < defaultExercises.length; i++) {
 			let exercise = defaultExercises[i];
 			exercise = translateItem(exercise);
-			if (exercise.type === "MCQ" || exercise.type === "FREE_TEXT_INPUT" ||
-				exercise.type === "GROUP_ASSIGNMENT") {
+			if (
+				exercise.type === "MCQ" ||
+				exercise.type === "FREE_TEXT_INPUT" ||
+				exercise.type === "GROUP_ASSIGNMENT"
+			) {
 				for (let index = 0; index < exercise.questions.length; index++)
 					exercise.questions[index] = translateItem(exercise.questions[index]);
 			} else if (exercise.type === "MATCHING_PAIR") {
@@ -303,17 +345,18 @@ class Sugarizer extends Component {
 		return (
 			<IntlProvider locale={this.language} messages={messages[this.language]}>
 				<Router>
-					<div className="App-container">
-						<Navbar 
-						 onStop={() => this.stopActivity()}
-						 inFullscreenMode={this.state.inFullscreenMode}
-						 toggleFullscreen={this.toggleFullscreen} 
-						 inEditMode={this.state.inEditMode} 
-						 toggleEditMode={(edit) => this.toggleEditMode(edit)}
-						 />
+					<div className='App-container'>
+						<Navbar
+							onStop={() => this.stopActivity()}
+							inFullscreenMode={this.state.inFullscreenMode}
+							toggleFullscreen={this.toggleFullscreen}
+							inEditMode={this.state.inEditMode}
+							toggleEditMode={(edit) => this.toggleEditMode(edit)}
+							runAllExercise={this.onRunAllExercise}
+						/>
 						<Main
 							inFullscreenMode={this.state.inFullscreenMode}
-							inEditMode={this.state.inEditMode} 
+							inEditMode={this.state.inEditMode}
 							onUpdate={this.onExerciseUpdate}
 							onSharedResult={this.onExerciseResult}
 							setExercises={this.props.setExercises}
@@ -323,7 +366,6 @@ class Sugarizer extends Component {
 			</IntlProvider>
 		);
 	}
-
 }
 
 function MapStateToProps(state) {
@@ -331,17 +373,19 @@ function MapStateToProps(state) {
 		counter: state.exercise_counter,
 		exercises: state.exercises,
 		shared_exercises: state.shared_exercises,
-		isHost: state.isHost
-	}
+		isHost: state.isHost,
+		isRunAllExercise: state.isRunAll,
+	};
 }
 
 export default connect(MapStateToProps, {
 	setExercises,
 	setExerciseCounter,
+	setRunAllExercise,
 	setIsHost,
 	setIsShared,
 	addUser,
 	setUser,
 	removeUser,
-	addSharedResult
+	addSharedResult,
 })(Sugarizer);

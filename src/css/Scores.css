@@ -12,6 +12,23 @@
     border-radius: 30px;
 }
 
+.button-next-exercise{
+    width: 60px;
+    height: 60px;
+    background-image: url("../icons/exercise/go-right.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 30px;
+}
+.button-finish-exercise{
+    width: 60px;
+    height: 60px;
+    background-image: url("../icons/exercise/dialog-ok.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 30px;
+}
+
 .button-redo:hover{
     background-color: limegreen!important;
     border: 2px solid transparent!important;

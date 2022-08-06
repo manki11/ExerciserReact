@@ -22,9 +22,11 @@ export const ADD_USER = "ADD_USER";
 export const REMOVE_USER = "REMOVE_USER";
 export const ADD_SHARED_RESULT = "ADD_SHARED_RESULT";
 
-
 // Sugarizer
 export const SET_USER = "SET_USER";
 
-
-
+// Run All Exercises
+export const SET_RUN_ALL_EXERCISE = "SET RUN ALL EXERCISE";
+export const SET_EXERCISE_INDEX = "SET EXERCISE INDEX";
+export const SET_TOTAL_SCORE = "SET TOTAL SCORE";
+export const RESET_SCORE = "RESET SCORE";

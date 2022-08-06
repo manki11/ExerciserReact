@@ -135,7 +135,9 @@ button:hover:disabled{
     height: 200px;
     overflow: hidden;
 }
-
+.drag-drop-exercise{
+    margin: 1rem 0.5rem;
+}
 .width-audio{
     max-width: stretch;
 }

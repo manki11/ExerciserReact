@@ -93,6 +93,7 @@ export const HELP = "Help";
 export const EDITOR = "Editor";
 export const FULLSCREEN = "Full Screen";
 export const UNFULLSCREEN = "Exit Full Screen";
+export const PLAY_ALL = "Run All Exercises";
 
 // RESULTS
 export const CORRECT_WRONG = "Correct / Wrong";

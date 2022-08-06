@@ -123,6 +123,10 @@
     border-radius: 5.5px;
 }
 
+#run-all-button{
+    background-image: url("../icons/exercise/play-button.svg");
+}
+
 #full-screen {
     background-image: url("../icons/navbar/fullscreen.svg");
     outline: none;
