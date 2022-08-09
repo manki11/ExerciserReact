@@ -13,7 +13,11 @@ import {
 	YOUR_RESULTS,
 	DETAILS,
 } from "../translation";
-import { setExerciseIndex, setTotalScore } from "../../store/actions/sugarizer";
+import {
+	setRunAllExercise,
+	setExerciseIndex,
+	setTotalScore,
+} from "../../store/actions/sugarizer";
 import "../../css/PresenceScores.css";
 import "../../css/Scores.css";
 import withScoreHOC from "./ScoreHoc";
@@ -277,12 +281,12 @@ class Scores extends Component {
 	nextExercise = () => {
 		let exercises = this.props.exercises;
 		let exercise = this.props.history.location.state.exercise;
-		this.props.setTotalScore(this.props.history.location.state.userScore);
 		let exerciseIndex = exercises.findIndex((obj) => obj.id == exercise.id);
 		if (exerciseIndex != exercises.length - 1) {
 			this.playExercise(exercises[exerciseIndex + 1]);
-			this.props.setExerciseIndex(exerciseIndex + 1);
 		} else {
+			this.props.setRunAllExercise(false);
+			this.props.setExerciseIndex(-1);
 			this.props.history.push("/");
 		}
 	};
@@ -431,7 +435,11 @@ function MapStateToProps(state) {
 export default withScoreHOC()(
 	injectIntl(
 		withRouter(
-			connect(MapStateToProps, { setExerciseIndex, setTotalScore })(Scores)
+			connect(MapStateToProps, {
+				setRunAllExercise,
+				setExerciseIndex,
+				setTotalScore,
+			})(Scores)
 		)
 	)
 );

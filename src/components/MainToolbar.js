@@ -11,6 +11,7 @@ import {
 	PLAY,
 	FULLSCREEN,
 	PLAY_ALL,
+	SHARE_ALL,
 } from "../containers/translation";
 
 const MainToolbar = (props) => {
@@ -25,6 +26,7 @@ const MainToolbar = (props) => {
 	let playButton = intl.formatMessage({ id: PLAY });
 	let fullScreen = intl.formatMessage({ id: FULLSCREEN });
 	let runAll = intl.formatMessage({ id: PLAY_ALL });
+	let shareAll = intl.formatMessage({ id: SHARE_ALL });
 	return (
 		<div
 			id='main-toolbar'
@@ -56,6 +58,17 @@ const MainToolbar = (props) => {
 						onClick={props.runAll}
 						id='run-all-button'
 						title={runAll}
+					/>
+				)}
+			{!props.inEditMode &&
+				!props.location.pathname.startsWith("/edit") &&
+				!props.location.pathname.startsWith("/play") &&
+				!props.location.pathname.startsWith("/scores") && (
+					<button
+						className='toolbutton'
+						// onClick={props.runAll}
+						id='share-all-button'
+						title={shareAll}
 					/>
 				)}
 			{props.inEditMode && (

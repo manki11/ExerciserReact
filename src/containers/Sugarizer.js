@@ -27,7 +27,12 @@ import LZ from "lz-string";
 
 // actions
 import { setExercises } from "../store/actions/exercises";
-import { setUser, setRunAllExercise } from "../store/actions/sugarizer";
+import {
+	setUser,
+	setRunAllExercise,
+	setExerciseIndex,
+	setTotalScore,
+} from "../store/actions/sugarizer";
 import { setExerciseCounter } from "../store/actions/increment_counter";
 import {
 	setIsHost,
@@ -47,7 +52,7 @@ class Sugarizer extends Component {
 		this.language = navigator.language.split(/[-_]/)[0];
 
 		this.isHost = false;
-		this.isRunAllExercise = false;
+		this.isRunAll = false;
 		this.presence = null;
 		this.onNetworkDataReceived = this.onNetworkDataReceived.bind(this);
 		this.onNetworkUserChanged = this.onNetworkUserChanged.bind(this);
@@ -70,6 +75,8 @@ class Sugarizer extends Component {
 			setIsShared,
 			setUser,
 			setRunAllExercise,
+			setExerciseIndex,
+			setTotalScore,
 		} = this.props;
 
 		let temp = this;
@@ -106,7 +113,9 @@ class Sugarizer extends Component {
 								let json = JSON.parse(uncompressedData);
 								setExercises(json.exercises);
 								setExerciseCounter(json.counter);
-								setRunAllExercise(json.isRunAll);
+								setRunAllExercise(json.is_run_all_click);
+								setTotalScore(json.total_score);
+								setExerciseIndex(json.exercise_index);
 							}
 						});
 				}
@@ -237,7 +246,8 @@ class Sugarizer extends Component {
 	};
 
 	stopActivity() {
-		const { counter, exercises } = this.props;
+		const { counter, exercises, isRunAll, exerciseIndex, totalScore } =
+			this.props;
 
 		let journalExercises = exercises.map((exercise) => {
 			return {
@@ -249,7 +259,9 @@ class Sugarizer extends Component {
 		let json = {
 			counter: counter,
 			exercises: journalExercises,
-			isRunAll: this.isRunAllExercise,
+			is_run_all_click: isRunAll,
+			exercise_index: exerciseIndex,
+			total_score: totalScore,
 		};
 
 		let jsonData = JSON.stringify(json);
@@ -374,7 +386,9 @@ function MapStateToProps(state) {
 		exercises: state.exercises,
 		shared_exercises: state.shared_exercises,
 		isHost: state.isHost,
-		isRunAllExercise: state.isRunAll,
+		isRunAll: state.isRunAll,
+		exerciseIndex: state.exerciseRunning,
+		totalScore: state.totalScore,
 	};
 }
 
@@ -384,6 +398,8 @@ export default connect(MapStateToProps, {
 	setRunAllExercise,
 	setIsHost,
 	setIsShared,
+	setExerciseIndex,
+	setTotalScore,
 	addUser,
 	setUser,
 	removeUser,

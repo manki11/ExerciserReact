@@ -237,7 +237,6 @@ class Exercise extends Component {
 								<React.Fragment>
 									{edit}
 									{cross}
-									{share}
 									{results}
 								</React.Fragment>
 							) : (

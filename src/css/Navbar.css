@@ -127,6 +127,11 @@
     background-image: url("../icons/exercise/play-button.svg");
 }
 
+#share-all-button{
+    background-image: url("../icons/navbar/shareAll.svg");
+}
+
+
 #full-screen {
     background-image: url("../icons/navbar/fullscreen.svg");
     outline: none;

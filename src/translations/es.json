@@ -209,5 +209,6 @@
 	"This activity is an academic focused activity for the Sugarizer platform. It provides teachers to build interactive exercises for students, using multiple templates, and share them with their students using the sugarizer-server.": "La actividad \"Ejercicios\" es una actividad didáctica de la plataforma Sugarizer. Con ella, los profesores podrán crear ejercicios interactivos para sus estudiantes, usando diferentes plantillas y compartiéndolas con sus alumnos usando el servidor especializado de Sugarizer.",
 	"Fullscreen Button": "Pantalla completa",
 	"Press this button to enter Fullscreen mode.": "Pulsa este botón para ver la actividad en modo pantalla completa.",
-	"Run All Exercises": "Ejecutar todos los ejercicios"
+	"Run All Exercises": "Ejecutar todos los ejercicios",
+	"Share All Exercises": "Compartir todo el ejercicio"
 }

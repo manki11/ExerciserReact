@@ -58,10 +58,15 @@ class Navbar extends Component {
 	};
 
 	runAllExercise = () => {
-		this.props.runAllExercise();
-		this.props.setExerciseIndex(0);
-		this.props.resetScore();
-		let exercise = this.props.exercises[0];
+		let exercise = null;
+		if (!this.props.isRunAll) {
+			this.props.runAllExercise();
+			this.props.setExerciseIndex(0);
+			this.props.resetScore();
+			exercise = this.props.exercises[0];
+		} else {
+			exercise = this.props.exercises[this.props.exercise_running + 1];
+		}
 		if (exercise.type === "MCQ") {
 			this.props.history.push("/play/mcq", { exercise: exercise });
 		}
@@ -116,6 +121,8 @@ class Navbar extends Component {
 function mapStateToProps(state) {
 	return {
 		exercises: state.exercises,
+		isRunAll: state.isRunAll,
+		exercise_running: state.exerciseRunning,
 	};
 }
 

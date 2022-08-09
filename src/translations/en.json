@@ -210,5 +210,6 @@
 	"End": "End",
 	"Exerciser": "Exerciser Activity",
 	"This activity is an academic focused activity for the Sugarizer platform. It provides teachers to build interactive exercises for students, using multiple templates, and share them with their students using the sugarizer-server.": "The Exerciser activity let you build interactive exercises, using multiple templates, and share these exercises with other users so they could try to solve it.",
-	"Run All Exercises": "Run All Exercises"
+	"Run All Exercises": "Run All Exercises",
+	"Share All Exercises": "Share All Exercises"
 }
