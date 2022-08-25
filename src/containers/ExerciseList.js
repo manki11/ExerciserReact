@@ -4,7 +4,11 @@ import {
 	addSharedExercise,
 	removeSharedExercise,
 } from "../store/actions/presence";
-import { setRunAllExercise } from "../store/actions/sugarizer";
+import {
+	setRunAllExercise,
+	setExerciseIndex,
+	resetScore,
+} from "../store/actions/sugarizer";
 import "../css/ExerciseList.css";
 import UserList from "../components/UserList";
 import { withRouter } from "react-router-dom";
@@ -82,6 +86,20 @@ class ExerciseList extends Component {
 	onPlay = (id) => {
 		let exercise = this.props.exercises.find((x) => x.id === id);
 		this.props.setRunAllExercise(false);
+		if (
+			this.props.isShared &&
+			!this.props.isHost &&
+			this.props.shared_exercises.allow_run_all
+		) {
+			if (!this.props.isRunAll) {
+				this.props.setRunAllExercise(true);
+				this.props.setExerciseIndex(0);
+				this.props.resetScore();
+				exercise = this.props.exercises[0];
+			} else {
+				exercise = this.props.exercises[this.props.exercise_running + 1];
+			}
+		}
 		if (exercise.type === "MCQ") {
 			this.props.history.push("/play/mcq", { exercise: exercise });
 		}
@@ -147,6 +165,10 @@ class ExerciseList extends Component {
 							onShare={this.onShare}
 							presenceResult={this.presenceResult}
 							inEditMode={this.props.inEditMode}
+							isFirst={index === 0}
+							run_all_share={
+								this.props.shared_exercises.allow_run_all || r.run_all
+							}
 							{...r}
 						/>
 					</div>
@@ -241,7 +263,7 @@ function MapStateToProps(state) {
 		isRunAll: state.isRunAll,
 		isShared: state.isShared,
 		exercises: state.exercises,
-		shared_exercises: state.shared_exercises,
+		shared_exercises: state.shared_all_exercises,
 		users: state.users,
 		current_user: state.current_user,
 		total_score: state.totalScore,
@@ -255,5 +277,7 @@ export default withRouter(
 		addSharedExercise,
 		removeSharedExercise,
 		setRunAllExercise,
+		setExerciseIndex,
+		resetScore,
 	})(ExerciseList)
 );

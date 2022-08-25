@@ -5,6 +5,7 @@ import isHost from "./presence/isHost";
 import isShared from "./presence/isShared";
 import sharedExercises from "./presence/sharedExercises";
 import users from "./presence/users";
+import sharedAllExercises from "./presence/shareAll";
 import current_user from "./current_user";
 import run_all from "./run_all";
 import run_all_exercise from "./run_all_exercise_index";
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
 	isRunAll: run_all,
 	exerciseRunning: run_all_exercise,
 	totalScore: run_all_total_score,
+	shared_all_exercises: sharedAllExercises,
 });
 
 export default rootReducer;

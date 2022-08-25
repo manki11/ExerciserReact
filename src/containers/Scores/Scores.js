@@ -281,8 +281,8 @@ class Scores extends Component {
 	nextExercise = () => {
 		let exercises = this.props.exercises;
 		let exercise = this.props.history.location.state.exercise;
-		let exerciseIndex = exercises.findIndex((obj) => obj.id == exercise.id);
-		if (exerciseIndex != exercises.length - 1) {
+		let exerciseIndex = exercises.findIndex((obj) => obj.id === exercise.id);
+		if (exerciseIndex !== exercises.length - 1) {
 			this.playExercise(exercises[exerciseIndex + 1]);
 		} else {
 			this.props.setRunAllExercise(false);
@@ -406,7 +406,7 @@ class Scores extends Component {
 						{this.props.isRunAll ? (
 							<button
 								className={`button-${
-									this.props.runningExercise != this.props.exercises.length - 1
+									this.props.runningExercise !== this.props.exercises.length - 1
 										? "next"
 										: "finish"
 								}-exercise`}

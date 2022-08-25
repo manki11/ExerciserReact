@@ -87,13 +87,6 @@ export default class ExerciseDragList extends Component {
 											)}
 											className='drag-exercise'
 										>
-											<div {...provided.dragHandleProps} className='handler'>
-												<img
-													style={{ width: "1.5em" }}
-													src={require("../icons/exercise/reorder-drag.png")}
-													alt='handler'
-												></img>
-											</div>
 											<div className='col-md-11 exercise-div draggable-exercise'>
 												<Exercise
 													onDelete={this.props.onDelete}
@@ -104,6 +97,7 @@ export default class ExerciseDragList extends Component {
 													onShare={this.props.onShare}
 													presenceResult={this.props.presenceResult}
 													inEditMode={this.props.inEditMode}
+													allowDraggable={provided.dragHandleProps}
 													{...item}
 												/>
 											</div>

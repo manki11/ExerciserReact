@@ -1,24 +1,31 @@
-import React, { Component } from "react"
-import { Bar } from 'react-chartjs-2';
+import React, { Component } from "react";
+import { Bar } from "react-chartjs-2";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { injectIntl, FormattedMessage } from "react-intl";
-import { SCORES, QUESTION, CORRECT_WRONG, CORRECT_ANSWER, USERS, TIME, YOUR_RESULTS } from "../translation";
-import "../../css/PresenceScores.css"
-import withScoreHOC from './ScoreHoc';
-import UserIcon from '../../components/UserIcon';
+import {
+	SCORES,
+	QUESTION,
+	CORRECT_WRONG,
+	CORRECT_ANSWER,
+	USERS,
+	TIME,
+	YOUR_RESULTS,
+} from "../translation";
+import "../../css/PresenceScores.css";
+import withScoreHOC from "./ScoreHoc";
+import UserIcon from "../../components/UserIcon";
 
 class PresenceScores extends Component {
-
 	constructor(props) {
 		super(props);
 
 		let { intl } = this.props;
 		this.intl = intl;
 		this.modes = {
-			SCORE: 'score',
-			TIME: 'time',
-			DETAILS: 'details'
+			SCORE: "score",
+			TIME: "time",
+			DETAILS: "details",
 		};
 
 		this.state = {
@@ -30,34 +37,38 @@ class PresenceScores extends Component {
 					title: {
 						display: true,
 						text: intl.formatMessage({ id: YOUR_RESULTS }),
-						fontSize: 40
+						fontSize: 40,
 					},
 					legend: {
 						display: false,
-						position: 'right'
+						position: "right",
 					},
 					scales: {
-						yAxes: [{
-							id: 'A',
-							type: 'linear',
-							position: 'left',
-							ticks: {
-								beginAtZero: true,
-								min: 0,
-								max: 100,
-								callback: function(value, index, ticks) {
-									return  value + ' %';
-								    }
-							}
-						}],
-						xAxes: [{
-							barThickness: 30,
-							ticks: {
-								fontSize: 15
-							}
-						}]
-					}
-				}
+						yAxes: [
+							{
+								id: "A",
+								type: "linear",
+								position: "left",
+								ticks: {
+									beginAtZero: true,
+									min: 0,
+									max: 100,
+									callback: function (value, index, ticks) {
+										return value + " %";
+									},
+								},
+							},
+						],
+						xAxes: [
+							{
+								barThickness: 30,
+								ticks: {
+									fontSize: 15,
+								},
+							},
+						],
+					},
+				},
 			},
 			chartTimes: {
 				chartData: {},
@@ -65,40 +76,43 @@ class PresenceScores extends Component {
 					title: {
 						display: true,
 						text: intl.formatMessage({ id: YOUR_RESULTS }),
-						fontSize: 40
+						fontSize: 40,
 					},
 					legend: {
 						display: false,
-						position: 'right'
+						position: "right",
 					},
 					scales: {
-						yAxes: [{
-							id: 'A',
-							type: 'linear',
-							position: 'left',
-							ticks: {
-								beginAtZero: true,
-								min: 0,
-								max: 0,
-								gridLines: {
-									drawTicks: false,
+						yAxes: [
+							{
+								id: "A",
+								type: "linear",
+								position: "left",
+								ticks: {
+									beginAtZero: true,
+									min: 0,
+									max: 0,
+									gridLines: {
+										drawTicks: false,
+									},
+									callback: function (value, index, ticks) {
+										return value + " mn";
+									},
 								},
-								callback: function(value, index, ticks) {
-									return  value + ' mn';
-								    }
-							}
-						}],
-						xAxes: [{
-							barThickness: 30,
-							ticks: {
-								fontSize: 15
-							}
-						}]
-					}
-				}
-
-			}
-		}
+							},
+						],
+						xAxes: [
+							{
+								barThickness: 30,
+								ticks: {
+									fontSize: 15,
+								},
+							},
+						],
+					},
+				},
+			},
+		};
 	}
 
 	compare_score = (a, b) => {
@@ -148,7 +162,6 @@ class PresenceScores extends Component {
 		if (score) shared_results.sort(this.compare_score);
 		else shared_results.sort(this.compare_time);
 
-
 		shared_results.forEach((result, index) => {
 			users.push(result.user.name);
 			strokes.push(result.user.colorvalue.stroke);
@@ -167,15 +180,16 @@ class PresenceScores extends Component {
 						datasets: [
 							{
 								label: this.intl.formatMessage({ id: SCORES }),
-								yAxisID: 'A',
+								yAxisID: "A",
 								data: scores,
 								backgroundColor: fills,
 								borderColor: strokes,
-								borderWidth: 5
-							}]
-					}
-				}
-			})
+								borderWidth: 5,
+							},
+						],
+					},
+				},
+			});
 		} else if (this.state.mode === this.modes.TIME) {
 			this.setState({
 				...this.state,
@@ -186,82 +200,96 @@ class PresenceScores extends Component {
 						datasets: [
 							{
 								label: this.intl.formatMessage({ id: TIME }),
-								yAxisID: 'A',
+								yAxisID: "A",
 								data: times,
 								backgroundColor: fills,
 								borderColor: strokes,
-								borderWidth: 5
-							}]
+								borderWidth: 5,
+							},
+						],
 					},
 					options: {
 						scales: {
-							yAxes: [{
-								id: 'A',
-								type: 'linear',
-								position: 'left',
-								ticks: {
-									beginAtZero: true,
-									min: 0,
-									max: y_limit,
-									gridLines: {
-										drawTicks: false,
+							yAxes: [
+								{
+									id: "A",
+									type: "linear",
+									position: "left",
+									ticks: {
+										beginAtZero: true,
+										min: 0,
+										max: y_limit,
+										gridLines: {
+											drawTicks: false,
+										},
+										callback: function (value, index, ticks) {
+											return value + " mn";
+										},
 									},
-									callback: function(value, index, ticks) {
-										return  value + ' mn';
-									    }
-								}
-							}],
-							xAxes: [{
-								barThickness: 30,
-								ticks: {
-									fontSize: 15
-								}
-							}]
-						}
-					}
-				}
-			})
+								},
+							],
+							xAxes: [
+								{
+									barThickness: 30,
+									ticks: {
+										fontSize: 15,
+									},
+								},
+							],
+						},
+					},
+				},
+			});
 		}
 	};
 
 	score = () => {
-		this.setState({
-			mode: this.modes.SCORE
-		}, () => {
-			this.setChart();
-		})
+		this.setState(
+			{
+				mode: this.modes.SCORE,
+			},
+			() => {
+				this.setChart();
+			}
+		);
 	};
 
 	time = () => {
-		this.setState({
-			mode: this.modes.TIME
-		}, () => {
-			this.setChart();
-		})
+		this.setState(
+			{
+				mode: this.modes.TIME,
+			},
+			() => {
+				this.setChart();
+			}
+		);
 	};
 
 	detail = () => {
-		this.setState({
-			mode: this.modes.DETAILS
-		}, () => {
-			this.setChart();
-		})
-	}
+		this.setState(
+			{
+				mode: this.modes.DETAILS,
+			},
+			() => {
+				this.setChart();
+			}
+		);
+	};
 
 	onGraphClicked = (event) => {
 		if (event.length !== 0) {
 			this.setState({
-				userDetailsIndex: event[0]['_index'],
-				mode: this.modes.DETAILS
-			})
+				userDetailsIndex: event[0]["_index"],
+				mode: this.modes.DETAILS,
+			});
 		}
 	};
 
 	setDetailedResultUser = (index) => {
 		this.setState({
-			userDetailsIndex: index
-		})
-	}
+			userDetailsIndex: index,
+		});
+	};
 
 	render() {
 		const { getResultsTableElement, getWrongRightMarker } = this.props;
@@ -272,13 +300,22 @@ class PresenceScores extends Component {
 
 		if (this.state.mode === this.modes.SCORE) {
 			score_active = "active";
-			chart = (<Bar data={this.state.chartScores.chartData} getElementAtEvent={this.onGraphClicked} options={this.state.chartScores.options} />);
-		}
-		else if (this.state.mode === this.modes.TIME) {
+			chart = (
+				<Bar
+					data={this.state.chartScores.chartData}
+					getElementAtEvent={this.onGraphClicked}
+					options={this.state.chartScores.options}
+				/>
+			);
+		} else if (this.state.mode === this.modes.TIME) {
 			time_active = "active";
-			chart = (<Bar data={this.state.chartTimes.chartData} options={this.state.chartTimes.options} />);
-		}
-		else if (this.state.mode === this.modes.DETAILS) {
+			chart = (
+				<Bar
+					data={this.state.chartTimes.chartData}
+					options={this.state.chartTimes.options}
+				/>
+			);
+		} else if (this.state.mode === this.modes.DETAILS) {
 			detail_active = "active";
 			const { exercise } = this.props.location.state;
 			const { shared_results } = exercise;
@@ -294,74 +331,82 @@ class PresenceScores extends Component {
 				let resultDetails = userAnswers.map((answer, index) => {
 					return (
 						<tr key={index}>
-							<td>
-								{getResultsTableElement(answer.question)}
-							</td>
-							<td>
-								{getResultsTableElement(answer.correctAns)}
-							</td>
-							<td>
-								{getResultsTableElement(answer.userAns)}
-							</td>
-							<td>
-								{getWrongRightMarker(answer)}
-							</td>
+							<td>{getResultsTableElement(answer.question)}</td>
+							<td>{getResultsTableElement(answer.correctAns)}</td>
+							<td>{getResultsTableElement(answer.userAns)}</td>
+							<td>{getWrongRightMarker(answer)}</td>
 						</tr>
 					);
 				});
 
 				let usersMenu = shared_results.map((sharedUser, index) => {
 					return (
-						<tr className={this.state.userDetailsIndex !== index ? 'shared-results-user-selected' : ''}>
-							<td onClick={() => { this.setDetailedResultUser(index) }}
-								style={{ backgroundColor: (this.state.userDetailsIndex === index) ? `#808080` : '' }}>
-								<span className="user-icon">
+						<tr
+							className={
+								this.state.userDetailsIndex !== index
+									? "shared-results-user-selected"
+									: ""
+							}
+						>
+							<td
+								onClick={() => {
+									this.setDetailedResultUser(index);
+								}}
+								style={{
+									backgroundColor:
+										this.state.userDetailsIndex === index ? `#808080` : "",
+								}}
+							>
+								<span className='user-icon'>
 									<UserIcon
-										width="60%"
-										height="80%"
+										width='60%'
+										height='80%'
 										stroke_color={sharedUser.user.colorvalue.stroke}
-										fill_color={sharedUser.user.colorvalue.fill} />
+										fill_color={sharedUser.user.colorvalue.fill}
+									/>
 								</span>
-								<span>
-									{sharedUser.user.name}
-								</span>
+								<span>{sharedUser.user.name}</span>
 							</td>
 						</tr>
 					);
 				});
 
 				chart = (
-					<div style={{ display: 'flex' }}>
-						<div className="col-md-3">
+					<div style={{ display: "flex" }}>
+						<div className='col-md-3'>
 							<br></br>
 							<br></br>
 							<br></br>
-							<table style={{ width: '100%' }}>
+							<table style={{ width: "100%" }}>
 								<thead>
 									<tr>
-										<th><FormattedMessage id={USERS} /></th>
+										<th>
+											<FormattedMessage id={USERS} />
+										</th>
 									</tr>
 								</thead>
-								<tbody>
-									{usersMenu}
-								</tbody>
+								<tbody>{usersMenu}</tbody>
 							</table>
 						</div>
-						<div className="col-md-9">
+						<div className='col-md-9'>
 							<br></br>
 							<br></br>
-							<table style={{ width: '100%' }}>
+							<table style={{ width: "100%" }}>
 								<thead>
 									<tr>
-										<th><FormattedMessage id={QUESTION} /></th>
-										<th><FormattedMessage id={CORRECT_ANSWER} /></th>
+										<th>
+											<FormattedMessage id={QUESTION} />
+										</th>
+										<th>
+											<FormattedMessage id={CORRECT_ANSWER} />
+										</th>
 										<th>{users[this.state.userDetailsIndex]}</th>
-										<th><FormattedMessage id={CORRECT_WRONG} /></th>
+										<th>
+											<FormattedMessage id={CORRECT_WRONG} />
+										</th>
 									</tr>
 								</thead>
-								<tbody>
-									{resultDetails}
-								</tbody>
+								<tbody>{resultDetails}</tbody>
 							</table>
 						</div>
 					</div>
@@ -369,15 +414,32 @@ class PresenceScores extends Component {
 			}
 		}
 
-
-		let score = (<button type="button" className={"score-button " + score_active} onClick={this.score} />);
-		let time = (<button type="button" className={"time-button " + time_active} onClick={this.time} />);
-		let detail = (<button type="button" className={"detail-button " + detail_active} onClick={this.detail} />);
+		let score = (
+			<button
+				type='button'
+				className={"score-button " + score_active}
+				onClick={this.score}
+			/>
+		);
+		let time = (
+			<button
+				type='button'
+				className={"time-button " + time_active}
+				onClick={this.time}
+			/>
+		);
+		let detail = (
+			<button
+				type='button'
+				className={"detail-button " + detail_active}
+				onClick={this.detail}
+			/>
+		);
 
 		return (
-			<div className="container">
-				<div className="container-fluid">
-					<div className="row">
+			<div className='container'>
+				<div className='container-fluid'>
+					<div className='row'>
 						{score}
 						{time}
 						{detail}
@@ -385,13 +447,14 @@ class PresenceScores extends Component {
 					</div>
 				</div>
 			</div>
-		)
+		);
 	}
 }
 
 function MapStateToProps(state) {
-	return {}
+	return {};
 }
 
-export default withScoreHOC()(injectIntl(withRouter(
-	connect(MapStateToProps, {})(PresenceScores))));
+export default withScoreHOC()(
+	injectIntl(withRouter(connect(MapStateToProps, {})(PresenceScores)))
+);

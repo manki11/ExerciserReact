@@ -208,7 +208,7 @@ class MCQPlayer extends Component {
 		else {
 			if (this.props.isRunAll) {
 				this.props.setExerciseIndex(
-					this.props.exercises.findIndex((item) => item.id == exercise.id)
+					this.props.exercises.findIndex((item) => item.id === exercise.id)
 				);
 				this.props.setTotalScore(currentScore);
 			}

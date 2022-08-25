@@ -21,6 +21,7 @@ export const REMOVE_SHARED_EXERCISE = "REMOVE_SHARED_EXERCISE";
 export const ADD_USER = "ADD_USER";
 export const REMOVE_USER = "REMOVE_USER";
 export const ADD_SHARED_RESULT = "ADD_SHARED_RESULT";
+export const SHARE_ALL_EXERCISES = "SHARE_ALL_EXERCISES";
 
 // Sugarizer
 export const SET_USER = "SET_USER";

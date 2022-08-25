@@ -1,4 +1,14 @@
-import { IS_HOST, IS_SHARED, GET_SHARED_EXERCISES, ADD_SHARED_EXERCISE, REMOVE_SHARED_EXERCISE, ADD_USER, REMOVE_USER, ADD_SHARED_RESULT } from "../actionTypes";
+import {
+	IS_HOST,
+	IS_SHARED,
+	GET_SHARED_EXERCISES,
+	ADD_SHARED_EXERCISE,
+	REMOVE_SHARED_EXERCISE,
+	ADD_USER,
+	REMOVE_USER,
+	ADD_SHARED_RESULT,
+	SHARE_ALL_EXERCISES,
+} from "../actionTypes";
 
 export const setIsHost = () => ({
 	type: IS_HOST,
@@ -9,30 +19,35 @@ export const setIsShared = () => ({
 });
 
 export const getSharedExercises = () => ({
-	type: GET_SHARED_EXERCISES
+	type: GET_SHARED_EXERCISES,
 });
 
 export const addSharedExercise = (exercise) => ({
 	type: ADD_SHARED_EXERCISE,
-	exercise
+	exercise,
 });
 
 export const addSharedResult = (result) => ({
 	type: ADD_SHARED_RESULT,
-	result
+	result,
 });
 
 export const removeSharedExercise = (id) => ({
 	type: REMOVE_SHARED_EXERCISE,
-	id
+	id,
 });
 
 export const addUser = (user) => ({
 	type: ADD_USER,
-	user
+	user,
 });
 
 export const removeUser = (user) => ({
 	type: REMOVE_USER,
-	user
+	user,
+});
+
+export const shareAllExercise = (shared_exercises) => ({
+	type: SHARE_ALL_EXERCISES,
+	shared_exercises,
 });

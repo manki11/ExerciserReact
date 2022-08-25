@@ -142,6 +142,10 @@ class Exercise extends Component {
 		if (isShared && !isHost) {
 			edit = "";
 			cross = "";
+
+			if (this.props.run_all_share) {
+				play = "";
+			}
 		}
 		if (!isShared) {
 			share = (
@@ -212,6 +216,15 @@ class Exercise extends Component {
 		return (
 			<div className='col-md-10'>
 				<div className={`card ${this.props.inEditMode && "draggable-card"}`}>
+					{this.props.allowDraggable && (
+						<div {...this.props.allowDraggable} className='handler my-1'>
+							<img
+								style={{ width: "1.5em" }}
+								src={require("../icons/exercise/reorder-drag.png")}
+								alt='handler'
+							></img>
+						</div>
+					)}
 					<div className='card-img-container'>
 						<img
 							className='card-img-top'

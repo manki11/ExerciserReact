@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { incrementExerciseCounter } from "../../store/actions/increment_counter";
 import { addNewExercise, editExercise } from "../../store/actions/exercises";
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from "react-intl";
 import {
 	QUESTION,
 	FINISH_EXERCISE,
@@ -17,25 +17,24 @@ import {
 	FREE_TEXT_INPUT,
 	ANSWER,
 } from "../translation";
-import { withRouter } from "react-router-dom"
+import { withRouter } from "react-router-dom";
 import "../../css/FreeTextInputForm.css";
-import datastore from 'lib/sugar-web/datastore';
-import chooser from 'lib/sugar-web/graphics/journalchooser';
-import env from 'lib/sugar-web/env';
-import meSpeak from 'mespeak';
-import withMultimedia from '../../components/WithMultimedia';
-import { QuestionOptionsJSX } from '../../components/MultimediaJSX';
-import { QuestionJSX } from '../../components/MultimediaJSX';
-import { MULTIMEDIA, setDefaultMedia } from '../../utils';
+import datastore from "lib/sugar-web/datastore";
+import chooser from "lib/sugar-web/graphics/journalchooser";
+import env from "lib/sugar-web/env";
+import meSpeak from "mespeak";
+import withMultimedia from "../../components/WithMultimedia";
+import { QuestionOptionsJSX } from "../../components/MultimediaJSX";
+import { QuestionJSX } from "../../components/MultimediaJSX";
+import { MULTIMEDIA, setDefaultMedia } from "../../utils";
 
 class FreeTextInputForm extends Component {
-
 	constructor(props) {
 		super(props);
 		this.state = {
 			edit: false,
 			id: -1,
-			title: '',
+			title: "",
 			noOfQuestions: 0,
 			currentQuestionNo: 1,
 			questions: [],
@@ -45,30 +44,31 @@ class FreeTextInputForm extends Component {
 			errors: {
 				question: false,
 				answers: false,
-				title: false
+				title: false,
 			},
 			currentQuestion: {
 				id: 1,
 				question: {
-					type: '',
-					data: ''
+					type: "",
+					data: "",
 				},
 				answer: "",
-			}
+			},
 		};
 	}
 
 	// in case of edit load the exercise
 	componentDidMount() {
 		if (this.props.location.state) {
-			const { id, title, questions, scores, times } = this.props.location.state.exercise;
+			const { id, title, questions, scores, times } =
+				this.props.location.state.exercise;
 
 			let updatedQuestions = questions.map((ques) => {
 				return {
 					...ques,
-					question: setDefaultMedia(ques.question)
-				}
-			})
+					question: setDefaultMedia(ques.question),
+				};
+			});
 			const currentQuestion = updatedQuestions[0];
 			this.setState({
 				...this.state,
@@ -83,72 +83,80 @@ class FreeTextInputForm extends Component {
 				currentQuestion: {
 					id: currentQuestion.id,
 					question: currentQuestion.question,
-					answer: currentQuestion.answer
-				}
+					answer: currentQuestion.answer,
+				},
 			});
 		}
 	}
 
-	handleChangeAns = e => {
+	handleChangeAns = (e) => {
 		let ans = e.target.value;
 		let error = false;
-		if (e.target.value === '') {
+		if (e.target.value === "") {
 			error = true;
 		}
-		this.setState({
-			...this.state,
-			currentQuestion: { ...this.state.currentQuestion, answer: ans },
-			errors: {
-				...this.state.errors,
-				answers: error
-			}
-		}, () => {
-			this.checkFormValidation();
-		});
-	};
-
-	handleChangeTitle = e => {
-		let error = false;
-		if (e.target.value === '') {
-			error = true;
-		}
-		this.setState({
-			...this.state,
-			title: e.target.value,
-			errors: {
-				...this.state.errors,
-				title: error
-			}
-		}, () => {
-			this.checkFormValidation();
-		});
-	};
-
-	handleChangeQues = e => {
-		let error = false;
-		if (e.target.value === '') {
-			error = true;
-		}
-		this.setState({
-			...this.state,
-			errors: {
-				...this.state.errors,
-				question: error
+		this.setState(
+			{
+				...this.state,
+				currentQuestion: { ...this.state.currentQuestion, answer: ans },
+				errors: {
+					...this.state.errors,
+					answers: error,
+				},
 			},
-			currentQuestion: {
-				...this.state.currentQuestion,
-				question: {
-					...this.state.currentQuestion.question,
-					data: e.target.value
-				}
+			() => {
+				this.checkFormValidation();
 			}
-		}, () => {
-			this.checkFormValidation();
-		});
+		);
 	};
 
+	handleChangeTitle = (e) => {
+		let error = false;
+		if (e.target.value === "") {
+			error = true;
+		}
+		this.setState(
+			{
+				...this.state,
+				title: e.target.value,
+				errors: {
+					...this.state.errors,
+					title: error,
+				},
+			},
+			() => {
+				this.checkFormValidation();
+			}
+		);
+	};
 
-	handleNewEvent = event => {
+	handleChangeQues = (e) => {
+		let error = false;
+		if (e.target.value === "") {
+			error = true;
+		}
+		this.setState(
+			{
+				...this.state,
+				errors: {
+					...this.state.errors,
+					question: error,
+				},
+				currentQuestion: {
+					...this.state.currentQuestion,
+					question: {
+						...this.state.currentQuestion.question,
+						data: e.target.value,
+					},
+				},
+			},
+			() => {
+				this.checkFormValidation();
+			}
+		);
+	};
+
+	handleNewEvent = (event) => {
 		event.preventDefault();
 	};
 
@@ -165,34 +173,30 @@ class FreeTextInputForm extends Component {
 			let Ques = {
 				id: id,
 				answer: answer,
-				question: question
+				question: question,
 			};
 
 			if (currentQuestionNo > noOfQuestions) {
 				this.setState({
 					...this.state,
-					questions: [
-						...this.state.questions,
-						Ques
-					],
+					questions: [...this.state.questions, Ques],
 
 					noOfQuestions: id,
 					currentQuestionNo: id + 1,
 					isFormValid: false,
 					currentQuestion: {
 						id: id + 1,
-						question: { type: '', data: '' },
-						answer: '',
-					}
+						question: { type: "", data: "" },
+						answer: "",
+					},
 				});
-			}
-			else {
+			} else {
 				const { questions } = this.state;
 				let index = currentQuestionNo;
 
-				const updatedQuestions = questions.map((ques, i) => (
+				const updatedQuestions = questions.map((ques, i) =>
 					ques.id === index ? Ques : ques
-				));
+				);
 				if (currentQuestionNo === noOfQuestions) {
 					this.setState({
 						...this.state,
@@ -201,9 +205,9 @@ class FreeTextInputForm extends Component {
 						isFormValid: false,
 						currentQuestion: {
 							id: currentQuestionNo + 1,
-							question: { type: '', data: '' },
-							answer: '',
-						}
+							question: { type: "", data: "" },
+							answer: "",
+						},
 					});
 				} else {
 					const { question, answer } = this.state.questions[index];
@@ -216,8 +220,8 @@ class FreeTextInputForm extends Component {
 						currentQuestion: {
 							id: index + 1,
 							question: question,
-							answer: answer
-						}
+							answer: answer,
+						},
 					});
 				}
 			}
@@ -230,21 +234,21 @@ class FreeTextInputForm extends Component {
 		const { question, answer } = currentQuestion;
 		let isFormValid = true;
 
-		if (question.type === '' || question.data === '') {
+		if (question.type === "" || question.data === "") {
 			isFormValid = false;
 		}
 
-		if (title === '') {
+		if (title === "") {
 			isFormValid = false;
 		}
 
-		if (answer === '') {
+		if (answer === "") {
 			isFormValid = false;
 		}
 
 		this.setState({
 			...this.state,
-			isFormValid: isFormValid
+			isFormValid: isFormValid,
 		});
 	};
 
@@ -264,14 +268,14 @@ class FreeTextInputForm extends Component {
 			let updatedCurrentQuestion = {
 				id: currentQuestion.id,
 				question: currentQuestion.question,
-				answer: currentQuestion.answer
+				answer: currentQuestion.answer,
 			};
 			questions[currentQuestion.id - 1] = updatedCurrentQuestion;
 		} else {
 			questions.push({
 				id: currentQuestion.id,
 				question: currentQuestion.question,
-				answer: currentQuestion.answer
+				answer: currentQuestion.answer,
 			});
 		}
 
@@ -283,7 +287,7 @@ class FreeTextInputForm extends Component {
 			scores: this.state.scores,
 			times: this.state.times,
 			thumbnail: srcThumbnail,
-			userLanguage: userLanguage
+			userLanguage: userLanguage,
 		};
 
 		if (this.state.edit) {
@@ -294,10 +298,12 @@ class FreeTextInputForm extends Component {
 		}
 
 		if (bool)
-			this.props.history.push('/play/freeText', { exercise: exercise, edit: true });
-		else
-			this.props.history.push('/');
-	}
+			this.props.history.push("/play/freeText", {
+				exercise: exercise,
+				edit: true,
+			});
+		else this.props.history.push("/");
+	};
 
 	// move to previous question
 	previousQues = () => {
@@ -309,61 +315,82 @@ class FreeTextInputForm extends Component {
 		let currentQuestion = {
 			id: id,
 			question: question,
-			answer: answer
+			answer: answer,
 		};
 
 		this.setState({
 			...this.state,
 			isFormValid: true,
 			currentQuestionNo: id,
-			currentQuestion: currentQuestion
-		})
+			currentQuestion: currentQuestion,
+		});
 	};
 
 	showJournalChooser = (mediaType) => {
 		const { currentQuestion } = this.state;
-		let image, audio, video = false;
-		if (mediaType === MULTIMEDIA.image)
-			image = true;
-		if (mediaType === MULTIMEDIA.audio)
-			audio = true;
-		if (mediaType === MULTIMEDIA.video)
-			video = true;
+		let image,
+			audio,
+			video = false;
+		if (mediaType === MULTIMEDIA.image) image = true;
+		if (mediaType === MULTIMEDIA.audio) audio = true;
+		if (mediaType === MULTIMEDIA.video) video = true;
 		env.getEnvironment((err, environment) => {
 			if (environment.user) {
 				// Display journal dialog popup
-				chooser.show((entry) => {
-					if (!entry) {
-						return;
-					}
-					var dataentry = new datastore.DatastoreObject(entry.objectId);
-					dataentry.loadAsText((err, metadata, text) => {
-						if (mediaType === MULTIMEDIA.image)
-							this.props.showMedia(text, 'img', this.setSourceFromImageEditor);
-						this.setState({
-							...this.state,
-							currentQuestion: {
-								...currentQuestion,
-								question: {
-									type: mediaType,
-									data: text
+				chooser.show(
+					(entry) => {
+						if (!entry) {
+							return;
+						}
+						var dataentry = new datastore.DatastoreObject(entry.objectId);
+						dataentry.loadAsText((err, metadata, text) => {
+							if (mediaType === MULTIMEDIA.image)
+								this.props.showMedia(
+									text,
+									"img",
+									this.setSourceFromImageEditor
+								);
+							this.setState(
+								{
+									...this.state,
+									currentQuestion: {
+										...currentQuestion,
+										question: {
+											type: mediaType,
+											data: text,
+										},
+									},
+								},
+								() => {
+									this.checkFormValidation();
 								}
-							}
-						}, () => {
-							this.checkFormValidation();
+							);
 						});
-					});
-				}, (image ? { mimetype: 'image/png' } : audio ? { mimetype: 'audio/mp3' } : null),
-					(image ? { mimetype: 'image/jpeg' } : audio ? { mimetype: 'audio/mpeg' } : null),
-					(audio ? { mimetype: 'audio/wav' } : video ? { mimetype: 'video/mp4' } : null),
-					(video ? { mimetype: 'video/webm' } : null));
+					},
+					image
+						? { mimetype: "image/png" }
+						: audio
+						? { mimetype: "audio/mp3" }
+						: null,
+					image
+						? { mimetype: "image/jpeg" }
+						: audio
+						? { mimetype: "audio/mpeg" }
+						: null,
+					audio
+						? { mimetype: "audio/wav" }
+						: video
+						? { mimetype: "video/mp4" }
+						: null,
+					video ? { mimetype: "video/webm" } : null
+				);
 			}
 		});
 	};
 
 	speak = (e, text) => {
 		let audioElem = e.target;
-		let myDataUrl = meSpeak.speak(text, { rawdata: 'data-url' });
+		let myDataUrl = meSpeak.speak(text, { rawdata: "data-url" });
 		let sound = new Audio(myDataUrl);
 		audioElem.classList.remove("button-off");
 		audioElem.classList.add("button-on");
@@ -371,138 +398,181 @@ class FreeTextInputForm extends Component {
 		sound.onended = () => {
 			audioElem.classList.remove("button-on");
 			audioElem.classList.add("button-off");
-		}
-	}
+		};
+	};
 
 	selectQuestionType = (mediaType) => {
 		const { currentQuestion } = this.state;
-		if (mediaType === MULTIMEDIA.text || mediaType === MULTIMEDIA.textToSpeech) {
-			this.setState({
-				...this.state,
-				currentQuestion: {
-					...currentQuestion,
-					question: {
-						type: mediaType,
-						data: ''
-					}
+		if (
+			mediaType === MULTIMEDIA.text ||
+			mediaType === MULTIMEDIA.textToSpeech
+		) {
+			this.setState(
+				{
+					...this.state,
+					currentQuestion: {
+						...currentQuestion,
+						question: {
+							type: mediaType,
+							data: "",
+						},
+					},
+				},
+				() => {
+					this.checkFormValidation();
 				}
-			}, () => {
-				this.checkFormValidation();
-			});
+			);
 		} else {
-			this.showJournalChooser(mediaType)
+			this.showJournalChooser(mediaType);
 		}
-	}
+	};
 
 	setSourceFromImageEditor = (url) => {
-		this.setState({
-			...this.state,
-			currentQuestion: {
-				...this.state.currentQuestion,
-				question: {
-					...this.state.currentQuestion.question,
-					data: url
-				}
+		this.setState(
+			{
+				...this.state,
+				currentQuestion: {
+					...this.state.currentQuestion,
+					question: {
+						...this.state.currentQuestion.question,
+						data: url,
+					},
+				},
+			},
+			() => {
+				this.checkFormValidation();
+				this.props.closeModal();
 			}
-		}, () => {
-			this.checkFormValidation();
-			this.props.closeModal();
-		})
-	}
+		);
+	};
 
 	onDeleteQuestion = () => {
 		const { currentQuestion, questions } = this.state;
 		let updatedQuestions = [];
 		let newCurrentQuestion;
 
-		if ((questions.length === 0 || questions.length === 1) && currentQuestion.id === 1) {
+		if (
+			(questions.length === 0 || questions.length === 1) &&
+			currentQuestion.id === 1
+		) {
 			updatedQuestions = [];
 			newCurrentQuestion = {
 				id: 1,
 				question: {
-					type: '',
-					data: ''
+					type: "",
+					data: "",
 				},
-				answer: ""
-			}
-		}
-		else if (currentQuestion.id > questions.length) {
+				answer: "",
+			};
+		} else if (currentQuestion.id > questions.length) {
 			newCurrentQuestion = questions[questions.length - 1];
 			updatedQuestions = questions;
 		} else {
 			questions.forEach((question) => {
-				if (question.id !== currentQuestion.id)
-					updatedQuestions.push(question);
-			})
+				if (question.id !== currentQuestion.id) updatedQuestions.push(question);
+			});
 			updatedQuestions = updatedQuestions.map((question, index) => {
-				if (question.id !== (index + 1)) {
+				if (question.id !== index + 1) {
 					question.id = index + 1;
 					return question;
 				}
 				return question;
-			})
+			});
 
-			if (currentQuestion.id === (updatedQuestions.length + 1)) {
+			if (currentQuestion.id === updatedQuestions.length + 1) {
 				newCurrentQuestion = updatedQuestions[currentQuestion.id - 2];
 			} else {
 				newCurrentQuestion = updatedQuestions[currentQuestion.id - 1];
 			}
 		}
 
-		this.setState({
-			...this.state,
-			questions: updatedQuestions,
-			noOfQuestions: updatedQuestions.length,
-			currentQuestion: newCurrentQuestion,
-			currentQuestionNo: newCurrentQuestion.id
-		}, () => {
-			this.checkFormValidation();
-		})
-	}
+		this.setState(
+			{
+				...this.state,
+				questions: updatedQuestions,
+				noOfQuestions: updatedQuestions.length,
+				currentQuestion: newCurrentQuestion,
+				currentQuestionNo: newCurrentQuestion.id,
+			},
+			() => {
+				this.checkFormValidation();
+			}
+		);
+	};
 
 	render() {
 		const { currentQuestion, errors } = this.state;
-		const { thumbnail, insertThumbnail, showMedia, ShowEditableModalWindow } = this.props;
+		const { thumbnail, insertThumbnail, showMedia, ShowEditableModalWindow } =
+			this.props;
 		const { id } = currentQuestion;
 		let questionType = currentQuestion.question.type;
 		let placeholder_string = ENTER_ANSWER;
 
-		let title_error = '';
-		let question_error = '';
-		let answer_error = '';
+		let title_error = "";
+		let question_error = "";
+		let answer_error = "";
 
-		if (errors['title']) {
-			title_error = <span style={{ color: "red" }}><FormattedMessage id={TITLE_ERROR} /></span>;
+		if (errors["title"]) {
+			title_error = (
+				<span style={{ color: "red" }}>
+					<FormattedMessage id={TITLE_ERROR} />
+				</span>
+			);
 		}
-		if (errors['question']) {
-			question_error = <span style={{ color: "red" }}><FormattedMessage id={QUESTION_ERROR} /></span>;
+		if (errors["question"]) {
+			question_error = (
+				<span style={{ color: "red" }}>
+					<FormattedMessage id={QUESTION_ERROR} />
+				</span>
+			);
 		}
-		if (errors['answers']) {
-			answer_error = <span style={{ color: "red" }}><FormattedMessage id={ANSWER_ERROR} /></span>;
+		if (errors["answers"]) {
+			answer_error = (
+				<span style={{ color: "red" }}>
+					<FormattedMessage id={ANSWER_ERROR} />
+				</span>
+			);
 		}
 
 		return (
-			<div className={"container" + (this.props.inFullscreenMode? " fullScreenMargin" : "")} id="freeTextInput-form">
-				<div className="container-fluid">
-					<div className="row align-items-center justify-content-center">
-						<div className={"col-sm-10" + (this.props.inFullscreenMode? " fullScreenPadding" : "")}>
+			<div
+				className={
+					"container" + (this.props.inFullscreenMode ? " fullScreenMargin" : "")
+				}
+				id='freeTextInput-form'
+			>
+				<div className='container-fluid'>
+					<div className='row align-items-center justify-content-center'>
+						<div
+							className={
+								"col-sm-10" +
+								(this.props.inFullscreenMode ? " fullScreenPadding" : "")
+							}
+						>
 							<div>
-								<p><strong><FormattedMessage id={FREE_TEXT_INPUT} /></strong></p>
-								<hr className="my-3" />
-								<div className="col-md-12">
+								<p>
+									<strong>
+										<FormattedMessage id={FREE_TEXT_INPUT} />
+									</strong>
+								</p>
+								<hr className='my-3' />
+								<div className='col-md-12'>
 									<form onSubmit={this.handleNewEvent}>
-										<div className="row">
-											<div className="form-group">
+										<div className='row'>
+											<div className='form-group'>
 												{thumbnail}
-												<label htmlFor="title"><FormattedMessage id={TITLE_OF_EXERCISE} /></label>
-												<button style={{ display: 'none' }} />
-												<button className="btn button-finish button-thumbnail"
+												<label htmlFor='title'>
+													<FormattedMessage id={TITLE_OF_EXERCISE} />
+												</label>
+												<button style={{ display: "none" }} />
+												<button
+													className='btn button-finish button-thumbnail'
 													onClick={insertThumbnail}
 												/>
 												<input
-													className="input-freeText"
-													type="text"
-													id="title"
+													className='input-freeText'
+													type='text'
+													id='title'
 													required
 													value={this.state.title}
 													onChange={this.handleChangeTitle}
@@ -510,52 +580,74 @@ class FreeTextInputForm extends Component {
 												{title_error}
 											</div>
 										</div>
-										<div className="row">
-											<div className="form-group">
-												<label htmlFor="question">{id}. <FormattedMessage id={QUESTION} />:</label>
-												<button className="btn button-delete"
+										<div className='row'>
+											<div className='form-group'>
+												<label htmlFor='question'>
+													{id}. <FormattedMessage id={QUESTION} />:
+												</label>
+												<button
+													className='btn button-delete'
 													onClick={this.onDeleteQuestion}
 													disabled={this.state.questions.length === 0}
 												/>
-												{questionType && <button className="btn button-edit"
-													onClick={() => { this.setState({ ...this.state, currentQuestion: { ...currentQuestion, question: { type: '', data: '' } } }) }}>
-												</button>}
-												{!questionType &&
+												{questionType && (
+													<button
+														className='btn button-edit'
+														onClick={() => {
+															this.setState({
+																...this.state,
+																currentQuestion: {
+																	...currentQuestion,
+																	question: { type: "", data: "" },
+																},
+															});
+														}}
+													></button>
+												)}
+												{!questionType && (
 													<QuestionOptionsJSX
 														selectQuestionType={this.selectQuestionType}
-													/>}
-												{questionType &&
+													/>
+												)}
+												{questionType && (
 													<QuestionJSX
-														questionType={this.state.currentQuestion.question.type}
-														questionData={this.state.currentQuestion.question.data}
+														questionType={
+															this.state.currentQuestion.question.type
+														}
+														questionData={
+															this.state.currentQuestion.question.data
+														}
 														showMedia={showMedia}
 														handleChangeQues={this.handleChangeQues}
 														speak={this.speak}
 														setImageEditorSource={this.setSourceFromImageEditor}
 													/>
-												}
+												)}
 												{question_error}
 											</div>
 										</div>
-										<div className="row">
-											<div className="form-group">
-												<label htmlFor="answer"><FormattedMessage id={ANSWER} />:</label>
+										<div className='row'>
+											<div className='form-group'>
+												<label htmlFor='answer'>
+													<FormattedMessage id={ANSWER} />:
+												</label>
 												<FormattedMessage id={placeholder_string}>
-													{placeholder => <input
-														className="answers input-ans"
-														name={`answer`}
-														type="text"
-														value={this.state.currentQuestion.answer}
-														required
-														placeholder={placeholder}
-														onChange={this.handleChangeAns} />}
+													{(placeholder) => (
+														<input
+															className='answers input-ans'
+															name={`answer`}
+															type='text'
+															value={this.state.currentQuestion.answer}
+															required
+															placeholder={placeholder}
+															onChange={this.handleChangeAns}
+														/>
+													)}
 												</FormattedMessage>
-												<div>
-													{answer_error}
-												</div>
+												<div>{answer_error}</div>
 											</div>
 										</div>
-										<div className="form-group row justify-content-between">
+										<div className='form-group row justify-content-between'>
 											<button
 												onClick={this.previousQues}
 												className={"btn button-previous mb-2"}
@@ -563,7 +655,7 @@ class FreeTextInputForm extends Component {
 											>
 												<FormattedMessage id={PREVIOUS_QUESTION} />
 											</button>
-											<div className="justify-content-end">
+											<div className='justify-content-end'>
 												<button
 													onClick={this.saveCurrentForm}
 													className={"btn button-next mb-2"}
@@ -573,7 +665,7 @@ class FreeTextInputForm extends Component {
 												</button>
 											</div>
 										</div>
-										<div className="form-group row justify-content-between">
+										<div className='form-group row justify-content-between'>
 											<button
 												onClick={(e) => this.submitExercise(false, e)}
 												className={"btn button-finish mb-2"}
@@ -597,18 +689,24 @@ class FreeTextInputForm extends Component {
 				</div>
 				<ShowEditableModalWindow />
 			</div>
-		)
+		);
 	}
-
 }
 
 function MapStateToProps(state) {
 	return {
-		counter: state.exercise_counter
-	}
+		counter: state.exercise_counter,
+	};
 }
 
-export default withMultimedia(require('../../media/template/freetext_input_image.svg'))(withRouter(
-	connect(MapStateToProps,
-		{ addNewExercise, incrementExerciseCounter, editExercise }
-	)(FreeTextInputForm)));
+export default withMultimedia(
+	require("../../media/template/freetext_input_image.svg")
+)(
+	withRouter(
+		connect(MapStateToProps, {
+			addNewExercise,
+			incrementExerciseCounter,
+			editExercise,
+		})(FreeTextInputForm)
+	)
+);

@@ -87,6 +87,10 @@ class Navbar extends Component {
 		}
 	};
 
+	shareAll = () => {
+		this.props.onShareAll();
+	};
+
 	render() {
 		let unFullScreen = this.props.intl.formatMessage({ id: UNFULLSCREEN });
 		let navFunctions = {
@@ -104,6 +108,7 @@ class Navbar extends Component {
 					{...navFunctions}
 					showTutorial={this.state.showTutorial}
 					runAll={this.runAllExercise}
+					shareAll={this.shareAll}
 				/>
 				<button
 					className={
@@ -123,6 +128,8 @@ function mapStateToProps(state) {
 		exercises: state.exercises,
 		isRunAll: state.isRunAll,
 		exercise_running: state.exerciseRunning,
+		isHost: state.isHost,
+		isShared: state.isShared,
 	};
 }
 

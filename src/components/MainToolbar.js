@@ -13,6 +13,8 @@ import {
 	PLAY_ALL,
 	SHARE_ALL,
 } from "../containers/translation";
+import isHost from "../store/reducers/presence/isHost";
+import isShared from "../store/reducers/presence/isShared";
 
 const MainToolbar = (props) => {
 	let { intl } = props;
@@ -63,10 +65,11 @@ const MainToolbar = (props) => {
 			{!props.inEditMode &&
 				!props.location.pathname.startsWith("/edit") &&
 				!props.location.pathname.startsWith("/play") &&
-				!props.location.pathname.startsWith("/scores") && (
+				!props.location.pathname.startsWith("/scores") &&
+				((props.isShared && props.isHost) || !props.isShared) && (
 					<button
 						className='toolbutton'
-						// onClick={props.runAll}
+						onClick={props.shareAll}
 						id='share-all-button'
 						title={shareAll}
 					/>

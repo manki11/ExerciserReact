@@ -1,38 +1,37 @@
-import React from 'react';
-import datastore from 'lib/sugar-web/datastore';
-import chooser from 'lib/sugar-web/graphics/journalchooser';
-import env from 'lib/sugar-web/env';
-import meSpeak from 'mespeak';
-import Modal from 'react-modal';
-import ImageEditor from '../components/ImageEditor';
-import '../css/ImageEditor.css';
+import React from "react";
+import datastore from "lib/sugar-web/datastore";
+import chooser from "lib/sugar-web/graphics/journalchooser";
+import env from "lib/sugar-web/env";
+import meSpeak from "mespeak";
+import Modal from "react-modal";
+import ImageEditor from "../components/ImageEditor";
+import "../css/ImageEditor.css";
 
 const modalStyle = {
 	content: {
-		top: '55%',
-		left: '50%',
-		right: 'auto',
-		bottom: 'auto',
-		marginRight: '-50%',
-		transform: 'translate(-50%, -50%)',
-		height: '85%',
-		width: '80%',
-		backgroundColor: '#e5e5e5'
-	}
+		top: "55%",
+		left: "50%",
+		right: "auto",
+		bottom: "auto",
+		marginRight: "-50%",
+		transform: "translate(-50%, -50%)",
+		height: "85%",
+		width: "80%",
+		backgroundColor: "#e5e5e5",
+	},
 };
 
 const withMultimedia = (defaultThumbnail) => (Component) => {
 	class MultimediaHoc extends React.Component {
-
 		constructor(props) {
 			super(props);
 			this.state = {
-				thumbnail: '',
-				userLanguage: '',
-				modalSource: '',
-				modalMediaType: '',
+				thumbnail: "",
+				userLanguage: "",
+				modalSource: "",
+				modalMediaType: "",
 				modalIsOpen: false,
-			}
+			};
 		}
 
 		componentDidMount() {
@@ -41,13 +40,17 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
 				let newThumbnail = thumbnail;
 
 				// For default exercises
-				if (thumbnail && !thumbnail.startsWith('data:image') && !thumbnail.includes('/static/'))
+				if (
+					thumbnail &&
+					!thumbnail.startsWith("data:image") &&
+					!thumbnail.includes("/static/")
+				)
 					newThumbnail = require(`../media/defaultExerciseThumbnail/images/${thumbnail}`);
 
 				this.setState({
 					...this.state,
 					thumbnail: newThumbnail,
-					userLanguage: userLanguage
+					userLanguage: userLanguage,
 				});
 			}
 			this.textToSpeechSetup();
@@ -55,45 +58,60 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
 
 		textToSpeechSetup = () => {
 			env.getEnvironment((err, environment) => {
-				var defaultLanguage = (typeof window.chrome !== 'undefined' && window.chrome.app && window.chrome.app.runtime) ? window.chrome.i18n.getUILanguage() : navigator.language;
+				var defaultLanguage =
+					typeof window.chrome !== "undefined" &&
+					window.chrome.app &&
+					window.chrome.app.runtime
+						? window.chrome.i18n.getUILanguage()
+						: navigator.language;
 				if (!environment.user) environment.user = { language: defaultLanguage };
 				let userLanguage = environment.user.language;
 				try {
-					if (userLanguage.startsWith('en'))
+					if (userLanguage.startsWith("en"))
 						require(`mespeak/voices/en/${userLanguage}.json`);
-					else
-						require(`mespeak/voices/${userLanguage}.json`);
+					else require(`mespeak/voices/${userLanguage}.json`);
 				} catch (error) {
-					userLanguage = 'en';
+					userLanguage = "en";
 				}
-				this.setState({
-					...this.state,
-					userLanguage: userLanguage
-				}, () => {
-					if (userLanguage.startsWith('en'))
-						meSpeak.loadVoice(require(`mespeak/voices/en/${this.state.userLanguage}.json`));
-					else
-						meSpeak.loadVoice(require(`mespeak/voices/${this.state.userLanguage}.json`));
-				})
+				this.setState(
+					{
+						...this.state,
+						userLanguage: userLanguage,
+					},
+					() => {
+						if (userLanguage.startsWith("en"))
+							meSpeak.loadVoice(
+								require(`mespeak/voices/en/${this.state.userLanguage}.json`)
+							);
+						else
+							meSpeak.loadVoice(
+								require(`mespeak/voices/${this.state.userLanguage}.json`)
+							);
+					}
+				);
 			});
-		}
+		};
 
 		insertThumbnail = () => {
 			env.getEnvironment((err, environment) => {
 				if (environment.user) {
 					// Display journal dialog popup
-					chooser.show((entry) => {
-						if (!entry) {
-							return;
-						}
-						var dataentry = new datastore.DatastoreObject(entry.objectId);
-						dataentry.loadAsText((err, metadata, text) => {
-							this.setState({
-								...this.state,
-								thumbnail: text
+					chooser.show(
+						(entry) => {
+							if (!entry) {
+								return;
+							}
+							var dataentry = new datastore.DatastoreObject(entry.objectId);
+							dataentry.loadAsText((err, metadata, text) => {
+								this.setState({
+									...this.state,
+									thumbnail: text,
+								});
 							});
-						});
-					}, { mimetype: 'image/png' }, { mimetype: 'image/jpeg' });
+						},
+						{ mimetype: "image/png" },
+						{ mimetype: "image/jpeg" }
+					);
 				}
 			});
 		};
@@ -101,19 +119,23 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
 		closeModal = () => {
 			this.setState({
 				...this.state,
-				modalIsOpen: false
+				modalIsOpen: false,
 			});
-		}
+		};
 
-		showMedia = (imageSource, mediaType = 'img', setImageEditorSource = null) => {
+		showMedia = (
+			imageSource,
+			mediaType = "img",
+			setImageEditorSource = null
+		) => {
 			this.setState({
 				...this.state,
 				modalSource: imageSource,
 				modalMediaType: mediaType,
 				modalIsOpen: true,
-				setImageEditorSource: setImageEditorSource
-			})
-		}
+				setImageEditorSource: setImageEditorSource,
+			});
+		};
 
 		showModalWindow = () => {
 			return (
@@ -122,22 +144,29 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
 					onRequestClose={this.closeModal}
 					style={modalStyle}
 				>
-					{this.state.modalMediaType === 'img' &&
-						<img src={this.state.modalSource} controls
-							alt="non-editable img"
-							className="center-element">
-						</img>}
-					{this.state.modalMediaType === 'video' &&
-						<video src={this.state.modalSource} controls
-							className="center-element">
-						</video>}
-					<button onClick={this.closeModal}
+					{this.state.modalMediaType === "img" && (
+						<img
+							src={this.state.modalSource}
+							controls
+							alt='non-editable img'
+							className='center-element'
+						></img>
+					)}
+					{this.state.modalMediaType === "video" && (
+						<video
+							src={this.state.modalSource}
+							controls
+							className='center-element'
+						></video>
+					)}
+					<button
+						onClick={this.closeModal}
 						id='close-button'
-						className="modal-close-button">
-					</button>
+						className='modal-close-button'
+					></button>
 				</Modal>
 			);
-		}
+		};
 
 		showEditableModalWindow = () => {
 			return (
@@ -146,66 +175,81 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
 					onRequestClose={this.closeModal}
 					style={modalStyle}
 				>
-					{this.state.modalMediaType === 'img' &&
-						<ImageEditor mediaSource={this.state.modalSource}
+					{this.state.modalMediaType === "img" && (
+						<ImageEditor
+							mediaSource={this.state.modalSource}
 							setMediaSource={this.state.setImageEditorSource}
 							onClose={this.closeModal}
 						/>
-					}
-					{this.state.modalMediaType === 'video' &&
+					)}
+					{this.state.modalMediaType === "video" && (
 						<div>
-							<video src={this.state.modalSource} controls
-								className="center-element">
-							</video>
-							<button onClick={this.closeModal}
+							<video
+								src={this.state.modalSource}
+								controls
+								className='center-element'
+							></video>
+							<button
+								onClick={this.closeModal}
 								id='close-button'
-								className="modal-close-button">
-							</button>
+								className='modal-close-button'
+							></button>
 						</div>
-					}
+					)}
 				</Modal>
 			);
-		}
+		};
 
 		deleteThumbnail = () => {
 			this.setState({
 				...this.state,
-				thumbnail: ''
+				thumbnail: "",
 			});
-		}
+		};
 
 		setThumbnail = (url) => {
-			this.setState({
-				...this.state,
-				thumbnail: url
-			}, () => {
-				this.closeModal();
-			});
-		}
+			this.setState(
+				{
+					...this.state,
+					thumbnail: url,
+				},
+				() => {
+					this.closeModal();
+				}
+			);
+		};
 
 		render() {
-
 			// Thumbnail
 			let thumbnail;
-			if (this.state.thumbnail === '') {
+			if (this.state.thumbnail === "") {
 				thumbnail = (
-					<div className="media-background">
-						<img src={defaultThumbnail}
-							style={{ height: '200px' }}
-							onClick={() => { this.showMedia(defaultThumbnail, 'img', this.setThumbnail) }}
-							alt="Thumbnail" />
+					<div className='media-background'>
+						<img
+							src={defaultThumbnail}
+							style={{ height: "200px" }}
+							onClick={() => {
+								this.showMedia(defaultThumbnail, "img", this.setThumbnail);
+							}}
+							alt='Thumbnail'
+						/>
 					</div>
 				);
 			} else {
 				thumbnail = (
-					<div className="media-background">
-						<img src={this.state.thumbnail}
-							style={{ height: '200px' }}
-							onClick={() => { this.showMedia(this.state.thumbnail, 'img', this.setThumbnail) }}
-							alt="Thumbnail" />
-						<button className="btn button-cancel"
-							onClick={this.deleteThumbnail}>
-						</button>
+					<div className='media-background'>
+						<img
+							src={this.state.thumbnail}
+							style={{ height: "200px" }}
+							onClick={() => {
+								this.showMedia(this.state.thumbnail, "img", this.setThumbnail);
+							}}
+							alt='Thumbnail'
+						/>
+						<button
+							className='btn button-cancel'
+							onClick={this.deleteThumbnail}
+						></button>
 					</div>
 				);
 			}
@@ -227,6 +271,6 @@ const withMultimedia = (defaultThumbnail) => (Component) => {
 	}
 
 	return MultimediaHoc;
-}
+};
 
-export default withMultimedia
+export default withMultimedia;

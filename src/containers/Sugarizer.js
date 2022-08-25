@@ -40,6 +40,8 @@ import {
 	addUser,
 	removeUser,
 	addSharedResult,
+	shareAllExercise,
+	addSharedExercise,
 } from "../store/actions/presence";
 import { MULTIMEDIA } from "../utils";
 
@@ -163,12 +165,15 @@ class Sugarizer extends Component {
 		if (this.presence.getUserInfo().networkId === msg.user.networkId) {
 			return;
 		}
+		console.log(msg.content);
 		switch (msg.content.action) {
 			case "init":
 				this.props.setExercises(msg.content.data.shared_exercises);
+				this.props.setRunAllExercise(false);
 				break;
 			case "update":
 				this.props.setExercises(msg.content.data.shared_exercises);
+				this.props.shareAllExercise(msg.content.data.shared_exercises);
 				break;
 			case "result":
 				if (this.isHost) {
@@ -237,6 +242,30 @@ class Sugarizer extends Component {
 					time: time,
 					userAnswers: userAnswers,
 				},
+			},
+		});
+	};
+
+	onShareAllExercise = () => {
+		if (!this.props.isShared) {
+			document.getElementById("shared-button").click();
+		}
+		let presence = this.presence;
+		let data = {
+			shared_exercises: this.props.exercises,
+			run_all: true,
+		};
+		this.props.shareAllExercise(this.props.exercises);
+		this.props.exercises.forEach((exercise) => {
+			exercise["run_all"] = true;
+			exercise["shared"] = true;
+			this.props.addSharedExercise(exercise);
+		});
+		presence.sendMessage(presence.getSharedInfo().id, {
+			user: presence.getUserInfo(),
+			content: {
+				action: "update",
+				data: data,
 			},
 		});
 	};
@@ -365,6 +394,7 @@ class Sugarizer extends Component {
 							inEditMode={this.state.inEditMode}
 							toggleEditMode={(edit) => this.toggleEditMode(edit)}
 							runAllExercise={this.onRunAllExercise}
+							onShareAll={this.onShareAllExercise}
 						/>
 						<Main
 							inFullscreenMode={this.state.inFullscreenMode}
@@ -381,14 +411,17 @@ class Sugarizer extends Component {
 }
 
 function MapStateToProps(state) {
+	// console.log(state);
 	return {
 		counter: state.exercise_counter,
 		exercises: state.exercises,
 		shared_exercises: state.shared_exercises,
+		shared_all: state.shared_all_exercises,
 		isHost: state.isHost,
 		isRunAll: state.isRunAll,
 		exerciseIndex: state.exerciseRunning,
 		totalScore: state.totalScore,
+		isShared: state.isShared,
 	};
 }
 
@@ -404,4 +437,6 @@ export default connect(MapStateToProps, {
 	setUser,
 	removeUser,
 	addSharedResult,
+	shareAllExercise,
+	addSharedExercise,
 })(Sugarizer);
