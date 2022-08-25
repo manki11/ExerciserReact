@@ -165,7 +165,6 @@ class Sugarizer extends Component {
 		if (this.presence.getUserInfo().networkId === msg.user.networkId) {
 			return;
 		}
-		console.log(msg.content);
 		switch (msg.content.action) {
 			case "init":
 				this.props.setExercises(msg.content.data.shared_exercises);
@@ -411,7 +410,6 @@ class Sugarizer extends Component {
 }
 
 function MapStateToProps(state) {
-	// console.log(state);
 	return {
 		counter: state.exercise_counter,
 		exercises: state.exercises,
