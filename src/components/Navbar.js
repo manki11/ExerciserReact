@@ -109,6 +109,7 @@ class Navbar extends Component {
 					showTutorial={this.state.showTutorial}
 					runAll={this.runAllExercise}
 					shareAll={this.shareAll}
+					shared_exercises={this.props.shared_exercises}
 				/>
 				<button
 					className={
@@ -130,6 +131,7 @@ function mapStateToProps(state) {
 		exercise_running: state.exerciseRunning,
 		isHost: state.isHost,
 		isShared: state.isShared,
+		shared_exercises: state.shared_exercises,
 	};
 }
 

@@ -54,7 +54,10 @@ const MainToolbar = (props) => {
 			{!props.inEditMode &&
 				!props.location.pathname.startsWith("/edit") &&
 				!props.location.pathname.startsWith("/play") &&
-				!props.location.pathname.startsWith("/scores") && (
+				!props.location.pathname.startsWith("/scores") &&
+				((props.isShared && props.shared_exercises[0].runAll) ||
+					props.isHost ||
+					!props.isShared) && (
 					<button
 						className='toolbutton'
 						onClick={props.runAll}

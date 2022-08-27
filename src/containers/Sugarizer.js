@@ -172,7 +172,11 @@ class Sugarizer extends Component {
 				break;
 			case "update":
 				this.props.setExercises(msg.content.data.shared_exercises);
-				this.props.shareAllExercise(msg.content.data.shared_exercises);
+				if (
+					msg.content.data.shared_exercises[0] &&
+					msg.content.data.shared_exercises[0].run_all
+				)
+					this.props.shareAllExercise(msg.content.data.shared_exercises);
 				break;
 			case "result":
 				if (this.isHost) {
@@ -252,7 +256,6 @@ class Sugarizer extends Component {
 		let presence = this.presence;
 		let data = {
 			shared_exercises: this.props.exercises,
-			run_all: true,
 		};
 		this.props.shareAllExercise(this.props.exercises);
 		this.props.exercises.forEach((exercise) => {
@@ -414,7 +417,6 @@ function MapStateToProps(state) {
 		counter: state.exercise_counter,
 		exercises: state.exercises,
 		shared_exercises: state.shared_exercises,
-		shared_all: state.shared_all_exercises,
 		isHost: state.isHost,
 		isRunAll: state.isRunAll,
 		exerciseIndex: state.exerciseRunning,
