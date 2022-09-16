@@ -5,7 +5,7 @@
   "homepage": ".",
   "dependencies": {
     "ajv": "^6.5.2",
-    "bootstrap": "^4.1.1",
+    "bootstrap": "^4.3.1",
     "chart.js": "^2.7.2",
     "html-loader": "^0.5.5",
     "jquery": "^3.3.1",
