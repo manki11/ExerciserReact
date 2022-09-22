@@ -37,6 +37,7 @@
 	"Home": "Accueil",
 	"Add Exercise": "Créer un exercice",
 	"Network": "Réseau",
+	"Evaluate": "Évaluer",
 	"Editor": "Editer",
 	"Full Screen": "Plein écran",
 	"Exit Full Screen": "Sortir plein écran",
@@ -129,6 +130,7 @@
 	"This button takes you to a list of templates from which you can choose a one to work with.": "Ce bouton vous permet d'afficher la liste des modèles d'exercices qui vont vous permettre d'en créer un nouveau.",
 	"Network Button": "Menu réseau",
 	"Lets you share your exercises with other users.": "Ce menu vous permet de partager vos exercices avec d'autres utilisateurs.",
+	"Lets you enter evaluation mode.": "Vous permet d'entrer en mode d'évaluation.",
 	"Stop Button": "Arrêter",
 	"Press this button to stop the activity, don\"t worry your changes will be saved in the Journal.": "Appuyez sur cette icône pour arrêter l'activité. Ne vous inquiétez pas, vos modifications seront enregistrées dans le Journal.",
 	"Play Button": "Jouer",
@@ -213,5 +215,10 @@
 	"Press this button to enter Fullscreen mode.": "Appuyez sur ce bouton pour passer en mode Plein écran.",
 	"Press this button to enter editor mode and edit/add/delete your exercises": "Appuyez sur ce bouton pour entrer en mode édition afin de modifier/ajouter/supprimer vos exercises",
 	"Run All Exercises": "Exécuter tous les exercises",
-	"Share All Exercises": "Partager tous les exercises"
+	"Share All Exercises": "Partager tous les exercises",
+	"Evaluate Button": "Menu Évaluer",
+	"Run All Button": "Tout exécuter",
+	"Share All Button": "Partager tout",
+	"Use this button to play all the exercises together.": "Utilisez ce bouton pour jouer tous les exercices ensemble.",
+	"Use this button to share all the exercises with other users.": "Utilisez ce bouton pour partager tous les exercices avec d'autres utilisateurs."
 }

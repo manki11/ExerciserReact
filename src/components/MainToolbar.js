@@ -6,6 +6,7 @@ import {
 	ADD_EXERCISE,
 	STOP,
 	NETWORK,
+	Evaluate,
 	HELP,
 	EDITOR,
 	PLAY,
@@ -13,8 +14,6 @@ import {
 	PLAY_ALL,
 	SHARE_ALL,
 } from "../containers/translation";
-import isHost from "../store/reducers/presence/isHost";
-import isShared from "../store/reducers/presence/isShared";
 
 const MainToolbar = (props) => {
 	let { intl } = props;
@@ -22,6 +21,7 @@ const MainToolbar = (props) => {
 	let homeTitle = intl.formatMessage({ id: HOME });
 	let addTitle = intl.formatMessage({ id: ADD_EXERCISE });
 	let networkTitle = intl.formatMessage({ id: NETWORK });
+	let evaluateTitle = intl.formatMessage({ id: Evaluate });
 	let stopTitle = intl.formatMessage({ id: STOP });
 	let helpTitle = intl.formatMessage({ id: HELP });
 	let editorButton = intl.formatMessage({ id: EDITOR });
@@ -40,6 +40,11 @@ const MainToolbar = (props) => {
 				title={activityTitle}
 			/>
 			<button className='toolbutton' id='network-button' title={networkTitle} />
+			<button
+				className='toolbutton'
+				id='evaluate-button'
+				title={evaluateTitle}
+			/>
 			{!props.inEditMode &&
 				!props.location.pathname.startsWith("/edit") &&
 				!props.location.pathname.startsWith("/play") &&
@@ -54,10 +59,7 @@ const MainToolbar = (props) => {
 			{!props.inEditMode &&
 				!props.location.pathname.startsWith("/edit") &&
 				!props.location.pathname.startsWith("/play") &&
-				!props.location.pathname.startsWith("/scores") &&
-				((props.isShared && props.shared_exercises[0].runAll) ||
-					props.isHost ||
-					!props.isShared) && (
+				!props.location.pathname.startsWith("/scores") && (
 					<button
 						className='toolbutton'
 						onClick={props.runAll}

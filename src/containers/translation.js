@@ -94,6 +94,7 @@ export const MY_ACTIVITY = "My Activity";
 export const HOME = "Home";
 export const ADD_EXERCISE = "Add Exercise";
 export const NETWORK = "Network";
+export const Evaluate = "Evaluate";
 export const STOP = "Stop";
 export const HELP = "Help";
 export const EDITOR = "Editor";

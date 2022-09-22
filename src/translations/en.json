@@ -37,6 +37,7 @@
 	"Home": "Home",
 	"Add Exercise": "Add Exercise",
 	"Network": "Network",
+	"Evaluate": "Evaluate",
 	"Editor": "Editor",
 	"Full Screen": "Full Screen",
 	"Exit Full Screen": "Exit Full Screen",
@@ -129,6 +130,7 @@
 	"This button takes you to a list of templates from which you can choose a one to work with.": "This button takes you to a list of templates from which you can choose a one to work with.",
 	"Network Button": "Network Button",
 	"Lets you share your exercises with other users.": "Lets you share your exercises with other users.",
+	"Lets you enter evaluation mode.": "Lets you enter evaluation mode.",
 	"Fullscreen Button": "Fullscreen Button",
 	"Press this button to enter Fullscreen mode.": "Press this button to enter Fullscreen mode.",
 	"Stop Button": "Stop Button",
@@ -211,5 +213,10 @@
 	"Exerciser": "Exerciser Activity",
 	"This activity is an academic focused activity for the Sugarizer platform. It provides teachers to build interactive exercises for students, using multiple templates, and share them with their students using the sugarizer-server.": "The Exerciser activity let you build interactive exercises, using multiple templates, and share these exercises with other users so they could try to solve it.",
 	"Run All Exercises": "Run All Exercises",
-	"Share All Exercises": "Share All Exercises"
+	"Share All Exercises": "Share All Exercises",
+	"Evaluate Button": "Evaluate Button",
+	"Run All Button": "Run All Button",
+	"Share All Button": "Share All Button",
+	"Use this button to play all the exercises together.": "Use this button to play all the exercises together.",
+	"Use this button to share all the exercises with other users.": "Use this button to share all the exercises with other users."
 }

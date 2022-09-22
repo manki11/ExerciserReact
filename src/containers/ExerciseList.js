@@ -74,8 +74,9 @@ class ExerciseList extends Component {
 
 		let exercise = this.props.exercises.find((x) => x.id === id);
 		exercise = { ...exercise, shared: shared };
+		exercise["run_all"] = false;
 		this.props.editExercise(exercise);
-
+		console.log(exercise, "abcd");
 		if (shared) {
 			this.props.addSharedExercise(exercise);
 		} else {
@@ -121,6 +122,7 @@ class ExerciseList extends Component {
 	};
 
 	presenceResult = (id) => {
+		console.log(this.props, id, "abcd");
 		let exercise = this.props.shared_exercises.find((x) => x.id === id);
 		this.props.history.push("/presence/scores", { exercise: exercise });
 	};
@@ -263,7 +265,7 @@ function MapStateToProps(state) {
 		isRunAll: state.isRunAll,
 		isShared: state.isShared,
 		exercises: state.exercises,
-		shared_exercises: state.shared_all_exercises,
+		shared_exercises: state.shared_exercises,
 		users: state.users,
 		current_user: state.current_user,
 		total_score: state.totalScore,

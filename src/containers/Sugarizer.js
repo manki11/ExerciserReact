@@ -165,6 +165,7 @@ class Sugarizer extends Component {
 		if (this.presence.getUserInfo().networkId === msg.user.networkId) {
 			return;
 		}
+		console.log(msg.content.data, "abcd msg");
 		switch (msg.content.action) {
 			case "init":
 				this.props.setExercises(msg.content.data.shared_exercises);
@@ -175,8 +176,9 @@ class Sugarizer extends Component {
 				if (
 					msg.content.data.shared_exercises[0] &&
 					msg.content.data.shared_exercises[0].run_all
-				)
+				) {
 					this.props.shareAllExercise(msg.content.data.shared_exercises);
+				}
 				break;
 			case "result":
 				if (this.isHost) {
@@ -259,9 +261,11 @@ class Sugarizer extends Component {
 		};
 		this.props.shareAllExercise(this.props.exercises);
 		this.props.exercises.forEach((exercise) => {
-			exercise["run_all"] = true;
-			exercise["shared"] = true;
-			this.props.addSharedExercise(exercise);
+			if (!this.props.shared_exercises.find((x) => x.id === exercise.id)) {
+				exercise["run_all"] = true;
+				exercise["shared"] = true;
+				this.props.addSharedExercise(exercise);
+			}
 		});
 		presence.sendMessage(presence.getSharedInfo().id, {
 			user: presence.getUserInfo(),
@@ -413,6 +417,7 @@ class Sugarizer extends Component {
 }
 
 function MapStateToProps(state) {
+	console.log(state, "abcd efgh");
 	return {
 		counter: state.exercise_counter,
 		exercises: state.exercises,
