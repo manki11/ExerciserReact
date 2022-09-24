@@ -6,6 +6,7 @@ import { injectIntl } from "react-intl";
 import { UNFULLSCREEN } from "../containers/translation";
 import MainToolbar from "./MainToolbar";
 import { setExerciseIndex, resetScore } from "../store/actions/sugarizer";
+import { setEvaluationMode } from "../store/actions/evaluation";
 
 class Navbar extends Component {
 	constructor(props) {
@@ -91,6 +92,26 @@ class Navbar extends Component {
 		this.props.onShareAll();
 	};
 
+	evaluateExercise = (mode) => {
+		let evaluate_button = document.getElementById("evaluate-button");
+		if (mode === "async") {
+			document.getElementById("evaluation_heading").innerHTML = "Asynchronous";
+			evaluate_button.classList.add("async");
+			if (evaluate_button.classList.contains("real")) {
+				evaluate_button.classList.remove("real");
+			}
+			this.props.asyncEvaluate();
+			// this.runAllExercise();
+		} else if (mode === "real") {
+			document.getElementById("evaluation_heading").innerHTML = "Realtime";
+			evaluate_button.classList.add("real");
+			if (evaluate_button.classList.contains("async")) {
+				evaluate_button.classList.remove("asyn");
+			}
+		}
+		this.props.setEvaluationMode(mode);
+	};
+
 	render() {
 		let unFullScreen = this.props.intl.formatMessage({ id: UNFULLSCREEN });
 		let navFunctions = {
@@ -100,6 +121,9 @@ class Navbar extends Component {
 			exitEditMode: this.exitEditMode,
 			startTutorial: this.startTutorial,
 			stopTutorial: this.stopTutorial,
+			runAll: this.runAllExercise,
+			shareAll: this.shareAll,
+			evaluateMode: this.evaluateExercise,
 		};
 		return (
 			<React.Fragment>
@@ -107,8 +131,6 @@ class Navbar extends Component {
 					{...this.props}
 					{...navFunctions}
 					showTutorial={this.state.showTutorial}
-					runAll={this.runAllExercise}
-					shareAll={this.shareAll}
 					shared_exercises={this.props.shared_exercises}
 				/>
 				<button
@@ -136,5 +158,11 @@ function mapStateToProps(state) {
 }
 
 export default injectIntl(
-	withRouter(connect(mapStateToProps, { setExerciseIndex, resetScore })(Navbar))
+	withRouter(
+		connect(mapStateToProps, {
+			setExerciseIndex,
+			resetScore,
+			setEvaluationMode,
+		})(Navbar)
+	)
 );

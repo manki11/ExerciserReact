@@ -134,8 +134,14 @@
 #evaluate-button{
     background-image: url("../icons/navbar/evaluate.svg");
 }
-#asynchronous_mode{
+#evaluate-button.async{
+    background-image: url("../icons/navbar/async-mode.svg");
+}
+#evaluate-button.real{
     background-image: url("../icons/navbar/evaluate.svg");
+}
+#asynchronous_mode{
+    background-image: url("../icons/navbar/async-mode.svg");
     outline: none;
     width: 47px;
     height: 47px;

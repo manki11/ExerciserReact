@@ -35,6 +35,11 @@ import {
 } from "../store/actions/sugarizer";
 import { setExerciseCounter } from "../store/actions/increment_counter";
 import {
+	setEvaluationMode,
+	setEvaluationExercise,
+	addEvaluationExercise,
+} from "../store/actions/evaluation";
+import {
 	setIsHost,
 	setIsShared,
 	addUser,
@@ -118,6 +123,15 @@ class Sugarizer extends Component {
 								setRunAllExercise(json.is_run_all_click);
 								setTotalScore(json.total_score);
 								setExerciseIndex(json.exercise_index);
+
+								if (json.evaluation) {
+									if (json.evaluation.mode === "async") {
+										this.props.setEvaluationMode(json.evaluation.mode);
+									} else {
+										this.props.setEvaluationMode("");
+									}
+									this.props.setEvaluationExercise(json.evaluation.exercises);
+								}
 							}
 						});
 				}
@@ -278,6 +292,13 @@ class Sugarizer extends Component {
 
 	onRunAllExercise = () => {
 		this.props.setRunAllExercise(true);
+		if (this.props.evaluationMode === "async") {
+			this.props.exercises.map((exercise) => {
+				if (!this.props.evaluationExercise.find((id) => id === exercise.id)) {
+					this.props.addEvaluationExercise(exercise);
+				}
+			});
+		}
 	};
 
 	stopActivity() {
@@ -290,6 +311,12 @@ class Sugarizer extends Component {
 				shared: false,
 			};
 		});
+		let evaluationExercise = this.props.evaluationExercise.map((exercise) => {
+			return {
+				...exercise,
+				shared: false,
+			};
+		});
 
 		let json = {
 			counter: counter,
@@ -297,6 +324,10 @@ class Sugarizer extends Component {
 			is_run_all_click: isRunAll,
 			exercise_index: exerciseIndex,
 			total_score: totalScore,
+			evaluation: {
+				mode: this.props.evaluationMode,
+				exercises: evaluationExercise,
+			},
 		};
 
 		let jsonData = JSON.stringify(json);
@@ -311,6 +342,33 @@ class Sugarizer extends Component {
 			}
 		});
 	}
+
+	onAsyncEvaluation = () => {
+		let evaluationExercise = this.props.evaluationExercise.map((exercise) => {
+			return {
+				...exercise,
+				shared: false,
+			};
+		});
+		let json = {
+			evaluation: {
+				mode: this.props.evaluationMode,
+				exercises: evaluationExercise,
+			},
+		};
+
+		let jsonData = JSON.stringify(json);
+		// Compressing jsonData to be stored in Local Storage
+		jsonData = LZ.compressToUTF16(jsonData);
+		activity.getDatastoreObject().setDataAsText(jsonData);
+		activity.getDatastoreObject().save(function (error) {
+			if (error === null) {
+				// console.log("write done.");
+			} else {
+				// console.log("write failed.");
+			}
+		});
+	};
 
 	setDefaultExercises() {
 		// Default Exercises list
@@ -401,6 +459,7 @@ class Sugarizer extends Component {
 							toggleEditMode={(edit) => this.toggleEditMode(edit)}
 							runAllExercise={this.onRunAllExercise}
 							onShareAll={this.onShareAllExercise}
+							asyncEvaluate={this.onAsyncEvaluation}
 						/>
 						<Main
 							inFullscreenMode={this.state.inFullscreenMode}
@@ -427,6 +486,8 @@ function MapStateToProps(state) {
 		exerciseIndex: state.exerciseRunning,
 		totalScore: state.totalScore,
 		isShared: state.isShared,
+		evaluationMode: state.evaluation_mode,
+		evaluationExercise: state.evaluation_exercise,
 	};
 }
 
@@ -444,4 +505,7 @@ export default connect(MapStateToProps, {
 	addSharedResult,
 	shareAllExercise,
 	addSharedExercise,
+	setEvaluationMode,
+	setEvaluationExercise,
+	addEvaluationExercise,
 })(Sugarizer);

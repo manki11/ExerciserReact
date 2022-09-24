@@ -9,6 +9,7 @@ import {
 	setExerciseIndex,
 	resetScore,
 } from "../store/actions/sugarizer";
+import { addEvaluationExercise } from "../store/actions/evaluation";
 import "../css/ExerciseList.css";
 import UserList from "../components/UserList";
 import { withRouter } from "react-router-dom";
@@ -99,6 +100,11 @@ class ExerciseList extends Component {
 				exercise = this.props.exercises[0];
 			} else {
 				exercise = this.props.exercises[this.props.exercise_running + 1];
+			}
+		}
+		if (this.props.evaluation_mode === "async") {
+			if (!this.props.evaluationExercise.find((x) => x.id === exercise.id)) {
+				this.props.addEvaluationExercise(exercise);
 			}
 		}
 		if (exercise.type === "MCQ") {
@@ -239,11 +245,6 @@ class ExerciseList extends Component {
 						(this.props.inFullscreenMode ? " Exercise-List-NoPadding" : "")
 					}
 				>
-					{this.props.isRunAll && (
-						<div className='total-score'>
-							Your Score: {this.props.total_score}
-						</div>
-					)}
 					<div
 						className={
 							"col-md-10 mx-auto" +
@@ -269,6 +270,8 @@ function MapStateToProps(state) {
 		users: state.users,
 		current_user: state.current_user,
 		total_score: state.totalScore,
+		evaluation_mode: state.evaluation_mode,
+		evaluationExercise: state.evaluation_exercise,
 	};
 }
 
@@ -281,5 +284,6 @@ export default withRouter(
 		setRunAllExercise,
 		setExerciseIndex,
 		resetScore,
+		addEvaluationExercise,
 	})(ExerciseList)
 );

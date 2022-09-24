@@ -29,6 +29,21 @@ const MainToolbar = (props) => {
 	let fullScreen = intl.formatMessage({ id: FULLSCREEN });
 	let runAll = intl.formatMessage({ id: PLAY_ALL });
 	let shareAll = intl.formatMessage({ id: SHARE_ALL });
+
+	if (document.getElementById("asynchronous_mode")) {
+		document
+			.getElementById("asynchronous_mode")
+			.addEventListener("click", () => {
+				props.evaluateMode("async");
+			});
+	}
+
+	if (document.getElementById("real_mode")) {
+		document.getElementById("real_mode").addEventListener("click", () => {
+			props.evaluateMode("real");
+		});
+	}
+
 	return (
 		<div
 			id='main-toolbar'
