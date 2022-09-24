@@ -65,6 +65,7 @@ class Exercise extends Component {
 	result = () => {
 		this.props.presenceResult(this.state.id);
 	};
+	evaluateExercise = () => {};
 
 	render() {
 		const {
@@ -138,6 +139,7 @@ class Exercise extends Component {
 
 		let share = "";
 		let results = "";
+		let evaluate = "";
 
 		if (isShared && !isHost) {
 			edit = "";
@@ -173,6 +175,15 @@ class Exercise extends Component {
 					type='button'
 					className={"share-button " + bg}
 					onClick={this.shareExercise}
+				/>
+			);
+		}
+		if (this.props.allowEvaluation) {
+			evaluate = (
+				<button
+					type='button'
+					className='evaluate-button'
+					onClick={this.evaluateExercise}
 				/>
 			);
 		}
@@ -256,6 +267,7 @@ class Exercise extends Component {
 								<React.Fragment>
 									{play}
 									{share}
+									{evaluate}
 									{results}
 								</React.Fragment>
 							)}

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { addScoreTime } from "../../store/actions/exercises";
-import { setExerciseIndex, setTotalScore } from "../../store/actions/sugarizer";
+import { setExerciseIndex } from "../../store/actions/sugarizer";
 import "../../css/MCQPlayer.css";
 import {
 	SUBMIT_QUESTION,
@@ -210,7 +210,6 @@ class MCQPlayer extends Component {
 				this.props.setExerciseIndex(
 					this.props.exercises.findIndex((item) => item.id === exercise.id)
 				);
-				this.props.setTotalScore(currentScore);
 			}
 			scores.push(currentScore);
 			times.push(currentTime);
@@ -396,8 +395,6 @@ function MapStateToProps(state) {
 
 export default withMultimedia(require("../../media/template/mcq_image.svg"))(
 	withRouter(
-		connect(MapStateToProps, { addScoreTime, setExerciseIndex, setTotalScore })(
-			MCQPlayer
-		)
+		connect(MapStateToProps, { addScoreTime, setExerciseIndex })(MCQPlayer)
 	)
 );

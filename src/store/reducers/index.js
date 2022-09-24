@@ -9,7 +9,6 @@ import sharedAllExercises from "./presence/shareAll";
 import current_user from "./current_user";
 import run_all from "./run_all";
 import run_all_exercise from "./run_all_exercise_index";
-import run_all_total_score from "./run_all_score";
 import evaluationMode from "./evaluation_mode";
 import evaluation_exercise from "./evaluation_exercise";
 
@@ -23,7 +22,6 @@ const rootReducer = combineReducers({
 	current_user: current_user,
 	isRunAll: run_all,
 	exerciseRunning: run_all_exercise,
-	totalScore: run_all_total_score,
 	shared_all_exercises: sharedAllExercises,
 	evaluation_mode: evaluationMode,
 	evaluation_exercise: evaluation_exercise,

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { addScoreTime } from "../../store/actions/exercises";
-import { setExerciseIndex, setTotalScore } from "../../store/actions/sugarizer";
+import { setExerciseIndex } from "../../store/actions/sugarizer";
 import { SUBMIT_QUESTION, FINISH_EXERCISE } from "../translation";
 import { FormattedMessage } from "react-intl";
 import DragList from "../../components/DragList";
@@ -164,7 +164,6 @@ class REORDERPlayer extends Component {
 				this.props.setExerciseIndex(
 					this.props.exercises.findIndex((item) => item.id === exercise.id)
 				);
-				this.props.setTotalScore(score);
 			}
 			scores.push(score);
 			times.push(currentTime);
@@ -324,8 +323,6 @@ export default withMultimedia(
 	require("../../media/template/list_reorder_image.svg")
 )(
 	withRouter(
-		connect(MapStateToProps, { addScoreTime, setExerciseIndex, setTotalScore })(
-			REORDERPlayer
-		)
+		connect(MapStateToProps, { addScoreTime, setExerciseIndex })(REORDERPlayer)
 	)
 );

@@ -31,7 +31,6 @@ import {
 	setUser,
 	setRunAllExercise,
 	setExerciseIndex,
-	setTotalScore,
 } from "../store/actions/sugarizer";
 import { setExerciseCounter } from "../store/actions/increment_counter";
 import {
@@ -83,7 +82,6 @@ class Sugarizer extends Component {
 			setUser,
 			setRunAllExercise,
 			setExerciseIndex,
-			setTotalScore,
 		} = this.props;
 
 		let temp = this;
@@ -121,7 +119,6 @@ class Sugarizer extends Component {
 								setExercises(json.exercises);
 								setExerciseCounter(json.counter);
 								setRunAllExercise(json.is_run_all_click);
-								setTotalScore(json.total_score);
 								setExerciseIndex(json.exercise_index);
 
 								if (json.evaluation) {
@@ -302,8 +299,7 @@ class Sugarizer extends Component {
 	};
 
 	stopActivity() {
-		const { counter, exercises, isRunAll, exerciseIndex, totalScore } =
-			this.props;
+		const { counter, exercises, isRunAll, exerciseIndex } = this.props;
 
 		let journalExercises = exercises.map((exercise) => {
 			return {
@@ -323,7 +319,6 @@ class Sugarizer extends Component {
 			exercises: journalExercises,
 			is_run_all_click: isRunAll,
 			exercise_index: exerciseIndex,
-			total_score: totalScore,
 			evaluation: {
 				mode: this.props.evaluationMode,
 				exercises: evaluationExercise,
@@ -484,7 +479,6 @@ function MapStateToProps(state) {
 		isHost: state.isHost,
 		isRunAll: state.isRunAll,
 		exerciseIndex: state.exerciseRunning,
-		totalScore: state.totalScore,
 		isShared: state.isShared,
 		evaluationMode: state.evaluation_mode,
 		evaluationExercise: state.evaluation_exercise,
@@ -498,7 +492,6 @@ export default connect(MapStateToProps, {
 	setIsHost,
 	setIsShared,
 	setExerciseIndex,
-	setTotalScore,
 	addUser,
 	setUser,
 	removeUser,

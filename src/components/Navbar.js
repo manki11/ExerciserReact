@@ -5,7 +5,7 @@ import "../css/Navbar.css";
 import { injectIntl } from "react-intl";
 import { UNFULLSCREEN } from "../containers/translation";
 import MainToolbar from "./MainToolbar";
-import { setExerciseIndex, resetScore } from "../store/actions/sugarizer";
+import { setExerciseIndex } from "../store/actions/sugarizer";
 import { setEvaluationMode } from "../store/actions/evaluation";
 
 class Navbar extends Component {
@@ -63,7 +63,6 @@ class Navbar extends Component {
 		if (!this.props.isRunAll) {
 			this.props.runAllExercise();
 			this.props.setExerciseIndex(0);
-			this.props.resetScore();
 			exercise = this.props.exercises[0];
 		} else {
 			exercise = this.props.exercises[this.props.exercise_running + 1];
@@ -161,7 +160,6 @@ export default injectIntl(
 	withRouter(
 		connect(mapStateToProps, {
 			setExerciseIndex,
-			resetScore,
 			setEvaluationMode,
 		})(Navbar)
 	)

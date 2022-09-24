@@ -7,7 +7,6 @@ import {
 import {
 	setRunAllExercise,
 	setExerciseIndex,
-	resetScore,
 } from "../store/actions/sugarizer";
 import { addEvaluationExercise } from "../store/actions/evaluation";
 import "../css/ExerciseList.css";
@@ -96,7 +95,6 @@ class ExerciseList extends Component {
 			if (!this.props.isRunAll) {
 				this.props.setRunAllExercise(true);
 				this.props.setExerciseIndex(0);
-				this.props.resetScore();
 				exercise = this.props.exercises[0];
 			} else {
 				exercise = this.props.exercises[this.props.exercise_running + 1];
@@ -176,6 +174,10 @@ class ExerciseList extends Component {
 							isFirst={index === 0}
 							run_all_share={
 								this.props.shared_exercises.allow_run_all || r.run_all
+							}
+							allowEvaluation={
+								this.props.evaluationExercise.find((x) => x.id === r.id) &&
+								this.props.evaluationExercise.find((x) => x.id === r.id).id > 0
 							}
 							{...r}
 						/>
@@ -269,7 +271,6 @@ function MapStateToProps(state) {
 		shared_exercises: state.shared_exercises,
 		users: state.users,
 		current_user: state.current_user,
-		total_score: state.totalScore,
 		evaluation_mode: state.evaluation_mode,
 		evaluationExercise: state.evaluation_exercise,
 	};
@@ -283,7 +284,6 @@ export default withRouter(
 		removeSharedExercise,
 		setRunAllExercise,
 		setExerciseIndex,
-		resetScore,
 		addEvaluationExercise,
 	})(ExerciseList)
 );

@@ -16,7 +16,6 @@ import {
 import {
 	setRunAllExercise,
 	setExerciseIndex,
-	setTotalScore,
 } from "../../store/actions/sugarizer";
 import "../../css/PresenceScores.css";
 import "../../css/Scores.css";
@@ -438,7 +437,6 @@ export default withScoreHOC()(
 			connect(MapStateToProps, {
 				setRunAllExercise,
 				setExerciseIndex,
-				setTotalScore,
 			})(Scores)
 		)
 	)

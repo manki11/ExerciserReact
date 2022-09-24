@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { addScoreTime } from "../../store/actions/exercises";
-import { setExerciseIndex, setTotalScore } from "../../store/actions/sugarizer";
+import { setExerciseIndex } from "../../store/actions/sugarizer";
 import "../../css/FreeTextInputPlayer.css";
 import { FINISH_EXERCISE, SUBMIT_QUESTION } from "../translation";
 import { FormattedMessage } from "react-intl";
@@ -144,7 +144,6 @@ class FreeTextInputPlayer extends Component {
 				this.props.setExerciseIndex(
 					this.props.exercises.findIndex((item) => item.id === exercise.id)
 				);
-				this.props.setTotalScore(currentScore);
 			}
 			scores.push(currentScore);
 			times.push(currentTime);
@@ -322,7 +321,7 @@ export default withMultimedia(
 	require("../../media/template/freetext_input_image.svg")
 )(
 	withRouter(
-		connect(MapStateToProps, { addScoreTime, setExerciseIndex, setTotalScore })(
+		connect(MapStateToProps, { addScoreTime, setExerciseIndex })(
 			FreeTextInputPlayer
 		)
 	)

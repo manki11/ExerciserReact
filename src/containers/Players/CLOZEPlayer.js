@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { addScoreTime } from "../../store/actions/exercises";
-import { setExerciseIndex, setTotalScore } from "../../store/actions/sugarizer";
+import { setExerciseIndex } from "../../store/actions/sugarizer";
 import "../../css/CLOZEPlayer.css";
 import Select from "react-select";
 import "react-select/dist/react-select.css";
@@ -224,7 +224,6 @@ class CLOZEPlayer extends Component {
 				this.props.setExerciseIndex(
 					this.props.exercises.findIndex((item) => item.id === exercise.id)
 				);
-				this.props.setTotalScore(score);
 			}
 			scores.push(score);
 			times.push(currentTime);
@@ -393,8 +392,6 @@ export default withMultimedia(
 	require("../../media/template/list_reorder_image.svg")
 )(
 	withRouter(
-		connect(MapStateToProps, { addScoreTime, setExerciseIndex, setTotalScore })(
-			CLOZEPlayer
-		)
+		connect(MapStateToProps, { addScoreTime, setExerciseIndex })(CLOZEPlayer)
 	)
 );

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { addScoreTime } from "../../store/actions/exercises";
-import { setExerciseIndex, setTotalScore } from "../../store/actions/sugarizer";
+import { setExerciseIndex } from "../../store/actions/sugarizer";
 import "../../css/MatchingPlayer.css";
 import { SUBMIT_QUESTION, FINISH_EXERCISE } from "../translation";
 import { FormattedMessage } from "react-intl";
@@ -279,7 +279,6 @@ class MATCHING_PAIRPLAYER extends Component {
 				this.props.setExerciseIndex(
 					this.props.exercises.findIndex((item) => item.id === exercise.id)
 				);
-				this.props.setTotalScore(score);
 			}
 			scores.push(score);
 			times.push(currentTime);
@@ -428,7 +427,7 @@ export default withMultimedia(
 	require("../../media/template/matching_pair_image.svg")
 )(
 	withRouter(
-		connect(MapStateToProps, { addScoreTime, setExerciseIndex, setTotalScore })(
+		connect(MapStateToProps, { addScoreTime, setExerciseIndex })(
 			MATCHING_PAIRPLAYER
 		)
 	)
