@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { addScoreTime } from "../../store/actions/exercises";
+import { updateEvaluatedExercise } from "../../store/actions/evaluation";
 import { setExerciseIndex } from "../../store/actions/sugarizer";
 import "../../css/MatchingPlayer.css";
 import { SUBMIT_QUESTION, FINISH_EXERCISE } from "../translation";
@@ -22,6 +23,7 @@ class MATCHING_PAIRPLAYER extends Component {
 			pairs: [],
 			questions: [],
 			answers: [],
+			checkans: [],
 			submitted: false,
 			selected: false,
 			selectedConnections: [],
@@ -52,6 +54,8 @@ class MATCHING_PAIRPLAYER extends Component {
 				};
 			});
 
+			let checkans = pairs.map(() => false);
+
 			let goBackToEdit = false;
 			if (this.props.location.state.edit) goBackToEdit = true;
 
@@ -72,6 +76,7 @@ class MATCHING_PAIRPLAYER extends Component {
 					noOfPairs: updatedPairs.length,
 					pairs: updatedPairs,
 					scores: scores,
+					checkans: checkans,
 					times: times,
 					goBackToEdit: goBackToEdit,
 					questions: questions,
@@ -214,15 +219,17 @@ class MATCHING_PAIRPLAYER extends Component {
 	submitQuestion = () => {
 		let { score, pairs, userAnswers } = this.state;
 		this.instance.deleteEveryEndpoint();
+
+		let checkans = this.state.checkans;
 		pairs.forEach((pair) => {
 			let ansToCheck = this.state.answers[userAnswers[pair.id - 1]];
 			let source = document.getElementById(`question-${pair.id}`);
 			let target = document.getElementById(
 				`answer-display-${userAnswers[pair.id - 1] + 1}`
 			);
-
 			if (ansToCheck.data === pair.answer.data) {
 				score += 1;
+				checkans[pair.id - 1] = true;
 				source.style.backgroundColor = "green";
 				target.style.backgroundColor = "green";
 			} else {
@@ -245,6 +252,7 @@ class MATCHING_PAIRPLAYER extends Component {
 			selected: false,
 			submitted: true,
 			score: score,
+			checkans: checkans,
 		});
 	};
 
@@ -262,6 +270,7 @@ class MATCHING_PAIRPLAYER extends Component {
 			userAnswers,
 		} = this.state;
 		let exercise = this.props.location.state.exercise;
+		console.log(this.state, exercise, "mathing final");
 
 		let updatedUserAnswers = [];
 		userAnswers.forEach((ans, index) => {
@@ -271,6 +280,13 @@ class MATCHING_PAIRPLAYER extends Component {
 				userAns: this.state.answers[ans],
 			});
 		});
+
+		let evaluation = {
+			checkans: this.state.checkans,
+			userAnswers: updatedUserAnswers,
+		};
+
+		this.props.updateEvaluatedExercise(this.state.id, evaluation);
 
 		if (goBackToEdit)
 			this.props.history.push("/edit/match", { exercise: exercise });
@@ -427,8 +443,10 @@ export default withMultimedia(
 	require("../../media/template/matching_pair_image.svg")
 )(
 	withRouter(
-		connect(MapStateToProps, { addScoreTime, setExerciseIndex })(
-			MATCHING_PAIRPLAYER
-		)
+		connect(MapStateToProps, {
+			addScoreTime,
+			setExerciseIndex,
+			updateEvaluatedExercise,
+		})(MATCHING_PAIRPLAYER)
 	)
 );

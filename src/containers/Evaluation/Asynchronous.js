@@ -11,14 +11,12 @@ import {
 	QUESTION_SCORE,
 	SCORES,
 	TOTAL_SCORE,
-	WRONG_ANSWER,
 	YOUR_ANSWER,
 	YOUR_SCORE,
 } from "../translation";
 import "../../css/Scores.css";
 import "../../css/Evaluation.css";
-import correct from "../../icons/exercise/correct.png";
-import wrong from "../../icons/exercise/wrong.png";
+import withScoreHOC from "../Scores/ScoreHoc";
 
 const Asynchronous = (props) => {
 	const modes = {
@@ -41,25 +39,15 @@ const Asynchronous = (props) => {
 		);
 	}, []);
 
-	const answerStatus = (status) => {
-		if (status) {
-			return (
-				<img src={correct} alt={<FormattedMessage id={CORRECT_ANSWER} />} />
-			);
-		} else {
-			return <img src={wrong} alt={<FormattedMessage id={WRONG_ANSWER} />} />;
-		}
-	};
-
 	useEffect(() => {
 		if (exercise) {
 			if (mode === modes.SCORE) {
 				let score_data = exercise.evaluation.userAnswers.map(
 					(userAnswer, id) => (
 						<tr>
-							<td>{userAnswer.question.data}</td>
+							<td>{props.getResultsTableElement(userAnswer.question)}</td>
 							<td>{exercise.evaluation.checkans[id] ? 1 : 0}</td>
-							<td>{answerStatus(exercise.evaluation.checkans[id])}</td>
+							<td>{props.getWrongRightMarker(userAnswer)}</td>
 						</tr>
 					)
 				);
@@ -100,14 +88,14 @@ const Asynchronous = (props) => {
 				let detail_data = exercise.evaluation.userAnswers.map(
 					(userAnswer, id) => (
 						<tr>
-							<td>{userAnswer.question.data}</td>
-							<td>{userAnswer.correctAns.data}</td>
+							<td>{props.getResultsTableElement(userAnswer.question)}</td>
+							<td>{props.getResultsTableElement(userAnswer.correctAns)}</td>
 							{userAnswer.userAns.data === "_____________" ? (
 								<td />
 							) : (
-								<td>{userAnswer.userAns.data}</td>
+								<td>{props.getResultsTableElement(userAnswer.userAns)}</td>
 							)}
-							<td>{answerStatus(exercise.evaluation.checkans[id])}</td>
+							<td>{props.getWrongRightMarker(userAnswer)}</td>
 						</tr>
 					)
 				);
@@ -197,4 +185,6 @@ const MapStateToProps = (state) => {
 	};
 };
 
-export default injectIntl(withRouter(connect(MapStateToProps)(Asynchronous)));
+export default withScoreHOC()(
+	injectIntl(withRouter(connect(MapStateToProps)(Asynchronous)))
+);
