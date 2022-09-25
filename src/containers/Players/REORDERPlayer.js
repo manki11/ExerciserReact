@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { addScoreTime } from "../../store/actions/exercises";
+import { updateEvaluatedExercise } from "../../store/actions/evaluation";
 import { setExerciseIndex } from "../../store/actions/sugarizer";
 import { SUBMIT_QUESTION, FINISH_EXERCISE } from "../translation";
 import { FormattedMessage } from "react-intl";
@@ -132,6 +133,13 @@ class REORDERPlayer extends Component {
 				userAns: userAns[index],
 			};
 		});
+
+		let evaluation = {
+			checkans: checkAns,
+			userAnswers,
+		};
+
+		this.props.updateEvaluatedExercise(this.state.id, evaluation);
 
 		this.setState({
 			...this.state,
@@ -323,6 +331,10 @@ export default withMultimedia(
 	require("../../media/template/list_reorder_image.svg")
 )(
 	withRouter(
-		connect(MapStateToProps, { addScoreTime, setExerciseIndex })(REORDERPlayer)
+		connect(MapStateToProps, {
+			addScoreTime,
+			setExerciseIndex,
+			updateEvaluatedExercise,
+		})(REORDERPlayer)
 	)
 );

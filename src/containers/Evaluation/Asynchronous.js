@@ -42,48 +42,76 @@ const Asynchronous = (props) => {
 	useEffect(() => {
 		if (exercise) {
 			if (mode === modes.SCORE) {
-				let score_data = exercise.evaluation.userAnswers.map(
-					(userAnswer, id) => (
-						<tr>
-							<td>{props.getResultsTableElement(userAnswer.question)}</td>
-							<td>{exercise.evaluation.checkans[id] ? 1 : 0}</td>
-							<td>{props.getWrongRightMarker(userAnswer)}</td>
-						</tr>
-					)
-				);
 				let totalScore = 0;
 				exercise.evaluation.checkans.forEach((element) => {
 					if (element) {
 						totalScore++;
 					}
 				});
-				setdata(
-					<table className='w-100'>
-						<thead>
+				if (exercise.type == "REORDER") {
+					setdata(
+						<table className='w-100'>
+							<thead>
+								<tr>
+									<th>
+										<FormattedMessage id={QUESTION} />
+									</th>
+									<th>
+										<FormattedMessage id={TOTAL_SCORE} />
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										{props.getResultsTableElement(
+											exercise.evaluation.userAnswers[0].question
+										)}
+									</td>
+									<td>{totalScore}</td>
+								</tr>
+							</tbody>
+						</table>
+					);
+				} else {
+					let score_data = exercise.evaluation.userAnswers.map(
+						(userAnswer, id) => (
 							<tr>
-								<th>
-									<FormattedMessage id={QUESTION} />
-								</th>
-								<th>
-									<FormattedMessage id={YOUR_SCORE} />
-								</th>
-								<th>
-									<FormattedMessage id={CORRECT_WRONG} />
-								</th>
+								<td>{props.getResultsTableElement(userAnswer.question)}</td>
+								<td>{exercise.evaluation.checkans[id] ? 1 : 0}</td>
+								<td>{props.getWrongRightMarker(userAnswer)}</td>
 							</tr>
-						</thead>
-						<tbody>
-							{score_data}
-							<tr>
-								<th>
-									<FormattedMessage id={TOTAL_SCORE} />
-								</th>
-								<th>{totalScore}</th>
-								<td></td>
-							</tr>
-						</tbody>
-					</table>
-				);
+						)
+					);
+
+					setdata(
+						<table className='w-100'>
+							<thead>
+								<tr>
+									<th>
+										<FormattedMessage id={QUESTION} />
+									</th>
+									<th>
+										<FormattedMessage id={YOUR_SCORE} />
+									</th>
+									<th>
+										<FormattedMessage id={CORRECT_WRONG} />
+									</th>
+								</tr>
+							</thead>
+							<tbody>
+								{score_data}
+								<tr>
+									<th>
+										<FormattedMessage id={TOTAL_SCORE} />
+									</th>
+									<th>{totalScore}</th>
+									<td></td>
+								</tr>
+							</tbody>
+						</table>
+					);
+				}
 			} else if (mode === modes.DETAILS) {
 				let detail_data = exercise.evaluation.userAnswers.map(
 					(userAnswer, id) => (
