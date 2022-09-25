@@ -126,13 +126,16 @@ class ExerciseList extends Component {
 	};
 
 	presenceResult = (id) => {
-		console.log(this.props, id, "abcd");
 		let exercise = this.props.shared_exercises.find((x) => x.id === id);
 		this.props.history.push("/presence/scores", { exercise: exercise });
 	};
 
 	reorderExercise = (list) => {
 		this.props.setExercise(list);
+	};
+
+	evaluateExercise = (id) => {
+		this.props.history.push("/async_evaluate/scores", { id });
 	};
 
 	render() {
@@ -169,6 +172,7 @@ class ExerciseList extends Component {
 							isHost={isHost}
 							isShared={isShared}
 							onShare={this.onShare}
+							onEvaluate={this.evaluateExercise}
 							presenceResult={this.presenceResult}
 							inEditMode={this.props.inEditMode}
 							isFirst={index === 0}
@@ -177,7 +181,8 @@ class ExerciseList extends Component {
 							}
 							allowEvaluation={
 								this.props.evaluationExercise.find((x) => x.id === r.id) &&
-								this.props.evaluationExercise.find((x) => x.id === r.id).id > 0
+								this.props.evaluationExercise.find((x) => x.id === r.id)
+									.evaluation
 							}
 							{...r}
 						/>

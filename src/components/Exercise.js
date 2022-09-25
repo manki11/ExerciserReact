@@ -65,7 +65,9 @@ class Exercise extends Component {
 	result = () => {
 		this.props.presenceResult(this.state.id);
 	};
-	evaluateExercise = () => {};
+	evaluateExercise = () => {
+		this.props.onEvaluate(this.state.id);
+	};
 
 	render() {
 		const {
@@ -139,7 +141,6 @@ class Exercise extends Component {
 
 		let share = "";
 		let results = "";
-		let evaluate = "";
 
 		if (isShared && !isHost) {
 			edit = "";
@@ -179,7 +180,7 @@ class Exercise extends Component {
 			);
 		}
 		if (this.props.allowEvaluation) {
-			evaluate = (
+			play = (
 				<button
 					type='button'
 					className='evaluate-button'
@@ -267,7 +268,6 @@ class Exercise extends Component {
 								<React.Fragment>
 									{play}
 									{share}
-									{evaluate}
 									{results}
 								</React.Fragment>
 							)}

@@ -416,6 +416,7 @@ class Scores extends Component {
 						)}
 					</div>
 				</div>
+				{console.log(this.state, "score state")}
 			</div>
 		);
 	}

@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { addScoreTime } from "../../store/actions/exercises";
 import { setExerciseIndex } from "../../store/actions/sugarizer";
+import { updateEvaluatedExercise } from "../../store/actions/evaluation";
 import "../../css/CLOZEPlayer.css";
 import Select from "react-select";
 import "react-select/dist/react-select.css";
@@ -169,6 +170,7 @@ class CLOZEPlayer extends Component {
 	// submit the exercise ( calculate score and time ) show correct/ wrong ans
 	submitExercise = () => {
 		const { userans, answers } = this.state;
+		console.log(this.state, "state");
 		let checkans = [];
 		let score = 0;
 		for (let i = 0; i < answers.length; i++) {
@@ -192,6 +194,13 @@ class CLOZEPlayer extends Component {
 				userAns: { type: "text", data: userans[index] },
 			};
 		});
+
+		let evaluation = {
+			checkedAnswers: checkans,
+			userAnswers,
+		};
+
+		this.props.updateEvaluatedExercise(this.state.id, evaluation);
 
 		this.setState({
 			...this.state,
@@ -392,6 +401,10 @@ export default withMultimedia(
 	require("../../media/template/list_reorder_image.svg")
 )(
 	withRouter(
-		connect(MapStateToProps, { addScoreTime, setExerciseIndex })(CLOZEPlayer)
+		connect(MapStateToProps, {
+			addScoreTime,
+			setExerciseIndex,
+			updateEvaluatedExercise,
+		})(CLOZEPlayer)
 	)
 );

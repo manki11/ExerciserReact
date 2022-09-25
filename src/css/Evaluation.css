@@ -1,0 +1,11 @@
+#evaluation-container{
+    margin-top: 1rem;
+}
+
+#evaluation-heading{
+    font-size: 2rem;
+    justify-content: center;
+    color: #6F6F6F;
+    font-weight: 600;
+    margin: 1rem;
+}

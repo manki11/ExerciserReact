@@ -2,6 +2,7 @@ import {
 	ADD_EVALUATION_EXERCISE,
 	SET_EVALUATION_EXERCISE,
 	SET_EVALUATION_MODE,
+	UPDATE_EVALUATED_EXERCISE,
 } from "../actionTypes";
 
 export const setEvaluationMode = (mode) => {
@@ -22,5 +23,13 @@ export const addEvaluationExercise = (exercise) => {
 	return {
 		type: ADD_EVALUATION_EXERCISE,
 		exercise: { ...exercise, shared: false },
+	};
+};
+
+export const updateEvaluatedExercise = (id, evaluation) => {
+	return {
+		type: UPDATE_EVALUATED_EXERCISE,
+		id,
+		evaluation,
 	};
 };

@@ -89,6 +89,12 @@ export const YOUR_RESULTS = "Your Results";
 export const SCORES = "Scores";
 export const TIME = "Time";
 export const DETAILS = "Details";
+
+// EVALUATE VIEW
+export const YOUR_SCORE = "Your Score";
+export const TOTAL_SCORE = "Total Score";
+export const QUESTION_SCORE = "Question Score";
+export const DETAIL_SCORE = "Detail Score";
 // NAVBAR
 export const MY_ACTIVITY = "My Activity";
 export const HOME = "Home";
@@ -106,5 +112,6 @@ export const SHARE_ALL = "Share All Exercises";
 // RESULTS
 export const CORRECT_WRONG = "Correct / Wrong";
 export const CORRECT_ANSWER = "Correct Answer";
+export const WRONG_ANSWER = "Wrong Answer";
 export const YOUR_ANSWER = "Your Answer";
 export const USERS = "Users";

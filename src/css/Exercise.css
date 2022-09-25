@@ -41,6 +41,15 @@ button:focus{
     border-radius: 20px;
 }
 
+.evaluate-button{
+    width: 40px;
+    height: 40px;
+    background-image: url("../icons/exercise/evaluate.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 20px;
+}
+
 .shared-exercise, .shared-exercise:hover{
     background-color: lightskyblue;
     border: 2px solid transparent;
@@ -104,7 +113,7 @@ button:hover:disabled{
     border-color: transparent!important;
 }
 
-.play-button:hover{
+.play-button:hover, .evaluate-button:hover{
     background-color: limegreen!important;
     border: 2px solid transparent!important;
 }
