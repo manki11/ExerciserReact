@@ -290,7 +290,7 @@ class Sugarizer extends Component {
 	onRunAllExercise = () => {
 		this.props.setRunAllExercise(true);
 		if (this.props.evaluationMode === "async") {
-			this.props.exercises.map((exercise) => {
+			this.props.exercises.forEach((exercise) => {
 				if (!this.props.evaluationExercise.find((id) => id === exercise.id)) {
 					this.props.addEvaluationExercise(exercise);
 				}

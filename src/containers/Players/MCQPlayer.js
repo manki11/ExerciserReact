@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { addScoreTime } from "../../store/actions/exercises";
+import { updateEvaluatedExercise } from "../../store/actions/evaluation";
 import { setExerciseIndex } from "../../store/actions/sugarizer";
 import "../../css/MCQPlayer.css";
 import {
@@ -29,6 +30,7 @@ class MCQPlayer extends Component {
 			selectedAns: { type: "", data: "" },
 			scores: [],
 			times: [],
+			checkans: [],
 			currentTime: 0,
 			intervalID: -1,
 			goBackToEdit: false,
@@ -69,7 +71,7 @@ class MCQPlayer extends Component {
 
 			let finish = false;
 			if (questions.length === 1) finish = true;
-
+			let checkans = questions.map(() => false);
 			let goBackToEdit = false;
 			if (this.props.location.state.edit) goBackToEdit = true;
 
@@ -86,6 +88,7 @@ class MCQPlayer extends Component {
 					scores: scores,
 					times: times,
 					finish: finish,
+					checkans: checkans,
 					goBackToEdit: goBackToEdit,
 					userLanguage: userLanguage,
 					currentQuestion: {
@@ -143,7 +146,11 @@ class MCQPlayer extends Component {
 			this.state;
 		const { correctAns } = currentQuestion;
 		let score = currentScore;
-		if (selectedAns.data === correctAns.data) score = score + 1;
+		let checkans = this.state.checkans;
+		if (selectedAns.data === correctAns.data) {
+			score = score + 1;
+			checkans[currentQuestion.id - 1] = true;
+		}
 
 		let updatedUserAnswers = userAnswers;
 		updatedUserAnswers[currentQuestion.id - 1] = {
@@ -151,6 +158,14 @@ class MCQPlayer extends Component {
 			correctAns: currentQuestion.correctAns,
 			userAns: selectedAns,
 		};
+
+		if (this.state.noOfQuestions === updatedUserAnswers.length) {
+			let evaluation = {
+				checkans,
+				userAnswers: updatedUserAnswers,
+			};
+			this.props.updateEvaluatedExercise(this.state.id, evaluation);
+		}
 
 		this.setState({
 			selected: false,
@@ -395,6 +410,10 @@ function MapStateToProps(state) {
 
 export default withMultimedia(require("../../media/template/mcq_image.svg"))(
 	withRouter(
-		connect(MapStateToProps, { addScoreTime, setExerciseIndex })(MCQPlayer)
+		connect(MapStateToProps, {
+			addScoreTime,
+			setExerciseIndex,
+			updateEvaluatedExercise,
+		})(MCQPlayer)
 	)
 );

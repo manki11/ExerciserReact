@@ -63,7 +63,8 @@ const MainToolbar = (props) => {
 			{!props.inEditMode &&
 				!props.location.pathname.startsWith("/edit") &&
 				!props.location.pathname.startsWith("/play") &&
-				!props.location.pathname.startsWith("/scores") && (
+				!props.location.pathname.startsWith("/scores") &&
+				!props.location.pathname.endsWith("/scores") && (
 					<button
 						className='toolbutton'
 						id='editor-button'
@@ -74,7 +75,8 @@ const MainToolbar = (props) => {
 			{!props.inEditMode &&
 				!props.location.pathname.startsWith("/edit") &&
 				!props.location.pathname.startsWith("/play") &&
-				!props.location.pathname.startsWith("/scores") && (
+				!props.location.pathname.startsWith("/scores") &&
+				!props.location.pathname.endsWith("/scores") && (
 					<button
 						className='toolbutton'
 						onClick={props.runAll}
@@ -86,6 +88,7 @@ const MainToolbar = (props) => {
 				!props.location.pathname.startsWith("/edit") &&
 				!props.location.pathname.startsWith("/play") &&
 				!props.location.pathname.startsWith("/scores") &&
+				!props.location.pathname.endsWith("/scores") &&
 				((props.isShared && props.isHost) || !props.isShared) && (
 					<button
 						className='toolbutton'
@@ -114,6 +117,7 @@ const MainToolbar = (props) => {
 				!props.location.pathname.startsWith("/edit") &&
 				!props.location.pathname.startsWith("/play") &&
 				!props.location.pathname.startsWith("/scores") &&
+				!props.location.pathname.endsWith("/scores") &&
 				props.inEditMode && (
 					<button
 						className='toolbutton'
