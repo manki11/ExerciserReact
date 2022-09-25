@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import { updateEvaluatedExercise } from "../../store/actions/evaluation";
 import { addScoreTime } from "../../store/actions/exercises";
 import { setExerciseIndex } from "../../store/actions/sugarizer";
 import "../../css/GroupAssignmentPlayer.css";
@@ -30,6 +31,7 @@ class GroupAssignmentPlayer extends Component {
 			selectedAns: { type: "", data: "" },
 			scores: [],
 			times: [],
+			checkans: [],
 			currentTime: 0,
 			intervalID: -1,
 			goBackToEdit: false,
@@ -62,6 +64,7 @@ class GroupAssignmentPlayer extends Component {
 					answer: setDefaultMedia(ques.answer),
 				};
 			});
+			let checkans = questions.map(() => false);
 			let updatedGroups = groups.map((group) => {
 				return setDefaultMedia(group);
 			});
@@ -82,6 +85,7 @@ class GroupAssignmentPlayer extends Component {
 					noOfQuestions: questions.length,
 					scores: scores,
 					times: times,
+					checkans: checkans,
 					finish: finish,
 					goBackToEdit: goBackToEdit,
 					groups: updatedGroups,
@@ -165,13 +169,18 @@ class GroupAssignmentPlayer extends Component {
 		let score = currentScore;
 		let updatedUserans = userans;
 		updatedUserans.push(selectedAns);
-		if (selectedAns.type === answer.type && selectedAns.data === answer.data)
+		let checkans = this.state.checkans;
+		if (selectedAns.type === answer.type && selectedAns.data === answer.data) {
 			score = score + 1;
+			checkans[currentQuestion.id - 1] = true;
+		}
+
 		this.setState({
 			selected: false,
 			submitted: true,
 			userans: updatedUserans,
 			currentScore: score,
+			checkans: checkans,
 		});
 	};
 
@@ -229,6 +238,13 @@ class GroupAssignmentPlayer extends Component {
 				userAns: userans[index],
 			};
 		});
+
+		let evaluation = {
+			checkans: this.state.checkans,
+			userAnswers: updatedUserAnswers,
+		};
+
+		this.props.updateEvaluatedExercise(this.state.id, evaluation);
 
 		if (goBackToEdit)
 			this.props.history.push("/edit/group", { exercise: exercise });
@@ -445,8 +461,10 @@ function MapStateToProps(state) {
 
 export default withMultimedia(require("../../media/template/group_image.svg"))(
 	withRouter(
-		connect(MapStateToProps, { addScoreTime, setExerciseIndex })(
-			GroupAssignmentPlayer
-		)
+		connect(MapStateToProps, {
+			addScoreTime,
+			setExerciseIndex,
+			updateEvaluatedExercise,
+		})(GroupAssignmentPlayer)
 	)
 );
