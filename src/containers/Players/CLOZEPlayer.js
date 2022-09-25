@@ -196,7 +196,7 @@ class CLOZEPlayer extends Component {
 		});
 
 		let evaluation = {
-			checkedAnswers: checkans,
+			checkans: checkans,
 			userAnswers,
 		};
 

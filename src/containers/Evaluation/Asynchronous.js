@@ -58,13 +58,13 @@ const Asynchronous = (props) => {
 					(userAnswer, id) => (
 						<tr>
 							<td>{userAnswer.question.data}</td>
-							<td>{exercise.evaluation.checkedAnswers[id] ? 1 : 0}</td>
-							<td>{answerStatus(exercise.evaluation.checkedAnswers[id])}</td>
+							<td>{exercise.evaluation.checkans[id] ? 1 : 0}</td>
+							<td>{answerStatus(exercise.evaluation.checkans[id])}</td>
 						</tr>
 					)
 				);
 				let totalScore = 0;
-				exercise.evaluation.checkedAnswers.forEach((element) => {
+				exercise.evaluation.checkans.forEach((element) => {
 					if (element) {
 						totalScore++;
 					}
@@ -96,14 +96,18 @@ const Asynchronous = (props) => {
 						</tbody>
 					</table>
 				);
-			} else if (mode == modes.DETAILS) {
+			} else if (mode === modes.DETAILS) {
 				let detail_data = exercise.evaluation.userAnswers.map(
 					(userAnswer, id) => (
 						<tr>
 							<td>{userAnswer.question.data}</td>
 							<td>{userAnswer.correctAns.data}</td>
-							<td>{userAnswer.userAns.data}</td>
-							<td>{answerStatus(exercise.evaluation.checkedAnswers[id])}</td>
+							{userAnswer.userAns.data === "_____________" ? (
+								<td />
+							) : (
+								<td>{userAnswer.userAns.data}</td>
+							)}
+							<td>{answerStatus(exercise.evaluation.checkans[id])}</td>
 						</tr>
 					)
 				);

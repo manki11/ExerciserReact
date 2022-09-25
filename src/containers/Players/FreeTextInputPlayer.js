@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { addScoreTime } from "../../store/actions/exercises";
 import { setExerciseIndex } from "../../store/actions/sugarizer";
+import { updateEvaluatedExercise } from "../../store/actions/evaluation";
 import "../../css/FreeTextInputPlayer.css";
 import { FINISH_EXERCISE, SUBMIT_QUESTION } from "../translation";
 import { FormattedMessage } from "react-intl";
@@ -114,6 +115,12 @@ class FreeTextInputPlayer extends Component {
 				userAns: { type: "text", data: userans[index] },
 			};
 		});
+
+		let evaluation = {
+			checkans,
+			userAnswers: updatedUserAnswers,
+		};
+		this.props.updateEvaluatedExercise(this.state.id, evaluation);
 
 		this.setState({
 			submitted: true,
@@ -321,8 +328,10 @@ export default withMultimedia(
 	require("../../media/template/freetext_input_image.svg")
 )(
 	withRouter(
-		connect(MapStateToProps, { addScoreTime, setExerciseIndex })(
-			FreeTextInputPlayer
-		)
+		connect(MapStateToProps, {
+			addScoreTime,
+			setExerciseIndex,
+			updateEvaluatedExercise,
+		})(FreeTextInputPlayer)
 	)
 );
