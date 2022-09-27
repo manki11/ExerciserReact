@@ -9,6 +9,7 @@ const DEFAULT_STATE = [];
 const evaluation_exercise = (state = DEFAULT_STATE, action) => {
 	switch (action.type) {
 		case SET_EVALUATION_EXERCISE:
+			console.log("evaluation reducer set exercise");
 			return [...action.exercises];
 
 		case ADD_EVALUATION_EXERCISE:

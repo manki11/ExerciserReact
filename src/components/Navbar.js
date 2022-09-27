@@ -99,7 +99,7 @@ class Navbar extends Component {
 			if (evaluate_button.classList.contains("real")) {
 				evaluate_button.classList.remove("real");
 			}
-			this.props.asyncEvaluate();
+			this.props.onStop();
 			// this.runAllExercise();
 		} else if (mode === "real") {
 			document.getElementById("evaluation_heading").innerHTML = "Realtime";
@@ -122,7 +122,7 @@ class Navbar extends Component {
 			stopTutorial: this.stopTutorial,
 			runAll: this.runAllExercise,
 			shareAll: this.shareAll,
-			evaluateMode: this.evaluateExercise,
+			evaluateMode: this.props.evaluate,
 		};
 		return (
 			<React.Fragment>
