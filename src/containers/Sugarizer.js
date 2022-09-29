@@ -275,12 +275,14 @@ class Sugarizer extends Component {
 				evaluate_button.classList.remove("real");
 			}
 			this.stopActivity();
-			// this.runAllExercise();
 		} else if (mode === "real") {
 			document.getElementById("evaluation_heading").innerHTML = "Realtime";
 			evaluate_button.classList.add("real");
 			if (evaluate_button.classList.contains("async")) {
 				evaluate_button.classList.remove("asyn");
+			}
+			if (!this.props.isShared) {
+				document.getElementById("shared-button").click();
 			}
 		}
 		this.props.setEvaluationMode(mode);

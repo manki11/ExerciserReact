@@ -30,6 +30,8 @@ const MainToolbar = (props) => {
 	let runAll = intl.formatMessage({ id: PLAY_ALL });
 	let shareAll = intl.formatMessage({ id: SHARE_ALL });
 
+	console.log(props, "navbar");
+
 	if (document.getElementById("asynchronous_mode")) {
 		document
 			.getElementById("asynchronous_mode")
@@ -64,7 +66,8 @@ const MainToolbar = (props) => {
 				!props.location.pathname.startsWith("/edit") &&
 				!props.location.pathname.startsWith("/play") &&
 				!props.location.pathname.startsWith("/scores") &&
-				!props.location.pathname.endsWith("/scores") && (
+				!props.location.pathname.endsWith("/scores") &&
+				props.evaluationMode === "" && (
 					<button
 						className='toolbutton'
 						id='editor-button'

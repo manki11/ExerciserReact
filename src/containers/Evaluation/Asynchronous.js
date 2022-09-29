@@ -48,7 +48,7 @@ const Asynchronous = (props) => {
 						totalScore++;
 					}
 				});
-				if (exercise.type == "REORDER") {
+				if (exercise.type === "REORDER") {
 					setdata(
 						<table className='w-100'>
 							<thead>

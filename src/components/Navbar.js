@@ -91,26 +91,6 @@ class Navbar extends Component {
 		this.props.onShareAll();
 	};
 
-	evaluateExercise = (mode) => {
-		let evaluate_button = document.getElementById("evaluate-button");
-		if (mode === "async") {
-			document.getElementById("evaluation_heading").innerHTML = "Asynchronous";
-			evaluate_button.classList.add("async");
-			if (evaluate_button.classList.contains("real")) {
-				evaluate_button.classList.remove("real");
-			}
-			this.props.onStop();
-			// this.runAllExercise();
-		} else if (mode === "real") {
-			document.getElementById("evaluation_heading").innerHTML = "Realtime";
-			evaluate_button.classList.add("real");
-			if (evaluate_button.classList.contains("async")) {
-				evaluate_button.classList.remove("asyn");
-			}
-		}
-		this.props.setEvaluationMode(mode);
-	};
-
 	render() {
 		let unFullScreen = this.props.intl.formatMessage({ id: UNFULLSCREEN });
 		let navFunctions = {
@@ -153,6 +133,7 @@ function mapStateToProps(state) {
 		isHost: state.isHost,
 		isShared: state.isShared,
 		shared_exercises: state.shared_exercises,
+		evaluationMode: state.evaluation_mode,
 	};
 }
 
