@@ -14,6 +14,7 @@ import {
 	DETAILS,
 	NEXT_EXERCISE,
 	FINISH_EXERCISE,
+	HOME,
 } from "../translation";
 import {
 	setRunAllExercise,
@@ -287,7 +288,27 @@ class Scores extends Component {
 		let exercise = this.props.history.location.state.exercise;
 		let exerciseIndex = exercises.findIndex((obj) => obj.id === exercise.id);
 		if (exerciseIndex !== exercises.length - 1) {
-			this.playExercise(exercises[exerciseIndex + 1]);
+			if (this.props.evaluationMode !== "") {
+				let index = exerciseIndex;
+				while (index < this.props.exercises.length) {
+					if (
+						this.props.evaluationExercies.find(
+							(item) => item.id === this.props.exercises[index].id
+						) &&
+						this.props.evaluationExercies.find(
+							(item) => item.id === this.props.exercises[index].id
+						).evaluation
+					) {
+						index++;
+					} else {
+						break;
+					}
+				}
+				console.log(index);
+				this.playExercise(exercises[index]);
+			} else {
+				this.playExercise(exercises[exerciseIndex + 1]);
+			}
 		} else {
 			this.props.setRunAllExercise(false);
 			this.props.setExerciseIndex(-1);
@@ -407,8 +428,16 @@ class Scores extends Component {
 						{chart}
 					</div>
 					<div className='row button-container'>
-						{this.props.isRunAll ? (
-							<button className={`btn next-button`} onClick={this.nextExercise}>
+						{console.log(this.props.history.location.state.exercise.evaluation)}
+						{this.props.history.location.state.exercise.evaluation ? (
+							<button
+								className='btn next-button'
+								onClick={() => this.props.history.push("/")}
+							>
+								<FormattedMessage id={HOME} />
+							</button>
+						) : this.props.isRunAll ? (
+							<button className='btn next-button' onClick={this.nextExercise}>
 								{this.props.runningExercise !==
 								this.props.exercises.length - 1 ? (
 									<FormattedMessage id={NEXT_EXERCISE} />
@@ -433,6 +462,8 @@ function MapStateToProps(state) {
 		isRunAll: state.isRunAll,
 		exercises: state.exercises,
 		runningExercise: state.exerciseRunning,
+		evaluationMode: state.evaluation_mode,
+		evaluationExercies: state.evaluation_exercise,
 	};
 }
 

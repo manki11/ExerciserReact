@@ -377,7 +377,7 @@ class Sugarizer extends Component {
 		this.props.setRunAllExercise(true);
 		if (this.props.evaluationMode !== "") {
 			this.props.exercises.forEach((exercise) => {
-				if (!this.props.evaluationExercise.find((id) => id === exercise.id)) {
+				if (!this.props.evaluationExercise.find((x) => x.id === exercise.id)) {
 					this.props.addEvaluationExercise(exercise);
 				}
 			});

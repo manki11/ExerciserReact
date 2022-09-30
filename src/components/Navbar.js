@@ -60,20 +60,59 @@ class Navbar extends Component {
 
 	runAllExercise = () => {
 		let exercise = null;
-		if (!this.props.isRunAll) {
-			this.props.runAllExercise();
-			this.props.setExerciseIndex(0);
-			exercise = this.props.exercises[0];
+		if (this.props.evaluationMode === "") {
+			if (!this.props.isRunAll) {
+				this.props.runAllExercise();
+				this.props.setExerciseIndex(0);
+				exercise = this.props.exercises[0];
+			} else {
+				exercise = this.props.exercises[this.props.exercise_running + 1];
+			}
 		} else {
-			exercise = this.props.exercises[this.props.exercise_running + 1];
+			if (!this.props.isRunAll) {
+				this.props.runAllExercise();
+				let index = 0;
+				while (index < this.props.exercises.length) {
+					if (
+						this.props.evaluationExercies.find(
+							(item) => item.id === this.props.exercises[index].id
+						) &&
+						this.props.evaluationExercies.find(
+							(item) => item.id === this.props.exercises[index].id
+						).evaluation
+					) {
+						index++;
+					} else {
+						break;
+					}
+				}
+				this.props.setExerciseIndex(index);
+				exercise = this.props.exercises[index];
+			} else {
+				let index = this.props.exercise_running;
+				while (index < this.props.exercises.length) {
+					if (
+						this.props.evaluationExercies.find(
+							(item) => item.id === this.props.exercises[index].id
+						) &&
+						this.props.evaluationExercies.find(
+							(item) => item.id === this.props.exercises[index].id
+						).evaluation
+					) {
+						index++;
+					} else {
+						break;
+					}
+				}
+				exercise = this.props.exercises[index];
+			}
 		}
+
 		if (exercise.type === "MCQ") {
 			this.props.history.push("/play/mcq", { exercise: exercise });
 		}
 		if (exercise.type === "CLOZE") {
-			this.props.history.push("/play/cloze", {
-				exercise: exercise,
-			});
+			this.props.history.push("/play/cloze", { exercise: exercise });
 		}
 		if (exercise.type === "REORDER") {
 			this.props.history.push("/play/reorder", { exercise: exercise });
@@ -136,6 +175,7 @@ function mapStateToProps(state) {
 		isShared: state.isShared,
 		shared_exercises: state.shared_exercises,
 		evaluationMode: state.evaluation_mode,
+		evaluationExercies: state.evaluation_exercise,
 	};
 }
 

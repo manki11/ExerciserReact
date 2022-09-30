@@ -148,7 +148,10 @@ class ExerciseList extends Component {
 	};
 
 	evaluateExercise = (id) => {
-		this.props.history.push("/evaluate/scores", { id });
+		console.log(this.props);
+		let exercise = this.props.evaluationExercise.find((item) => item.id === id);
+		let data = exercise.evaluation;
+		this.props.history.push("/scores", { ...data, exercise: exercise });
 	};
 
 	render() {

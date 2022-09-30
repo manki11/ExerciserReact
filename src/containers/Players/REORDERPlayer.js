@@ -194,7 +194,7 @@ class REORDERPlayer extends Component {
 						exercise: exercise,
 					});
 				} else {
-					this.history.push("/");
+					this.props.history.push("/");
 				}
 			} else {
 				this.props.history.push("/scores", {
