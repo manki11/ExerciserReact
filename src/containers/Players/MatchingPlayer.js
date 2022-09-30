@@ -230,11 +230,15 @@ class MATCHING_PAIRPLAYER extends Component {
 			if (ansToCheck.data === pair.answer.data) {
 				score += 1;
 				checkans[pair.id - 1] = true;
-				source.style.backgroundColor = "green";
-				target.style.backgroundColor = "green";
+				if (this.props.evaluationMode === "") {
+					source.style.backgroundColor = "green";
+					target.style.backgroundColor = "green";
+				}
 			} else {
-				source.style.backgroundColor = "red";
-				target.style.backgroundColor = "red";
+				if (this.props.evaluationMode === "") {
+					source.style.backgroundColor = "red";
+					target.style.backgroundColor = "red";
+				}
 			}
 
 			this.instance.connect({
@@ -435,6 +439,7 @@ function MapStateToProps(state) {
 	return {
 		isRunAll: state.isRunAll,
 		exercises: state.exercises,
+		evaluationMode: state.evaluation_mode,
 	};
 }
 

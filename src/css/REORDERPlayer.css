@@ -21,3 +21,6 @@
 .lead {
     font-weight: bold !important;
 }
+.btn-normal{
+    background-color: white;
+}

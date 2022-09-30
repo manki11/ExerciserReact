@@ -173,6 +173,10 @@ class MCQPlayer extends Component {
 			currentScore: score,
 			userAnswers: updatedUserAnswers,
 		});
+
+		if (this.props.evaluationMode !== "") {
+			this.nextQuestion();
+		}
 	};
 
 	// move to next question
@@ -405,6 +409,7 @@ function MapStateToProps(state) {
 	return {
 		isRunAll: state.isRunAll,
 		exercises: state.exercises,
+		evaluationMode: state.evaluation_mode,
 	};
 }
 

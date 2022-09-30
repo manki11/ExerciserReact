@@ -346,6 +346,9 @@ class GroupAssignmentPlayer extends Component {
 			else btnClass = "wrong-group";
 			interact("#question-drag").draggable(false);
 		}
+		if (this.props.evaluationMode !== "") {
+			btnClass = "";
+		}
 
 		let question = (
 			<div
@@ -456,6 +459,7 @@ function MapStateToProps(state) {
 	return {
 		isRunAll: state.isRunAll,
 		exercises: state.exercises,
+		evaluationMode: state.evaluation_mode,
 	};
 }
 

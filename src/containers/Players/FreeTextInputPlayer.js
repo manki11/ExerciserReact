@@ -205,6 +205,9 @@ class FreeTextInputPlayer extends Component {
 			if (this.state.submitted) {
 				let ans = "wrong";
 				if (this.state.checkans[index]) ans = "right";
+				if (this.props.evaluationMode !== "") {
+					ans = "";
+				}
 				return (
 					<div className='col-md-3 questions' key={index + 1}>
 						<div
@@ -321,6 +324,7 @@ function MapStateToProps(state) {
 	return {
 		isRunAll: state.isRunAll,
 		exercises: state.exercises,
+		evaluationMode: state.evaluation_mode,
 	};
 }
 

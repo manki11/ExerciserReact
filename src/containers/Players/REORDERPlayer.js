@@ -253,6 +253,9 @@ class REORDERPlayer extends Component {
 			list = checkAns.map((bool, i) => {
 				let className = "btn-danger";
 				if (bool) className = "btn-success";
+				if (this.props.evaluationMode !== "") {
+					className = "btn-normal";
+				}
 				return (
 					<div className={"list-item " + className} key={`list-item${i}`}>
 						{options[i]}
@@ -324,6 +327,7 @@ function MapStateToProps(state) {
 	return {
 		isRunAll: state.isRunAll,
 		exercises: state.exercises,
+		evaluationMode: state.evaluation_mode,
 	};
 }
 

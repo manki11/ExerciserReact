@@ -284,7 +284,9 @@ class CLOZEPlayer extends Component {
 
 				let ans = "wrong";
 				if (this.state.checkans[no - 1]) ans = "right";
-
+				if (this.props.evaluationMode !== "") {
+					ans = "";
+				}
 				if (!this.state.submitted) {
 					if (this.state.writeIn === "OPTIONS") {
 						return (
@@ -393,6 +395,7 @@ function MapStateToProps(state) {
 	return {
 		isRunAll: state.isRunAll,
 		exercises: state.exercises,
+		evaluationMode: state.evaluation_mode,
 	};
 }
 
