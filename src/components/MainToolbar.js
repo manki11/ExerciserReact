@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Tutorial from "../components/Tutorial";
 import {
 	MY_ACTIVITY,
@@ -30,27 +30,6 @@ const MainToolbar = (props) => {
 	let runAll = intl.formatMessage({ id: PLAY_ALL });
 	let shareAll = intl.formatMessage({ id: SHARE_ALL });
 
-	if (document.getElementById("asynchronous_mode")) {
-		document
-			.getElementById("asynchronous_mode")
-			.addEventListener("click", () => {
-				props.evaluateMode("async");
-			});
-	}
-
-	if (document.getElementById("real_mode")) {
-		document.getElementById("real_mode").addEventListener("click", () => {
-			props.evaluateMode("real");
-		});
-	}
-
-	useEffect(() => {
-		if (props.isShared && !props.isHost) {
-			document.getElementById("asynchronous_mode").disabled = true;
-			document.getElementById("real_mode").disabled = true;
-		}
-	}, [props.isShared, props.isHost]);
-
 	return (
 		<div
 			id='main-toolbar'
@@ -62,24 +41,6 @@ const MainToolbar = (props) => {
 				title={activityTitle}
 			/>
 			<button className='toolbutton' id='network-button' title={networkTitle} />
-			<button
-				className='toolbutton'
-				id='evaluate-button'
-				title={evaluateTitle}
-			/>
-			{!props.inEditMode &&
-				!props.location.pathname.startsWith("/edit") &&
-				!props.location.pathname.startsWith("/play") &&
-				!props.location.pathname.startsWith("/scores") &&
-				!props.location.pathname.endsWith("/scores") &&
-				props.evaluationMode === "" && (
-					<button
-						className='toolbutton'
-						id='editor-button'
-						title={editorButton}
-						onClick={props.enterEditMode}
-					/>
-				)}
 			{!props.inEditMode &&
 				!props.location.pathname.startsWith("/edit") &&
 				!props.location.pathname.startsWith("/play") &&
@@ -97,6 +58,20 @@ const MainToolbar = (props) => {
 				!props.location.pathname.startsWith("/play") &&
 				!props.location.pathname.startsWith("/scores") &&
 				!props.location.pathname.endsWith("/scores") &&
+				props.evaluationMode === "" && (
+					<button
+						className='toolbutton'
+						id='editor-button'
+						title={editorButton}
+						onClick={props.enterEditMode}
+					/>
+				)}
+
+			{!props.inEditMode &&
+				!props.location.pathname.startsWith("/edit") &&
+				!props.location.pathname.startsWith("/play") &&
+				!props.location.pathname.startsWith("/scores") &&
+				!props.location.pathname.endsWith("/scores") &&
 				((props.isShared && props.isHost) || !props.isShared) && (
 					<button
 						className='toolbutton'
@@ -105,6 +80,14 @@ const MainToolbar = (props) => {
 						title={shareAll}
 					/>
 				)}
+			{!props.inEditMode && (
+				<button
+					className='toolbutton'
+					id='evaluate-button'
+					title={evaluateTitle}
+					onClick={() => props.evaluateMode("async")}
+				/>
+			)}
 			{props.inEditMode && (
 				<button
 					className='toolbutton'

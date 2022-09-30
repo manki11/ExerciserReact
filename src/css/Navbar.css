@@ -132,43 +132,7 @@
 }
 
 #evaluate-button{
-    background-image: url("../icons/navbar/evaluate.svg");
-}
-#evaluate-button.async{
-    background-image: url("../icons/navbar/async-mode.svg");
-}
-#evaluate-button.real{
-    background-image: url("../icons/navbar/evaluate.svg");
-}
-#asynchronous_mode{
-    background-image: url("../icons/navbar/async-mode.svg");
-    outline: none;
-    width: 47px;
-    height: 47px;
-    margin: 4px 2px;
-    color: white;
-    color: transparent;
-    background-color: transparent;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    border: 0;
-    border-radius: 5.5px;
-}
-#real_mode{
-    background-image: url("../icons/navbar/zoom-neighborhood.svg");
-    outline: none;
-    width: 47px;
-    height: 47px;
-    margin: 4px 2px;
-    color: white;
-    color: transparent;
-    background-color: transparent;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
-    border: 0;
-    border-radius: 5.5px;
+    background-image: url("../icons/navbar/export-eval.svg");
 }
 
 #full-screen {
