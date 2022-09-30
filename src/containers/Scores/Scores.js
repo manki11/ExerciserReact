@@ -12,6 +12,7 @@ import {
 	TIME,
 	YOUR_RESULTS,
 	DETAILS,
+	NEXT_EXERCISE,
 } from "../translation";
 import {
 	setRunAllExercise,
@@ -403,14 +404,14 @@ class Scores extends Component {
 					</div>
 					<div className='row button-container'>
 						{this.props.isRunAll ? (
-							<button
-								className={`button-${
-									this.props.runningExercise !== this.props.exercises.length - 1
-										? "next"
-										: "finish"
-								}-exercise`}
-								onClick={this.nextExercise}
-							/>
+							<button className={`btn next-button`} onClick={this.nextExercise}>
+								{this.props.runningExercise !==
+								this.props.exercises.length - 1 ? (
+									<FormattedMessage id={NEXT_EXERCISE} />
+								) : (
+									<FormattedMessage id={FINISH_EXERCISE} />
+								)}
+							</button>
 						) : (
 							<button className='button-redo' onClick={this.redo} />
 						)}
