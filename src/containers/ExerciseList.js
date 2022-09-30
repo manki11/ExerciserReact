@@ -76,9 +76,12 @@ class ExerciseList extends Component {
 		exercise = { ...exercise, shared: shared };
 		exercise["run_all"] = false;
 		this.props.editExercise(exercise);
-		console.log(exercise, "abcd");
+
 		if (shared) {
 			this.props.addSharedExercise(exercise);
+			if (this.props.evaluation_mode === "real") {
+				this.props.presenceEvaluation(id);
+			}
 		} else {
 			this.props.removeSharedExercise(id);
 		}
@@ -100,11 +103,22 @@ class ExerciseList extends Component {
 				exercise = this.props.exercises[this.props.exercise_running + 1];
 			}
 		}
+
 		if (this.props.evaluation_mode === "async") {
 			if (!this.props.evaluationExercise.find((x) => x.id === exercise.id)) {
 				this.props.addEvaluationExercise(exercise);
 			}
+		} else if (this.props.evaluation_mode === "real") {
+			if (exercise.shared) {
+				if (!this.props.evaluationExercise.find((x) => x.id === exercise.id)) {
+					this.props.addEvaluationExercise(exercise);
+				}
+			}
+			if (!this.props.evaluationExercise.find((x) => x.id === exercise.id)) {
+				this.props.addEvaluationExercise(exercise);
+			}
 		}
+
 		if (exercise.type === "MCQ") {
 			this.props.history.push("/play/mcq", { exercise: exercise });
 		}
@@ -135,7 +149,7 @@ class ExerciseList extends Component {
 	};
 
 	evaluateExercise = (id) => {
-		this.props.history.push("/async_evaluate/scores", { id });
+		this.props.history.push("/evaluate/scores", { id });
 	};
 
 	render() {

@@ -24,7 +24,7 @@ import "../css/index.css";
 
 import NewExerciseTemplate from "./Builders/Template";
 import PresenceScores from "./Scores/PresenceScores";
-import Asynchronous from "./Evaluation/Asynchronous";
+import Evaluation from "../components/Evaluation";
 
 const Main = (props) => {
 	const [ref, containerSize] = useDimensions();
@@ -44,6 +44,7 @@ const Main = (props) => {
 		inFullscreenMode,
 		setExercises,
 		playExercise,
+		presenceEvaluation,
 	} = props;
 	return (
 		<div
@@ -62,6 +63,7 @@ const Main = (props) => {
 							inFullscreenMode={inFullscreenMode}
 							setExercise={setExercises}
 							playExercise={playExercise}
+							presenceEvaluation={presenceEvaluation}
 							{...props}
 						/>
 					)}
@@ -89,9 +91,9 @@ const Main = (props) => {
 				/>
 				<Route
 					exact
-					path='/async_evaluate/scores'
+					path='/evaluate/scores'
 					render={(props) => (
-						<Asynchronous inFullscreenMode={inFullscreenMode} {...props} />
+						<Evaluation inFullscreenMode={inFullscreenMode} {...props} />
 					)}
 				/>
 

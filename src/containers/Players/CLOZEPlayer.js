@@ -170,7 +170,6 @@ class CLOZEPlayer extends Component {
 	// submit the exercise ( calculate score and time ) show correct/ wrong ans
 	submitExercise = () => {
 		const { userans, answers } = this.state;
-		console.log(this.state, "state");
 		let checkans = [];
 		let score = 0;
 		for (let i = 0; i < answers.length; i++) {

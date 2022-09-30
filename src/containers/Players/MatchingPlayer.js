@@ -270,7 +270,6 @@ class MATCHING_PAIRPLAYER extends Component {
 			userAnswers,
 		} = this.state;
 		let exercise = this.props.location.state.exercise;
-		console.log(this.state, exercise, "mathing final");
 
 		let updatedUserAnswers = [];
 		userAnswers.forEach((ans, index) => {

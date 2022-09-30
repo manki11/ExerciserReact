@@ -317,7 +317,6 @@ class Scores extends Component {
 		} else if (this.state.mode === this.modes.DETAILS) {
 			detail_active = "active";
 			const { userAnswers } = this.props.location.state;
-			console.log(userAnswers, "scores mathc");
 			let resultDetails = userAnswers.map((answer, index) => {
 				return (
 					<tr key={index}>
@@ -417,7 +416,6 @@ class Scores extends Component {
 						)}
 					</div>
 				</div>
-				{console.log(this.state, "score state")}
 			</div>
 		);
 	}

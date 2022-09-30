@@ -13,12 +13,12 @@ import {
 	TOTAL_SCORE,
 	YOUR_ANSWER,
 	YOUR_SCORE,
-} from "../translation";
-import "../../css/Scores.css";
-import "../../css/Evaluation.css";
-import withScoreHOC from "../Scores/ScoreHoc";
+} from "../containers/translation";
+import "../css/Scores.css";
+import "../css/Evaluation.css";
+import withScoreHOC from "../containers/Scores/ScoreHoc";
 
-const Asynchronous = (props) => {
+const Evaluation = (props) => {
 	const modes = {
 		SCORE: "score",
 		DETAILS: "details",
@@ -214,5 +214,5 @@ const MapStateToProps = (state) => {
 };
 
 export default withScoreHOC()(
-	injectIntl(withRouter(connect(MapStateToProps)(Asynchronous)))
+	injectIntl(withRouter(connect(MapStateToProps)(Evaluation)))
 );

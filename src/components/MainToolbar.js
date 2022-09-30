@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Tutorial from "../components/Tutorial";
 import {
 	MY_ACTIVITY,
@@ -30,8 +30,6 @@ const MainToolbar = (props) => {
 	let runAll = intl.formatMessage({ id: PLAY_ALL });
 	let shareAll = intl.formatMessage({ id: SHARE_ALL });
 
-	console.log(props, "navbar");
-
 	if (document.getElementById("asynchronous_mode")) {
 		document
 			.getElementById("asynchronous_mode")
@@ -45,6 +43,13 @@ const MainToolbar = (props) => {
 			props.evaluateMode("real");
 		});
 	}
+
+	useEffect(() => {
+		if (props.isShared && !props.isHost) {
+			document.getElementById("asynchronous_mode").disabled = true;
+			document.getElementById("real_mode").disabled = true;
+		}
+	}, [props.isShared, props.isHost]);
 
 	return (
 		<div

@@ -122,7 +122,6 @@ class Sugarizer extends Component {
 								setExerciseCounter(json.counter);
 								setRunAllExercise(json.is_run_all_click);
 								setExerciseIndex(json.exercise_index);
-								console.log(json, "journal data");
 								if (json.evaluation) {
 									if (json.evaluation.mode === "async") {
 										setEvaluationMode(json.evaluation.mode);
@@ -130,7 +129,6 @@ class Sugarizer extends Component {
 									} else {
 										setEvaluationMode("");
 									}
-									console.log(json.evaluation, "async data from journal");
 									setEvaluationExercise(json.evaluation.exercises);
 								}
 							}
@@ -180,7 +178,6 @@ class Sugarizer extends Component {
 		if (this.presence.getUserInfo().networkId === msg.user.networkId) {
 			return;
 		}
-		console.log(msg.content.data, "abcd msg");
 		switch (msg.content.action) {
 			case "init":
 				this.props.setExercises(msg.content.data.shared_exercises);
@@ -199,6 +196,18 @@ class Sugarizer extends Component {
 				if (this.isHost) {
 					this.props.addSharedResult(msg.content.result);
 				}
+				break;
+			case "init_evaluation":
+				this.props.setEvaluationMode(msg.content.data);
+				if (msg.content.data === "async") {
+					document.getElementById("evaluation_heading").innerHTML =
+						"Asynchronous";
+				} else if (msg.content.data === "real") {
+					document.getElementById("evaluation_heading").innerHTML = "Realtime";
+				}
+				break;
+			case "update_evaluation":
+				this.props.setEvaluationExercise(msg.content.data.evaluation_exercises);
 				break;
 			default:
 				break;
@@ -219,6 +228,31 @@ class Sugarizer extends Component {
 					data: data,
 				},
 			});
+			if (this.props.evaluationMode === "real") {
+				data = {
+					mode: "real",
+				};
+				presence.sendMessage(presence.getSharedInfo().id, {
+					user: presence.getUserInfo(),
+					content: {
+						action: "init_evaluation",
+						data: data,
+					},
+				});
+
+				if (this.props.evaluationExercise.length !== 0) {
+					data = {
+						evaluation_exercises: this.props.evaluationExercise,
+					};
+					presence.sendMessage(presence.getSharedInfo().id, {
+						user: presence.getUserInfo(),
+						content: {
+							action: "update_evaluation",
+							data: data,
+						},
+					});
+				}
+			}
 		}
 
 		if (msg.move === 1) this.props.addUser(msg.user);
@@ -268,6 +302,7 @@ class Sugarizer extends Component {
 
 	evaluateExercise = (mode) => {
 		let evaluate_button = document.getElementById("evaluate-button");
+		this.props.setEvaluationMode(mode);
 		if (mode === "async") {
 			document.getElementById("evaluation_heading").innerHTML = "Asynchronous";
 			evaluate_button.classList.add("async");
@@ -284,8 +319,18 @@ class Sugarizer extends Component {
 			if (!this.props.isShared) {
 				document.getElementById("shared-button").click();
 			}
+			let presence = this.presence;
+			let data = {
+				mode: "real",
+			};
+			presence.sendMessage(presence.getSharedInfo().id, {
+				user: presence.getUserInfo(),
+				content: {
+					action: "init_evaluation",
+					data: data,
+				},
+			});
 		}
-		this.props.setEvaluationMode(mode);
 	};
 
 	onShareAllExercise = () => {
@@ -313,9 +358,34 @@ class Sugarizer extends Component {
 		});
 	};
 
+	presenceEvaluationExercise = (id) => {
+		if (this.props.isShared && this.props.evaluationMode === "real") {
+			let exercise = this.props.exercises.find((x) => x.id === id);
+			let exercises = this.props.evaluationExercise;
+
+			if (!this.props.evaluationExercise.find((x) => x.id === exercise.id)) {
+				this.props.addEvaluationExercise(exercise);
+				exercises.push(exercise);
+			}
+
+			let presence = this.presence;
+			let data = {
+				evaluation_exercises: exercises,
+			};
+
+			presence.sendMessage(presence.getSharedInfo().id, {
+				user: presence.getUserInfo(),
+				content: {
+					action: "update_evaluation",
+					data: data,
+				},
+			});
+		}
+	};
+
 	onRunAllExercise = () => {
 		this.props.setRunAllExercise(true);
-		if (this.props.evaluationMode === "async") {
+		if (this.props.evaluationMode !== "") {
 			this.props.exercises.forEach((exercise) => {
 				if (!this.props.evaluationExercise.find((id) => id === exercise.id)) {
 					this.props.addEvaluationExercise(exercise);
@@ -350,7 +420,9 @@ class Sugarizer extends Component {
 				exercises: evaluationExercise,
 			},
 		};
-
+		if (this.props.evaluationMode !== "async") {
+			json.evaluation.exercises = {};
+		}
 		let jsonData = JSON.stringify(json);
 		// Compressing jsonData to be stored in Local Storage
 		jsonData = LZ.compressToUTF16(jsonData);
@@ -461,6 +533,7 @@ class Sugarizer extends Component {
 							onUpdate={this.onExerciseUpdate}
 							onSharedResult={this.onExerciseResult}
 							setExercises={this.props.setExercises}
+							presenceEvaluation={(id) => this.presenceEvaluationExercise(id)}
 						/>
 					</div>
 				</Router>
@@ -470,7 +543,6 @@ class Sugarizer extends Component {
 }
 
 function MapStateToProps(state) {
-	console.log(state, "abcd efgh");
 	return {
 		counter: state.exercise_counter,
 		exercises: state.exercises,
