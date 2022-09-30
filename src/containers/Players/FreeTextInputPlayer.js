@@ -116,12 +116,6 @@ class FreeTextInputPlayer extends Component {
 			};
 		});
 
-		let evaluation = {
-			checkans,
-			userAnswers: updatedUserAnswers,
-		};
-		this.props.updateEvaluatedExercise(this.state.id, evaluation);
-
 		this.setState({
 			submitted: true,
 			currentScore: score,
@@ -155,16 +149,38 @@ class FreeTextInputPlayer extends Component {
 			scores.push(currentScore);
 			times.push(currentTime);
 			this.props.addScoreTime(id, currentScore, currentTime);
-			this.props.history.push("/scores", {
-				scores: scores,
-				userScore: currentScore,
-				times: times,
-				userTime: currentTime,
-				noOfQuestions: noOfQuestions,
-				exercise: exercise,
-				userAnswers: userAnswers,
-				type: "FREE_TEXT_INPUT",
-			});
+			if (this.props.evaluationMode !== "") {
+				let evaluation = {
+					scores: scores,
+					userScore: currentScore,
+					times: times,
+					userTime: currentTime,
+					noOfQuestions: noOfQuestions,
+					exercise: exercise,
+					userAnswers: userAnswers,
+					type: "FREE_TEXT_INPUT",
+				};
+				this.props.updateEvaluatedExercise(this.state.id, evaluation);
+				if (this.props.isRunAll) {
+					this.props.history.push("/scores", {
+						next: true,
+						exercise: exercise,
+					});
+				} else {
+					this.history.push("/");
+				}
+			} else {
+				this.props.history.push("/scores", {
+					scores: scores,
+					userScore: currentScore,
+					times: times,
+					userTime: currentTime,
+					noOfQuestions: noOfQuestions,
+					exercise: exercise,
+					userAnswers: userAnswers,
+					type: "FREE_TEXT_INPUT",
+				});
+			}
 		}
 	};
 

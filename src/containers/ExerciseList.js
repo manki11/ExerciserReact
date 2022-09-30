@@ -114,16 +114,15 @@ class ExerciseList extends Component {
 					this.props.addEvaluationExercise(exercise);
 				}
 			}
-			if (!this.props.evaluationExercise.find((x) => x.id === exercise.id)) {
-				this.props.addEvaluationExercise(exercise);
-			}
 		}
 
 		if (exercise.type === "MCQ") {
 			this.props.history.push("/play/mcq", { exercise: exercise });
 		}
 		if (exercise.type === "CLOZE") {
-			this.props.history.push("/play/cloze", { exercise: exercise });
+			this.props.history.push("/play/cloze", {
+				exercise: exercise,
+			});
 		}
 		if (exercise.type === "REORDER") {
 			this.props.history.push("/play/reorder", { exercise: exercise });

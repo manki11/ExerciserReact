@@ -524,6 +524,7 @@ class Sugarizer extends Component {
 							onSharedResult={this.onExerciseResult}
 							setExercises={this.props.setExercises}
 							presenceEvaluation={(id) => this.presenceEvaluationExercise(id)}
+							runNextExercise={(id) => this.runNextExercise(id)}
 						/>
 					</div>
 				</Router>

@@ -39,6 +39,7 @@ export const PREVIOUS_QUESTION = "Previous Question";
 export const NEXT = "Next";
 export const NEXT_EXERCISE = "Next Exercise";
 export const FINISH_EXERCISE = "Finish Exercise";
+export const REVIEW_EXERCISE = "Review Exercise";
 export const CORRECT_OPTION = "Correct option";
 export const WRONG_OPTION = "Wrong option";
 

@@ -13,6 +13,7 @@ import {
 	YOUR_RESULTS,
 	DETAILS,
 	NEXT_EXERCISE,
+	FINISH_EXERCISE,
 } from "../translation";
 import {
 	setRunAllExercise,
@@ -122,6 +123,9 @@ class Scores extends Component {
 
 	componentDidMount() {
 		if (this.props.location) {
+			if (this.props.location.state.next) {
+				this.nextExercise();
+			}
 			const { userScore, userTime, noOfQuestions, exercise, userAnswers } =
 				this.props.location.state;
 			let score = Math.ceil((userScore / noOfQuestions) * 100);

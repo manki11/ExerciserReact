@@ -23,7 +23,6 @@ class MATCHING_PAIRPLAYER extends Component {
 			pairs: [],
 			questions: [],
 			answers: [],
-			checkans: [],
 			submitted: false,
 			selected: false,
 			selectedConnections: [],
@@ -54,8 +53,6 @@ class MATCHING_PAIRPLAYER extends Component {
 				};
 			});
 
-			let checkans = pairs.map(() => false);
-
 			let goBackToEdit = false;
 			if (this.props.location.state.edit) goBackToEdit = true;
 
@@ -76,7 +73,6 @@ class MATCHING_PAIRPLAYER extends Component {
 					noOfPairs: updatedPairs.length,
 					pairs: updatedPairs,
 					scores: scores,
-					checkans: checkans,
 					times: times,
 					goBackToEdit: goBackToEdit,
 					questions: questions,
@@ -220,7 +216,6 @@ class MATCHING_PAIRPLAYER extends Component {
 		let { score, pairs, userAnswers } = this.state;
 		this.instance.deleteEveryEndpoint();
 
-		let checkans = this.state.checkans;
 		pairs.forEach((pair) => {
 			let ansToCheck = this.state.answers[userAnswers[pair.id - 1]];
 			let source = document.getElementById(`question-${pair.id}`);
@@ -229,7 +224,6 @@ class MATCHING_PAIRPLAYER extends Component {
 			);
 			if (ansToCheck.data === pair.answer.data) {
 				score += 1;
-				checkans[pair.id - 1] = true;
 				if (this.props.evaluationMode === "") {
 					source.style.backgroundColor = "green";
 					target.style.backgroundColor = "green";
@@ -256,7 +250,6 @@ class MATCHING_PAIRPLAYER extends Component {
 			selected: false,
 			submitted: true,
 			score: score,
-			checkans: checkans,
 		});
 	};
 
@@ -284,13 +277,6 @@ class MATCHING_PAIRPLAYER extends Component {
 			});
 		});
 
-		let evaluation = {
-			checkans: this.state.checkans,
-			userAnswers: updatedUserAnswers,
-		};
-
-		this.props.updateEvaluatedExercise(this.state.id, evaluation);
-
 		if (goBackToEdit)
 			this.props.history.push("/edit/match", { exercise: exercise });
 		else {
@@ -302,16 +288,38 @@ class MATCHING_PAIRPLAYER extends Component {
 			scores.push(score);
 			times.push(currentTime);
 			this.props.addScoreTime(id, score, currentTime);
-			this.props.history.push("/scores", {
-				scores: scores,
-				userScore: score,
-				times: times,
-				userTime: currentTime,
-				noOfQuestions: noOfPairs,
-				exercise: exercise,
-				userAnswers: updatedUserAnswers,
-				type: "MATCHING_PAIR",
-			});
+			if (this.props.evaluationMode !== "") {
+				let evaluation = {
+					scores: scores,
+					userScore: score,
+					times: times,
+					userTime: currentTime,
+					noOfQuestions: noOfPairs,
+					exercise: exercise,
+					userAnswers: updatedUserAnswers,
+					type: "MATCHING_PAIR",
+				};
+				this.props.updateEvaluatedExercise(this.state.id, evaluation);
+				if (this.props.isRunAll) {
+					this.props.history.push("/scores", {
+						next: true,
+						exercise: exercise,
+					});
+				} else {
+					this.history.push("/");
+				}
+			} else {
+				this.props.history.push("/scores", {
+					scores: scores,
+					userScore: score,
+					times: times,
+					userTime: currentTime,
+					noOfQuestions: noOfPairs,
+					exercise: exercise,
+					userAnswers: updatedUserAnswers,
+					type: "MATCHING_PAIR",
+				});
+			}
 		}
 	};
 

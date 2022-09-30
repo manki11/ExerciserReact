@@ -176,16 +176,38 @@ class REORDERPlayer extends Component {
 			scores.push(score);
 			times.push(currentTime);
 			this.props.addScoreTime(id, score, currentTime);
-			this.props.history.push("/scores", {
-				scores: scores,
-				userScore: score,
-				times: times,
-				userTime: currentTime,
-				noOfQuestions: noOfQuestions,
-				exercise: exercise,
-				userAnswers: userAnswers,
-				type: "REORDER",
-			});
+			if (this.props.evaluationMode !== "") {
+				let evaluation = {
+					scores: scores,
+					userScore: score,
+					times: times,
+					userTime: currentTime,
+					noOfQuestions: noOfQuestions,
+					exercise: exercise,
+					userAnswers: userAnswers,
+					type: "REORDER",
+				};
+				this.props.updateEvaluatedExercise(this.state.id, evaluation);
+				if (this.props.isRunAll) {
+					this.props.history.push("/scores", {
+						next: true,
+						exercise: exercise,
+					});
+				} else {
+					this.history.push("/");
+				}
+			} else {
+				this.props.history.push("/scores", {
+					scores: scores,
+					userScore: score,
+					times: times,
+					userTime: currentTime,
+					noOfQuestions: noOfQuestions,
+					exercise: exercise,
+					userAnswers: userAnswers,
+					type: "REORDER",
+				});
+			}
 		}
 	};
 

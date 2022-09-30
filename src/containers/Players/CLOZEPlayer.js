@@ -153,6 +153,78 @@ class CLOZEPlayer extends Component {
 		);
 	};
 
+	test = (exercise) => {
+		const {
+			id,
+			title,
+			question,
+			scores,
+			times,
+			answers,
+			clozeText,
+			writeIn,
+			userLanguage,
+		} = exercise;
+
+		let updatedQuetion = setDefaultMedia(question);
+
+		let goBackToEdit = false;
+
+		let userans = answers.map(() => "");
+
+		let checkans = answers.map(() => false);
+
+		let cloze = clozeText
+			.split("\n")
+			.join(" <br/> ")
+			.split(/(-[0-9]*-)/);
+
+		let options = [];
+
+		// array to remove duplicate answers
+		let noduplicates = [];
+
+		answers.forEach((ans, i) => {
+			if (noduplicates.indexOf(ans) === -1) {
+				noduplicates.push(ans);
+				options.push({
+					value: ans,
+					label: ans,
+				});
+			}
+		});
+
+		this.shuffleArray(options);
+		this.setState(
+			{
+				...this.state,
+				id: id,
+				title: title,
+				question: updatedQuetion,
+				scores: scores,
+				times: times,
+				answers: answers,
+				userans: userans,
+				cloze: cloze,
+				options: options,
+				checkans: checkans,
+				writeIn: writeIn,
+				goBackToEdit: goBackToEdit,
+				userLanguage: userLanguage,
+			},
+			() => {
+				if (userLanguage.startsWith("en"))
+					meSpeak.loadVoice(
+						require(`mespeak/voices/en/${this.state.userLanguage}.json`)
+					);
+				else
+					meSpeak.loadVoice(
+						require(`mespeak/voices/${this.state.userLanguage}.json`)
+					);
+			}
+		);
+	};
+
 	handleChangeAnsInput = (e) => {
 		const index = Number(e.target.name.split("-")[1]);
 		const ans = this.state.userans.map((ans, i) =>
@@ -194,13 +266,6 @@ class CLOZEPlayer extends Component {
 			};
 		});
 
-		let evaluation = {
-			checkans: checkans,
-			userAnswers,
-		};
-
-		this.props.updateEvaluatedExercise(this.state.id, evaluation);
-
 		this.setState({
 			...this.state,
 			submitted: true,
@@ -236,16 +301,38 @@ class CLOZEPlayer extends Component {
 			scores.push(score);
 			times.push(currentTime);
 			this.props.addScoreTime(id, score, currentTime);
-			this.props.history.push("/scores", {
-				scores: scores,
-				userScore: score,
-				times: times,
-				userTime: currentTime,
-				noOfQuestions: noOfQuestions,
-				exercise: exercise,
-				userAnswers: userAnswers,
-				type: "CLOZE",
-			});
+			if (this.props.evaluationMode !== "") {
+				let evaluation = {
+					scores: scores,
+					userScore: score,
+					times: times,
+					userTime: currentTime,
+					noOfQuestions: noOfQuestions,
+					exercise: exercise,
+					userAnswers: userAnswers,
+					type: "CLOZE",
+				};
+				this.props.updateEvaluatedExercise(this.state.id, evaluation);
+				if (this.props.isRunAll) {
+					this.props.history.push("/scores", {
+						next: true,
+						exercise: exercise,
+					});
+				} else {
+					this.history.push("/");
+				}
+			} else {
+				this.props.history.push("/scores", {
+					scores: scores,
+					userScore: score,
+					times: times,
+					userTime: currentTime,
+					noOfQuestions: noOfQuestions,
+					exercise: exercise,
+					userAnswers: userAnswers,
+					type: "CLOZE",
+				});
+			}
 		}
 	};
 
@@ -272,8 +359,9 @@ class CLOZEPlayer extends Component {
 		const questionData = this.state.question.data;
 
 		let buttonText = <FormattedMessage id={SUBMIT_QUESTION} />;
-		if (this.state.submitted)
+		if (this.state.submitted) {
 			buttonText = <FormattedMessage id={FINISH_EXERCISE} />;
+		}
 
 		let clozetext = this.state.cloze.map((text, i) => {
 			// if (text === '</br>') return (<span key={`break${i}`}><br/></span>)

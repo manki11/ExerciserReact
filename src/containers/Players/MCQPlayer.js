@@ -30,7 +30,6 @@ class MCQPlayer extends Component {
 			selectedAns: { type: "", data: "" },
 			scores: [],
 			times: [],
-			checkans: [],
 			currentTime: 0,
 			intervalID: -1,
 			goBackToEdit: false,
@@ -71,7 +70,6 @@ class MCQPlayer extends Component {
 
 			let finish = false;
 			if (questions.length === 1) finish = true;
-			let checkans = questions.map(() => false);
 			let goBackToEdit = false;
 			if (this.props.location.state.edit) goBackToEdit = true;
 
@@ -88,7 +86,6 @@ class MCQPlayer extends Component {
 					scores: scores,
 					times: times,
 					finish: finish,
-					checkans: checkans,
 					goBackToEdit: goBackToEdit,
 					userLanguage: userLanguage,
 					currentQuestion: {
@@ -146,10 +143,8 @@ class MCQPlayer extends Component {
 			this.state;
 		const { correctAns } = currentQuestion;
 		let score = currentScore;
-		let checkans = this.state.checkans;
 		if (selectedAns.data === correctAns.data) {
 			score = score + 1;
-			checkans[currentQuestion.id - 1] = true;
 		}
 
 		let updatedUserAnswers = userAnswers;
@@ -158,14 +153,6 @@ class MCQPlayer extends Component {
 			correctAns: currentQuestion.correctAns,
 			userAns: selectedAns,
 		};
-
-		if (this.state.noOfQuestions === updatedUserAnswers.length) {
-			let evaluation = {
-				checkans,
-				userAnswers: updatedUserAnswers,
-			};
-			this.props.updateEvaluatedExercise(this.state.id, evaluation);
-		}
 
 		this.setState({
 			selected: false,
@@ -233,16 +220,38 @@ class MCQPlayer extends Component {
 			scores.push(currentScore);
 			times.push(currentTime);
 			this.props.addScoreTime(id, currentScore, currentTime);
-			this.props.history.push("/scores", {
-				scores: scores,
-				userScore: currentScore,
-				times: times,
-				userTime: currentTime,
-				noOfQuestions: noOfQuestions,
-				exercise: exercise,
-				userAnswers: userAnswers,
-				type: "MCQ",
-			});
+			if (this.props.evaluationMode !== "") {
+				let evaluation = {
+					scores: scores,
+					userScore: currentScore,
+					times: times,
+					userTime: currentTime,
+					noOfQuestions: noOfQuestions,
+					exercise: exercise,
+					userAnswers: userAnswers,
+					type: "MCQ",
+				};
+				this.props.updateEvaluatedExercise(this.state.id, evaluation);
+				if (this.props.isRunAll) {
+					this.props.history.push("/scores", {
+						next: true,
+						exercise: exercise,
+					});
+				} else {
+					this.history.push("/");
+				}
+			} else {
+				this.props.history.push("/scores", {
+					scores: scores,
+					userScore: currentScore,
+					times: times,
+					userTime: currentTime,
+					noOfQuestions: noOfQuestions,
+					exercise: exercise,
+					userAnswers: userAnswers,
+					type: "MCQ",
+				});
+			}
 		}
 	};
 
