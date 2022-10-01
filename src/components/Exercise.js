@@ -257,9 +257,11 @@ class Exercise extends Component {
 						</div>
 						<span className='card-text'>
 							<div className='exercise-card-question'>{question_string}</div>
-							<div className='exercise-card-hiscore'>
-								<FormattedMessage id={BEST_SCORE} />: {highest}/{length}
-							</div>
+							{this.props.evaluationMode === "" && (
+								<div className='exercise-card-hiscore'>
+									<FormattedMessage id={BEST_SCORE} />: {highest}/{length}
+								</div>
+							)}
 						</span>
 						<div className='buttons'>
 							{this.props.inEditMode ? (

@@ -8,7 +8,10 @@ import {
 	setRunAllExercise,
 	setExerciseIndex,
 } from "../store/actions/sugarizer";
-import { addEvaluationExercise } from "../store/actions/evaluation";
+import {
+	setEvaluationMode,
+	addEvaluationExercise,
+} from "../store/actions/evaluation";
 import "../css/ExerciseList.css";
 import UserList from "../components/UserList";
 import { withRouter } from "react-router-dom";
@@ -68,10 +71,6 @@ class ExerciseList extends Component {
 	};
 
 	onShare = (id, shared) => {
-		if (!this.props.isShared) {
-			document.getElementById("shared-button").click();
-		}
-
 		let exercise = this.props.exercises.find((x) => x.id === id);
 		exercise = { ...exercise, shared: shared };
 		exercise["run_all"] = false;
@@ -158,6 +157,9 @@ class ExerciseList extends Component {
 			document.getElementById(
 				"realtime-evaluate-button"
 			).style.backgroundColor = this.props.current_user.colorvalue.stroke;
+
+		this.props.evaluate("real");
+		this.props.setEvaluationMode("real");
 	};
 
 	render() {
@@ -269,20 +271,12 @@ class ExerciseList extends Component {
 				<div className='evaluation-container'>
 					<button
 						className='realtime-evaluation-button'
-						onClick={() => this.test()}
+						id='realtime-evaluate-button'
+						onClick={() => this.realtime()}
 					/>
 				</div>
 			);
 		}
-		realtime_evaluation = (
-			<div className='evaluation-container'>
-				<button
-					className='realtime-evaluation-button'
-					onClick={() => this.realtime()}
-					id='realtime-evaluate-button'
-				/>
-			</div>
-		);
 
 		return (
 			<div className='home-container' style={styles}>
@@ -333,5 +327,6 @@ export default withRouter(
 		setRunAllExercise,
 		setExerciseIndex,
 		addEvaluationExercise,
+		setEvaluationMode,
 	})(ExerciseList)
 );

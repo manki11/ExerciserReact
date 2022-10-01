@@ -239,13 +239,6 @@ class GroupAssignmentPlayer extends Component {
 			};
 		});
 
-		let evaluation = {
-			checkans: this.state.checkans,
-			userAnswers: updatedUserAnswers,
-		};
-
-		this.props.updateEvaluatedExercise(this.state.id, evaluation);
-
 		if (goBackToEdit)
 			this.props.history.push("/edit/group", { exercise: exercise });
 		else {
@@ -257,16 +250,48 @@ class GroupAssignmentPlayer extends Component {
 			scores.push(currentScore);
 			times.push(currentTime);
 			this.props.addScoreTime(id, currentScore, currentTime);
-			this.props.history.push("/scores", {
-				scores: scores,
-				userScore: currentScore,
-				times: times,
-				userTime: currentTime,
-				noOfQuestions: noOfQuestions,
-				exercise: exercise,
-				userAnswers: updatedUserAnswers,
-				type: "GROUP_ASSIGNMENT",
-			});
+			if (this.props.evaluationMode !== "") {
+				if (exercise.shared) {
+					let scorePercentage = Math.ceil((currentScore / noOfQuestions) * 100);
+					let time = Math.ceil(currentTime / 60);
+					this.props.onSharedResult(
+						exercise.id,
+						scorePercentage,
+						time,
+						updatedUserAnswers
+					);
+				}
+				let evaluation = {
+					scores: scores,
+					userScore: currentScore,
+					times: times,
+					userTime: currentTime,
+					noOfQuestions: noOfQuestions,
+					exercise: exercise,
+					userAnswers: updatedUserAnswers,
+					type: "GROUP_ASSIGNMENT",
+				};
+				this.props.updateEvaluatedExercise(this.state.id, evaluation);
+				if (this.props.isRunAll) {
+					this.props.history.push("/scores", {
+						next: true,
+						exercise: exercise,
+					});
+				} else {
+					this.props.history.push("/");
+				}
+			} else {
+				this.props.history.push("/scores", {
+					scores: scores,
+					userScore: currentScore,
+					times: times,
+					userTime: currentTime,
+					noOfQuestions: noOfQuestions,
+					exercise: exercise,
+					userAnswers: updatedUserAnswers,
+					type: "GROUP_ASSIGNMENT",
+				});
+			}
 		}
 	};
 

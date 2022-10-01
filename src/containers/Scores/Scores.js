@@ -131,7 +131,7 @@ class Scores extends Component {
 				this.props.location.state;
 			let score = Math.ceil((userScore / noOfQuestions) * 100);
 			let time = Math.ceil(userTime / 60);
-			if (this.props.isShared) {
+			if (this.props.isShared && this.props.evaluationMode === "") {
 				this.props.onSharedResult(exercise.id, score, time, userAnswers);
 			}
 			this.setChart();
@@ -139,14 +139,12 @@ class Scores extends Component {
 	}
 
 	setChart = () => {
-		console.log(this.props.location);
 		const { userScore, userTime, noOfQuestions } = this.props.location.state;
 		const { stroke, fill } = this.props.current_user.colorvalue
 			? this.props.current_user.colorvalue
 			: { stroke: "#00FFFF", fill: "#800080" };
 
 		let score = Math.ceil((userScore / noOfQuestions) * 100);
-		console.log(score, "score");
 		let time = Math.ceil(userTime / 60);
 		let y_limit = Math.max(time, 10);
 		const { name } = this.props.current_user;

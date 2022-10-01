@@ -143,12 +143,9 @@ class MCQPlayer extends Component {
 			this.state;
 		const { correctAns } = currentQuestion;
 		let score = currentScore;
-		console.log(score, "q");
-		console.log(currentQuestion);
 		if (selectedAns.data === correctAns.data) {
 			score = score + 1;
 		}
-		console.log(score, "q1");
 
 		let updatedUserAnswers = userAnswers;
 		updatedUserAnswers[currentQuestion.id - 1] = {
@@ -220,6 +217,16 @@ class MCQPlayer extends Component {
 			times.push(currentTime);
 			this.props.addScoreTime(id, currentScore, currentTime);
 			if (this.props.evaluationMode !== "") {
+				if (exercise.shared) {
+					let scorePercentage = Math.ceil((currentScore / noOfQuestions) * 100);
+					let time = Math.ceil(currentTime / 60);
+					this.props.onSharedResult(
+						exercise.id,
+						scorePercentage,
+						time,
+						userAnswers
+					);
+				}
 				let evaluation = {
 					scores: scores,
 					userScore: currentScore,

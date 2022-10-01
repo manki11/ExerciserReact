@@ -143,7 +143,7 @@ class Navbar extends Component {
 			stopTutorial: this.stopTutorial,
 			runAll: this.runAllExercise,
 			shareAll: this.shareAll,
-			evaluateMode: this.props.evaluate,
+			evaluate: this.props.evaluate,
 		};
 		return (
 			<React.Fragment>
@@ -152,6 +152,7 @@ class Navbar extends Component {
 					{...navFunctions}
 					showTutorial={this.state.showTutorial}
 					shared_exercises={this.props.shared_exercises}
+					evaluationMode={this.props.evaluationMode}
 				/>
 				<button
 					className={

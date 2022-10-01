@@ -26,7 +26,7 @@ import meSpeak from "mespeak";
 import LZ from "lz-string";
 
 // actions
-import { setExercises } from "../store/actions/exercises";
+import { setExercises, editExercise } from "../store/actions/exercises";
 import {
 	setUser,
 	setRunAllExercise,
@@ -36,6 +36,7 @@ import { setExerciseCounter } from "../store/actions/increment_counter";
 import {
 	setEvaluationMode,
 	setEvaluationExercise,
+	addEvaluationExercisesPresence,
 	addEvaluationExercise,
 } from "../store/actions/evaluation";
 import {
@@ -84,6 +85,7 @@ class Sugarizer extends Component {
 			setExerciseIndex,
 			setEvaluationMode,
 			setEvaluationExercise,
+			shared_exercises,
 		} = this.props;
 
 		let temp = this;
@@ -164,6 +166,9 @@ class Sugarizer extends Component {
 							setIsHost(true);
 							setIsShared(true);
 							temp.isHost = true;
+							if (temp.props.shared_exercises.length === 0) {
+								temp.onShareAllExercise();
+							}
 							// console.log("after sharing:");
 						}
 					);
@@ -172,6 +177,12 @@ class Sugarizer extends Component {
 				});
 			});
 		}, 500);
+	}
+
+	componentDidUpdate() {
+		if (this.props.shared_exercises.length !== 0 && !this.props.isShared) {
+			document.getElementById("shared-button").click();
+		}
 	}
 
 	onNetworkDataReceived(msg) {
@@ -185,10 +196,7 @@ class Sugarizer extends Component {
 				break;
 			case "update":
 				this.props.setExercises(msg.content.data.shared_exercises);
-				if (
-					msg.content.data.shared_exercises[0] &&
-					msg.content.data.shared_exercises[0].run_all
-				) {
+				if (msg.content.data.shared_exercises[0]) {
 					this.props.shareAllExercise(msg.content.data.shared_exercises);
 				}
 				break;
@@ -198,16 +206,12 @@ class Sugarizer extends Component {
 				}
 				break;
 			case "init_evaluation":
-				this.props.setEvaluationMode(msg.content.data);
-				if (msg.content.data === "async") {
-					document.getElementById("evaluation_heading").innerHTML =
-						"Asynchronous";
-				} else if (msg.content.data === "real") {
-					document.getElementById("evaluation_heading").innerHTML = "Realtime";
-				}
+				this.props.setEvaluationMode(msg.content.data.mode);
 				break;
 			case "update_evaluation":
-				this.props.setEvaluationExercise(msg.content.data.evaluation_exercises);
+				this.props.addEvaluationExercisesPresence(
+					msg.content.data.evaluation_exercises
+				);
 				break;
 			default:
 				break;
@@ -241,8 +245,12 @@ class Sugarizer extends Component {
 				});
 
 				if (this.props.evaluationExercise.length !== 0) {
+					let exercises = [];
+					this.props.evaluationExercise.forEach((element) => {
+						exercises.push({ ...element, evaluation: null });
+					});
 					data = {
-						evaluation_exercises: this.props.evaluationExercise,
+						evaluation_exercises: exercises,
 					};
 					presence.sendMessage(presence.getSharedInfo().id, {
 						user: presence.getUserInfo(),
@@ -262,17 +270,21 @@ class Sugarizer extends Component {
 
 	onExerciseUpdate = () => {
 		const { shared_exercises } = this.props;
-		let data = {
-			shared_exercises: shared_exercises,
-		};
-		let presence = this.presence;
-		presence.sendMessage(presence.getSharedInfo().id, {
-			user: presence.getUserInfo(),
-			content: {
-				action: "update",
-				data: data,
-			},
-		});
+		if (shared_exercises.length === 0) {
+			this.onShareAllExercise();
+		} else {
+			let data = {
+				shared_exercises: shared_exercises,
+			};
+			let presence = this.presence;
+			presence.sendMessage(presence.getSharedInfo().id, {
+				user: presence.getUserInfo(),
+				content: {
+					action: "update",
+					data: data,
+				},
+			});
+		}
 	};
 
 	toggleFullscreen = () => {
@@ -306,9 +318,6 @@ class Sugarizer extends Component {
 		if (mode === "async") {
 			this.stopActivity();
 		} else if (mode === "real") {
-			if (!this.props.isShared) {
-				document.getElementById("shared-button").click();
-			}
 			let presence = this.presence;
 			let data = {
 				mode: "real",
@@ -320,13 +329,14 @@ class Sugarizer extends Component {
 					data: data,
 				},
 			});
+
+			if (this.props.sharedAllExercises.exercises) {
+				this.presenceEvaluationExercise();
+			}
 		}
 	};
 
 	onShareAllExercise = () => {
-		if (!this.props.isShared) {
-			document.getElementById("shared-button").click();
-		}
 		let presence = this.presence;
 		let data = {
 			shared_exercises: this.props.exercises,
@@ -334,9 +344,8 @@ class Sugarizer extends Component {
 		this.props.shareAllExercise(this.props.exercises);
 		this.props.exercises.forEach((exercise) => {
 			if (!this.props.shared_exercises.find((x) => x.id === exercise.id)) {
-				exercise["run_all"] = true;
-				exercise["shared"] = true;
-				this.props.addSharedExercise(exercise);
+				this.props.editExercise({ ...exercise, shared: true });
+				this.props.addSharedExercise({ ...exercise, shared: true });
 			}
 		});
 		presence.sendMessage(presence.getSharedInfo().id, {
@@ -346,19 +355,39 @@ class Sugarizer extends Component {
 				data: data,
 			},
 		});
+		this.presenceEvaluationExercise();
 	};
 
-	presenceEvaluationExercise = (id) => {
-		if (this.props.isShared && this.props.evaluationMode === "real") {
-			let exercise = this.props.exercises.find((x) => x.id === id);
-			let exercises = this.props.evaluationExercise;
+	presenceEvaluationExercise = (id = null) => {
+		let exercise = "";
+		let exercises = [];
+		if (this.props.sharedAllExercises.exercises) {
+			exercises = this.props.sharedAllExercises.exercises;
+			exercises.forEach((element) => {
+				if (!this.props.evaluationExercise.find((x) => x.id === element.id)) {
+					this.props.addEvaluationExercise(element);
+				}
+			});
+		} else {
+			if (id !== null) {
+				exercise = this.props.exercises.find((x) => x.id === id);
+				exercises = this.props.evaluationExercise;
 
-			if (!this.props.evaluationExercise.find((x) => x.id === exercise.id)) {
-				this.props.addEvaluationExercise(exercise);
-				exercises.push(exercise);
+				if (!this.props.evaluationExercise.find((x) => x.id === exercise.id)) {
+					this.props.addEvaluationExercise(exercise);
+					exercises.push(exercise);
+				}
 			}
-
+		}
+		if (
+			this.props.isShared &&
+			this.props.evaluationMode === "real" &&
+			this.props.isHost
+		) {
 			let presence = this.presence;
+			exercises.forEach((element) => {
+				delete element.evaluation;
+			});
 			let data = {
 				evaluation_exercises: exercises,
 			};
@@ -525,6 +554,7 @@ class Sugarizer extends Component {
 							setExercises={this.props.setExercises}
 							presenceEvaluation={(id) => this.presenceEvaluationExercise(id)}
 							runNextExercise={(id) => this.runNextExercise(id)}
+							evaluate={(mode) => this.evaluateExercise(mode)}
 						/>
 					</div>
 				</Router>
@@ -544,11 +574,13 @@ function MapStateToProps(state) {
 		isShared: state.isShared,
 		evaluationMode: state.evaluation_mode,
 		evaluationExercise: state.evaluation_exercise,
+		sharedAllExercises: state.shared_all_exercises,
 	};
 }
 
 export default connect(MapStateToProps, {
 	setExercises,
+	editExercise,
 	setExerciseCounter,
 	setRunAllExercise,
 	setIsHost,
@@ -563,4 +595,5 @@ export default connect(MapStateToProps, {
 	setEvaluationMode,
 	setEvaluationExercise,
 	addEvaluationExercise,
+	addEvaluationExercisesPresence,
 })(Sugarizer);

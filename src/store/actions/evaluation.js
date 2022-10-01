@@ -1,5 +1,6 @@
 import {
 	ADD_EVALUATION_EXERCISE,
+	PRESENCE_ADD_EVALUATION_EXERCISES,
 	SET_EVALUATION_EXERCISE,
 	SET_EVALUATION_MODE,
 	UPDATE_EVALUATED_EXERCISE,
@@ -31,5 +32,12 @@ export const updateEvaluatedExercise = (id, evaluation) => {
 		type: UPDATE_EVALUATED_EXERCISE,
 		id,
 		evaluation,
+	};
+};
+
+export const addEvaluationExercisesPresence = (exercises) => {
+	return {
+		type: PRESENCE_ADD_EVALUATION_EXERCISES,
+		exercises,
 	};
 };

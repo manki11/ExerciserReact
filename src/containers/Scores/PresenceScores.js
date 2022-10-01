@@ -15,6 +15,7 @@ import {
 import "../../css/PresenceScores.css";
 import withScoreHOC from "./ScoreHoc";
 import UserIcon from "../../components/UserIcon";
+import { timers } from "jquery";
 
 class PresenceScores extends Component {
 	constructor(props) {
@@ -159,6 +160,24 @@ class PresenceScores extends Component {
 		let scores = [];
 		let times = [];
 
+		if (this.props.evaluationMode !== "") {
+			let eval_exercise = this.props.evaluationExercise.find(
+				(x) => x.id === exercise.id
+			);
+			if (eval_exercise && eval_exercise.evaluation) {
+				users.push(this.props.current_user.name);
+				strokes.push(this.props.current_user.colorvalue.stroke);
+				fills.push(this.props.current_user.colorvalue.fill);
+				let score = Math.ceil(
+					(eval_exercise.evaluation.userScore /
+						eval_exercise.evaluation.noOfQuestions) *
+						100
+				);
+				let time = Math.ceil(eval_exercise.evaluation.userTime / 60);
+				scores.push(score);
+				times.push(time);
+			}
+		}
 		if (score) shared_results.sort(this.compare_score);
 		else shared_results.sort(this.compare_time);
 
@@ -321,6 +340,7 @@ class PresenceScores extends Component {
 			const { shared_results } = exercise;
 			let users = [];
 			let allUserAnswers = [];
+
 			shared_results.forEach((result) => {
 				users.push(result.user.name);
 				allUserAnswers.push(result.userAnswers);
@@ -338,23 +358,22 @@ class PresenceScores extends Component {
 						</tr>
 					);
 				});
-
 				let usersMenu = shared_results.map((sharedUser, index) => {
 					return (
 						<tr
 							className={
-								this.state.userDetailsIndex !== index
+								this.state.userDetailsIndex !== index + 1
 									? "shared-results-user-selected"
 									: ""
 							}
 						>
 							<td
 								onClick={() => {
-									this.setDetailedResultUser(index);
+									this.setDetailedResultUser(index + 1);
 								}}
 								style={{
 									backgroundColor:
-										this.state.userDetailsIndex === index ? `#808080` : "",
+										this.state.userDetailsIndex === index + 1 ? `#808080` : "",
 								}}
 							>
 								<span className='user-icon'>
@@ -370,7 +389,6 @@ class PresenceScores extends Component {
 						</tr>
 					);
 				});
-
 				chart = (
 					<div style={{ display: "flex" }}>
 						<div className='col-md-3'>
@@ -452,7 +470,11 @@ class PresenceScores extends Component {
 }
 
 function MapStateToProps(state) {
-	return {};
+	return {
+		current_user: state.current_user,
+		evaluationMode: state.evaluation_mode,
+		evaluationExercise: state.evaluation_exercise,
+	};
 }
 
 export default withScoreHOC()(

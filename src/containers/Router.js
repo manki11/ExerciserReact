@@ -44,6 +44,7 @@ const Main = (props) => {
 		setExercises,
 		playExercise,
 		presenceEvaluation,
+		evaluate,
 	} = props;
 	return (
 		<div
@@ -63,6 +64,7 @@ const Main = (props) => {
 							setExercise={setExercises}
 							playExercise={playExercise}
 							presenceEvaluation={presenceEvaluation}
+							evaluate={evaluate}
 							{...props}
 						/>
 					)}
@@ -108,7 +110,11 @@ const Main = (props) => {
 					exact
 					path='/play/mcq'
 					render={(props) => (
-						<MCQPlay inFullscreenMode={inFullscreenMode} {...props} />
+						<MCQPlay
+							onSharedResult={onSharedResult}
+							inFullscreenMode={inFullscreenMode}
+							{...props}
+						/>
 					)}
 				/>
 
@@ -131,7 +137,11 @@ const Main = (props) => {
 					exact
 					path='/play/cloze'
 					render={(props) => (
-						<CLOZEPlay inFullscreenMode={inFullscreenMode} {...props} />
+						<CLOZEPlay
+							onSharedResult={onSharedResult}
+							inFullscreenMode={inFullscreenMode}
+							{...props}
+						/>
 					)}
 				/>
 
@@ -154,7 +164,11 @@ const Main = (props) => {
 					exact
 					path='/play/reorder'
 					render={(props) => (
-						<REORDERPlay inFullscreenMode={inFullscreenMode} {...props} />
+						<REORDERPlay
+							onSharedResult={onSharedResult}
+							inFullscreenMode={inFullscreenMode}
+							{...props}
+						/>
 					)}
 				/>
 
@@ -184,6 +198,7 @@ const Main = (props) => {
 					path='/play/group'
 					render={(props) => (
 						<GroupAssignmentPlayer
+							onSharedResult={onSharedResult}
 							inFullscreenMode={inFullscreenMode}
 							{...props}
 						/>
@@ -210,6 +225,7 @@ const Main = (props) => {
 					path='/play/freeText'
 					render={(props) => (
 						<FreeTextInputPlayer
+							onSharedResult={onSharedResult}
 							inFullscreenMode={inFullscreenMode}
 							{...props}
 						/>
@@ -236,6 +252,7 @@ const Main = (props) => {
 					path='/play/match'
 					render={(props) => (
 						<MATCHINGPAIRPlayer
+							onSharedResult={onSharedResult}
 							inFullscreenMode={inFullscreenMode}
 							{...props}
 						/>

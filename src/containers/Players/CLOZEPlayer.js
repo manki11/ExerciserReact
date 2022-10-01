@@ -302,6 +302,16 @@ class CLOZEPlayer extends Component {
 			times.push(currentTime);
 			this.props.addScoreTime(id, score, currentTime);
 			if (this.props.evaluationMode !== "") {
+				if (exercise.shared) {
+					let scorePercentage = Math.ceil((score / noOfQuestions) * 100);
+					let time = Math.ceil(currentTime / 60);
+					this.props.onSharedResult(
+						exercise.id,
+						scorePercentage,
+						time,
+						userAnswers
+					);
+				}
 				let evaluation = {
 					scores: scores,
 					userScore: score,
