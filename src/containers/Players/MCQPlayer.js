@@ -143,9 +143,12 @@ class MCQPlayer extends Component {
 			this.state;
 		const { correctAns } = currentQuestion;
 		let score = currentScore;
+		console.log(score, "q");
+		console.log(currentQuestion);
 		if (selectedAns.data === correctAns.data) {
 			score = score + 1;
 		}
+		console.log(score, "q1");
 
 		let updatedUserAnswers = userAnswers;
 		updatedUserAnswers[currentQuestion.id - 1] = {
@@ -160,10 +163,6 @@ class MCQPlayer extends Component {
 			currentScore: score,
 			userAnswers: updatedUserAnswers,
 		});
-
-		if (this.props.evaluationMode !== "") {
-			this.nextQuestion();
-		}
 	};
 
 	// move to next question
@@ -280,7 +279,7 @@ class MCQPlayer extends Component {
 			if (this.state.selectedAns.data === option.data) {
 				btn = "btn-selected";
 			}
-			if (this.state.submitted) {
+			if (this.state.submitted && this.props.evaluationMode === "") {
 				if (
 					this.state.selectedAns.data ===
 					this.state.currentQuestion.correctAns.data

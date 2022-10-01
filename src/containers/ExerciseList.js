@@ -79,7 +79,7 @@ class ExerciseList extends Component {
 
 		if (shared) {
 			this.props.addSharedExercise(exercise);
-			if (this.props.evaluation_mode === "real") {
+			if (this.props.evaluationMode === "real") {
 				this.props.presenceEvaluation(id);
 			}
 		} else {
@@ -104,11 +104,11 @@ class ExerciseList extends Component {
 			}
 		}
 
-		if (this.props.evaluation_mode === "async") {
+		if (this.props.evaluationMode === "async") {
 			if (!this.props.evaluationExercise.find((x) => x.id === exercise.id)) {
 				this.props.addEvaluationExercise(exercise);
 			}
-		} else if (this.props.evaluation_mode === "real") {
+		} else if (this.props.evaluationMode === "real") {
 			if (exercise.shared) {
 				if (!this.props.evaluationExercise.find((x) => x.id === exercise.id)) {
 					this.props.addEvaluationExercise(exercise);
@@ -200,6 +200,7 @@ class ExerciseList extends Component {
 								this.props.evaluationExercise.find((x) => x.id === r.id)
 									.evaluation
 							}
+							evaluationMode={this.props.evaluationMode}
 							{...r}
 						/>
 					</div>
@@ -292,7 +293,7 @@ function MapStateToProps(state) {
 		shared_exercises: state.shared_exercises,
 		users: state.users,
 		current_user: state.current_user,
-		evaluation_mode: state.evaluation_mode,
+		evaluationMode: state.evaluation_mode,
 		evaluationExercise: state.evaluation_exercise,
 	};
 }

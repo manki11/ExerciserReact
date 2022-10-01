@@ -189,6 +189,10 @@ class Exercise extends Component {
 			);
 		}
 
+		if (this.props.evaluationMode === "async") {
+			share = "";
+		}
+
 		let length = 0;
 		let localized_type = "";
 

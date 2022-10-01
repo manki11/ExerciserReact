@@ -139,12 +139,14 @@ class Scores extends Component {
 	}
 
 	setChart = () => {
+		console.log(this.props.location);
 		const { userScore, userTime, noOfQuestions } = this.props.location.state;
 		const { stroke, fill } = this.props.current_user.colorvalue
 			? this.props.current_user.colorvalue
 			: { stroke: "#00FFFF", fill: "#800080" };
 
 		let score = Math.ceil((userScore / noOfQuestions) * 100);
+		console.log(score, "score");
 		let time = Math.ceil(userTime / 60);
 		let y_limit = Math.max(time, 10);
 		const { name } = this.props.current_user;
@@ -304,7 +306,6 @@ class Scores extends Component {
 						break;
 					}
 				}
-				console.log(index);
 				this.playExercise(exercises[index]);
 			} else {
 				this.playExercise(exercises[exerciseIndex + 1]);
@@ -428,7 +429,6 @@ class Scores extends Component {
 						{chart}
 					</div>
 					<div className='row button-container'>
-						{console.log(this.props.history.location.state.exercise.evaluation)}
 						{this.props.history.location.state.exercise.evaluation ? (
 							<button
 								className='btn next-button'
