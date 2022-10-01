@@ -148,10 +148,16 @@ class ExerciseList extends Component {
 	};
 
 	evaluateExercise = (id) => {
-		console.log(this.props);
 		let exercise = this.props.evaluationExercise.find((item) => item.id === id);
 		let data = exercise.evaluation;
 		this.props.history.push("/scores", { ...data, exercise: exercise });
+	};
+
+	realtime = () => {
+		if (this.props.current_user.colorvalue)
+			document.getElementById(
+				"realtime-evaluate-button"
+			).style.backgroundColor = this.props.current_user.colorvalue.stroke;
 	};
 
 	render() {
@@ -218,6 +224,7 @@ class ExerciseList extends Component {
 		let styles = { backgroundColor: fill };
 
 		let userIcon = "";
+		let realtime_evaluation = "";
 
 		if (this.props.isShared && this.props.isHost) {
 			userList = users.map((user, index) => {
@@ -257,11 +264,30 @@ class ExerciseList extends Component {
 					/>
 				</div>
 			);
+
+			realtime_evaluation = (
+				<div className='evaluation-container'>
+					<button
+						className='realtime-evaluation-button'
+						onClick={() => this.test()}
+					/>
+				</div>
+			);
 		}
+		realtime_evaluation = (
+			<div className='evaluation-container'>
+				<button
+					className='realtime-evaluation-button'
+					onClick={() => this.realtime()}
+					id='realtime-evaluate-button'
+				/>
+			</div>
+		);
 
 		return (
 			<div className='home-container' style={styles}>
 				{userIcon}
+				{realtime_evaluation}
 				{userAdmin}
 				<div
 					className={

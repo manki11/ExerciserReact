@@ -24,7 +24,6 @@ import "../css/index.css";
 
 import NewExerciseTemplate from "./Builders/Template";
 import PresenceScores from "./Scores/PresenceScores";
-import Evaluation from "../components/Evaluation";
 
 const Main = (props) => {
 	const [ref, containerSize] = useDimensions();
@@ -87,13 +86,6 @@ const Main = (props) => {
 							inFullscreenMode={inFullscreenMode}
 							{...props}
 						/>
-					)}
-				/>
-				<Route
-					exact
-					path='/evaluate/scores'
-					render={(props) => (
-						<Evaluation inFullscreenMode={inFullscreenMode} {...props} />
 					)}
 				/>
 
