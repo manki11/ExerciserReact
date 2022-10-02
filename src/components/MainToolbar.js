@@ -66,14 +66,20 @@ const MainToolbar = (props) => {
 						onClick={props.enterEditMode}
 					/>
 				)}
-			{!props.inEditMode && props.evaluationMode !== "real" && (
-				<button
-					className='toolbutton'
-					id='evaluate-button'
-					title={evaluateTitle}
-					onClick={() => props.evaluate("async")}
-				/>
-			)}
+			{!props.inEditMode &&
+				props.evaluationMode !== "real" &&
+				!props.location.pathname.startsWith("/new") &&
+				!props.location.pathname.startsWith("/edit") &&
+				!props.location.pathname.startsWith("/play") &&
+				!props.location.pathname.startsWith("/scores") &&
+				!props.location.pathname.endsWith("/scores") && (
+					<button
+						className='toolbutton'
+						id='evaluate-button'
+						title={evaluateTitle}
+						onClick={() => props.evaluate("async")}
+					/>
+				)}
 			{props.inEditMode && (
 				<button
 					className='toolbutton'

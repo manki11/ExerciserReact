@@ -153,11 +153,6 @@ class ExerciseList extends Component {
 	};
 
 	realtime = () => {
-		if (this.props.current_user.colorvalue)
-			document.getElementById(
-				"realtime-evaluate-button"
-			).style.backgroundColor = this.props.current_user.colorvalue.stroke;
-
 		this.props.evaluate("real");
 		this.props.setEvaluationMode("real");
 	};

@@ -136,7 +136,6 @@ class Sugarizer extends Component {
 							}
 						});
 				}
-
 				if (environment.sharedId) {
 					// console.log("Shared instance");
 					temp.presence = activity.getPresenceObject(function (error, network) {
@@ -322,6 +321,11 @@ class Sugarizer extends Component {
 			let data = {
 				mode: "real",
 			};
+			let realtime_button = document.getElementById("realtime-evaluate-button");
+			activity.getUpdateIcon(
+				realtime_button,
+				this.props.current_user.colorvalue
+			);
 			presence.sendMessage(presence.getSharedInfo().id, {
 				user: presence.getUserInfo(),
 				content: {
@@ -575,6 +579,7 @@ function MapStateToProps(state) {
 		evaluationMode: state.evaluation_mode,
 		evaluationExercise: state.evaluation_exercise,
 		sharedAllExercises: state.shared_all_exercises,
+		current_user: state.current_user,
 	};
 }
 
