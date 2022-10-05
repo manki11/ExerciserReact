@@ -14,6 +14,7 @@ import default_activities from "../default_activities";
 
 // Sugarizer Dependencies
 import activity from "lib/sugar-web/activity/activity";
+import icon from "lib/sugar-web/graphics/icon";
 import env from "lib/sugar-web/env";
 import presencepalette from "lib/sugar-web/graphics/presencepalette";
 
@@ -322,10 +323,9 @@ class Sugarizer extends Component {
 				mode: "real",
 			};
 			let realtime_button = document.getElementById("realtime-evaluate-button");
-			activity.getUpdateIcon(
-				realtime_button,
-				this.props.current_user.colorvalue
-			);
+
+			icon.colorize(realtime_button, this.props.current_user.colorvalue);
+
 			presence.sendMessage(presence.getSharedInfo().id, {
 				user: presence.getUserInfo(),
 				content: {

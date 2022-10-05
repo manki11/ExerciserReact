@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import activity from "lib/sugar-web/activity/activity";
+import icon from "lib/sugar-web/graphics/icon";
 
 import { removeExercises, editExercise } from "../store/actions/exercises";
 import {
@@ -277,10 +277,7 @@ class ExerciseList extends Component {
 		let realtime_button = document.getElementById("realtime-evaluate-button");
 
 		if (realtime_button && this.props.evaluationMode !== "") {
-			activity.getUpdateIcon(
-				realtime_button,
-				this.props.current_user.colorvalue
-			);
+			icon.colorize(realtime_button, this.props.current_user.colorvalue);
 		}
 		return (
 			<div className='home-container' style={styles}>
