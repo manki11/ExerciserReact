@@ -180,12 +180,16 @@ class Exercise extends Component {
 			);
 		}
 		if (this.props.allowEvaluation) {
-			play = (
+			// TODO: Allow viewing result without see right answers
+			/*play = (
 				<button
 					type='button'
 					className='evaluate-button'
 					onClick={this.evaluateExercise}
 				/>
+			);*/
+			play = (
+				<div></div>
 			);
 		}
 
