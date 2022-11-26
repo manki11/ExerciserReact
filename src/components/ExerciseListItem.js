@@ -63,6 +63,17 @@ export default class ExerciseDragList extends Component {
 		this.setState({ items });
 	}
 
+	onDelete(state,props,item) {
+		props.onDelete(item.id);
+		var items = [];
+		for (var i = 0 ; i < state.items.length ; i++) {
+			if (state.items[i].id != item.id) {
+				items.push(state.items[i]);
+			}
+		}
+		this.setState({ items: items });
+	}
+
 	// Normally you would want to split things out into separate components.
 	// But in this example everything is just done in one place for simplicity
 	render() {
@@ -89,7 +100,7 @@ export default class ExerciseDragList extends Component {
 										>
 											<div className='col-md-11 exercise-div draggable-exercise'>
 												<Exercise
-													onDelete={this.props.onDelete}
+													onDelete={() => this.onDelete(this.state,this.props,item)}
 													onPlay={this.props.onPlay}
 													onEdit={this.props.onEdit}
 													isHost={this.props.isHost}
