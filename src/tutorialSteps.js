@@ -25,10 +25,12 @@ export const tutorialSteps = (pathname, intl) => {
 						],
 					},
 					{
-						selector: "#evaluate-button",
+						selector: "#run-all-button",
 						content: [
-							intl.formatMessage({ id: "Evaluate Button" }),
-							intl.formatMessage({ id: "Lets you enter evaluation mode." }),
+							intl.formatMessage({ id: "Run All Button" }),
+							intl.formatMessage({
+								id: "Use this button to play all the exercises together.",
+							}),
 						],
 					},
 					{
@@ -41,21 +43,10 @@ export const tutorialSteps = (pathname, intl) => {
 						],
 					},
 					{
-						selector: "#run-all-button",
+						selector: "#evaluate-button",
 						content: [
-							intl.formatMessage({ id: "Run All Button" }),
-							intl.formatMessage({
-								id: "Use this button to play all the exercises together.",
-							}),
-						],
-					},
-					{
-						selector: "#share-all-button",
-						content: [
-							intl.formatMessage({ id: "Share All Button" }),
-							intl.formatMessage({
-								id: "Use this button to share all the exercises with other users.",
-							}),
+							intl.formatMessage({ id: "Evaluate Button" }),
+							intl.formatMessage({ id: "Use this button to export the exercises set as an evaluation." }),
 						],
 					},
 					{
@@ -121,6 +112,45 @@ export const tutorialSteps = (pathname, intl) => {
 							intl.formatMessage({ id: "Delete Button" }),
 							intl.formatMessage({
 								id: "Use this button if you want to delete the Exercise.",
+							}),
+						],
+					},
+				];
+			} else { // Evaluation mode
+				steps = [
+					{
+						selector: "#run-all-button",
+						content: [
+							intl.formatMessage({ id: "Run All Button" }),
+							intl.formatMessage({
+								id: "Use this button to play all the exercises together.",
+							}),
+						],
+					},
+					{
+						selector: "#fullscreen-button",
+						content: [
+							intl.formatMessage({ id: "Fullscreen Button" }),
+							intl.formatMessage({
+								id: "Press this button to enter Fullscreen mode.",
+							}),
+						],
+					},
+					{
+						selector: "#stop-button",
+						content: [
+							intl.formatMessage({ id: "Stop Button" }),
+							intl.formatMessage({
+								id: 'Press this button to stop the activity, don"t worry your changes will be saved in the Journal.',
+							}),
+						],
+					},
+					{
+						selector: ".play-button",
+						content: [
+							intl.formatMessage({ id: "Play Button" }),
+							intl.formatMessage({
+								id: "Use this button if you want to play the Exercise.",
 							}),
 						],
 					},

@@ -220,9 +220,8 @@
 	"This activity is an academic focused activity for the Sugarizer platform. It provides teachers to build interactive exercises for students, using multiple templates, and share them with their students using the sugarizer-server.": "The Exerciser activity let you build interactive exercises, using multiple templates, and share these exercises with other users so they could try to solve it.",
 	"Run All Exercises": "Run All Exercises",
 	"Share All Exercises": "Share All Exercises",
-	"Evaluate Button": "Evaluate Button",
+	"Evaluate Button": "Create Evaluation",
 	"Run All Button": "Run All Button",
-	"Share All Button": "Share All Button",
 	"Use this button to play all the exercises together.": "Use this button to play all the exercises together.",
-	"Use this button to share all the exercises with other users.": "Use this button to share all the exercises with other users."
+	"Use this button to export the exercises set as an evaluation.": "Use this button to export the exercises set as an evaluation."
 }

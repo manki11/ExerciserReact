@@ -221,9 +221,8 @@
 	"Press this button to enter editor mode and edit/add/delete your exercises": "Appuyez sur ce bouton pour entrer en mode édition afin de modifier/ajouter/supprimer vos exercises",
 	"Run All Exercises": "Exécuter tous les exercises",
 	"Share All Exercises": "Partager tous les exercises",
-	"Evaluate Button": "Menu Évaluer",
+	"Evaluate Button": "Créer Evaluation",
 	"Run All Button": "Tout exécuter",
-	"Share All Button": "Partager tout",
 	"Use this button to play all the exercises together.": "Utilisez ce bouton pour jouer tous les exercices ensemble.",
-	"Use this button to share all the exercises with other users.": "Utilisez ce bouton pour partager tous les exercices avec d'autres utilisateurs."
+	"Use this button to export the exercises set as an evaluation.": "Utilisez ce bouton pour exporter les exercices en tant qu'évaluation"
 }

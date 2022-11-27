@@ -219,9 +219,8 @@
 	"Press this button to enter Fullscreen mode.": "Pulsa este botón para ver la actividad en modo pantalla completa.",
 	"Run All Exercises": "Ejecutar todos los ejercicios",
 	"Share All Exercises": "Compartir todo el ejercicio",
-	"Evaluate Button": "Botón de tarifa",
+	"Evaluate Button": "Create Evaluation",
 	"Run All Button": "Ejecutar todo",
-	"Share All Button": "Compartir todo",
 	"Use this button to play all the exercises together.": "Utilice este botón para reproducir todos los ejercicios juntos.",
-	"Use this button to share all the exercises with other users.": "Utilice este botón para compartir todos los ejercicios con otros usuarios."
+	"Use this button to export the exercises set as an evaluation.": "Use this button to export the exercises set as an evaluation."
 }
