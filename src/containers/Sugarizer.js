@@ -480,7 +480,7 @@ class Sugarizer extends Component {
 			is_run_all_click: isRunAll,
 			exercise_index: exerciseIndex,
 			evaluation: {
-				mode: this.props.evaluationMode,
+				mode: this.props.evaluationMode === "real" ? "async" : this.props.evaluationMode,
 				exercises: evaluationExercise,
 			},
 		};
