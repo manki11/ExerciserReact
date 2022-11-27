@@ -14,15 +14,18 @@ import default_activities from "../default_activities";
 
 // Sugarizer Dependencies
 import activity from "lib/sugar-web/activity/activity";
+import datastore from "lib/sugar-web/datastore/";
 import icon from "lib/sugar-web/graphics/icon";
 import env from "lib/sugar-web/env";
 import presencepalette from "lib/sugar-web/graphics/presencepalette";
+import humane from "lib/humane";
 
 //Components
 import Main from "./Router";
 import Navbar from "../components/Navbar";
 
 import "../css/index.css";
+import "../css/libnotify.css";
 import meSpeak from "mespeak";
 import LZ from "lz-string";
 
@@ -128,7 +131,6 @@ class Sugarizer extends Component {
 								if (json.evaluation) {
 									if (json.evaluation.mode === "async") {
 										setEvaluationMode(json.evaluation.mode);
-										temp.evaluateExercise(json.evaluation.mode);
 									} else {
 										setEvaluationMode("");
 									}
@@ -312,31 +314,70 @@ class Sugarizer extends Component {
 		});
 	};
 
-	evaluateExercise = (mode) => {
-		document.getElementById("network-button").disabled = true;
-		this.props.setEvaluationMode(mode);
-		if (mode === "async") {
-			this.stopActivity();
-		} else if (mode === "real") {
-			let presence = this.presence;
-			let data = {
-				mode: "real",
+	exportAsEvaluation = () => {
+		const { counter, exercises, isRunAll, exerciseIndex } = this.props;
+
+		let journalExercises = exercises.map((exercise) => {
+			return {
+				...exercise,
+				shared: false,
 			};
-			let realtime_button = document.getElementById("realtime-evaluate-button");
+		});
+		let evaluationExercise = this.props.evaluationExercise.map((exercise) => {
+			return {
+				...exercise,
+				shared: false,
+			};
+		});
 
-			icon.colorize(realtime_button, this.props.current_user.colorvalue);
+		let json = {
+			counter: counter,
+			exercises: journalExercises,
+			is_run_all_click: isRunAll,
+			exercise_index: exerciseIndex,
+			evaluation: {
+				mode: "async",
+				exercises: evaluationExercise,
+			},
+		};
+		let jsonData = JSON.stringify(json);
+		// Compressing jsonData to be stored in Local Storage
+		jsonData = LZ.compressToUTF16(jsonData);
 
-			presence.sendMessage(presence.getSharedInfo().id, {
-				user: presence.getUserInfo(),
-				content: {
-					action: "init_evaluation",
-					data: data,
-				},
-			});
+		activity.getDatastoreObject().getMetadata(function (error, currentmetadata) {
+			var metadata = {
+				title: currentmetadata.title + " Evaluation",
+				activity: "org.sugarlabs.Exerciser",
+				timestamp: new Date().getTime(),
+				creation_time: new Date().getTime(),
+				file_size: 0
+			};
+			datastore.create(metadata, function() {
+				humane.log("Export '"+metadata.title+"' done.");
+				console.log("Export '"+metadata.title+"' done.")
+			}, jsonData);
+		});
+	};
 
-			if (this.props.sharedAllExercises.exercises) {
-				this.presenceEvaluationExercise();
-			}
+	evaluateExercise = () => {
+		let presence = this.presence;
+		let data = {
+			mode: "real",
+		};
+		let realtime_button = document.getElementById("realtime-evaluate-button");
+
+		icon.colorize(realtime_button, this.props.current_user.colorvalue);
+
+		presence.sendMessage(presence.getSharedInfo().id, {
+			user: presence.getUserInfo(),
+			content: {
+				action: "init_evaluation",
+				data: data,
+			},
+		});
+
+		if (this.props.sharedAllExercises.exercises) {
+			this.presenceEvaluationExercise();
 		}
 	};
 
@@ -548,7 +589,7 @@ class Sugarizer extends Component {
 							toggleEditMode={(edit) => this.toggleEditMode(edit)}
 							runAllExercise={this.onRunAllExercise}
 							onShareAll={this.onShareAllExercise}
-							evaluate={(mode) => this.evaluateExercise(mode)}
+							evaluate={(mode) => this.exportAsEvaluation()}
 						/>
 						<Main
 							inFullscreenMode={this.state.inFullscreenMode}
@@ -558,7 +599,7 @@ class Sugarizer extends Component {
 							setExercises={this.props.setExercises}
 							presenceEvaluation={(id) => this.presenceEvaluationExercise(id)}
 							runNextExercise={(id) => this.runNextExercise(id)}
-							evaluate={(mode) => this.evaluateExercise(mode)}
+							evaluate={this.evaluateExercise}
 						/>
 					</div>
 				</Router>
