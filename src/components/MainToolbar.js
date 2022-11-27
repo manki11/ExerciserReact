@@ -40,7 +40,12 @@ const MainToolbar = (props) => {
 				id='activity-button'
 				title={activityTitle}
 			/>
-			<button className='toolbutton' id='network-button' title={networkTitle} />
+			{!props.inEditMode &&
+				props.evaluationMode !== "real" &&
+				props.evaluationMode !== "async" && (
+					<button className='toolbutton' id='network-button' title={networkTitle} />
+				)
+			}
 			{!props.inEditMode &&
 				!props.location.pathname.startsWith("/edit") &&
 				!props.location.pathname.startsWith("/play") &&
@@ -68,6 +73,7 @@ const MainToolbar = (props) => {
 				)}
 			{!props.inEditMode &&
 				props.evaluationMode !== "real" &&
+				props.evaluationMode !== "async" &&
 				!props.location.pathname.startsWith("/new") &&
 				!props.location.pathname.startsWith("/edit") &&
 				!props.location.pathname.startsWith("/play") &&
