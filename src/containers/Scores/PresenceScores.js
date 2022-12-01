@@ -369,11 +369,11 @@ class PresenceScores extends Component {
 						>
 							<td
 								onClick={() => {
-									this.setDetailedResultUser(index + 1);
+									this.setDetailedResultUser(index);
 								}}
 								style={{
 									backgroundColor:
-										this.state.userDetailsIndex === index + 1 ? `#808080` : "",
+										this.state.userDetailsIndex === index ? `#808080` : "",
 								}}
 							>
 								<span className='user-icon'>
