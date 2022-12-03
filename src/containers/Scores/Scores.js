@@ -37,7 +37,7 @@ class Scores extends Component {
 		};
 
 		this.state = {
-			mode: this.modes.SCORE,
+			mode: this.props.evaluationMode == "async" || this.props.evaluationMode == "real" ? this.modes.DETAILS : this.modes.SCORE,
 			chartScores: {
 				chartData: {},
 				options: {
@@ -321,6 +321,7 @@ class Scores extends Component {
 		let time_active = "";
 		let detail_active = "";
 		let chart = "";
+		let inEvaluation = (this.props.evaluationMode == "async" || this.props.evaluationMode == "real");
 
 		if (this.state.mode === this.modes.SCORE) {
 			score_active = "active";
@@ -346,9 +347,9 @@ class Scores extends Component {
 				return (
 					<tr key={index}>
 						<td>{getResultsTableElement(answer.question)}</td>
-						<td>{getResultsTableElement(answer.correctAns)}</td>
+						<td>{!inEvaluation && getResultsTableElement(answer.correctAns)}</td>
 						<td>{getResultsTableElement(answer.userAns)}</td>
-						<td>{getWrongRightMarker(answer)}</td>
+						<td>{!inEvaluation && getWrongRightMarker(answer)}</td>
 					</tr>
 				);
 			});
@@ -364,13 +365,13 @@ class Scores extends Component {
 									<FormattedMessage id={QUESTION} />
 								</th>
 								<th>
-									<FormattedMessage id={CORRECT_ANSWER} />
+									{!inEvaluation && <FormattedMessage id={CORRECT_ANSWER} />}
 								</th>
 								<th>
 									<FormattedMessage id={YOUR_ANSWER} />
 								</th>
 								<th>
-									<FormattedMessage id={CORRECT_WRONG} />
+									{!inEvaluation && <FormattedMessage id={CORRECT_WRONG} />}
 								</th>
 							</tr>
 						</thead>
@@ -421,19 +422,14 @@ class Scores extends Component {
 			<div className='container'>
 				<div className='container-fluid'>
 					<div className='row'>
-						{score}
-						{time}
-						{detail}
-						{chart}
+							{!inEvaluation && score}
+							{!inEvaluation && time}
+							{!inEvaluation && detail}
+							{chart}
 					</div>
 					<div className='row button-container'>
 						{this.props.history.location.state.exercise.evaluation ? (
-							<button
-								className='btn next-button'
-								onClick={() => this.props.history.push("/")}
-							>
-								<FormattedMessage id={HOME} />
-							</button>
+							<div/>
 						) : this.props.isRunAll ? (
 							<button className='btn next-button' onClick={this.nextExercise}>
 								{this.props.runningExercise !==
