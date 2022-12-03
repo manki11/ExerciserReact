@@ -316,6 +316,7 @@ class Sugarizer extends Component {
 
 	exportAsEvaluation = () => {
 		const { counter, exercises, isRunAll, exerciseIndex } = this.props;
+		const translations = messages[this.language];
 
 		let journalExercises = exercises.map((exercise) => {
 			return {
@@ -353,7 +354,7 @@ class Sugarizer extends Component {
 				file_size: 0
 			};
 			datastore.create(metadata, function() {
-				humane.log("Export '"+metadata.title+"' done.");
+				humane.log(translations["Evaluation saved to journal"]);
 				console.log("Export '"+metadata.title+"' done.")
 			}, jsonData);
 		});

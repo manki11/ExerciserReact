@@ -224,5 +224,6 @@
 	"Evaluate Button": "Créer Evaluation",
 	"Run All Button": "Tout exécuter",
 	"Use this button to play all the exercises together.": "Utilisez ce bouton pour jouer tous les exercices ensemble.",
-	"Use this button to export the exercises set as an evaluation.": "Utilisez ce bouton pour exporter les exercices en tant qu'évaluation"
+	"Use this button to export the exercises set as an evaluation.": "Utilisez ce bouton pour exporter les exercices en tant qu'évaluation",
+	"Evaluation saved to journal": "Evaluation enregistrée dans le Journal"
 }
