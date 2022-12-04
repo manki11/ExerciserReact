@@ -86,6 +86,9 @@ class Navbar extends Component {
 						break;
 					}
 				}
+				if (index >= this.props.exercises.length) {
+					return;
+				}
 				this.props.setExerciseIndex(index);
 				exercise = this.props.exercises[index];
 			} else {
@@ -103,6 +106,9 @@ class Navbar extends Component {
 					} else {
 						break;
 					}
+				}
+				if (index >= this.props.exercises.length) {
+					return;
 				}
 				exercise = this.props.exercises[index];
 			}
