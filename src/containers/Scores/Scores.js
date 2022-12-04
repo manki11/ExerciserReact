@@ -323,6 +323,12 @@ class Scores extends Component {
 		let chart = "";
 		let inEvaluation = (this.props.evaluationMode == "async" || this.props.evaluationMode == "real");
 
+		if (this.props.location) {
+			if (this.props.location.state.next) {
+				return <div/>;
+			}
+		}
+
 		if (this.state.mode === this.modes.SCORE) {
 			score_active = "active";
 			chart = (

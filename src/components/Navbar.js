@@ -93,6 +93,9 @@ class Navbar extends Component {
 				exercise = this.props.exercises[index];
 			} else {
 				let index = this.props.exercise_running;
+				if (index == -1) {
+					return;
+				}
 				while (index < this.props.exercises.length) {
 					if (
 						this.props.evaluationExercies.find(
