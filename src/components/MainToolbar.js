@@ -41,7 +41,7 @@ const MainToolbar = (props) => {
 				title={activityTitle}
 			/>
 			{!props.inEditMode &&
-				props.evaluationMode !== "real" &&
+				(props.evaluationMode !== "real" || (props.isShared && props.isHost)) &&
 				props.evaluationMode !== "async" && (
 					<button className='toolbutton' id='network-button' title={networkTitle} />
 				)
@@ -63,7 +63,8 @@ const MainToolbar = (props) => {
 				!props.location.pathname.startsWith("/play") &&
 				!props.location.pathname.startsWith("/scores") &&
 				!props.location.pathname.endsWith("/scores") &&
-				props.evaluationMode === "" && (
+				(props.evaluationMode !== "real" || (props.isShared && props.isHost)) &&
+				props.evaluationMode !== "async" && (
 					<button
 						className='toolbutton'
 						id='editor-button'
@@ -72,7 +73,7 @@ const MainToolbar = (props) => {
 					/>
 				)}
 			{!props.inEditMode &&
-				props.evaluationMode !== "real" &&
+				(props.evaluationMode !== "real" || (props.isShared && props.isHost)) &&
 				props.evaluationMode !== "async" &&
 				!props.location.pathname.startsWith("/new") &&
 				!props.location.pathname.startsWith("/edit") &&
