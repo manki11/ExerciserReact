@@ -40,7 +40,7 @@ const MainToolbar = (props) => {
 				id='activity-button'
 				title={activityTitle}
 			/>
-			{!props.inEditMode &&
+			{
 				(props.evaluationMode !== "real" || (props.isShared && props.isHost)) &&
 				props.evaluationMode !== "async" && (
 					<button className='toolbutton' id='network-button' title={networkTitle} />
