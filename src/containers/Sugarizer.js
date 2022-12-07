@@ -459,6 +459,37 @@ class Sugarizer extends Component {
 		}
 	};
 
+	computeScore = (exercises) => {
+		let score = 0;
+		let length = 0;
+		exercises.map((exercise) => {
+			if (exercise.type === "MCQ") {
+				length += exercise.questions.length;
+			} else if (exercise.type === "CLOZE") {
+				length += exercise.answers.length;
+			} else if (exercise.type === "REORDER") {
+				length += exercise.list.length;
+			} else if (exercise.type === "GROUP_ASSIGNMENT") {
+				length += exercise.questions.length;
+			} else if (exercise.type === "FREE_TEXT_INPUT") {
+				length += exercise.questions.length;
+			} else if (exercise.type === "MATCHING_PAIR") {
+				length += exercise.pairs.length;
+			}
+			let highest = 0;
+			if (exercise.scores.length > 0) {
+				exercise.scores.forEach((score) => {
+					if (highest < score) {
+						highest = score;
+					}
+				});
+			}
+			score += highest;
+		});
+		return score+"/"+length;
+	}
+
+
 	stopActivity() {
 		const { counter, exercises, isRunAll, exerciseIndex } = this.props;
 
@@ -485,19 +516,25 @@ class Sugarizer extends Component {
 				exercises: evaluationExercise,
 			},
 		};
+		var score = this.computeScore(exercises);
 		if (this.props.evaluationMode !== "async") {
 			json.evaluation.exercises = {};
 		}
 		let jsonData = JSON.stringify(json);
 		// Compressing jsonData to be stored in Local Storage
 		jsonData = LZ.compressToUTF16(jsonData);
-		activity.getDatastoreObject().setDataAsText(jsonData);
-		activity.getDatastoreObject().save(function (error) {
-			if (error === null) {
-				// console.log("write done.");
-			} else {
-				// console.log("write failed.");
-			}
+		let datastore = activity.getDatastoreObject();
+		datastore.getMetadata(function(error, metadata) {
+			metadata["score"] = score;
+			datastore.setMetadata(metadata);
+			datastore.setDataAsText(jsonData);
+			datastore.save(function (error) {
+				if (error === null) {
+					// console.log("write done.");
+				} else {
+					// console.log("write failed.");
+				}
+			});
 		});
 	}
 
