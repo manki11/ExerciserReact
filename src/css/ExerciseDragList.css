@@ -1,0 +1,15 @@
+.drag-exercise{
+    flex-basis: 50% !important;
+    display: flex;
+    align-items: flex-start !important;
+    margin-bottom: 2rem !important;
+}
+.draggable-card{
+    margin-top: 0;
+}
+.draggable-exercise{
+    padding-left: 0 !important;
+}
+.drag-handler{
+    margin-top: 0.5rem;
+}

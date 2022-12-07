@@ -1,83 +1,179 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import '../css/Navbar.css'
-import { injectIntl } from 'react-intl';
+import "../css/Navbar.css";
+import { injectIntl } from "react-intl";
 import { UNFULLSCREEN } from "../containers/translation";
-import MainToolbar from './MainToolbar';
+import MainToolbar from "./MainToolbar";
+import { setExerciseIndex } from "../store/actions/sugarizer";
+import { setEvaluationMode } from "../store/actions/evaluation";
 
 class Navbar extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			isfullScreen:false,
-			showTutorial: false
-		}
+			isfullScreen: false,
+			showTutorial: false,
+		};
 	}
 
 	// redirect to new exercise template
 	directToNew = () => {
-		this.props.history.push('/new');
+		this.props.history.push("/new");
 	};
 
 	// redirect to home screen
 	directToHome = () => {
-		this.props.history.push('/');
+		this.props.history.push("/");
 	};
 
 	enterEditMode = () => {
 		this.props.toggleEditMode(true);
-	}
+	};
 
 	exitEditMode = () => {
 		this.props.toggleEditMode(false);
-		this.props.history.push('/');
-	}
+		this.props.history.push("/");
+	};
 
 	startTutorial = () => {
 		this.setState({
-			showTutorial: true
+			showTutorial: true,
 		});
-	}
+	};
 
 	stopTutorial = () => {
 		this.setState({
-			showTutorial: false
+			showTutorial: false,
 		});
-	}
+	};
 	goFullscreen = () => {
 		this.setState({
-			isfullScreen:true
-		})
-	}
+			isfullScreen: true,
+		});
+	};
 	gounFullScreen = () => {
 		this.setState({
-			isfullScreen:false
-		})
-	}
+			isfullScreen: false,
+		});
+	};
+
+	runAllExercise = () => {
+		if (this.props.exercises.length == 0) {
+			return;
+		}
+		let exercise = null;
+		if (this.props.evaluationMode === "") {
+			if (!this.props.isRunAll) {
+				this.props.runAllExercise();
+				this.props.setExerciseIndex(0);
+				exercise = this.props.exercises[0];
+			} else {
+				exercise = this.props.exercises[this.props.exercise_running + 1];
+			}
+		} else {
+			if (!this.props.isRunAll) {
+				this.props.runAllExercise();
+				let index = 0;
+				while (index < this.props.exercises.length) {
+					if (
+						this.props.evaluationExercies.find(
+							(item) => item.id === this.props.exercises[index].id
+						) &&
+						this.props.evaluationExercies.find(
+							(item) => item.id === this.props.exercises[index].id
+						).evaluation
+					) {
+						index++;
+					} else {
+						break;
+					}
+				}
+				if (index >= this.props.exercises.length) {
+					return;
+				}
+				this.props.setExerciseIndex(index);
+				exercise = this.props.exercises[index];
+			} else {
+				let index = this.props.exercise_running;
+				if (index == -1) {
+					return;
+				}
+				while (index < this.props.exercises.length) {
+					if (
+						this.props.evaluationExercies.find(
+							(item) => item.id === this.props.exercises[index].id
+						) &&
+						this.props.evaluationExercies.find(
+							(item) => item.id === this.props.exercises[index].id
+						).evaluation
+					) {
+						index++;
+					} else {
+						break;
+					}
+				}
+				if (index >= this.props.exercises.length) {
+					return;
+				}
+				exercise = this.props.exercises[index];
+			}
+		}
+
+		if (exercise.type === "MCQ") {
+			this.props.history.push("/play/mcq", { exercise: exercise });
+		}
+		if (exercise.type === "CLOZE") {
+			this.props.history.push("/play/cloze", { exercise: exercise });
+		}
+		if (exercise.type === "REORDER") {
+			this.props.history.push("/play/reorder", { exercise: exercise });
+		}
+		if (exercise.type === "GROUP_ASSIGNMENT") {
+			this.props.history.push("/play/group", { exercise: exercise });
+		}
+		if (exercise.type === "FREE_TEXT_INPUT") {
+			this.props.history.push("/play/freeText", { exercise: exercise });
+		}
+		if (exercise.type === "MATCHING_PAIR") {
+			this.props.history.push("/play/match", { exercise: exercise });
+		}
+	};
+
+	shareAll = () => {
+		this.props.onShareAll();
+	};
 
 	render() {
-		let unFullScreen = this.props.intl.formatMessage({ id: UNFULLSCREEN});
+		let unFullScreen = this.props.intl.formatMessage({ id: UNFULLSCREEN });
 		let navFunctions = {
 			directToNew: this.directToNew,
 			directToHome: this.directToHome,
 			enterEditMode: this.enterEditMode,
 			exitEditMode: this.exitEditMode,
 			startTutorial: this.startTutorial,
-			stopTutorial: this.stopTutorial
+			stopTutorial: this.stopTutorial,
+			runAll: this.runAllExercise,
+			shareAll: this.shareAll,
+			evaluate: this.props.evaluate,
 		};
 		return (
 			<React.Fragment>
-				<MainToolbar 
+				<MainToolbar
 					{...this.props}
 					{...navFunctions}
-					showTutorial = {this.state.showTutorial}
+					showTutorial={this.state.showTutorial}
+					shared_exercises={this.props.shared_exercises}
+					evaluationMode={this.props.evaluationMode}
 				/>
 				<button
-					className={"toolbutton" + (!this.props.inFullscreenMode? " toolbar-hide" : "")}
-					id="unfullscreen-button"
+					className={
+						"toolbutton" + (!this.props.inFullscreenMode ? " toolbar-hide" : "")
+					}
+					id='unfullscreen-button'
 					title={unFullScreen}
-					onClick={this.props.toggleFullscreen} />
+					onClick={this.props.toggleFullscreen}
+				/>
 			</React.Fragment>
 		);
 	}
@@ -85,8 +181,22 @@ class Navbar extends Component {
 
 function mapStateToProps(state) {
 	return {
-		exercises: state.exercises
+		exercises: state.exercises,
+		isRunAll: state.isRunAll,
+		exercise_running: state.exerciseRunning,
+		isHost: state.isHost,
+		isShared: state.isShared,
+		shared_exercises: state.shared_exercises,
+		evaluationMode: state.evaluation_mode,
+		evaluationExercies: state.evaluation_exercise,
 	};
 }
 
-export default injectIntl(withRouter(connect(mapStateToProps)(Navbar)));
+export default injectIntl(
+	withRouter(
+		connect(mapStateToProps, {
+			setExerciseIndex,
+			setEvaluationMode,
+		})(Navbar)
+	)
+);

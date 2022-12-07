@@ -21,6 +21,13 @@
     z-index: 1000;
 }
 
+.evaluation-container{
+    position: absolute;
+    top: 160px;
+    right: 68px;
+    z-index: 1000;
+}
+
 .user-text{
     min-height: 40px!important;
     margin-bottom: 10px;
@@ -57,6 +64,15 @@
     height: 100%;
 }
 
+.total-score{
+    width: fit-content;
+    padding: 0.5rem;
+    margin: auto;
+    border: 2px solid;
+    border-radius: 8px;
+    font-size: 1.5rem;
+}
+
 .user-list-button{
     width: 50px!important;
     height: 50px!important;
@@ -65,6 +81,16 @@
     background-size: contain;
     border-radius: 25px;
     background-color: black!important;
+}
+
+.realtime-evaluation-button{
+    width: 50px!important;
+    height: 50px!important;
+    background-image: url("../icons/navbar/eval-mode.svg");
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 25px;
+    background-color: black;
 }
 
 .home-container{

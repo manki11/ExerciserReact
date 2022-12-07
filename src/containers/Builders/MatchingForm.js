@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { incrementExerciseCounter } from "../../store/actions/increment_counter";
 import { addNewExercise, editExercise } from "../../store/actions/exercises";
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage } from "react-intl";
 import {
 	FINISH_EXERCISE,
 	TITLE_OF_EXERCISE,
@@ -14,27 +14,26 @@ import {
 	MATCHING_PAIR,
 	ANSWER_ERROR,
 	MATCH_ITEM,
-	MATCHING_ITEM
+	MATCHING_ITEM,
 } from "../translation";
 import { withRouter } from "react-router-dom";
 import "../../css/MatchingForm.css";
-import withMultimedia from '../../components/WithMultimedia';
-import { QuestionOptionsJSX } from '../../components/MultimediaJSX';
-import { QuestionJSX } from '../../components/MultimediaJSX';
-import datastore from 'lib/sugar-web/datastore';
-import chooser from 'lib/sugar-web/graphics/journalchooser';
-import env from 'lib/sugar-web/env';
-import meSpeak from 'mespeak';
-import { MULTIMEDIA, setDefaultMedia } from '../../utils';
+import withMultimedia from "../../components/WithMultimedia";
+import { QuestionOptionsJSX } from "../../components/MultimediaJSX";
+import { QuestionJSX } from "../../components/MultimediaJSX";
+import datastore from "lib/sugar-web/datastore";
+import chooser from "lib/sugar-web/graphics/journalchooser";
+import env from "lib/sugar-web/env";
+import meSpeak from "mespeak";
+import { MULTIMEDIA, setDefaultMedia } from "../../utils";
 
 class MATCHING_PAIRForm extends Component {
-
 	constructor(props) {
 		super(props);
 		this.state = {
 			edit: false,
 			id: -1,
-			title: '',
+			title: "",
 			noOfPairs: 0,
 			currentPairNo: 1,
 			pairs: [],
@@ -44,34 +43,35 @@ class MATCHING_PAIRForm extends Component {
 			errors: {
 				question: false,
 				answer: false,
-				title: false
+				title: false,
 			},
 			currentPair: {
 				id: 1,
 				question: {
-					type: '',
-					data: ''
+					type: "",
+					data: "",
 				},
 				answer: {
-					type: '',
-					data: ''
+					type: "",
+					data: "",
 				},
-			}
+			},
 		};
 	}
 
 	// in case of edit load the exercise
 	componentDidMount() {
 		if (this.props.location.state) {
-			const { id, title, pairs, scores, times } = this.props.location.state.exercise;
+			const { id, title, pairs, scores, times } =
+				this.props.location.state.exercise;
 
 			let updatedPairs = pairs.map((pair) => {
 				return {
 					...pair,
 					question: setDefaultMedia(pair.question),
-					answer: setDefaultMedia(pair.answer)
-				}
-			})
+					answer: setDefaultMedia(pair.answer),
+				};
+			});
 
 			const currentPair = updatedPairs[0];
 			this.setState({
@@ -84,75 +84,84 @@ class MATCHING_PAIRForm extends Component {
 				scores: scores,
 				times: times,
 				noOfPairs: pairs.length,
-				currentPair: currentPair
+				currentPair: currentPair,
 			});
 		}
 	}
 
-	handleChangeAns = e => {
+	handleChangeAns = (e) => {
 		let error = false;
-		if (e.target.value === '') {
+		if (e.target.value === "") {
 			error = true;
 		}
-		this.setState({
-			...this.state,
-			currentPair: {
-				...this.state.currentPair,
-				answer: {
-					...this.state.currentPair.answer,
-					data: e.target.value
-				}
+		this.setState(
+			{
+				...this.state,
+				currentPair: {
+					...this.state.currentPair,
+					answer: {
+						...this.state.currentPair.answer,
+						data: e.target.value,
+					},
+				},
+				errors: {
+					...this.state.errors,
+					answer: error,
+				},
 			},
-			errors: {
-				...this.state.errors,
-				answer: error
+			() => {
+				this.checkFormValidation();
 			}
-		}, () => {
-			this.checkFormValidation();
-		});
+		);
 	};
 
-	handleChangeTitle = e => {
+	handleChangeTitle = (e) => {
 		let error = false;
-		if (e.target.value === '') {
+		if (e.target.value === "") {
 			error = true;
 		}
-		this.setState({
-			...this.state,
-			title: e.target.value,
-			errors: {
-				...this.state.errors,
-				title: error
-			}
-		}, () => {
-			this.checkFormValidation();
-		});
-	};
-
-	handleChangeQues = e => {
-		let error = false;
-		if (e.target.value === '') {
-			error = true;
-		}
-		this.setState({
-			...this.state,
-			errors: {
-				...this.state.errors,
-				question: error
+		this.setState(
+			{
+				...this.state,
+				title: e.target.value,
+				errors: {
+					...this.state.errors,
+					title: error,
+				},
 			},
-			currentPair: {
-				...this.state.currentPair,
-				question: {
-					...this.state.currentPair.question,
-					data: e.target.value
-				}
+			() => {
+				this.checkFormValidation();
 			}
-		}, () => {
-			this.checkFormValidation();
-		});
+		);
 	};
 
-	handleNewEvent = event => {
+	handleChangeQues = (e) => {
+		let error = false;
+		if (e.target.value === "") {
+			error = true;
+		}
+		this.setState(
+			{
+				...this.state,
+				errors: {
+					...this.state.errors,
+					question: error,
+				},
+				currentPair: {
+					...this.state.currentPair,
+					question: {
+						...this.state.currentPair.question,
+						data: e.target.value,
+					},
+				},
+			},
+			() => {
+				this.checkFormValidation();
+			}
+		);
+	};
+
+	handleNewEvent = (event) => {
 		event.preventDefault();
 	};
 
@@ -166,33 +175,29 @@ class MATCHING_PAIRForm extends Component {
 			if (currentPairNo > noOfPairs) {
 				this.setState({
 					...this.state,
-					pairs: [
-						...this.state.pairs,
-						currentPair
-					],
+					pairs: [...this.state.pairs, currentPair],
 					isFormValid: false,
 					noOfPairs: currentPair.id,
 					currentPairNo: currentPair.id + 1,
 					currentPair: {
 						id: currentPair.id + 1,
 						question: {
-							type: '',
-							data: ''
+							type: "",
+							data: "",
 						},
 						answer: {
-							type: '',
-							data: ''
+							type: "",
+							data: "",
 						},
-					}
+					},
 				});
-			}
-			else {
+			} else {
 				const { pairs } = this.state;
 				let index = currentPairNo;
 
-				const updatedPairs = pairs.map((pair, i) => (
+				const updatedPairs = pairs.map((pair, i) =>
 					pair.id === index ? currentPair : pair
-				));
+				);
 
 				if (currentPairNo === noOfPairs) {
 					this.setState({
@@ -203,14 +208,14 @@ class MATCHING_PAIRForm extends Component {
 						currentPair: {
 							id: currentPairNo + 1,
 							question: {
-								type: '',
-								data: ''
+								type: "",
+								data: "",
 							},
 							answer: {
-								type: '',
-								data: ''
+								type: "",
+								data: "",
 							},
-						}
+						},
 					});
 				} else {
 					const { question, answer } = this.state.pairs[index];
@@ -223,7 +228,7 @@ class MATCHING_PAIRForm extends Component {
 							id: index + 1,
 							question: question,
 							answer: answer,
-						}
+						},
 					});
 				}
 			}
@@ -236,21 +241,21 @@ class MATCHING_PAIRForm extends Component {
 		const { question, answer } = currentPair;
 		let isFormValid = true;
 
-		if (question.type === '' || question.data === '') {
+		if (question.type === "" || question.data === "") {
 			isFormValid = false;
 		}
 
-		if (title === '') {
+		if (title === "") {
 			isFormValid = false;
 		}
 
-		if (answer.type === '' || answer.data === '') {
+		if (answer.type === "" || answer.data === "") {
 			isFormValid = false;
 		}
 
 		this.setState({
 			...this.state,
-			isFormValid: isFormValid
+			isFormValid: isFormValid,
 		});
 	};
 
@@ -271,14 +276,14 @@ class MATCHING_PAIRForm extends Component {
 			let updatedCurrentPair = {
 				id: currentPair.id,
 				question: currentPair.question,
-				answer: currentPair.answer
+				answer: currentPair.answer,
 			};
 			pairs[currentPair.id - 1] = updatedCurrentPair;
 		} else {
 			pairs.push({
 				id: currentPair.id,
 				question: currentPair.question,
-				answer: currentPair.answer
+				answer: currentPair.answer,
 			});
 		}
 
@@ -290,7 +295,7 @@ class MATCHING_PAIRForm extends Component {
 			scores: this.state.scores,
 			times: this.state.times,
 			thumbnail: srcThumbnail,
-			userLanguage: userLanguage
+			userLanguage: userLanguage,
 		};
 
 		if (this.state.edit) {
@@ -301,9 +306,11 @@ class MATCHING_PAIRForm extends Component {
 		}
 
 		if (bool)
-			this.props.history.push('/play/match', { exercise: exercise, edit: true });
-		else
-			this.props.history.push('/')
+			this.props.history.push("/play/match", {
+				exercise: exercise,
+				edit: true,
+			});
+		else this.props.history.push("/");
 	};
 
 	// move to previous question
@@ -316,73 +323,101 @@ class MATCHING_PAIRForm extends Component {
 			...this.state,
 			isFormValid: true,
 			currentPairNo: previousPairNo,
-			currentPair: previousPair
-		})
+			currentPair: previousPair,
+		});
 	};
 
 	showJournalChooser = (mediaType, answer = false) => {
 		const { currentPair } = this.state;
 
-		let image, audio, video = false;
-		if (mediaType === MULTIMEDIA.image)
-			image = true;
-		if (mediaType === MULTIMEDIA.audio)
-			audio = true;
-		if (mediaType === MULTIMEDIA.video)
-			video = true;
+		let image,
+			audio,
+			video = false;
+		if (mediaType === MULTIMEDIA.image) image = true;
+		if (mediaType === MULTIMEDIA.audio) audio = true;
+		if (mediaType === MULTIMEDIA.video) video = true;
 		env.getEnvironment((err, environment) => {
 			if (environment.user) {
 				// Display journal dialog popup
-				chooser.show((entry) => {
-					if (!entry) {
-						return;
-					}
-					var dataentry = new datastore.DatastoreObject(entry.objectId);
-					dataentry.loadAsText((err, metadata, text) => {
-						if (answer) {
-							if (mediaType === MULTIMEDIA.image)
-								this.props.showMedia(text, 'img', this.setAnswerSourceFromImageEditor);
-							this.setState({
-								...this.state,
-								currentPair: {
-									...currentPair,
-									answer: {
-										type: mediaType,
-										data: text
-									}
-								}
-							}, () => {
-								this.checkFormValidation();
-							});
-						} else {
-							if (mediaType === MULTIMEDIA.image)
-								this.props.showMedia(text, 'img', this.setQuestionSourceFromImageEditor);
-
-							this.setState({
-								...this.state,
-								currentPair: {
-									...currentPair,
-									question: {
-										type: mediaType,
-										data: text
-									}
-								}
-							}, () => {
-								this.checkFormValidation();
-							});
+				chooser.show(
+					(entry) => {
+						if (!entry) {
+							return;
 						}
-					});
-				}, (image ? { mimetype: 'image/png' } : audio ? { mimetype: 'audio/mp3' } : null),
-					(image ? { mimetype: 'image/jpeg' } : audio ? { mimetype: 'audio/mpeg' } : null),
-					(audio ? { mimetype: 'audio/wav' } : video ? { mimetype: 'video/mp4' } : null),
-					(video ? { mimetype: 'video/webm' } : null));
+						var dataentry = new datastore.DatastoreObject(entry.objectId);
+						dataentry.loadAsText((err, metadata, text) => {
+							if (answer) {
+								if (mediaType === MULTIMEDIA.image)
+									this.props.showMedia(
+										text,
+										"img",
+										this.setAnswerSourceFromImageEditor
+									);
+								this.setState(
+									{
+										...this.state,
+										currentPair: {
+											...currentPair,
+											answer: {
+												type: mediaType,
+												data: text,
+											},
+										},
+									},
+									() => {
+										this.checkFormValidation();
+									}
+								);
+							} else {
+								if (mediaType === MULTIMEDIA.image)
+									this.props.showMedia(
+										text,
+										"img",
+										this.setQuestionSourceFromImageEditor
+									);
+
+								this.setState(
+									{
+										...this.state,
+										currentPair: {
+											...currentPair,
+											question: {
+												type: mediaType,
+												data: text,
+											},
+										},
+									},
+									() => {
+										this.checkFormValidation();
+									}
+								);
+							}
+						});
+					},
+					image
+						? { mimetype: "image/png" }
+						: audio
+						? { mimetype: "audio/mp3" }
+						: null,
+					image
+						? { mimetype: "image/jpeg" }
+						: audio
+						? { mimetype: "audio/mpeg" }
+						: null,
+					audio
+						? { mimetype: "audio/wav" }
+						: video
+						? { mimetype: "video/mp4" }
+						: null,
+					video ? { mimetype: "video/webm" } : null
+				);
 			}
 		});
 	};
 
 	speak = (e, text) => {
 		let audioElem = e.target;
-		let myDataUrl = meSpeak.speak(text, { rawdata: 'data-url' });
+		let myDataUrl = meSpeak.speak(text, { rawdata: "data-url" });
 		let sound = new Audio(myDataUrl);
 		audioElem.classList.remove("button-off");
 		audioElem.classList.add("button-on");
@@ -390,49 +425,60 @@ class MATCHING_PAIRForm extends Component {
 		sound.onended = () => {
 			audioElem.classList.remove("button-on");
 			audioElem.classList.add("button-off");
-		}
-	}
+		};
+	};
 
 	selectQuestionType = (mediaType) => {
 		const { currentPair } = this.state;
-		if (mediaType === MULTIMEDIA.text || mediaType === MULTIMEDIA.textToSpeech) {
-			this.setState({
-				...this.state,
-				currentPair: {
-					...currentPair,
-					question: {
-						type: mediaType,
-						data: ''
-					}
+		if (
+			mediaType === MULTIMEDIA.text ||
+			mediaType === MULTIMEDIA.textToSpeech
+		) {
+			this.setState(
+				{
+					...this.state,
+					currentPair: {
+						...currentPair,
+						question: {
+							type: mediaType,
+							data: "",
+						},
+					},
+				},
+				() => {
+					this.checkFormValidation();
 				}
-			}, () => {
-				this.checkFormValidation();
-			});
+			);
 		} else {
-			this.showJournalChooser(mediaType, false)
+			this.showJournalChooser(mediaType, false);
 		}
-	}
+	};
 
 	selectAnswerType = (mediaType) => {
 		const { currentPair } = this.state;
-		if (mediaType === MULTIMEDIA.text || mediaType === MULTIMEDIA.textToSpeech) {
-			this.setState({
-				...this.state,
-				currentPair: {
-					...currentPair,
-					answer: {
-						type: mediaType,
-						data: ''
-					}
+		if (
+			mediaType === MULTIMEDIA.text ||
+			mediaType === MULTIMEDIA.textToSpeech
+		) {
+			this.setState(
+				{
+					...this.state,
+					currentPair: {
+						...currentPair,
+						answer: {
+							type: mediaType,
+							data: "",
+						},
+					},
+				},
+				() => {
+					this.checkFormValidation();
 				}
-			}, () => {
-				this.checkFormValidation();
-			});
+			);
 		} else {
-			this.showJournalChooser(mediaType, true)
+			this.showJournalChooser(mediaType, true);
 		}
-	}
-
+	};
 
 	resetAnswer = () => {
 		const { currentPair } = this.state;
@@ -441,45 +487,50 @@ class MATCHING_PAIRForm extends Component {
 			currentPair: {
 				...currentPair,
 				answer: {
-					type: '',
-					data: ''
-				}
-			}
+					type: "",
+					data: "",
+				},
+			},
 		});
-	}
+	};
 
 	setQuestionSourceFromImageEditor = (url) => {
-		this.setState({
-			...this.state,
-			currentPair: {
-				...this.state.currentPair,
-				question: {
-					...this.state.currentPair.question,
-					data: url
-				}
+		this.setState(
+			{
+				...this.state,
+				currentPair: {
+					...this.state.currentPair,
+					question: {
+						...this.state.currentPair.question,
+						data: url,
+					},
+				},
+			},
+			() => {
+				this.checkFormValidation();
+				this.props.closeModal();
 			}
-		}, () => {
-			this.checkFormValidation();
-			this.props.closeModal();
-		});
-	}
+		);
+	};
 
 	setAnswerSourceFromImageEditor = (url) => {
-		this.setState({
-			...this.state,
-			currentPair: {
-				...this.state.currentPair,
-				answer: {
-					...this.state.currentPair.answer,
-					data: url
-				}
+		this.setState(
+			{
+				...this.state,
+				currentPair: {
+					...this.state.currentPair,
+					answer: {
+						...this.state.currentPair.answer,
+						data: url,
+					},
+				},
+			},
+			() => {
+				this.checkFormValidation();
+				this.props.closeModal();
 			}
-		}, () => {
-			this.checkFormValidation();
-			this.props.closeModal();
-		});
-	}
-
+		);
+	};
 
 	onDeletePair = () => {
 		const { currentPair, pairs } = this.state;
@@ -491,151 +542,211 @@ class MATCHING_PAIRForm extends Component {
 			newCurrentPair = {
 				id: 1,
 				question: {
-					type: '',
-					data: ''
+					type: "",
+					data: "",
 				},
 				answer: {
-					type: '',
-					data: ''
-				}
-			}
-		}
-		else if (currentPair.id > pairs.length) {
+					type: "",
+					data: "",
+				},
+			};
+		} else if (currentPair.id > pairs.length) {
 			newCurrentPair = pairs[pairs.length - 1];
 			updatedPair = pairs;
 		} else {
 			pairs.forEach((pair) => {
-				if (pair.id !== currentPair.id)
-					updatedPair.push(pair);
-			})
+				if (pair.id !== currentPair.id) updatedPair.push(pair);
+			});
 			updatedPair = updatedPair.map((pair, index) => {
-				if (pair.id !== (index + 1)) {
+				if (pair.id !== index + 1) {
 					pair.id = index + 1;
 					return pair;
 				}
 				return pair;
-			})
+			});
 
-			if (currentPair.id === (updatedPair.length + 1)) {
+			if (currentPair.id === updatedPair.length + 1) {
 				newCurrentPair = updatedPair[currentPair.id - 2];
 			} else {
 				newCurrentPair = updatedPair[currentPair.id - 1];
 			}
 		}
 
-		this.setState({
-			...this.state,
-			pairs: updatedPair,
-			noOfQuestions: updatedPair.length,
-			currentPair: newCurrentPair,
-			currentPairNo: newCurrentPair.id
-		}, () => {
-			this.checkFormValidation();
-		})
-	}
+		this.setState(
+			{
+				...this.state,
+				pairs: updatedPair,
+				noOfQuestions: updatedPair.length,
+				currentPair: newCurrentPair,
+				currentPairNo: newCurrentPair.id,
+			},
+			() => {
+				this.checkFormValidation();
+			}
+		);
+	};
 
 	render() {
 		const { currentPair, errors } = this.state;
-		const { thumbnail, insertThumbnail, showMedia, ShowEditableModalWindow } = this.props
+		const { thumbnail, insertThumbnail, showMedia, ShowEditableModalWindow } =
+			this.props;
 		let questionType = this.state.currentPair.question.type;
 		let answerType = this.state.currentPair.answer.type;
 
-		let title_error = '';
-		let question_error = '';
-		let answer_error = '';
+		let title_error = "";
+		let question_error = "";
+		let answer_error = "";
 
-		if (errors['title']) {
-			title_error = <span style={{ color: "red" }}><FormattedMessage id={TITLE_ERROR} /></span>;
+		if (errors["title"]) {
+			title_error = (
+				<span style={{ color: "red" }}>
+					<FormattedMessage id={TITLE_ERROR} />
+				</span>
+			);
 		}
-		if (errors['question']) {
-			question_error = <span style={{ color: "red" }}><FormattedMessage id={QUESTION_ERROR} /></span>;
+		if (errors["question"]) {
+			question_error = (
+				<span style={{ color: "red" }}>
+					<FormattedMessage id={QUESTION_ERROR} />
+				</span>
+			);
 		}
-		if (errors['answers']) {
-			answer_error = <span style={{ color: "red" }}><FormattedMessage id={ANSWER_ERROR} /></span>;
+		if (errors["answers"]) {
+			answer_error = (
+				<span style={{ color: "red" }}>
+					<FormattedMessage id={ANSWER_ERROR} />
+				</span>
+			);
 		}
 
 		return (
-			<div className={"container" + (this.props.inFullscreenMode? " fullScreenMargin" : "")} id="matching-form">
-				<div className="container-fluid">
-					<div className="row align-items-center justify-content-center">
-						<div className={"col-sm-10" + (this.props.inFullscreenMode? " fullScreenPadding" : "")}>
+			<div
+				className={
+					"container" + (this.props.inFullscreenMode ? " fullScreenMargin" : "")
+				}
+				id='matching-form'
+			>
+				<div className='container-fluid'>
+					<div className='row align-items-center justify-content-center'>
+						<div
+							className={
+								"col-sm-10" +
+								(this.props.inFullscreenMode ? " fullScreenPadding" : "")
+							}
+						>
 							<div>
-								<p><strong><FormattedMessage id={MATCHING_PAIR} /></strong></p>
-								<hr className="my-3" />
-								<div className="col-md-12">
+								<p>
+									<strong>
+										<FormattedMessage id={MATCHING_PAIR} />
+									</strong>
+								</p>
+								<hr className='my-3' />
+								<div className='col-md-12'>
 									<form onSubmit={this.handleNewEvent}>
-										<div className="row">
-											<div className="form-group">
+										<div className='row'>
+											<div className='form-group'>
 												{thumbnail}
-												<label htmlFor="title"><FormattedMessage id={TITLE_OF_EXERCISE} /></label>
-												<button style={{ display: 'none' }} />
-												<button className="btn button-finish button-thumbnail"
+												<label htmlFor='title'>
+													<FormattedMessage id={TITLE_OF_EXERCISE} />
+												</label>
+												<button style={{ display: "none" }} />
+												<button
+													className='btn button-finish button-thumbnail'
 													onClick={insertThumbnail}
 												/>
 												<input
-													className="input-mcq"
-													type="text"
-													id="title"
+													className='input-mcq'
+													type='text'
+													id='title'
 													value={this.state.title}
 													onChange={this.handleChangeTitle}
 												/>
 												{title_error}
 											</div>
 										</div>
-										<div className="row">
-											<div className="form-group">
-												<p><strong>Pair - {currentPair.id}</strong></p>
-												<hr className="my-3" />
-												<label htmlFor="question"><FormattedMessage id={MATCH_ITEM} />:</label>
-												<button className="btn button-delete"
+										<div className='row'>
+											<div className='form-group'>
+												<p>
+													<strong>Pair - {currentPair.id}</strong>
+												</p>
+												<hr className='my-3' />
+												<label htmlFor='question'>
+													<FormattedMessage id={MATCH_ITEM} />:
+												</label>
+												<button
+													className='btn button-delete'
 													onClick={this.onDeletePair}
 													disabled={this.state.pairs.length === 0}
 												/>
-												{questionType && <button className="btn button-edit"
-													onClick={() => { this.setState({ ...this.state, currentPair: { ...currentPair, question: { type: '', data: '' } } }) }}>
-												</button>}
-												{!questionType &&
+												{questionType && (
+													<button
+														className='btn button-edit'
+														onClick={() => {
+															this.setState({
+																...this.state,
+																currentPair: {
+																	...currentPair,
+																	question: { type: "", data: "" },
+																},
+															});
+														}}
+													></button>
+												)}
+												{!questionType && (
 													<QuestionOptionsJSX
 														selectQuestionType={this.selectQuestionType}
-													/>}
-												{questionType &&
+													/>
+												)}
+												{questionType && (
 													<QuestionJSX
 														questionType={this.state.currentPair.question.type}
 														questionData={this.state.currentPair.question.data}
 														showMedia={showMedia}
 														handleChangeQues={this.handleChangeQues}
 														speak={this.speak}
-														setImageEditorSource={this.setQuestionSourceFromImageEditor}
+														setImageEditorSource={
+															this.setQuestionSourceFromImageEditor
+														}
 													/>
-												}
+												)}
 												{question_error}
 											</div>
 										</div>
-										<div className="row">
-											<div className="form-group">
-												<label htmlFor="answer"><FormattedMessage id={MATCHING_ITEM} />:</label>
-												{answerType && <button className="btn button-edit"
-													style={{ marginLeft: '5px' }}
-													onClick={() => { this.resetAnswer() }}>
-												</button>}
-												{!answerType &&
+										<div className='row'>
+											<div className='form-group'>
+												<label htmlFor='answer'>
+													<FormattedMessage id={MATCHING_ITEM} />:
+												</label>
+												{answerType && (
+													<button
+														className='btn button-edit'
+														style={{ marginLeft: "5px" }}
+														onClick={() => {
+															this.resetAnswer();
+														}}
+													></button>
+												)}
+												{!answerType && (
 													<QuestionOptionsJSX
 														selectQuestionType={this.selectAnswerType}
-													/>}
-												{answerType &&
+													/>
+												)}
+												{answerType && (
 													<QuestionJSX
 														questionType={this.state.currentPair.answer.type}
 														questionData={this.state.currentPair.answer.data}
 														showMedia={showMedia}
 														handleChangeQues={this.handleChangeAns}
 														speak={this.speak}
-														setImageEditorSource={this.setAnswerSourceFromImageEditor}
+														setImageEditorSource={
+															this.setAnswerSourceFromImageEditor
+														}
 													/>
-												}
+												)}
 												{answer_error}
 											</div>
 										</div>
-										<div className="form-group row justify-content-between">
+										<div className='form-group row justify-content-between'>
 											<button
 												onClick={this.previousPair}
 												className={"btn button-previous mb-2"}
@@ -643,7 +754,7 @@ class MATCHING_PAIRForm extends Component {
 											>
 												<FormattedMessage id={PREVIOUS_QUESTION} />
 											</button>
-											<div className="justify-content-end mb-2">
+											<div className='justify-content-end mb-2'>
 												<button
 													onClick={this.saveCurrentPair}
 													className={"btn button-next"}
@@ -653,7 +764,7 @@ class MATCHING_PAIRForm extends Component {
 												</button>
 											</div>
 										</div>
-										<div className="form-group row justify-content-between">
+										<div className='form-group row justify-content-between'>
 											<button
 												onClick={(e) => this.submitExercise(false, e)}
 												className={"btn button-finish mb-2"}
@@ -677,18 +788,24 @@ class MATCHING_PAIRForm extends Component {
 				</div>
 				<ShowEditableModalWindow />
 			</div>
-		)
+		);
 	}
-
 }
 
 function MapStateToProps(state) {
 	return {
-		counter: state.exercise_counter
-	}
+		counter: state.exercise_counter,
+	};
 }
 
-export default withMultimedia(require("../../media/template/matching_pair_image.svg"))(withRouter(
-	connect(MapStateToProps,
-		{ addNewExercise, incrementExerciseCounter, editExercise }
-	)(MATCHING_PAIRForm)));
+export default withMultimedia(
+	require("../../media/template/matching_pair_image.svg")
+)(
+	withRouter(
+		connect(MapStateToProps, {
+			addNewExercise,
+			incrementExerciseCounter,
+			editExercise,
+		})(MATCHING_PAIRForm)
+	)
+);

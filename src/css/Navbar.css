@@ -123,6 +123,18 @@
     border-radius: 5.5px;
 }
 
+#run-all-button{
+    background-image: url("../icons/exercise/play-button.svg");
+}
+
+#share-all-button{
+    background-image: url("../icons/navbar/zoom-neighborhood.svg");
+}
+
+#evaluate-button{
+    background-image: url("../icons/navbar/export-eval.svg");
+}
+
 #full-screen {
     background-image: url("../icons/navbar/fullscreen.svg");
     outline: none;

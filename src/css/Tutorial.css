@@ -153,7 +153,7 @@
 }
 
 .icon-tutorial-text {
-	margin-top: 7px;
+	margin-top: 5px;
 	padding-left: 4px;
 	padding-right: 38px;
 	display: inline-block;
@@ -223,7 +223,8 @@
 	border-radius: 2px 2px 0 0
   }
   .popover-content {
-	padding: 9px 14px
+	padding: 9px 14px;
+	color: #000;
   }
   .popover>.arbootstrap-row, .popover>.arbootstrap-row:after {
 	position: absolute;

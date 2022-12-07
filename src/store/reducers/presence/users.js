@@ -5,9 +5,9 @@ const users = (state = [], action) => {
 		case ADD_USER:
 			return [...state, action.user];
 		case REMOVE_USER:
-			return state.filter(user => user.networkId !== action.user.networkId);
+			return state.filter((user) => user.networkId !== action.user.networkId);
 		default:
-			return state
+			return state;
 	}
 };
 

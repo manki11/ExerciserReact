@@ -1,4 +1,9 @@
-import { GET_SHARED_EXERCISES, ADD_SHARED_EXERCISE, REMOVE_SHARED_EXERCISE, ADD_SHARED_RESULT } from "../../actionTypes";
+import {
+	GET_SHARED_EXERCISES,
+	ADD_SHARED_EXERCISE,
+	REMOVE_SHARED_EXERCISE,
+	ADD_SHARED_RESULT,
+} from "../../actionTypes";
 
 const sharedExercises = (state = [], action) => {
 	switch (action.type) {
@@ -7,7 +12,7 @@ const sharedExercises = (state = [], action) => {
 		case ADD_SHARED_EXERCISE:
 			return [...state, { ...action.exercise, shared_results: [] }];
 		case REMOVE_SHARED_EXERCISE:
-			return state.filter(exercise => exercise.id !== action.id);
+			return state.filter((exercise) => exercise.id !== action.id);
 		case ADD_SHARED_RESULT:
 			return state.map((exercise, i) => {
 				if (exercise.id === action.result.id) {
@@ -16,7 +21,7 @@ const sharedExercises = (state = [], action) => {
 					temp.shared_results = temp.shared_results.map((result) => {
 						if (result.user.name === action.result.user.name) {
 							score_added = true;
-							return action.result
+							return action.result;
 						}
 						return result;
 					});
@@ -26,7 +31,7 @@ const sharedExercises = (state = [], action) => {
 				return exercise;
 			});
 		default:
-			return state
+			return state;
 	}
 };
 
