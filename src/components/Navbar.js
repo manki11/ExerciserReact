@@ -59,6 +59,9 @@ class Navbar extends Component {
 	};
 
 	runAllExercise = () => {
+		if (this.props.exercises.length == 0) {
+			return;
+		}
 		let exercise = null;
 		if (this.props.evaluationMode === "") {
 			if (!this.props.isRunAll) {
