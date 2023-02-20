@@ -101,15 +101,15 @@ export default class DragList extends Component {
 												provided.draggableProps.style
 											)}
 										>
-											<div {...provided.dragHandleProps}
+											<div style={{display:'flex',width:'95%'}} {...provided.dragHandleProps}
 												className="handler">
-												<img style={{ width: '1.5em' }}
+												<img style={{ width: '1.5em', objectFit: 'contain' }}
 													src={require("../icons/exercise/reorder-drag.png")}
 													alt="handler"
 												></img>
-											</div>
-											<div style={getContentStyle}>
+													<div style={getContentStyle}>
 												{item.content}
+												</div>
 											</div>
 										</div>
 									)}
