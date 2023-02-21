@@ -17,6 +17,12 @@
     margin: 10px 0px;
 }
 
+.choices-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 @media (min-width: 576px) {
     .jumbotron {
         padding: 2rem 1rem!important;

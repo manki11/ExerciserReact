@@ -396,7 +396,7 @@ class MCQPlayer extends Component {
 									</div>
 								</div>
 							</div>
-							<div className='col-md-12'>{choices}</div>
+							<div className='col-md-12 choices-container'>{choices}</div>
 							<div className='d-flex flex-row-reverse'>
 								<div className='justify-content-end'>
 									<button
