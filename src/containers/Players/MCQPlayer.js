@@ -160,6 +160,8 @@ class MCQPlayer extends Component {
 			currentScore: score,
 			userAnswers: updatedUserAnswers,
 		});
+
+		if(this.props.evaluationMode !== '') this.nextQuestion();
 	};
 
 	// move to next question
