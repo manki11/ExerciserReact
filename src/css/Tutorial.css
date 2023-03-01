@@ -1,303 +1,114 @@
-.tutorial-icon-button {
-	border-radius: 22px;
-	margin-top: 5px;
-	height: 35px;
+.introjs-overlay {
+	background-color: #000 !important;
+	opacity: .8 !important;
+}
+  
+.introjs-tooltip {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif!important;
+	border-radius: 6px !important;
+	padding: 2px 1px !important;
+	font-size: 14px !important;
+}
+  
+.introjs-helperLayer{
+	background: inherit !important;
+	opacity: 0.6 !important;
+}
+  
+.customTooltip .introjs-tooltip-header {
+	font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+	color : #ffffff;
+	text-shadow: none;
 	background-color: #808080;
-	border: 2px solid #808080;
+	margin: 0;
+	padding: 0px 10px;
+	border-bottom: 1px solid #ebebeb;
+	border-radius: 5px 5px 0 0;
 }
-
-
-.icon-button {
-	border-radius: 22px;
-	margin-top: 5px;
-	height: 35px;
-	background-color: #808080;
-	border: 2px solid #808080;
+  
+.customTooltip .introjs-tooltip-title {
+	font-size: 14px;
+	padding: 0px 8px;
+	font-weight: 800;
 }
-
-
-.tutorial-title {
-	background-color: #808080 !important;
-	color: #ffffff !important;
+  
+.customTooltip .introjs-tooltiptext {
+	color: #000000;
+	line-height: 1.42857143;
 }
-
-.tutorial-prev-icon {
-	display: inline-flex;
-	width: 90px;
+  
+.customTooltip .introjs-skipbutton {
+	float: right;
+	cursor: pointer;
+	background-image: url(../icons/exercise/dialog-cancel.svg);
+	width: 25px;
+	height: 25px;
+	background-size: 25px 25px;
+	margin-top: 2px;
+	padding: 0px;
+	text-indent: 100%;
+	white-space: nowrap;
+	overflow: hidden;
 }
-
-.tutorial-prev-icon.icon-button {
-	color: white;
-}
-
-.tutorial-prev-icon.icon-button.disabled {
-	color: black;
-}
-
-.tutorial-prev-icon1 {
-	margin-left: 6px;
-	margin-top: 6px;
-}
-
-.tutorial-prev-icon2 {
-	background-image: url(../icons/exercise/go-left.svg);
-	width: 20px;
-	height: 20px;
-	background-size: 20px 20px;
-}
-
-.tutorial-prev-icon2:hover {
-  background-color: white;
-  opacity: 0.7;
-  border-radius: 5px;
-	width: 20px;
-	height: 20px;
-	background-size: 20px 20px;
-}
-
-
-.tutorial-prev-icon3 {
-	display: none;
-	width: 20px;
-	height: 20px;
-	background-size: 20px 20px;
-	background-color: white;
-	margin-top: -20px;
-}
-
-.tutorial-next-icon {
-	display: inline-flex;
-	width: 90px;
-}
-
-.tutorial-next-icon.icon-button {
-	color: white;
-}
-
-.tutorial-next-icon.icon-button.disabled {
-	color: black;
-}
-
-.tutorial-next-icon1 {
-	margin-left: 6px;
-	margin-top: 6px;
-}
-
-.tutorial-next-icon2 {
+  
+.customTooltip .introjs-nextbutton::before {
+	content: "";
+	margin-right: 6px;
 	background-image: url(../icons/exercise/go-right.svg);
 	width: 20px;
 	height: 20px;
 	background-size: 20px 20px;
 }
-
-.tutorial-next-icon2:hover {
-  background-color: white;
-  opacity: 0.7;
-  border-radius: 5px;
+  
+.customTooltip .introjs-prevbutton::before {
+	content: "";
+	margin-right: 6px;
+	background-image: url(../icons/exercise/go-left.svg);
 	width: 20px;
 	height: 20px;
 	background-size: 20px 20px;
 }
-
-
-.tutorial-next-icon3 {
-	display: none;
-	width: 20px;
-	height: 20px;
-	background-size: 20px 20px;
-	background-color: white;
-	margin-top: -20px;
+  
+.customTooltip .introjs-tooltipbuttons {
+	display: flex;
+	flex-wrap:wrap;
+	justify-content: center;
+	align-items: center;
+	cursor: pointer;
+	border-top: 0px;
+	padding: 0px;
+	text-align: center;
+	white-space: normal;
 }
-
-.tutorial-end-icon {
-	display: inline-flex;
-	width: 90px;
+  
+.customTooltip .introjs-button {
+	text-shadow: none;
+	border-radius: 22px;
+	margin: 5px 8px 8px 8px;
+	width: fit-content;
+	background-color: #808080 !important;
+	display: flex !important;
+	align-items: center !important;
+	color: white !important;
+	padding: 6px 20px 6px 10px;
+	border: 0px;
 }
-
-.tutorial-end-icon.icon-button {
-	color: white;
+  
+.customTooltip .introjs-button:focus {
+	-webkit-box-shadow: 0 0 0 0rem rgba(158, 158, 158, .5);
+	box-shadow: 0 0 0 0rem rgba(158, 158, 158, .5);
+	border: 0px;
+	background-color: #808080 !important;
 }
-
-.tutorial-end-icon.icon-button.disabled {
-	color: black;
+  
+.customTooltip .introjs-disabled {
+	color: black !important;
+	border: 0px;
+	opacity: .65;
 }
-
-.tutorial-end-icon1 {
-	margin-left: 6px;
-	margin-top: 6px;
+  
+.customTooltip .introjs-disabled:focus {
+	-webkit-box-shadow: 0 0 0 0rem rgba(158, 158, 158, .5);
+	box-shadow: 0 0 0 0rem rgba(158, 158, 158, .5);
+	border: 0px;
 }
-
-.tutorial-end-icon2 {
-	background-image: url(../icons/exercise/dialog-cancel.svg);
-	width: 20px;
-	height: 20px;
-	background-size: 20px 20px;
-}
-
-.tutorial-end-icon2:hover {
-  background-color: white;
-  opacity: 0.7;
-  border-radius: 5px;
-	width: 20px;
-	height: 20px;
-	background-size: 20px 20px;
-}
-
-.tutorial-end-icon3 {
-	display: none;
-	width: 20px;
-	height: 20px;
-	background-size: 20px 20px;
-	background-color: white;
-	margin-top: -20px;
-}
-
-.icon-tutorial-text {
-	margin-top: 5px;
-	padding-left: 4px;
-	padding-right: 38px;
-	display: inline-block;
-}
-
-#icon-tutorial{
-  display: inline-block;
-  background-image: url(../icons/exercise/owner-icon.svg);
-  background-size: 50px;
-  height: 50px;
-  width: 50px;
-  margin-top: 15px;
-  margin-left: 5px;
-}
-
-.popover {
-	cursor: url('../icons/exercise/ArrowSmall.cur'), default;
-	position: relative!important;
-	top: 0;
-	left: 0;
-	z-index: 1060;
-	display: none;
-	max-width: 276px;
-	padding: 1px;
-	font-family: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-size: 13px;
-	font-weight: normal;
-	line-height: 1.846;
-	text-align: left;
-	background-color: #ffffff;
-	-webkit-background-clip: padding-box;
-	background-clip: padding-box;
-	border: 1px solid transparent;
-	border-radius: 3px;
-	-webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-	box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-	white-space: normal
-  }
-
-  .popover.top {
-	margin-top: -10px
-  }
-
-  .popover.right {
-	margin-left: 10px
-  }
-
-  .popover.bottom {
-	margin-top: 10px
-  }
-
-  .popover.left {
-	margin-left: -10px
-  }
-
-  .popover-navigation{
-	padding:9px 14px;
-	overflow:hidden;
-   }
-
-  .popover-title {
-	margin: 0;
-	padding: 8px 14px;
-	font-size: 13px;
-	background-color: #f7f7f7;
-	border-bottom: 1px solid #ebebeb;
-	border-radius: 2px 2px 0 0
-  }
-  .popover-content {
-	padding: 9px 14px;
-	color: #000;
-  }
-  .popover>.arbootstrap-row, .popover>.arbootstrap-row:after {
-	position: absolute;
-	display: block;
-	width: 0;
-	height: 0;
-	border-color: transparent;
-	border-style: solid
-  }
-  .popover>.arbootstrap-row {
-	border-width: 11px
-  }
-  .popover>.arbootstrap-row:after {
-	border-width: 10px;
-	content: ""
-  }
-  .popover.top>.arbootstrap-row {
-	left: 50%;
-	margin-left: -11px;
-	border-bottom-width: 0;
-	border-top-color: rgba(0, 0, 0, 0);
-	border-top-color: rgba(0, 0, 0, 0.075);
-	bottom: -11px
-  }
-  .popover.top>.arbootstrap-row:after {
-	content: " ";
-	bottom: 1px;
-	margin-left: -10px;
-	border-bottom-width: 0;
-	border-top-color: #ffffff
-  }
-  .popover.right>.arbootstrap-row {
-	top: 50%;
-	left: -11px;
-	margin-top: -11px;
-	border-left-width: 0;
-	border-right-color: rgba(0, 0, 0, 0);
-	border-right-color: rgba(0, 0, 0, 0.075)
-  }
-  .popover.right>.arbootstrap-row:after {
-	content: " ";
-	left: 1px;
-	bottom: -10px;
-	border-left-width: 0;
-	border-right-color: #ffffff
-  }
-  .popover.bottom>.arbootstrap-row {
-	left: 50%;
-	margin-left: -11px;
-	border-top-width: 0;
-	border-bottom-color: rgba(0, 0, 0, 0);
-	border-bottom-color: rgba(0, 0, 0, 0.075);
-	top: -11px
-  }
-  .popover.bottom>.arbootstrap-row:after {
-	content: " ";
-	top: 1px;
-	margin-left: -10px;
-	border-top-width: 0;
-	border-bottom-color: #ffffff
-  }
-  .popover.left>.arbootstrap-row {
-	top: 50%;
-	right: -11px;
-	margin-top: -11px;
-	border-right-width: 0;
-	border-left-color: rgba(0, 0, 0, 0);
-	border-left-color: rgba(0, 0, 0, 0.075)
-  }
-  .popover.left>.arbootstrap-row:after {
-	content: " ";
-	right: 1px;
-	border-right-width: 0;
-	border-left-color: #ffffff;
-	bottom: -10px
-  }

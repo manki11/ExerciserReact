@@ -7,186 +7,115 @@ export const tutorialSteps = (pathname, intl) => {
 			if (document.getElementById("editor-button")) {
 				steps = [
 					{
-						selector: "",
-						content: [
-							intl.formatMessage({ id: "Exerciser" }),
-							intl.formatMessage({
-								id: "This activity is an academic focused activity for the Sugarizer platform. It provides teachers to build interactive exercises for students, using multiple templates, and share them with their students using the sugarizer-server.",
-							}),
-						],
+						title: intl.formatMessage({ id: "Exerciser" }),
+						intro: intl.formatMessage({ id: "This activity is an academic focused activity for the Sugarizer platform. It provides teachers to build interactive exercises for students, using multiple templates, and share them with their students using the sugarizer-server." }),
+						
 					},
 					{
-						selector: "#network-button",
-						content: [
-							intl.formatMessage({ id: "Network Button" }),
-							intl.formatMessage({
-								id: "Lets you share your exercises with other users.",
-							}),
-						],
+						element: "#network-button",
+						title: intl.formatMessage({ id: "Network Button" }),
+						intro: intl.formatMessage({ id: "Lets you share your exercises with other users." })
 					},
 					{
-						selector: "#run-all-button",
-						content: [
-							intl.formatMessage({ id: "Run All Button" }),
-							intl.formatMessage({
-								id: "Use this button to play all the exercises together.",
-							}),
-						],
+						element: "#run-all-button",
+						title: intl.formatMessage({ id: "Run All Button" }),
+						intro: intl.formatMessage({ id: "Use this button to play all the exercises together." }),
+						
 					},
 					{
-						selector: "#editor-button",
-						content: [
-							intl.formatMessage({ id: "Editor Button" }),
-							intl.formatMessage({
-								id: "Press this button to enter editor mode and edit/add/delete your exercises",
-							}),
-						],
+						element: "#editor-button",
+						title: intl.formatMessage({ id: "Editor Button" }),
+						intro: intl.formatMessage({ id: "Press this button to enter editor mode and edit/add/delete your exercises" }),
+						
 					},
 					{
-						selector: "#evaluate-button",
-						content: [
-							intl.formatMessage({ id: "Evaluate Button" }),
-							intl.formatMessage({ id: "Use this button to export the exercises set as an evaluation." }),
-						],
+						element: "#evaluate-button",
+						title: intl.formatMessage({ id: "Evaluate Button" }),
+						intro: intl.formatMessage({ id: "Use this button to export the exercises set as an evaluation." })
 					},
 					{
-						selector: "#fullscreen-button",
-						content: [
-							intl.formatMessage({ id: "Fullscreen Button" }),
-							intl.formatMessage({
-								id: "Press this button to enter Fullscreen mode.",
-							}),
-						],
+						element: "#fullscreen-button",
+						title: intl.formatMessage({ id: "Fullscreen Button" }),
+						intro: intl.formatMessage({ id: "Press this button to enter Fullscreen mode." })
 					},
 					{
-						selector: "#stop-button",
-						content: [
-							intl.formatMessage({ id: "Stop Button" }),
-							intl.formatMessage({
-								id: 'Press this button to stop the activity, don"t worry your changes will be saved in the Journal.',
-							}),
-						],
+						element: "#stop-button",
+						title: intl.formatMessage({ id: "Stop Button" }),
+						intro: intl.formatMessage({ id: 'Press this button to stop the activity, don"t worry your changes will be saved in the Journal.' }),
+						
 					},
 					{
-						selector: ".play-button",
-						content: [
-							intl.formatMessage({ id: "Play Button" }),
-							intl.formatMessage({
-								id: "Use this button if you want to play the Exercise.",
-							}),
-						],
+						element: ".play-button",
+						title: intl.formatMessage({ id: "Play Button" }),
+						intro: intl.formatMessage({ id: "Use this button if you want to play the Exercise." })
 					},
 				];
 			} else if (document.getElementById("play-button")) {
 				steps = [
 					{
-						selector: "#play-button",
-						content: [
-							intl.formatMessage({ id: "Play button" }),
-							intl.formatMessage({
-								id: "Press this button to exit edit mode and return to the play mode.",
-							}),
-						],
+						element: "#play-button",
+						title: intl.formatMessage({ id: "Play button" }),
+						intro: intl.formatMessage({ id: "Press this button to exit edit mode and return to the play mode." }),
 					},
 					{
-						selector: "#add-button",
-						content: [
-							intl.formatMessage({ id: "Add Exercises" }),
-							intl.formatMessage({
-								id: "This button takes you to a list of templates from which you can choose a one to work with.",
-							}),
-						],
+						element: "#add-button",
+						title: intl.formatMessage({ id: "Add Exercises" }),
+						intro: intl.formatMessage({ id: "This button takes you to a list of templates from which you can choose a one to work with." })
 					},
 					{
-						selector: ".edit-button",
-						content: [
-							intl.formatMessage({ id: "Edit Button" }),
-							intl.formatMessage({
-								id: "Use this button if you want to edit the Exercise.",
-							}),
-						],
+						element: ".edit-button",
+						title: intl.formatMessage({ id: "Edit Button" }),
+						intro: intl.formatMessage({ id: "Use this button if you want to edit the Exercise." })
 					},
 					{
-						selector: ".delete-button",
-						content: [
-							intl.formatMessage({ id: "Delete Button" }),
-							intl.formatMessage({
-								id: "Use this button if you want to delete the Exercise.",
-							}),
-						],
+						element: ".delete-button",
+						title: intl.formatMessage({ id: "Delete Button" }),
+						intro: intl.formatMessage({ id: "Use this button if you want to delete the Exercise." })
 					},
 				];
 			} else { // Evaluation mode
 				steps = [
 					{
-						selector: "#run-all-button",
-						content: [
-							intl.formatMessage({ id: "Run All Button" }),
-							intl.formatMessage({
-								id: "Use this button to play all the exercises together.",
-							}),
-						],
+						element: "#run-all-button",
+						title: intl.formatMessage({ id: "Run All Button" }),
+						intro: intl.formatMessage({ id: "Use this button to play all the exercises together." }),
 					},
 					{
-						selector: "#fullscreen-button",
-						content: [
-							intl.formatMessage({ id: "Fullscreen Button" }),
-							intl.formatMessage({
-								id: "Press this button to enter Fullscreen mode.",
-							}),
-						],
+						element: "#fullscreen-button",
+						title: intl.formatMessage({ id: "Fullscreen Button" }),
+						intro: intl.formatMessage({ id: "Press this button to enter Fullscreen mode." }),
 					},
 					{
-						selector: "#stop-button",
-						content: [
-							intl.formatMessage({ id: "Stop Button" }),
-							intl.formatMessage({
-								id: 'Press this button to stop the activity, don"t worry your changes will be saved in the Journal.',
-							}),
-						],
+						element: "#stop-button",
+						title: intl.formatMessage({ id: "Stop Button" }),
+						intro: intl.formatMessage({ id: 'Press this button to stop the activity, don"t worry your changes will be saved in the Journal.' }),
 					},
 					{
-						selector: ".play-button",
-						content: [
-							intl.formatMessage({ id: "Play Button" }),
-							intl.formatMessage({
-								id: "Use this button if you want to play the Exercise.",
-							}),
-						],
+						element: ".play-button",
+						title: intl.formatMessage({ id: "Play Button" }),
+						intro: intl.formatMessage({ id: "Use this button if you want to play the Exercise." })
 					},
 				];
 			}
 			if (document.getElementsByClassName("share-button")[0]) {
 				steps.push({
-					selector: ".share-button",
-					content: [
-						intl.formatMessage({ id: "Share Button" }),
-						intl.formatMessage({
-							id: "Use this button if you want to share this Exercise.",
-						}),
-					],
+					element: ".share-button",
+					title: intl.formatMessage({ id: "Share Button" }),
+					intro: intl.formatMessage({ id: "Use this button if you want to share this Exercise." }),
 				});
 			}
 			if (document.getElementsByClassName("result-button")[0]) {
 				steps.push({
-					selector: ".result-button",
-					content: [
-						intl.formatMessage({ id: "Result Button" }),
-						intl.formatMessage({
-							id: "Use this button to see results of all the users.",
-						}),
-					],
+					element: ".result-button",
+					title: intl.formatMessage({ id: "Result Button" }),
+					intro: intl.formatMessage({ id: "Use this button to see results of all the users." }),
 				});
 			}
 			if (document.getElementsByClassName("user-list-button")[0]) {
 				steps.push({
-					selector: ".user-list-button",
-					content: [
-						intl.formatMessage({ id: "User List Button" }),
-						intl.formatMessage({
-							id: "Use this button to see list of all the users.",
-						}),
-					],
+					element: ".user-list-button",
+					title: intl.formatMessage({ id: "User List Button" }),
+					intro: intl.formatMessage({ id: "Use this button to see list of all the users." }),
 				});
 			}
 			break;
@@ -195,13 +124,9 @@ export const tutorialSteps = (pathname, intl) => {
 		case "/new":
 			steps = [
 				{
-					selector: ".button-choose",
-					content: [
-						intl.formatMessage({ id: "Select Template" }),
-						intl.formatMessage({
-							id: "Click on this button to build an exercise using this template.",
-						}),
-					],
+					element: ".button-choose",
+					title: intl.formatMessage({ id: "Select Template" }),
+					intro: intl.formatMessage({ id: "Click on this button to build an exercise using this template." }),
 				},
 			];
 			break;
@@ -210,31 +135,19 @@ export const tutorialSteps = (pathname, intl) => {
 		case "/scores":
 			steps = [
 				{
-					selector: ".score-button",
-					content: [
-						intl.formatMessage({ id: "Scores" }),
-						intl.formatMessage({
-							id: "Shows a graphical representation of the fraction of questions answered correctly.",
-						}),
-					],
+					element: ".score-button",
+					title: intl.formatMessage({ id: "Scores" }),
+					intro: intl.formatMessage({ id: "Shows a graphical representation of the fraction of questions answered correctly." })
 				},
 				{
-					selector: ".time-button",
-					content: [
-						intl.formatMessage({ id: "Time" }),
-						intl.formatMessage({
-							id: "Shows a graphical representation of the time taken.",
-						}),
-					],
+					element: ".time-button",
+					title: intl.formatMessage({ id: "Time" }),
+					intro: intl.formatMessage({ id: "Shows a graphical representation of the time taken." }),
 				},
 				{
-					selector: ".detail-button",
-					content: [
-						intl.formatMessage({ id: "Detailed Result" }),
-						intl.formatMessage({
-							id: "Comparison of your answers against the correct answers.",
-						}),
-					],
+					element: ".detail-button",
+					title: intl.formatMessage({ id: "Detailed Result" }),
+					intro: intl.formatMessage({ id: "Comparison of your answers against the correct answers." }),
 				},
 			];
 			break;
@@ -243,31 +156,19 @@ export const tutorialSteps = (pathname, intl) => {
 		case "/presence/scores":
 			steps = [
 				{
-					selector: ".score-button",
-					content: [
-						intl.formatMessage({ id: "Scores" }),
-						intl.formatMessage({
-							id: "Shows a graphical representation of the fraction of questions answered correctly.",
-						}),
-					],
+					element: ".score-button",
+					title: intl.formatMessage({ id: "Scores" }),
+					intro: intl.formatMessage({ id: "Shows a graphical representation of the fraction of questions answered correctly." }),
 				},
 				{
-					selector: ".time-button",
-					content: [
-						intl.formatMessage({ id: "Time" }),
-						intl.formatMessage({
-							id: "Shows a graphical representation of the time taken.",
-						}),
-					],
+					element: ".time-button",
+					title: intl.formatMessage({ id: "Time" }),
+					intro: intl.formatMessage({ id: "Shows a graphical representation of the time taken." }),
 				},
 				{
-					selector: ".detail-button",
-					content: [
-						intl.formatMessage({ id: "Detailed Result" }),
-						intl.formatMessage({
-							id: "Comparison of answers of all users against the correct answers.",
-						}),
-					],
+					element: ".detail-button",
+					title: intl.formatMessage({ id: "Detailed Result" }),
+					intro: intl.formatMessage({ id: "Comparison of answers of all users against the correct answers." }),
 				},
 			];
 			break;
@@ -276,93 +177,57 @@ export const tutorialSteps = (pathname, intl) => {
 		case "/new/mcq":
 			steps = [
 				{
-					selector: ".button-thumbnail",
-					content: [
-						intl.formatMessage({ id: "Select Thumbnail" }),
-						intl.formatMessage({
-							id: "Choose a different thumbnail from the Journal Chooser.",
-						}),
-					],
+					element: ".button-thumbnail",
+					title: intl.formatMessage({ id: "Select Thumbnail" }),
+					intro: intl.formatMessage({ id: "Choose a different thumbnail from the Journal Chooser." }),
 				},
 				{
-					selector: ".question-options",
-					content: [
-						intl.formatMessage({ id: "Question Menu" }),
-						intl.formatMessage({
-							id: "Select the type of question you want to insert.",
-						}),
-					],
+					element: ".question-options",
+					title: intl.formatMessage({ id: "Question Menu" }),
+					intro: intl.formatMessage({ id: "Select the type of question you want to insert." }),
 				},
 				{
-					selector: ".button-choices-add",
-					content: [
-						intl.formatMessage({ id: "Add Option" }),
-						intl.formatMessage({
-							id: "Use this button to add another option field.",
-						}),
-					],
+					element: ".button-choices-add",
+					title: intl.formatMessage({ id: "Add Option" }),
+					intro: intl.formatMessage({ id: "Use this button to add another option field." }),
 				},
 				{
-					selector: ".button-choices-sub",
-					content: [
-						intl.formatMessage({ id: "Remove Option" }),
-						intl.formatMessage({
-							id: "Use this button to remove the last option field.",
-						}),
-					],
+					element: ".button-choices-sub",
+					title: intl.formatMessage({ id: "Remove Option" }),
+					intro: intl.formatMessage({ id: "Use this button to remove the last option field." }),
 				},
 			];
 			break;
 		case "/edit/mcq":
 			steps = [
 				{
-					selector: ".button-thumbnail",
-					content: [
-						intl.formatMessage({ id: "Select Thumbnail" }),
-						intl.formatMessage({
-							id: "Choose a different thumbnail from the Journal Chooser.",
-						}),
-					],
+					element: ".button-thumbnail",
+					title: intl.formatMessage({ id: "Select Thumbnail" }),
+					intro: intl.formatMessage({ id: "Choose a different thumbnail from the Journal Chooser." }),
 				},
 				{
-					selector: ".button-edit",
-					content: [
-						intl.formatMessage({ id: "Edit Question" }),
-						intl.formatMessage({
-							id: "Use this button to change the type of Question.",
-						}),
-					],
+					element: ".button-edit",
+					title: intl.formatMessage({ id: "Edit Question" }),
+					intro: intl.formatMessage({ id: "Use this button to change the type of Question." }),
 				},
 				{
-					selector: ".button-choices-add",
-					content: [
-						intl.formatMessage({ id: "Add Option" }),
-						intl.formatMessage({
-							id: "Use this button to add another option field.",
-						}),
-					],
+					element: ".button-choices-add",
+					title: intl.formatMessage({ id: "Add Option" }),
+					intro: intl.formatMessage({ id: "Use this button to add another option field." }),
 				},
 				{
-					selector: ".button-choices-sub",
-					content: [
-						intl.formatMessage({ id: "Remove Option" }),
-						intl.formatMessage({
-							id: "Use this button to remove the last option field.",
-						}),
-					],
+					element: ".button-choices-sub",
+					title: intl.formatMessage({ id: "Remove Option" }),
+					intro: intl.formatMessage({ id: "Use this button to remove the last option field." }),
 				},
 			];
 			break;
 		case "/play/mcq":
 			steps = [
 				{
-					selector: ".choices",
-					content: [
-						intl.formatMessage({ id: "Select Choices" }),
-						intl.formatMessage({
-							id: "Select one of the options as your answer.",
-						}),
-					],
+					element: ".choices",
+					title: intl.formatMessage({ id: "Select Choices" }),
+					intro: intl.formatMessage({ id: "Select one of the options as your answer." }),
 				},
 			];
 			break;
@@ -371,161 +236,97 @@ export const tutorialSteps = (pathname, intl) => {
 		case "/new/cloze":
 			steps = [
 				{
-					selector: ".button-thumbnail",
-					content: [
-						intl.formatMessage({ id: "Select Thumbnail" }),
-						intl.formatMessage({
-							id: "Choose a different thumbnail from the Journal Chooser.",
-						}),
-					],
+					element: ".button-thumbnail",
+					title: intl.formatMessage({ id: "Select Thumbnail" }),
+					intro: intl.formatMessage({ id: "Choose a different thumbnail from the Journal Chooser." })
 				},
 				{
-					selector: ".question-options",
-					content: [
-						intl.formatMessage({ id: "Question Menu" }),
-						intl.formatMessage({
-							id: "Select the type of question you want to insert.",
-						}),
-					],
+					element: ".question-options",
+					title: intl.formatMessage({ id: "Question Menu" }),
+					intro: intl.formatMessage({ id: "Select the type of question you want to insert." }),
 				},
 				{
-					selector: ".type-write",
-					content: [
-						intl.formatMessage({ id: "Blank Type" }),
-						intl.formatMessage({ id: "Let's user write answers in blanks." }),
-					],
+					element: ".type-write",
+					title: intl.formatMessage({ id: "Blank Type" }),
+					intro: intl.formatMessage({ id: "Let's user write answers in blanks." }),
 				},
 				{
-					selector: ".type-options",
-					content: [
-						intl.formatMessage({ id: "Blank Type" }),
-						intl.formatMessage({
-							id: "Let's user select answer from a drop down menu.",
-						}),
-					],
+					element: ".type-options",
+					title: intl.formatMessage({ id: "Blank Type" }),
+					intro: intl.formatMessage({ id: "Let's user select answer from a drop down menu." }),
 				},
 				{
-					selector: ".button-add-blank",
-					content: [
-						intl.formatMessage({ id: "Add Blank" }),
-						intl.formatMessage({
-							id: "Click on this button to insert blanks in the questions. The number of blanks should be less than the number of options.",
-						}),
-					],
+					element: ".button-add-blank",
+					title: intl.formatMessage({ id: "Add Blank" }),
+					intro: intl.formatMessage({ id: "Click on this button to insert blanks in the questions. The number of blanks should be less than the number of options." }),
 				},
 				{
-					selector: "#cloze-text",
-					content: [
-						intl.formatMessage({ id: "Cloze Text" }),
-						intl.formatMessage({
-							id: "The string represented by -{Number}- is replaced by a blank or a drop down menu in the preview, also the ith blank's answer is represented by the ith option field.",
-						}),
-					],
+					element: "#cloze-text",
+					title: intl.formatMessage({ id: "Cloze Text" }),
+					intro: intl.formatMessage({ id: "The string represented by -{Number}- is replaced by a blank or a drop down menu in the preview, also the ith blank's answer is represented by the ith option field." }),
 				},
 				{
-					selector: ".button-choices-add",
-					content: [
-						intl.formatMessage({ id: "Add Option" }),
-						intl.formatMessage({
-							id: "Use this button to add another option field.",
-						}),
-					],
+					element: ".button-choices-add",
+					title: intl.formatMessage({ id: "Add Option" }),
+					intro: intl.formatMessage({ id: "Use this button to add another option field." }),
 				},
 				{
-					selector: ".button-choices-sub",
-					content: [
-						intl.formatMessage({ id: "Remove Option" }),
-						intl.formatMessage({
-							id: "Use this button to remove the last option field.",
-						}),
-					],
+					element: ".button-choices-sub",
+					title: intl.formatMessage({ id: "Remove Option" }),
+					intro: intl.formatMessage({ id: "Use this button to remove the last option field." }),
 				},
 			];
 			break;
 		case "/edit/cloze":
 			steps = [
 				{
-					selector: ".button-thumbnail",
-					content: [
-						intl.formatMessage({ id: "Select Thumbnail" }),
-						intl.formatMessage({
-							id: "Choose a different thumbnail from the Journal Chooser.",
-						}),
-					],
+					element: ".button-thumbnail",
+					title: intl.formatMessage({ id: "Select Thumbnail" }),
+					intro: intl.formatMessage({ id: "Choose a different thumbnail from the Journal Chooser." }),
 				},
 				{
-					selector: ".button-edit",
-					content: [
-						intl.formatMessage({ id: "Edit Question" }),
-						intl.formatMessage({
-							id: "Use this button to change the type of Question.",
-						}),
-					],
+					element: ".button-edit",
+					title: intl.formatMessage({ id: "Edit Question" }),
+					intro: intl.formatMessage({ id: "Use this button to change the type of Question." }),
 				},
 				{
-					selector: ".type-write",
-					content: [
-						intl.formatMessage({ id: "Blank Type" }),
-						intl.formatMessage({ id: "Let's user write answers in blanks." }),
-					],
+					element: ".type-write",
+					title: intl.formatMessage({ id: "Blank Type" }),
+					intro: intl.formatMessage({ id: "Let's user write answers in blanks." }),
 				},
 				{
-					selector: ".type-options",
-					content: [
-						intl.formatMessage({ id: "Blank Type" }),
-						intl.formatMessage({
-							id: "Let's user select answer from a drop down menu.",
-						}),
-					],
+					element: ".type-options",
+					title: intl.formatMessage({ id: "Blank Type" }),
+					intro: intl.formatMessage({ id: "Let's user select answer from a drop down menu." }),
 				},
 				{
-					selector: ".button-add-blank",
-					content: [
-						intl.formatMessage({ id: "Add Blank" }),
-						intl.formatMessage({
-							id: "Click on this button to insert blanks in the questions. The number of blanks should be less than the number of options.",
-						}),
-					],
+					element: ".button-add-blank",
+					title: intl.formatMessage({ id: "Add Blank" }),
+					intro: intl.formatMessage({ id: "Click on this button to insert blanks in the questions. The number of blanks should be less than the number of options." }),
 				},
 				{
-					selector: "#cloze-text",
-					content: [
-						intl.formatMessage({ id: "Cloze Text" }),
-						intl.formatMessage({
-							id: "The string represented by -{Number}- is replaced by a blank or a drop down menu in the preview, also the ith blank's answer is represented by the ith option field.",
-						}),
-					],
+					element: "#cloze-text",
+					title: intl.formatMessage({ id: "Cloze Text" }),
+					intro: intl.formatMessage({ id: "The string represented by -{Number}- is replaced by a blank or a drop down menu in the preview, also the ith blank's answer is represented by the ith option field." }),
 				},
 				{
-					selector: ".button-choices-add",
-					content: [
-						intl.formatMessage({ id: "Add Option" }),
-						intl.formatMessage({
-							id: "Use this button to add another option field.",
-						}),
-					],
+					element: ".button-choices-add",
+					title: intl.formatMessage({ id: "Add Option" }),
+					intro: intl.formatMessage({ id: "Use this button to add another option field." }),
 				},
 				{
-					selector: ".button-choices-sub",
-					content: [
-						intl.formatMessage({ id: "Remove Option" }),
-						intl.formatMessage({
-							id: "Use this button to remove the last option field.",
-						}),
-					],
+					element: ".button-choices-sub",
+					title: intl.formatMessage({ id: "Remove Option" }),
+					intro: intl.formatMessage({ id: "Use this button to remove the last option field." }),
 				},
 			];
 			break;
 		case "/play/cloze":
 			steps = [
 				{
-					selector: ".answers",
-					content: [
-						intl.formatMessage({ id: "Cloze Answer" }),
-						intl.formatMessage({
-							id: "Select an option from the drop down or type your answer.",
-						}),
-					],
+					element: ".answers",
+					title: intl.formatMessage({ id: "Cloze Answer" }),
+					intro: intl.formatMessage({ id: "Select an option from the drop down or type your answer." }),
 				},
 			];
 			break;
@@ -534,129 +335,77 @@ export const tutorialSteps = (pathname, intl) => {
 		case "/new/reorder":
 			steps = [
 				{
-					selector: ".button-thumbnail",
-					content: [
-						intl.formatMessage({ id: "Select Thumbnail" }),
-						intl.formatMessage({
-							id: "Choose a different thumbnail from the Journal Chooser.",
-						}),
-					],
+					element: ".button-thumbnail",
+					title: intl.formatMessage({ id: "Select Thumbnail" }),
+					intro: intl.formatMessage({ id: "Choose a different thumbnail from the Journal Chooser." }),
 				},
 				{
-					selector: ".question-options",
-					content: [
-						intl.formatMessage({ id: "Question Menu" }),
-						intl.formatMessage({
-							id: "Select the type of question you want to insert.",
-						}),
-					],
+					element: ".question-options",
+					title: intl.formatMessage({ id: "Question Menu" }),
+					intro: intl.formatMessage({ id: "Select the type of question you want to insert." }),
 				},
 				{
-					selector: ".up-button",
-					content: [
-						intl.formatMessage({ id: "Move option Up" }),
-						intl.formatMessage({
-							id: "Use this button to move the option up.",
-						}),
-					],
+					element: ".up-button",
+					title: intl.formatMessage({ id: "Move option Up" }),
+					intro: intl.formatMessage({ id: "Use this button to move the option up." }),
 				},
 				{
-					selector: ".down-button",
-					content: [
-						intl.formatMessage({ id: "Move option down" }),
-						intl.formatMessage({
-							id: "Use this button to move the option down.",
-						}),
-					],
+					element: ".down-button",
+					title: intl.formatMessage({ id: "Move option down" }),
+					intro: intl.formatMessage({ id: "Use this button to move the option down." }),
 				},
 				{
-					selector: ".button-choices-add",
-					content: [
-						intl.formatMessage({ id: "Add Option" }),
-						intl.formatMessage({
-							id: "Use this button to add another option field.",
-						}),
-					],
+					element: ".button-choices-add",
+					title: intl.formatMessage({ id: "Add Option" }),
+					intro: intl.formatMessage({ id: "Use this button to add another option field." }),
 				},
 				{
-					selector: ".button-choices-sub",
-					content: [
-						intl.formatMessage({ id: "Remove Option" }),
-						intl.formatMessage({
-							id: "Use this button to remove the last option field.",
-						}),
-					],
+					element: ".button-choices-sub",
+					title: intl.formatMessage({ id: "Remove Option" }),
+					intro: intl.formatMessage({ id: "Use this button to remove the last option field." }),
 				},
 			];
 			break;
 		case "/edit/reorder":
 			steps = [
 				{
-					selector: ".button-thumbnail",
-					content: [
-						intl.formatMessage({ id: "Select Thumbnail" }),
-						intl.formatMessage({
-							id: "Choose a different thumbnail from the Journal Chooser.",
-						}),
-					],
+					element: ".button-thumbnail",
+					title: intl.formatMessage({ id: "Select Thumbnail" }),
+					intro: intl.formatMessage({ id: "Choose a different thumbnail from the Journal Chooser." }),
 				},
 				{
-					selector: ".button-edit",
-					content: [
-						intl.formatMessage({ id: "Edit Question" }),
-						intl.formatMessage({
-							id: "Use this button to change the type of Question.",
-						}),
-					],
+					element: ".button-edit",
+					title: intl.formatMessage({ id: "Edit Question" }),
+					intro: intl.formatMessage({ id: "Use this button to change the type of Question." }),
 				},
 				{
-					selector: ".up-button",
-					content: [
-						intl.formatMessage({ id: "Move option Up" }),
-						intl.formatMessage({
-							id: "Use this button to move the option up.",
-						}),
-					],
+					element: ".up-button",
+					title: intl.formatMessage({ id: "Move option Up" }),
+					intro: intl.formatMessage({ id: "Use this button to move the option up." }),
 				},
 				{
-					selector: ".down-button",
-					content: [
-						intl.formatMessage({ id: "Move option Down" }),
-						intl.formatMessage({
-							id: "Use this button to move the option down.",
-						}),
-					],
+					element: ".down-button",
+					title: intl.formatMessage({ id: "Move option Down" }),
+					intro: intl.formatMessage({ id: "Use this button to move the option down." }),
 				},
 				{
-					selector: ".button-choices-add",
-					content: [
-						intl.formatMessage({ id: "Add Option" }),
-						intl.formatMessage({
-							id: "Use this button to add another option field.",
-						}),
-					],
+					element: ".button-choices-add",
+					title: intl.formatMessage({ id: "Add Option" }),
+					intro: intl.formatMessage({ id: "Use this button to add another option field." }),
 				},
 				{
-					selector: ".button-choices-sub",
-					content: [
-						intl.formatMessage({ id: "Remove Option" }),
-						intl.formatMessage({
-							id: "Use this button to remove the last option field.",
-						}),
-					],
+					element: ".button-choices-sub",
+					title: intl.formatMessage({ id: "Remove Option" }),
+					intro: intl.formatMessage({ id: "Use this button to remove the last option field." }),
 				},
 			];
 			break;
 		case "/play/reorder":
 			steps = [
 				{
-					selector: ".handler",
-					content: [
-						intl.formatMessage({ id: "Drag Handler" }),
-						intl.formatMessage({
-							id: "Use this handler to drag options up and down.",
-						}),
-					],
+					element: ".handler",
+					title: intl.formatMessage({ id: "Drag Handler" }),
+					intro: intl.formatMessage({ id: "Use this handler to drag options up and down." }),
 				},
 			];
 			break;
@@ -665,127 +414,78 @@ export const tutorialSteps = (pathname, intl) => {
 		case "/new/group":
 			steps = [
 				{
-					selector: ".button-thumbnail",
-					content: [
-						intl.formatMessage({ id: "Select Thumbnail" }),
-						intl.formatMessage({
-							id: "Choose a different thumbnail from the Journal Chooser.",
-						}),
-					],
+					element: ".button-thumbnail",
+					title: intl.formatMessage({ id: "Select Thumbnail" }),
+					intro: intl.formatMessage({ id: "Choose a different thumbnail from the Journal Chooser." }),
 				},
 				{
-					selector: ".group-option-type",
-					content: [
-						intl.formatMessage({ id: "Group Type" }),
-						intl.formatMessage({
-							id: "Select between group type to be text or image.",
-						}),
-					],
+					element: ".group-option-type",
+					title: intl.formatMessage({ id: "Group Type" }),
+					intro: intl.formatMessage({ id: "Select between group type to be text or image." }),
+					
 				},
 				{
-					selector: ".button-choices-add",
-					content: [
-						intl.formatMessage({ id: "Add Option" }),
-						intl.formatMessage({
-							id: "Use this button to add another option field.",
-						}),
-					],
+					element: ".button-choices-add",
+					title: intl.formatMessage({ id: "Add Option" }),
+					intro: intl.formatMessage({ id: "Use this button to add another option field." }),
 				},
 				{
-					selector: ".button-choices-sub",
-					content: [
-						intl.formatMessage({ id: "Remove Option" }),
-						intl.formatMessage({
-							id: "Use this button to remove the last option field.",
-						}),
-					],
+					element: ".button-choices-sub",
+					title: intl.formatMessage({ id: "Remove Option" }),
+					intro: intl.formatMessage({ id: "Use this button to remove the last option field." }),
 				},
 				{
-					selector: ".question-options",
-					content: [
-						intl.formatMessage({ id: "Question Menu" }),
-						intl.formatMessage({
-							id: "Select the type of question you want to insert.",
-						}),
-					],
+					element: ".question-options",
+					title: intl.formatMessage({ id: "Question Menu" }),
+					intro: intl.formatMessage({ id: "Select the type of question you want to insert." }),
 				},
 				{
-					selector: ".answers",
-					content: [
-						intl.formatMessage({ id: "Select Group" }),
-						intl.formatMessage({
-							id: "Select the group from the dropdown to which this question belong.",
-						}),
-					],
+					element: ".answers",
+					title: intl.formatMessage({ id: "Select Group" }),
+					intro: intl.formatMessage({ id: "Select the group from the dropdown to which this question belong." }),
 				},
 			];
 			break;
 		case "/edit/group":
 			steps = [
 				{
-					selector: ".button-thumbnail",
-					content: [
-						intl.formatMessage({ id: "Select Thumbnail" }),
-						intl.formatMessage({
-							id: "Choose a different thumbnail from the Journal Chooser.",
-						}),
-					],
+					element: ".button-thumbnail",
+					title: intl.formatMessage({ id: "Select Thumbnail" }),
+					intro: intl.formatMessage({ id: "Choose a different thumbnail from the Journal Chooser." }),
 				},
 				{
-					selector: ".button-choices-edit",
-					content: [
-						intl.formatMessage({ id: "Edit Group Type" }),
-						intl.formatMessage({
-							id: "Edit group type to select between text and image.",
-						}),
-					],
+					element: ".button-choices-edit",
+					title: intl.formatMessage({ id: "Edit Group Type" }),
+					intro: intl.formatMessage({ id: "Edit group type to select between text and image." }),
 				},
 				{
-					selector: ".button-choices-add",
-					content: [
-						intl.formatMessage({ id: "Add Option" }),
-						intl.formatMessage({
-							id: "Use this button to add another option field.",
-						}),
-					],
+					element: ".button-choices-add",
+					title: intl.formatMessage({ id: "Add Option" }),
+					intro: intl.formatMessage({ id: "Use this button to add another option field." }),
 				},
 				{
-					selector: ".button-choices-sub",
-					content: [
-						intl.formatMessage({ id: "Remove Option" }),
-						intl.formatMessage({
-							id: "Use this button to remove the last option field.",
-						}),
-					],
+					element: ".button-choices-sub",
+					title: intl.formatMessage({ id: "Remove Option" }),
+					intro: intl.formatMessage({ id: "Use this button to remove the last option field." }),
 				},
 				{
-					selector: ".button-edit",
-					content: [
-						intl.formatMessage({ id: "Edit Question" }),
-						intl.formatMessage({
-							id: "Use this button to change the type of Question.",
-						}),
-					],
+					element: ".button-edit",
+					title: intl.formatMessage({ id: "Edit Question" }),
+					intro: intl.formatMessage({ id: "Use this button to change the type of Question." }),
 				},
 				{
-					selector: ".group-answer",
-					content: [
-						intl.formatMessage({ id: "Select Group" }),
-						intl.formatMessage({
-							id: "Select the group from the dropdown to which this question belong.",
-						}),
-					],
+					element: ".group-answer",
+					title: intl.formatMessage({ id: "Select Group" }),
+					intro: intl.formatMessage({ id: "Select the group from the dropdown to which this question belong." }),
 				},
 			];
 			break;
 		case "/play/group":
 			steps = [
 				{
-					selector: ".box",
-					content: [
-						intl.formatMessage({ id: "Item" }),
-						intl.formatMessage({ id: "Drag this item to its correct group." }),
-					],
+					element: ".box",
+					title: intl.formatMessage({ id: "Item" }),
+					intro: intl.formatMessage({ id: "Drag this item to its correct group." }),
 				},
 			];
 			break;
@@ -794,69 +494,47 @@ export const tutorialSteps = (pathname, intl) => {
 		case "/new/freeText":
 			steps = [
 				{
-					selector: ".button-thumbnail",
-					content: [
-						intl.formatMessage({ id: "Select Thumbnail" }),
-						intl.formatMessage({
-							id: "Choose a different thumbnail from the Journal Chooser.",
-						}),
-					],
+					element: ".button-thumbnail",
+					title: intl.formatMessage({ id: "Select Thumbnail" }),
+					intro: intl.formatMessage({ id: "Choose a different thumbnail from the Journal Chooser." }),
 				},
 				{
-					selector: ".question-options",
-					content: [
-						intl.formatMessage({ id: "Question Menu" }),
-						intl.formatMessage({
-							id: "Select the type of question you want to insert.",
-						}),
-					],
+					element: ".question-options",
+					title: intl.formatMessage({ id: "Question Menu" }),
+					intro: intl.formatMessage({ id: "Select the type of question you want to insert." }),
 				},
 				{
-					selector: ".answers",
-					content: [
-						intl.formatMessage({ id: "Answer" }),
-						intl.formatMessage({ id: "Type the answer here." }),
-					],
+					element: ".answers",
+					title: intl.formatMessage({ id: "Answer" }),
+					intro: intl.formatMessage({ id: "Type the answer here." }),
 				},
 			];
 			break;
 		case "/edit/freeText":
 			steps = [
 				{
-					selector: ".button-thumbnail",
-					content: [
-						intl.formatMessage({ id: "Select Thumbnail" }),
-						intl.formatMessage({
-							id: "Choose a different thumbnail from the Journal Chooser.",
-						}),
-					],
+					element: ".button-thumbnail",
+					title: intl.formatMessage({ id: "Select Thumbnail" }),
+					intro: intl.formatMessage({ id: "Choose a different thumbnail from the Journal Chooser." }),
 				},
 				{
-					selector: ".button-edit",
-					content: [
-						intl.formatMessage({ id: "Edit Question" }),
-						intl.formatMessage({
-							id: "Use this button to change the type of Question.",
-						}),
-					],
+					element: ".button-edit",
+					title: intl.formatMessage({ id: "Edit Question" }),
+					intro: intl.formatMessage({ id: "Use this button to change the type of Question." }),
 				},
 				{
-					selector: ".answers",
-					content: [
-						intl.formatMessage({ id: "Answer" }),
-						intl.formatMessage({ id: "Type the answer here." }),
-					],
+					element: ".answers",
+					title: intl.formatMessage({ id: "Answer" }),
+					intro: intl.formatMessage({ id: "Type the answer here." }),
 				},
 			];
 			break;
 		case "/play/freeText":
 			steps = [
 				{
-					selector: ".input-freeText",
-					content: [
-						intl.formatMessage({ id: "Answer Box" }),
-						intl.formatMessage({ id: "Type the answer in this box." }),
-					],
+					element: ".input-freeText",
+					title: intl.formatMessage({ id: "Answer Box" }),
+					intro: intl.formatMessage({ id: "Type the answer in this box." }),
 				},
 			];
 			break;
@@ -865,57 +543,37 @@ export const tutorialSteps = (pathname, intl) => {
 		case "/new/match":
 			steps = [
 				{
-					selector: ".button-thumbnail",
-					content: [
-						intl.formatMessage({ id: "Select Thumbnail" }),
-						intl.formatMessage({
-							id: "Choose a different thumbnail from the Journal Chooser.",
-						}),
-					],
+					element: ".button-thumbnail",
+					title: intl.formatMessage({ id: "Select Thumbnail" }),
+					intro: intl.formatMessage({ id: "Choose a different thumbnail from the Journal Chooser." }),
 				},
 				{
-					selector: ".question-options",
-					content: [
-						intl.formatMessage({ id: "Item Menu" }),
-						intl.formatMessage({
-							id: "Select the type of item you want to insert.",
-						}),
-					],
+					element: ".question-options",
+					title: intl.formatMessage({ id: "Item Menu" }),
+					intro: intl.formatMessage({ id: "Select the type of item you want to insert." }),
 				},
 			];
 			break;
 		case "/edit/match":
 			steps = [
 				{
-					selector: ".button-thumbnail",
-					content: [
-						intl.formatMessage({ id: "Select Thumbnail" }),
-						intl.formatMessage({
-							id: "Choose a different thumbnail from the Journal Chooser.",
-						}),
-					],
+					element: ".button-thumbnail",
+					title: intl.formatMessage({ id: "Select Thumbnail" }),
+					intro: intl.formatMessage({ id: "Choose a different thumbnail from the Journal Chooser." }),
 				},
 				{
-					selector: ".button-edit",
-					content: [
-						intl.formatMessage({ id: "Edit Item" }),
-						intl.formatMessage({
-							id: "Use this button to change the type of the item.",
-						}),
-					],
+					element: ".button-edit",
+					title: intl.formatMessage({ id: "Edit Item" }),
+					intro: intl.formatMessage({ id: "Use this button to change the type of the item." }),
 				},
 			];
 			break;
 		case "/play/match":
 			steps = [
 				{
-					selector: ".box",
-					content: [
-						intl.formatMessage({ id: "Draw Connection" }),
-						intl.formatMessage({
-							id: "Select and drag the semicircle to its corresponding match.",
-						}),
-					],
+					element: ".box",
+					title: intl.formatMessage({ id: "Draw Connection" }),
+					intro: intl.formatMessage({ id: "Select and drag the semicircle to its corresponding match." }),
 				},
 			];
 			break;
