@@ -7,22 +7,26 @@ import 'intro.js/introjs.css';
 import { Steps } from 'intro.js-react';
 
 class Tutorial extends Component {
-
 	render() {
 		return (
 			<Steps
 			  enabled={true}
               steps={tutorialSteps(this.props.pathname, this.props.intl)}
-	          prevLabel = {this.props.intl.formatMessage({ id: PREV })}
-	          nextLabel = {this.props.intl.formatMessage({ id: NEXT_SHORT })}
 			  options={{
+				"nextLabel": this.props.intl.formatMessage({ id: NEXT_SHORT }),
+				"prevLabel": this.props.intl.formatMessage({ id: PREV }),
 				"exitOnOverlayClick": false,
                 "nextToDone": false,
 				"showBullets": false,
-				"tooltipClass": 'customTooltip'
+				"tooltipClass": 'customTooltip',
 			  }}
 			  initialStep= {0}
-			  onExit= {() => {console.log("tutorial")}}
+			  onExit= {() => {this.props.unmount();}}
+			  onBeforeChange={(stepIntex)=>{
+                if (stepIntex >=0 && Object.keys(tutorialSteps(this.props.pathname, this.props.intl)[stepIntex+1]).length) return true;
+				document.querySelector(".introjs-nextbutton") ? document.querySelector(".introjs-nextbutton").classList.add("introjs-disabled"): "";
+				return false;
+			  }}
             />
 		);
 	}

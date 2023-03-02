@@ -128,6 +128,9 @@ export const tutorialSteps = (pathname, intl) => {
 					title: intl.formatMessage({ id: "Select Template" }),
 					intro: intl.formatMessage({ id: "Click on this button to build an exercise using this template." }),
 				},
+				{
+
+				}
 			];
 			break;
 
@@ -229,6 +232,9 @@ export const tutorialSteps = (pathname, intl) => {
 					title: intl.formatMessage({ id: "Select Choices" }),
 					intro: intl.formatMessage({ id: "Select one of the options as your answer." }),
 				},
+				{
+
+				}
 			];
 			break;
 
@@ -328,6 +334,9 @@ export const tutorialSteps = (pathname, intl) => {
 					title: intl.formatMessage({ id: "Cloze Answer" }),
 					intro: intl.formatMessage({ id: "Select an option from the drop down or type your answer." }),
 				},
+				{
+
+				}
 			];
 			break;
 
@@ -407,6 +416,9 @@ export const tutorialSteps = (pathname, intl) => {
 					title: intl.formatMessage({ id: "Drag Handler" }),
 					intro: intl.formatMessage({ id: "Use this handler to drag options up and down." }),
 				},
+				{
+
+				}
 			];
 			break;
 
@@ -487,6 +499,9 @@ export const tutorialSteps = (pathname, intl) => {
 					title: intl.formatMessage({ id: "Item" }),
 					intro: intl.formatMessage({ id: "Drag this item to its correct group." }),
 				},
+				{
+
+				}
 			];
 			break;
 
@@ -536,6 +551,9 @@ export const tutorialSteps = (pathname, intl) => {
 					title: intl.formatMessage({ id: "Answer Box" }),
 					intro: intl.formatMessage({ id: "Type the answer in this box." }),
 				},
+				{
+
+				}
 			];
 			break;
 
@@ -575,6 +593,9 @@ export const tutorialSteps = (pathname, intl) => {
 					title: intl.formatMessage({ id: "Draw Connection" }),
 					intro: intl.formatMessage({ id: "Select and drag the semicircle to its corresponding match." }),
 				},
+				{
+
+				}
 			];
 			break;
 

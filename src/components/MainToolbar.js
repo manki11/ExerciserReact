@@ -136,6 +136,7 @@ const MainToolbar = (props) => {
 			/>
 			{props.showTutorial && (
 				<Tutorial
+				    showTutorial={props.showTutorial}
 					unmount={props.stopTutorial}
 					pathname={props.history.location.pathname}
 				/>
