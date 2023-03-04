@@ -7,6 +7,7 @@ import 'intro.js/introjs.css';
 import { Steps } from 'intro.js-react';
 
 class Tutorial extends Component {
+	isSingleStepTutorial = tutorialSteps(this.props.pathname, this.props.intl).some(step => !Object.keys(step).length);
 	render() {
 		return (
 			<Steps
@@ -23,7 +24,7 @@ class Tutorial extends Component {
 			  initialStep= {0}
 			  onExit= {() => {this.props.unmount();}}
 			  onBeforeChange={(stepIntex)=>{
-                if (stepIntex >=0 && Object.keys(tutorialSteps(this.props.pathname, this.props.intl)[stepIntex+1]).length) return true;
+                if (!this.isSingleStepTutorial || stepIntex >=0 && Object.keys(tutorialSteps(this.props.pathname, this.props.intl)[stepIntex+1]).length) return true;
 				document.querySelector(".introjs-nextbutton") ? document.querySelector(".introjs-nextbutton").classList.add("introjs-disabled"): "";
 				return false;
 			  }}
