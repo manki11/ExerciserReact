@@ -5,6 +5,7 @@
     background-repeat: no-repeat;
     background-size: contain;
     border-radius: 20px;
+    margin-top: 10px;
 }
 
 .score-button:hover{
@@ -19,6 +20,7 @@
     background-repeat: no-repeat;
     background-size: contain;
     border-radius: 20px;
+    margin-top: 10px;
 }
 
 .time-button:hover{
@@ -33,6 +35,7 @@
     background-repeat: no-repeat;
     background-size: cover;
     border-radius: 20px;
+    margin-top: 10px;
 }
 
 .detail-button:hover{
