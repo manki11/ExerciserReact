@@ -44,6 +44,7 @@
     border-radius: 20px!important;
     font-size: 15px!important;
     background-color: #808080!important;
+    margin-bottom: 10px;
 }
 
 #matching-player{
@@ -101,6 +102,9 @@
     margin-right: 40px;
     position: absolute!important;
     right:0;
+    display: flex;
+    align-items: center;
+    max-width: 30%!important;
 }
 
 .matching-answers{
