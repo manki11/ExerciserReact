@@ -130,7 +130,6 @@ class MATCHING_PAIRPLAYER extends Component {
 				beforeDrop: (params) => {
 					let source = params.sourceId.split("-")[0];
 					let target = params.targetId.split("-")[0];
-					if (source === "answer") return false;
 					if (source === target) return false;
 					return true;
 				},
@@ -184,8 +183,11 @@ class MATCHING_PAIRPLAYER extends Component {
 			selected = true;
 
 		connections.forEach((connection) => {
-			let index = connection.sourceId.split("-").pop();
-			userAnswers[index - 1] = connection.targetId.split("-").pop() - 1;
+			let answerId = connection.sourceId.split("-")[0] === "answer" ? "sourceId" : "targetId";
+			let questionId = answerId  === "sourceId" ? "targetId" : "sourceId";
+
+			let index = connection[questionId].split("-").pop();
+			userAnswers[index - 1] = connection[answerId].split("-").pop() - 1;
 		});
 
 		this.setState({
