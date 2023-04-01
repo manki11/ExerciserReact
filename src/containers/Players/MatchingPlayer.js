@@ -296,7 +296,7 @@ class MATCHING_PAIRPLAYER extends Component {
 						exercise.id,
 						scorePercentage,
 						time,
-						userAnswers
+						updatedUserAnswers
 					);
 				}
 				let evaluation = {
