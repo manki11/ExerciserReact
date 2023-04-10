@@ -63,13 +63,14 @@ class Navbar extends Component {
 			return;
 		}
 		let exercise = null;
+		let nextExercise = this.props.exercises[this.props.exercise_running + 1];
 		if (this.props.evaluationMode === "") {
-			if (!this.props.isRunAll) {
+			if (!this.props.isRunAll || !nextExercise) {
 				this.props.runAllExercise();
 				this.props.setExerciseIndex(0);
 				exercise = this.props.exercises[0];
 			} else {
-				exercise = this.props.exercises[this.props.exercise_running + 1];
+				exercise = nextExercise;
 			}
 		} else {
 			if (!this.props.isRunAll) {
