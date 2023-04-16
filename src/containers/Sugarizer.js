@@ -134,7 +134,6 @@ class Sugarizer extends Component {
 									} else {
 										setEvaluationMode("");
 									}
-									if(json.is_run_all_click) setRunAllExercise(false);
                                     setEvaluationExercise(json.evaluation.exercises);
 								}
 							}
@@ -316,7 +315,7 @@ class Sugarizer extends Component {
 	};
 
 	exportAsEvaluation = () => {
-		const { counter, exercises, isRunAll, exerciseIndex } = this.props;
+		const { counter, exercises, exerciseIndex } = this.props;
 		const translations = messages[this.language];
 
 		let journalExercises = exercises.map((exercise) => {
@@ -335,7 +334,7 @@ class Sugarizer extends Component {
 		let json = {
 			counter: counter,
 			exercises: journalExercises,
-			is_run_all_click: isRunAll,
+			is_run_all_click: false,
 			exercise_index: exerciseIndex,
 			evaluation: {
 				mode: "async",
