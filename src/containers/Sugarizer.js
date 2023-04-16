@@ -134,11 +134,8 @@ class Sugarizer extends Component {
 									} else {
 										setEvaluationMode("");
 									}
-									if (json.is_run_all_click) {
-										setEvaluationExercise(json.exercises)
-									} else {
-                                        setEvaluationExercise(json.evaluation.exercises);
-									}
+									if(json.is_run_all_click) setRunAllExercise(false);
+                                    setEvaluationExercise(json.evaluation.exercises);
 								}
 							}
 						});
