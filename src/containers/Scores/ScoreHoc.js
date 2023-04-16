@@ -115,7 +115,7 @@ const withScoreHOC = () => (Component) => {
 		getWrongRightMarker = (element) => {
 			let correctAns = element.correctAns;
 			let userAns = element.userAns;
-			if (correctAns.data === userAns.data) {
+			if (correctAns.data.toLowerCase() === userAns.data.toLowerCase()) {
 				return (
 					<img src={require("../../icons/exercise/correct.png")}
 						alt="correct-mark">
