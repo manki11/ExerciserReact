@@ -37,6 +37,7 @@ class MATCHING_PAIRPLAYER extends Component {
 		};
 		this.instance = jsPlumb.getInstance();
 		this.intervalId = setInterval(this.timer, 1000);
+		this.repaintInstance = this.repaintInstance.bind(this);
 	}
 
 	// load the exercise from props
@@ -91,7 +92,16 @@ class MATCHING_PAIRPLAYER extends Component {
 						);
 				}
 			);
+			window.addEventListener("resize", this.repaintInstance);
 		}
+	}
+
+	componentDidUpdate(prevProps) {
+		if (prevProps.inFullscreenMode !== this.props.inFullscreenMode) this.repaintInstance();
+	}
+
+	repaintInstance() {
+		this.instance.repaintEverything();
 	}
 
 	initMatchingPairConnectable = () => {
@@ -198,6 +208,7 @@ class MATCHING_PAIRPLAYER extends Component {
 	};
 
 	componentWillUnmount() {
+		window.removeEventListener("resize", this.repaintInstance);
 		clearInterval(this.intervalId);
 	}
 
