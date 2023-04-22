@@ -67,7 +67,6 @@ class Navbar extends Component {
 		if (this.props.evaluationMode === "") {
 			if (!this.props.isRunAll || !nextExercise) {
 				this.props.runAllExercise();
-				this.props.setExerciseIndex(0);
 				exercise = this.props.exercises[0];
 			} else {
 				exercise = nextExercise;
