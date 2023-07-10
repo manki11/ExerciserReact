@@ -14,6 +14,7 @@ import {
 	EDIT,
 	DELETE,
 	MATCHING_PAIR,
+	WORD_PUZZLE,
 } from "../containers/translation";
 import cloze_background from "../media/template/cloze_image.svg";
 import mcq_background from "../media/template/mcq_image.svg";
@@ -220,6 +221,11 @@ class Exercise extends Component {
 			length = pairs.length;
 			localized_type = MATCHING_PAIR;
 		}
+		if (type === "WORD_PUZZLE") {                                                                 
+           length = this.props.questions.length;                                                 
+           localized_type = WORD_PUZZLE;                                                         
+       }                                                                                             
+                       
 
 		let question_string = (
 			<FormattedMessage id={QUESTIONS} values={{ number: length }} />

@@ -1,0 +1,137 @@
+.word-puzzle-container .btn:hover {
+    transform: translateY(-3px);
+}
+.word-puzzle-container .btn, .word-puzzle-container .btn:hover {
+    font-weight: bold;
+    border: 2px solid #565656 !important;
+    background-color: #11a7e1 !important;
+    transition: transform .2s;
+}
+.word-puzzle-container img {
+    display: block;
+    margin: auto;
+    max-width: min(100%, 340px);
+    user-select: none;
+}
+
+.word-puzzle-container {
+    --remain-height: calc(100vh - 55px);
+    --md-gap: 2rem;
+    box-sizing: border-box;
+    height: var(--remain-height);
+    display: flex;
+    align-items: center;
+    gap: calc(var(--md-gap) / 2);
+    padding-left: var(--md-gap);
+    /* background-color: #f0f0f0; */
+}
+
+.word-puzzle-container .word-grid {
+    --height: calc(100vh - 75px);
+    --gap: 6px;
+    height: var(--height);
+    flex: 0 0 var(--height);
+    display: flex;
+    flex-direction: column;
+    gap: var(--gap);
+    font-size: 16px;
+}
+.word-puzzle-container .row-grid {
+    display: flex;
+    flex-basis: 100%;
+    gap: var(--gap);
+}
+
+.word-puzzle-container .cell {
+    flex-basis: 100%;
+    font-weight: bold;
+    user-select: none;
+    color: #747474;
+    border-radius: 5px;
+    background: linear-gradient(145deg, #e6e6e6, #ffffff);
+    box-shadow: 4px 4px 5px #a1a1a1, -4px -4px 5px #ffffff;
+    /* box-shadow: 2px 2px 2px #a1a1a1, -2px -2px 2px #ffffff; */
+    /*     
+    background-color: #fff;
+    box-shadow: 0 10px 15px -2px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
+ */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.word-puzzle-container .cell.highlight {
+    background: #11a7e1;
+    color: #fcfcfc;
+}
+
+.word-puzzle-container .cell.found {
+    color: white;
+    background: coral;
+}
+
+.word-puzzle-ques {
+    padding-bottom: 10px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    height: var(--remain-height);
+    overflow: hidden;
+}
+
+.word-puzzle-ques .questions-container {
+    padding: 1.2rem var(--md-gap) 1rem 0;
+    overflow: auto;
+    list-style: none;
+}
+
+.word-puzzle-ques .question {
+    cursor: pointer;
+    font-size: 20px;
+    padding: var(--md-gap);
+    padding-top: calc(var(--md-gap) / 2);
+    border-radius: 19px;
+    border: 2px solid #e8e8e8;
+    box-shadow: 7px 7px 12px #e8e8e8;
+    position: relative;
+}
+
+.word-puzzle-ques .question.solved {
+    border-color: #86ff4b;
+    border-width: 4px;
+}
+.word-puzzle-ques .question.solved .question-count {
+    background-color: #86ff4b;
+}
+.word-puzzle-ques .question:not(:last-child) {
+    margin-bottom: var(--md-gap);
+}
+
+.word-puzzle-ques .question-count {
+    padding: 2px 8px;
+    border-radius: 5px;
+    margin-left: -12px;
+    margin-bottom: 1rem;
+    font-size: 14px;
+    font-weight: bold;
+    color: #777;
+    background-color: #e8e8e8;
+    width: max-content;
+}
+
+/* 460px */
+@media (max-height: 28.75em) {
+    .word-puzzle-ques .question {
+        font-size: 16px;
+    }
+    .word-puzzle-container .word-grid {
+        --gap: 4px;
+        font-size: 14px;
+    }
+    .word-puzzle-container .cell {
+        box-shadow: 2px 2px 2px #a1a1a1, -2px -2px 3px #ffffff;
+    }
+    .word-puzzle-container {
+        --md-gap: 1.2rem;
+    }
+}

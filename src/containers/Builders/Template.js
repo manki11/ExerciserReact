@@ -10,6 +10,7 @@ import {
 	GROUP_ASSIGNMENT_TEMPLATE_STRING,
 	FREE_TEXT_INPUT_TEMPLATE_STRING,
 	MATCHING_PAIR_STRING,
+	// WORD_PUZZLE_STRING,
 	CHOOSE,
 	CLOZE_TEXT,
 	MCQ,
@@ -43,6 +44,11 @@ const freeTextSelected = (history) => {
 const matchingPairSelected = (history) => {
 	history.push('/new/match')
 };
+
+const wordPuzzleSelected = (history) => {                                                                    
+   history.push('/new/wordpuzzle')                                                                       
+};                                                                                                           
+
 
 function Template(props) {
 	let styles = { "backgroundColor": props.current_user.colorvalue ? props.current_user.colorvalue.stroke : "#FFFFFF" };
@@ -144,6 +150,20 @@ function Template(props) {
 									<FormattedMessage id={MATCHING_PAIR_STRING} />
 								</p>
 								<button className="button-choose" onClick={matchingPairSelected.bind(null, props.history)}>
+									<FormattedMessage id={CHOOSE} />
+								</button>
+							</div>
+						</div>
+					</div>
+					<div className="col-sm-4">
+						<div className="card mb-3 grow" onClick={wordPuzzleSelected.bind(null, props.history)}>
+							<div className="card-img-container">
+								<div className="card-img-top background-match" style={props.inFullscreenMode ? fullScreenStyles : {}} />
+							</div>
+							<div className="card-body">
+								<h2>Word Puzzle</h2>
+								<p className="card-text">build a word puzzle with questions.</p>
+								<button className="button-choose" onClick={wordPuzzleSelected.bind(null, props.history)}>
 									<FormattedMessage id={CHOOSE} />
 								</button>
 							</div>

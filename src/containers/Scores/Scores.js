@@ -235,6 +235,9 @@ class Scores extends Component {
 		if (exercise.type === "MATCHING_PAIR") {
 			this.props.history.push("/play/match", { exercise: exercise });
 		}
+		if (exercise.type === "WORD_PUZZLE") {
+			this.props.history.push("/play/wordpuzzle", { exercise: exercise });
+		}
 	};
 
 	redo = () => {
