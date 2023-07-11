@@ -599,6 +599,26 @@ export const tutorialSteps = (pathname, intl) => {
 			];
 			break;
 
+		// Word Puzzle
+		case "/new/wordpuzzle":
+			steps = [];
+			break;
+		case "/edit/wordpuzzle":
+			steps = [];
+			break;
+		case "/play/wordpuzzle":
+			steps = [
+				{
+					element: ".word-grid",
+					title: intl.formatMessage({ id: "Word Puzzle" }),
+					intro: intl.formatMessage({ id: "Your goal is to find as many words as you can in the puzzle based on the given questions." }),
+				},
+				{
+
+				}
+			];
+			break;
+
 		default:
 			steps = [];
 			break;
