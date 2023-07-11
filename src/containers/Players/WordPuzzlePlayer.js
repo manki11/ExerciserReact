@@ -198,7 +198,7 @@ class WordPuzzlePlayer extends Component {
 			const solved = ques.solved;
 			return (
 				<div className={"question" + (solved ? " solved" : "")} key={`question-${i}`}>
-					<li className="question-count">{i+1}.</li>
+					<li className="question-count">{i + 1}.</li>
 					<PlayerMultimediaJSX
 						questionType={quesType || "text"}
 						questionData={quesData}
@@ -212,7 +212,7 @@ class WordPuzzlePlayer extends Component {
 		});
 
 		return (
-			<div className="word-puzzle-container">
+			<div className={"word-puzzle-container" + (this.props.inFullscreenMode ? " wp-fullscreen" : "")}>
 				<WordGrid wordList={this.state.wordList} updateSolvedQuestion={this.updateSolvedQuestion} diagonals={this.diagonals} />
 
 				<div className="word-puzzle-ques">

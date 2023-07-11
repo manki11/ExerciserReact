@@ -1,17 +1,26 @@
 .word-puzzle-container .btn:hover {
     transform: translateY(-3px);
 }
-.word-puzzle-container .btn, .word-puzzle-container .btn:hover {
+.word-puzzle-container .btn,
+.word-puzzle-container .btn:hover {
     font-weight: bold;
     border: 2px solid #565656 !important;
     background-color: #11a7e1 !important;
-    transition: transform .2s;
+    transition: transform 0.2s;
 }
 .word-puzzle-container img {
     display: block;
     margin: auto;
     max-width: min(100%, 340px);
     user-select: none;
+}
+
+/* Fullscreen */
+.word-puzzle-container.wp-fullscreen {
+    --remain-height: 100vh;
+}
+.word-puzzle-container.wp-fullscreen .word-grid {
+    --height: calc(100vh - 30px);
 }
 
 .word-puzzle-container {
@@ -46,7 +55,7 @@
     flex-basis: 100%;
     font-weight: bold;
     user-select: none;
-    color: #747474;
+    color: #3a3b3b;
     border-radius: 5px;
     background: linear-gradient(145deg, #e6e6e6, #ffffff);
     box-shadow: 4px 4px 5px #a1a1a1, -4px -4px 5px #ffffff;
@@ -114,7 +123,7 @@
     margin-bottom: 1rem;
     font-size: 14px;
     font-weight: bold;
-    color: #777;
+    color: #3a3b3b;
     background-color: #e8e8e8;
     width: max-content;
 }
