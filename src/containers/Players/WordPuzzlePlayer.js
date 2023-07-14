@@ -107,7 +107,6 @@ class WordPuzzlePlayer extends Component {
 				questions: [...questions],
 			});
 		}
-		console.log(this.state.questions);
 	};
 
 	// Finish the exercise ( calculate score and time )
@@ -189,7 +188,14 @@ class WordPuzzlePlayer extends Component {
 
 	render() {
 		const wordList = this.state.wordList.slice();
-		const { showMedia, ShowModalWindow } = this.props;
+		const { current_user, showMedia, ShowModalWindow } = this.props;
+		let style = {};
+		if (current_user.colorvalue) {
+			style = {
+				"--bg-color-1": current_user.colorvalue.stroke,
+				"--bg-color-2": current_user.colorvalue.fill,
+			};
+		}
 
 		const finishButton = <FormattedMessage id={FINISH_EXERCISE} />;
 		const questionsList = this.state.questions.map((ques, i) => {
@@ -212,8 +218,8 @@ class WordPuzzlePlayer extends Component {
 		});
 
 		return (
-			<div className={"word-puzzle-container" + (this.props.inFullscreenMode ? " wp-fullscreen" : "")}>
-				<WordGrid wordList={this.state.wordList} updateSolvedQuestion={this.updateSolvedQuestion} diagonals={this.diagonals} />
+			<div className={"word-puzzle-container" + (this.props.inFullscreenMode ? " wp-fullscreen" : "")} style={style}>
+				<WordGrid wordList={this.state.wordList} updateSolvedQuestion={this.updateSolvedQuestion} diagonals={this.state.diagonals} />
 
 				<div className="word-puzzle-ques">
 					<ol className="questions-container">{questionsList}</ol>
@@ -232,6 +238,7 @@ function MapStateToProps(state) {
 		isRunAll: state.isRunAll,
 		exercises: state.exercises,
 		evaluationMode: state.evaluation_mode,
+		current_user: state.current_user,
 	};
 }
 
@@ -267,8 +274,7 @@ class WordGrid extends Component {
 				text: word,
 				found: false,
 			})),
-			true,
-			true
+			this.props.diagonals
 		);
 	}
 

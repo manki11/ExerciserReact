@@ -6,16 +6,16 @@
 			{
 				"id": 1,
 				"question": {
-					"type": "text",
-					"data": "Which vehicle has wings and can fly in the sky?"
+					"type": "image",
+					"data": "plane.png"
 				},
-				"answer": "Airplane"
+				"answer": "Plane"
 			},
 			{
 				"id": 2,
 				"question": {
-					"type": "image",
-					"data": "truck.jpg"
+					"type": "text",
+					"data": "What vehicle is used to carry heavy loads and has large wheels?"
 				},
 				"answer": "Truck"
 			},
@@ -55,24 +55,24 @@
 				"id": 7,
 				"question": {
 					"type": "text",
-					"data": "What vehicle is used to transport people across bodies of water?"
+					"data": "What is a large vehicle that travels on water and is used for transporting people and goods."
 				},
-				"answer": "Boat"
+				"answer": "Ship"
 			},
 			{
 				"id": 8,
 				"question": {
 					"type": "image",
-					"data": "motor.jpg"
+					"data": "sail.png"
 				},
-				"answer": "Motorcycle"
+				"answer": "Sail"
 			}
 		],
 		"type": "WORD_PUZZLE",
 		"userLanguage": "en",
 		"scores": [],
 		"times": [],
-		"diagonals": false,
+		"diagonals": true,
 		"shared": false,
 		"thumbnail": "puzzle.png"
 	},

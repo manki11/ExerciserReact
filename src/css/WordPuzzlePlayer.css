@@ -26,13 +26,14 @@
 .word-puzzle-container {
     --remain-height: calc(100vh - 55px);
     --md-gap: 2rem;
+    --bg-color-1: coral;
+    --bg-color-2: #11a7e1;
     box-sizing: border-box;
     height: var(--remain-height);
     display: flex;
     align-items: center;
     gap: calc(var(--md-gap) / 2);
     padding-left: var(--md-gap);
-    /* background-color: #f0f0f0; */
 }
 
 .word-puzzle-container .word-grid {
@@ -44,6 +45,7 @@
     flex-direction: column;
     gap: var(--gap);
     font-size: 16px;
+    cursor: pointer;
 }
 .word-puzzle-container .row-grid {
     display: flex;
@@ -55,28 +57,20 @@
     flex-basis: 100%;
     font-weight: bold;
     user-select: none;
-    color: #3a3b3b;
+    background: #ffcf83;
+    box-shadow: 0px 1px 1px #a9a9a9;
     border-radius: 5px;
-    background: linear-gradient(145deg, #e6e6e6, #ffffff);
-    box-shadow: 4px 4px 5px #a1a1a1, -4px -4px 5px #ffffff;
-    /* box-shadow: 2px 2px 2px #a1a1a1, -2px -2px 2px #ffffff; */
-    /*     
-    background-color: #fff;
-    box-shadow: 0 10px 15px -2px rgba(0, 0, 0, 0.2), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
- */
     display: flex;
     align-items: center;
     justify-content: center;
 }
 
 .word-puzzle-container .cell.highlight {
-    background: #11a7e1;
-    color: #fcfcfc;
+    background: var(--bg-color-2);
 }
 
 .word-puzzle-container .cell.found {
-    color: white;
-    background: coral;
+    background: var(--bg-color-1);
 }
 
 .word-puzzle-ques {
@@ -100,9 +94,8 @@
     padding: var(--md-gap);
     padding-top: calc(var(--md-gap) / 2);
     border-radius: 19px;
-    border: 2px solid #e8e8e8;
-    box-shadow: 7px 7px 12px #e8e8e8;
-    position: relative;
+    border: 2px solid #cdcece;
+    box-shadow: 5px 5px 12px #e8e8e8;
 }
 
 .word-puzzle-ques .question.solved {
@@ -136,9 +129,6 @@
     .word-puzzle-container .word-grid {
         --gap: 4px;
         font-size: 14px;
-    }
-    .word-puzzle-container .cell {
-        box-shadow: 2px 2px 2px #a1a1a1, -2px -2px 3px #ffffff;
     }
     .word-puzzle-container {
         --md-gap: 1.2rem;
