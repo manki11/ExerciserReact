@@ -19,7 +19,7 @@ export const GROUP_ASSIGNMENT_TEMPLATE_STRING =
 export const FREE_TEXT_INPUT_TEMPLATE_STRING =
 	"Build an exercise with questions that have answers in text format.";
 export const WORD_PUZZLE_STRING =
-	"Build an word puzzle to find answers of questions";
+	"Build a word puzzle to find answers to questions.";
 export const MATCHING_PAIR_STRING =
 	"Build an exercise to match questions with answers.";
 export const CHOOSE = "Choose";

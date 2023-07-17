@@ -10,14 +10,15 @@ import {
 	GROUP_ASSIGNMENT_TEMPLATE_STRING,
 	FREE_TEXT_INPUT_TEMPLATE_STRING,
 	MATCHING_PAIR_STRING,
-	// WORD_PUZZLE_STRING,
+	WORD_PUZZLE_STRING,
 	CHOOSE,
 	CLOZE_TEXT,
 	MCQ,
 	REORDER_LIST,
 	GROUP_ASSIGNMENT,
 	FREE_TEXT_INPUT,
-	MATCHING_PAIR
+	MATCHING_PAIR,
+	WORD_PUZZLE
 } from "../translation";
 
 const mcqSelected = (history) => {
@@ -65,8 +66,10 @@ function Template(props) {
 								<div className="card-img-top background-word-puzzle" style={props.inFullscreenMode ? fullScreenStyles : {}} />
 							</div>
 							<div className="card-body">
-								<h5 className="card-title">Word Puzzle</h5>
-								<p className="card-text">Build a word puzzle with questions.</p>
+								<h5 className="card-title"><FormattedMessage id={WORD_PUZZLE} /></h5>
+								<p className="card-text">
+									<FormattedMessage id={WORD_PUZZLE_STRING} />
+								</p>
 								<button className="button-choose" onClick={wordPuzzleSelected.bind(null, props.history)}>
 									<FormattedMessage id={CHOOSE} />
 								</button>

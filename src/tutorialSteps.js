@@ -601,10 +601,47 @@ export const tutorialSteps = (pathname, intl) => {
 
 		// Word Puzzle
 		case "/new/wordpuzzle":
-			steps = [];
+			steps = [
+				{
+					element: ".button-thumbnail",
+					title: intl.formatMessage({ id: "Select Thumbnail" }),
+					intro: intl.formatMessage({ id: "Choose a different thumbnail from the Journal Chooser." }),
+				},
+				{
+					element: ".question-options",
+					title: intl.formatMessage({ id: "Question Menu" }),
+					intro: intl.formatMessage({ id: "Select the type of question you want to insert." }),
+				},
+				{
+					element: ".wp-add-question .btn",
+					title: intl.formatMessage({ id: "Add Question" }),
+					intro: intl.formatMessage({ id: "Use this button to add another question field." }),
+				},
+			];
 			break;
 		case "/edit/wordpuzzle":
-			steps = [];
+			steps = [
+				{
+					element: ".button-thumbnail",
+					title: intl.formatMessage({ id: "Select Thumbnail" }),
+					intro: intl.formatMessage({ id: "Choose a different thumbnail from the Journal Chooser." }),
+				},
+				{
+					element: ".button-edit",
+					title: intl.formatMessage({ id: "Edit Question" }),
+					intro: intl.formatMessage({ id: "Use this button to change the type of Question." }),
+				},
+				{
+					element: ".button-delete",
+					title: intl.formatMessage({ id: "Edit Question" }),
+					intro: intl.formatMessage({ id: "Use this button to remove question." }),
+				},
+				{
+					element: ".wp-add-question .btn",
+					title: intl.formatMessage({ id: "Add Question" }),
+					intro: intl.formatMessage({ id: "Use this button to add another question field." }),
+				},
+			];
 			break;
 		case "/play/wordpuzzle":
 			steps = [
