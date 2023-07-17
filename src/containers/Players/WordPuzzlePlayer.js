@@ -203,7 +203,7 @@ class WordPuzzlePlayer extends Component {
 			const quesData = ques.question.data;
 			const solved = ques.solved;
 			return (
-				<div className={"question" + (solved ? " solved" : "")} key={`question-${i}`}>
+				<div className={"question" + (solved && this.props.evaluationMode === "" ? " solved" : "")} key={`question-${i}`}>
 					<li className="question-count">{i + 1}.</li>
 					<PlayerMultimediaJSX
 						questionType={quesType || "text"}
