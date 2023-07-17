@@ -22,6 +22,7 @@ import reorder_background from "../media/template/list_reorder_image.svg";
 import group_assignment_background from "../media/template/group_image.svg";
 import free_text_input_background from "../media/template/freetext_input_image.svg";
 import macthing_pair_background from "../media/template/matching_pair_image.svg";
+import word_puzzle_background from "../media/template/word_puzzle_image.svg";
 
 class Exercise extends Component {
 	constructor(props) {
@@ -39,6 +40,7 @@ class Exercise extends Component {
 			GROUP_ASSIGNMENT: group_assignment_background,
 			FREE_TEXT_INPUT: free_text_input_background,
 			MATCHING_PAIR: macthing_pair_background,
+			WORD_PUZZLE: word_puzzle_background,
 		};
 	}
 

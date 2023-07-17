@@ -60,6 +60,20 @@ function Template(props) {
 			<div className="col-md-10 mx-auto">
 				<div className="row justify-content-center align-self-center">
 					<div className="col-sm-4">
+						<div className="card mb-3 grow" onClick={wordPuzzleSelected.bind(null, props.history)}>
+							<div className="card-img-container">
+								<div className="card-img-top background-word-puzzle" style={props.inFullscreenMode ? fullScreenStyles : {}} />
+							</div>
+							<div className="card-body">
+								<h5 className="card-title">Word Puzzle</h5>
+								<p className="card-text">Build a word puzzle with questions.</p>
+								<button className="button-choose" onClick={wordPuzzleSelected.bind(null, props.history)}>
+									<FormattedMessage id={CHOOSE} />
+								</button>
+							</div>
+						</div>
+					</div>
+					<div className="col-sm-4">
 						<div className="card grow" onClick={mcqSelected.bind(null, props.history)}>
 							<div className="card-img-container">
 								<div className="card-img-top background-mcq" style={props.inFullscreenMode? fullScreenStyles : {}}/>
@@ -150,20 +164,6 @@ function Template(props) {
 									<FormattedMessage id={MATCHING_PAIR_STRING} />
 								</p>
 								<button className="button-choose" onClick={matchingPairSelected.bind(null, props.history)}>
-									<FormattedMessage id={CHOOSE} />
-								</button>
-							</div>
-						</div>
-					</div>
-					<div className="col-sm-4">
-						<div className="card mb-3 grow" onClick={wordPuzzleSelected.bind(null, props.history)}>
-							<div className="card-img-container">
-								<div className="card-img-top background-match" style={props.inFullscreenMode ? fullScreenStyles : {}} />
-							</div>
-							<div className="card-body">
-								<h2>Word Puzzle</h2>
-								<p className="card-text">build a word puzzle with questions.</p>
-								<button className="button-choose" onClick={wordPuzzleSelected.bind(null, props.history)}>
 									<FormattedMessage id={CHOOSE} />
 								</button>
 							</div>
