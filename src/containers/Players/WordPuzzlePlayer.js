@@ -222,6 +222,7 @@ class WordPuzzlePlayer extends Component {
 				<WordGrid wordList={this.state.wordList} updateSolvedQuestion={this.updateSolvedQuestion} diagonals={this.state.diagonals} />
 
 				<div className="word-puzzle-ques">
+					<h6 className="wp-head">{this.state.title}</h6>
 					<ol className="questions-container">{questionsList}</ol>
 					<button onClick={this.finishExercise} className="btn">
 						{finishButton}

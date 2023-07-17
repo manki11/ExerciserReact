@@ -81,6 +81,13 @@
     height: var(--remain-height);
     overflow: hidden;
 }
+.word-puzzle-ques .wp-head {
+    margin: 13px auto 0 auto;
+    background: #ffcf83;
+    padding: 2px 7px;
+    font-weight: bold;
+    border-radius: 8px;
+}
 
 .word-puzzle-ques .questions-container {
     padding: 1.2rem var(--md-gap) 1rem 0;
