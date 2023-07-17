@@ -257,7 +257,6 @@ class WordGrid extends Component {
 	constructor(props) {
 		super(props);
 		this.selectionStart = this.selectionStart.bind(this);
-		this.selectionEnd = this.selectionEnd.bind(this);
 		this.mouseOver = this.mouseOver.bind(this);
 
 		this.touchMove = this.touchMove.bind(this);
@@ -268,6 +267,14 @@ class WordGrid extends Component {
 			puzzleGrid: this.wpuzzle.puzzleGrid,
 		};
 	}
+
+	componentDidMount() {
+		document.addEventListener("mouseup", this.selectionEnd);
+	}
+	componentWillUnmount() {
+		document.removeEventListener("mouseup", this.selectionEnd);
+	}
+
 	getPuzzleObj() {
 		return new PuzzleBuilder(
 			this.props.wordList.map((word) => ({
@@ -330,7 +337,7 @@ class WordGrid extends Component {
 		this.selectionEnd();
 	}
 
-	selectionEnd() {
+	selectionEnd = () => {
 		this.mouseDown = false;
 		if (!this.endCellId) return;
 
@@ -346,7 +353,7 @@ class WordGrid extends Component {
 			puzzleGrid: [...this.wpuzzle.puzzleGrid],
 		});
 		return false;
-	}
+	};
 
 	render() {
 		const puzzleGrid = this.state.puzzleGrid;
@@ -368,7 +375,6 @@ class WordGrid extends Component {
 										key={cell.id}
 										id={cell.id}
 										onMouseDown={this.selectionStart}
-										onMouseUp={this.selectionEnd}
 										onMouseOver={this.mouseOver}
 										onTouchStart={this.selectionStart}
 										onTouchMove={this.touchMove}
