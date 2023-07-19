@@ -30,6 +30,12 @@ export const FREE_TEXT_INPUT = "Free Text Input";
 export const MATCHING_PAIR = "Matching Pair";
 export const WORD_PUZZLE = "Word Puzzle";                                                                    
 
+// WORD PUZZLE
+export const STANDARD = "Standard";
+export const DIFFICULT = "Difficult";
+export const STANDARD_DESC = "Horizontal & Vertical words";
+export const DIFFICULT_DESC = "Horizontal, Vertical & Diagonal words";
+
 // FORM VIEW
 
 export const TITLE_OF_EXERCISE = "Title of Exercise";

@@ -13,6 +13,10 @@ import { QuestionOptionsJSX, QuestionJSX } from "../../components/MultimediaJSX"
 import {
 	QUESTION,
 	ANSWER,
+	STANDARD,
+	DIFFICULT,
+	STANDARD_DESC,
+	DIFFICULT_DESC,
 	FINISH_EXERCISE,
 	TITLE_OF_EXERCISE,
 	TEST_EXERCISE,
@@ -33,6 +37,7 @@ class WordPuzzleForm extends Component {
 			title: "",
 			scores: [],
 			times: [],
+			diagonals: false,
 			isFormValid: false,
 			questions: [
 				{
@@ -55,7 +60,7 @@ class WordPuzzleForm extends Component {
 	componentDidMount() {
 		if (this.props.location.state) {
 			// /edit/wordpuzzle load the exercise
-			const { id, title, questions, scores, times } = this.props.location.state.exercise;
+			const { id, title, questions, scores, times, diagonals } = this.props.location.state.exercise;
 			const updatedQuestions = questions.map((ques) => {
 				return {
 					...ques,
@@ -76,6 +81,7 @@ class WordPuzzleForm extends Component {
 				questions: updatedQuestions,
 				scores: scores,
 				times: times,
+				diagonals: diagonals,
 				errors: errors,
 			});
 		}
@@ -275,6 +281,7 @@ class WordPuzzleForm extends Component {
 			questions: questions,
 			scores: this.state.scores,
 			times: this.state.times,
+			diagonals: this.state.diagonals,
 			thumbnail: srcThumbnail,
 			userLanguage: userLanguage,
 		};
@@ -289,13 +296,18 @@ class WordPuzzleForm extends Component {
 		if (edit) this.props.history.push("/play/wordpuzzle", { exercise: exercise, edit: true });
 		else this.props.history.push("/");
 	};
+	handleSelection = (event) => {
+		const { value } = event.target;
+		const diagonals = value === "difficult";
+		this.setState({ diagonals });
+	};
 
 	handleNewEvent = (event) => {
 		event.preventDefault();
 	};
 
 	render() {
-		const { questions, errors } = this.state;
+		const { questions, errors, diagonals } = this.state;
 		const { thumbnail, insertThumbnail, showMedia, ShowEditableModalWindow } = this.props;
 
 		return (
@@ -313,7 +325,7 @@ class WordPuzzleForm extends Component {
 										<div className="row">
 											<div className="form-group">
 												{thumbnail}
-												<label className="mt-3" htmlFor="title">
+												<label className="mt-3 title" htmlFor="title">
 													<FormattedMessage id={TITLE_OF_EXERCISE} />
 												</label>
 												<button className="btn button-finish button-thumbnail" onClick={insertThumbnail} />
@@ -328,6 +340,20 @@ class WordPuzzleForm extends Component {
 												<div style={{ color: "red", height: "16px" }}>
 													{errors.title && <FormattedMessage id={TITLE_ERROR} />}
 												</div>
+											</div>
+										</div>
+										<div className="row">
+											<h6 className="title">Difficulty</h6>
+											<div className="form-group">
+												<label>
+													<input type="radio" value="standard" checked={!diagonals} onChange={this.handleSelection} />
+													<FormattedMessage id={STANDARD} />: <FormattedMessage id={STANDARD_DESC} />
+												</label>
+												<br />
+												<label>
+													<input type="radio" value="difficult" checked={diagonals} onChange={this.handleSelection} />
+													<FormattedMessage id={DIFFICULT} />: <FormattedMessage id={DIFFICULT_DESC} />
+												</label>
 											</div>
 										</div>
 										{questions.map((obj, i) => {
