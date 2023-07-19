@@ -22,6 +22,8 @@ Build an exercise with questions that need to be placed in the correct group.
 Build an exercise with questions that have answers in text format.
 6. **Matching Pair -**  
 Build an exercise to match questions with answers. Here the user is supposed to match one item in the left column to its corresponding item in the right column by connecting their two points.
+7. **Word Puzzle -**  
+Build a word puzzle to find answers to questions. Here the users discover hidden words by using hints given in the questions.
 
 ### Steps to run project
 
