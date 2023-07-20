@@ -1,0 +1,27 @@
+/* Form uses some styles from MCQForm.css */
+#wp-form {
+	margin-block: 40px;
+}
+#wp-form .media-background {
+	border-radius: 13px;
+}
+
+#wp-form .title,
+.wp-title,
+.wp-question,
+.wp-answer,
+.wp-add-question span {
+	font-weight: bold;
+	color: #282828;
+}
+
+.wp-add-question {
+	width: fit-content !important;
+	background: #e6e6e6;
+	padding-right: 15px;
+	border-radius: 15px;
+}
+.wp-add-question span {
+	display: inline-block;
+	vertical-align: middle;
+}

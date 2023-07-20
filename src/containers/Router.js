@@ -11,6 +11,8 @@ import REORDERForm from "./Builders/REORDERForm";
 import GroupAssignmentForm from "./Builders/GroupAssignmentForm";
 import FreeTextInputForm from "./Builders/FreeTextInputForm";
 import MATCHINGPAIRForm from "./Builders/MatchingForm";
+import WORDPUZZLEForm from "./Builders/WordPuzzleForm";                                                      
+
 
 import MCQPlay from "./Players/MCQPlayer";
 import CLOZEPlay from "./Players/CLOZEPlayer";
@@ -18,6 +20,7 @@ import REORDERPlay from "./Players/REORDERPlayer";
 import GroupAssignmentPlayer from "./Players/GroupAssignmentPlayer";
 import FreeTextInputPlayer from "./Players/FreeTextInputPlayer";
 import MATCHINGPAIRPlayer from "./Players/MatchingPlayer";
+import WORDPUZZLEPlayer from "./Players/WordPuzzlePlayer";                                                   
 
 import { injectIntl } from "react-intl";
 import "../css/index.css";
@@ -258,6 +261,33 @@ const Main = (props) => {
 						/>
 					)}
 				/>
+				
+	            {/* WORD_PUZZLE */}                                                           
+				<Route
+					exact
+					path="/new/wordpuzzle"
+					render={(props) => (
+						<WORDPUZZLEForm inFullscreenMode={inFullscreenMode} {...props} />
+					)}
+				/>
+				<Route
+					exact
+					path="/edit/wordpuzzle"
+					render={(props) => (
+						<WORDPUZZLEForm inFullscreenMode={inFullscreenMode} {...props} />
+					)}
+				/>	
+				<Route
+					exact
+					path="/play/wordpuzzle"
+					render={(props) => (
+						<WORDPUZZLEPlayer
+							onSharedResult={onSharedResult}
+							inFullscreenMode={inFullscreenMode}
+							{...props}
+						/>
+					)}
+				/>	                                                                                             
 
 				<Route
 					exact

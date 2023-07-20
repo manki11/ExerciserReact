@@ -10,13 +10,15 @@ import {
 	GROUP_ASSIGNMENT_TEMPLATE_STRING,
 	FREE_TEXT_INPUT_TEMPLATE_STRING,
 	MATCHING_PAIR_STRING,
+	WORD_PUZZLE_STRING,
 	CHOOSE,
 	CLOZE_TEXT,
 	MCQ,
 	REORDER_LIST,
 	GROUP_ASSIGNMENT,
 	FREE_TEXT_INPUT,
-	MATCHING_PAIR
+	MATCHING_PAIR,
+	WORD_PUZZLE
 } from "../translation";
 
 const mcqSelected = (history) => {
@@ -44,6 +46,11 @@ const matchingPairSelected = (history) => {
 	history.push('/new/match')
 };
 
+const wordPuzzleSelected = (history) => {                                                                    
+   history.push('/new/wordpuzzle')                                                                       
+};                                                                                                           
+
+
 function Template(props) {
 	let styles = { "backgroundColor": props.current_user.colorvalue ? props.current_user.colorvalue.stroke : "#FFFFFF" };
 	let fullScreenStyles = {
@@ -53,6 +60,22 @@ function Template(props) {
 		<div className="template-container" style={styles}>
 			<div className="col-md-10 mx-auto">
 				<div className="row justify-content-center align-self-center">
+					<div className="col-sm-4">
+						<div className="card mb-3 grow" onClick={wordPuzzleSelected.bind(null, props.history)}>
+							<div className="card-img-container">
+								<div className="card-img-top background-word-puzzle" style={props.inFullscreenMode ? fullScreenStyles : {}} />
+							</div>
+							<div className="card-body">
+								<h5 className="card-title"><FormattedMessage id={WORD_PUZZLE} /></h5>
+								<p className="card-text">
+									<FormattedMessage id={WORD_PUZZLE_STRING} />
+								</p>
+								<button className="button-choose" onClick={wordPuzzleSelected.bind(null, props.history)}>
+									<FormattedMessage id={CHOOSE} />
+								</button>
+							</div>
+						</div>
+					</div>
 					<div className="col-sm-4">
 						<div className="card grow" onClick={mcqSelected.bind(null, props.history)}>
 							<div className="card-img-container">
