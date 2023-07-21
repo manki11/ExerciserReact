@@ -187,7 +187,6 @@ class WordPuzzlePlayer extends Component {
 	};
 
 	render() {
-		const wordList = this.state.wordList.slice();
 		const { current_user, showMedia, ShowModalWindow } = this.props;
 		let style = {};
 		if (current_user.colorvalue) {
@@ -420,7 +419,7 @@ class PuzzleBuilder {
 		this.calcPuzzleSize();
 		this.puzzleGrid = [];
 		this.initGrid();
-		// this.populateUnusedCells();
+		this.populateUnusedCells();
 
 		this.prevSelectedCells = [];
 	}
@@ -534,7 +533,7 @@ class PuzzleBuilder {
 
 	getCellById(id) {
 		let [row, col] = id.split("-cell-");
-		return { row: parseInt(row), col: parseInt(col) };
+		return { row: parseInt(row, 10), col: parseInt(col, 10) };
 	}
 
 	getDirection(startCell, endCell) {
@@ -617,6 +616,8 @@ class PuzzleBuilder {
 					curr.col += dx;
 					cellsInDir.push([curr.row, curr.col]);
 				}
+				break;
+			default:
 				break;
 		}
 
