@@ -15,14 +15,6 @@
     user-select: none;
 }
 
-/* Fullscreen */
-.word-puzzle-container.wp-fullscreen {
-    --remain-height: 100vh;
-}
-.word-puzzle-container.wp-fullscreen .word-grid {
-    --height: calc(100vh - 30px);
-}
-
 .word-puzzle-container {
     --remain-height: calc(100vh - 55px);
     --md-gap: 2rem;

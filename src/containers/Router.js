@@ -35,7 +35,6 @@ const Main = (props) => {
 	if (props.inFullscreenMode) {
 		const toolbarHeight = 55;
 		increase = (toolbarHeight / containerSize.height);		
-		console.log(typeof increase, 1+increase);
 	}
 	const {
 		onUpdate,
