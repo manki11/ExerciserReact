@@ -35,6 +35,11 @@
     padding-right: 6px;
     overflow: auto;
 }
+.word-puzzle-container .word-grid-container::-webkit-scrollbar {
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
+}
 
 .word-puzzle-container .word-grid {
     --gap: 6px;
