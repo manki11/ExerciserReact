@@ -84,6 +84,10 @@ Restart Sugarizer.
 4. Push to the branch (`git push origin feature/feature_name`)
 5. Create a new Pull Request
 
+## Credits
+
+- [Generating Word Search Puzzles](https://weblog.jamisbuck.org/2015/9/26/generating-word-search-puzzles.html) by Jamis Buck
+
 ## LICENSE
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
