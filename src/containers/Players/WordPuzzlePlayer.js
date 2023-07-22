@@ -52,7 +52,7 @@ class WordPuzzlePlayer extends Component {
 					solved: false,
 				};
 			});
-			const wordList = questions.map((obj) => obj.answer.trim());
+			const wordList = questions.map((obj) => obj.answer.replace(/\s/g, ""));
 
 			let goBackToEdit = false;
 			if (this.props.location.state.edit) goBackToEdit = true;
@@ -187,7 +187,6 @@ class WordPuzzlePlayer extends Component {
 	};
 
 	render() {
-		const wordList = this.state.wordList.slice();
 		const { current_user, showMedia, ShowModalWindow } = this.props;
 		let style = {};
 		if (current_user.colorvalue) {
@@ -257,7 +256,8 @@ export default withMultimedia(require("../../media/template/mcq_image.svg"))(
 class WordGrid extends Component {
 	constructor(props) {
 		super(props);
-		this.selectionStart = this.selectionStart.bind(this);
+		this.parentRef = React.createRef();
+		this.childRef = React.createRef();
 		this.mouseOver = this.mouseOver.bind(this);
 
 		this.touchMove = this.touchMove.bind(this);
@@ -267,12 +267,18 @@ class WordGrid extends Component {
 		this.state = {
 			puzzleGrid: this.wpuzzle.puzzleGrid,
 		};
+		this.isOverflowing = false;
 	}
 
 	componentDidMount() {
+		setTimeout(() => {
+			this.isOverflowing = this.childRef.current.scrollHeight > this.parentRef.current.clientHeight;
+		}, 50);
+		this.childRef.current.addEventListener("touchstart", this.selectionStart, { passive: false });
 		document.addEventListener("mouseup", this.selectionEnd);
 	}
 	componentWillUnmount() {
+		this.childRef.current.removeEventListener("touchstart", this.selectionStart);
 		document.removeEventListener("mouseup", this.selectionEnd);
 	}
 
@@ -301,17 +307,38 @@ class WordGrid extends Component {
 		});
 	}
 
-	selectionStart(e) {
-		this.mouseDown = true;
-		this.startCellId = this.endCellId = e.target.id;
-		this.updatePuzzle();
+	handleScrollVisibility() {
+		if (!this.isOverflowing) return;
+		let row = this.wpuzzle.endCellInDir[0];
+		let col = this.wpuzzle.endCellInDir[1];
+		const dir = PuzzleBuilder.DIRECTIONS[this.wpuzzle.currentSelectionDir];
+		if (!dir) return;
+		row += dir[0];
+		col += dir[1];
+		const nextVisibleEle = document.getElementById(`${row}-cell-${col}`);
+		if (!nextVisibleEle) return;
+		nextVisibleEle.scrollIntoView({
+			block: "nearest",
+			inline: "nearest",
+			behavior: "smooth",
+		});
 	}
+
+	selectionStart = (e) => {
+		e.preventDefault();
+		if (e.target.id && e.target.id.includes("cell")) {
+			this.mouseDown = true;
+			this.startCellId = this.endCellId = e.target.id;
+			this.updatePuzzle();
+		}
+	};
 
 	mouseOver(e) {
 		if (!this.mouseDown) return;
 
 		this.endCellId = e.target.id; //keeps track of endCellId
 		this.updatePuzzle();
+		this.handleScrollVisibility();
 	}
 
 	touchMove(e) {
@@ -326,6 +353,7 @@ class WordGrid extends Component {
 
 		if (this.endCellId === prevId) return;
 		this.updatePuzzle();
+		this.handleScrollVisibility();
 	}
 
 	touchEnd(e) {
@@ -360,34 +388,35 @@ class WordGrid extends Component {
 		const puzzleGrid = this.state.puzzleGrid;
 
 		return (
-			<div className="word-grid">
-				{/*---------------- Grid array ----------------*/}
-				{puzzleGrid.map((row, i) => {
-					return (
-						<div className="row-grid" key={`row-${i}`}>
-							{/*------------- Row of Grid ----------------*/}
-							{row.map((cell, i) => {
-								const cellClass = "cell " + (cell.highlight ? "highlight " : cell.found ? "found" : "");
+			<div className="word-grid-container" ref={this.parentRef}>
+				<div className="word-grid" ref={this.childRef}>
+					{/*---------------- Grid array ----------------*/}
+					{puzzleGrid.map((row, i) => {
+						return (
+							<div className="row-grid" key={`row-${i}`}>
+								{/*------------- Row of Grid ----------------*/}
+								{row.map((cell, i) => {
+									const cellClass = "cell " + (cell.highlight ? "highlight " : cell.found ? "found" : "");
 
-								/*----------- Cell ------------------*/
-								return (
-									<div
-										className={cellClass}
-										key={cell.id}
-										id={cell.id}
-										onMouseDown={this.selectionStart}
-										onMouseOver={this.mouseOver}
-										onTouchStart={this.selectionStart}
-										onTouchMove={this.touchMove}
-										onTouchEnd={this.touchEnd}
-									>
-										{cell.letter}
-									</div>
-								);
-							})}
-						</div>
-					);
-				})}
+									/*----------- Cell ------------------*/
+									return (
+										<div
+											className={cellClass}
+											key={cell.id}
+											id={cell.id}
+											onMouseDown={this.selectionStart}
+											onMouseOver={this.mouseOver}
+											onTouchMove={this.touchMove}
+											onTouchEnd={this.touchEnd}
+										>
+											{cell.letter}
+										</div>
+									);
+								})}
+							</div>
+						);
+					})}
+				</div>
 			</div>
 		);
 	}
@@ -420,9 +449,10 @@ class PuzzleBuilder {
 		this.calcPuzzleSize();
 		this.puzzleGrid = [];
 		this.initGrid();
-		// this.populateUnusedCells();
+		this.populateUnusedCells();
 
 		this.prevSelectedCells = [];
+		this.currentSelectionDir = null;
 	}
 
 	initGrid() {
@@ -534,7 +564,7 @@ class PuzzleBuilder {
 
 	getCellById(id) {
 		let [row, col] = id.split("-cell-");
-		return { row: parseInt(row), col: parseInt(col) };
+		return { row: parseInt(row, 10), col: parseInt(col, 10) };
 	}
 
 	getDirection(startCell, endCell) {
@@ -558,6 +588,7 @@ class PuzzleBuilder {
 		const startCell = this.getCellById(startCellId);
 		const endCell = this.getCellById(endCellId);
 		const dir = this.getDirection(startCell, endCell);
+		this.currentSelectionDir = dir;
 
 		if (dir === undefined || dir === null) return [[startCell.row, startCell.col]];
 		const cellsInDir = [];
@@ -618,8 +649,11 @@ class PuzzleBuilder {
 					cellsInDir.push([curr.row, curr.col]);
 				}
 				break;
+			default:
+				break;
 		}
 
+		this.endCellInDir = cellsInDir[cellsInDir.length - 1];
 		return cellsInDir;
 	}
 
