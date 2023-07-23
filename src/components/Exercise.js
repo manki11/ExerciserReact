@@ -223,11 +223,10 @@ class Exercise extends Component {
 			length = pairs.length;
 			localized_type = MATCHING_PAIR;
 		}
-		if (type === "WORD_PUZZLE") {                                                                 
-           length = this.props.questions.length;                                                 
-           localized_type = WORD_PUZZLE;                                                         
-       }                                                                                             
-                       
+		if (type === "WORD_PUZZLE") {
+			length = this.props.questions.length;
+			localized_type = WORD_PUZZLE;
+		}                       
 
 		let question_string = (
 			<FormattedMessage id={QUESTIONS} values={{ number: length }} />

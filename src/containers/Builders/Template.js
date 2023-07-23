@@ -46,10 +46,9 @@ const matchingPairSelected = (history) => {
 	history.push('/new/match')
 };
 
-const wordPuzzleSelected = (history) => {                                                                    
-   history.push('/new/wordpuzzle')                                                                       
-};                                                                                                           
-
+const wordPuzzleSelected = (history) => {
+	history.push("/new/wordpuzzle");
+};
 
 function Template(props) {
 	let styles = { "backgroundColor": props.current_user.colorvalue ? props.current_user.colorvalue.stroke : "#FFFFFF" };
