@@ -23,7 +23,7 @@
 				"id": 3,
 				"question": {
 					"type": "audio",
-					"data": "train.wav"
+					"data": "train.mp3"
 				},
 				"answer": "Train"
 			},
