@@ -601,8 +601,7 @@ class Sugarizer extends Component {
 				exercise.type === "MCQ" ||
 				exercise.type === "FREE_TEXT_INPUT" ||
 				exercise.type === "GROUP_ASSIGNMENT" ||
-	            exercise.type === "WORD_PUZZLE"                                               
-
+				exercise.type === "WORD_PUZZLE"                                               
 			) {
 				for (let index = 0; index < exercise.questions.length; index++)
 					exercise.questions[index] = translateItem(exercise.questions[index]);

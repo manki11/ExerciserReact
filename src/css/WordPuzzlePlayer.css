@@ -16,7 +16,7 @@
 }
 
 .word-puzzle-container {
-    --remain-height: calc(100vh - 55px);
+    --remain-height: calc(100vh - 60px);
     --md-gap: 2rem;
     --bg-color-1: coral;
     --bg-color-2: #11a7e1;
@@ -29,10 +29,10 @@
 }
 
 .word-puzzle-container .word-grid-container {
-    --height: calc(100vh - 75px);
+    --height: calc(100vh - 60px);
     height: var(--height);
     flex: 0 0 var(--height);
-    padding-right: 6px;
+    padding: 10px 6px 2px 0;
     overflow: auto;
 }
 .word-puzzle-container .word-grid-container::-webkit-scrollbar {
