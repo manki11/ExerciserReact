@@ -70,6 +70,9 @@ class ExerciseList extends Component {
 		if (exercise.type === "MATCHING_PAIR") {
 			this.props.history.push("/edit/match", { exercise: exercise });
 		}
+		if (exercise.type === "WORD_PUZZLE") {
+			this.props.history.push("/edit/wordpuzzle", { exercise: exercise });
+		}
 	};
 
 	onShare = (id, shared) => {
@@ -136,6 +139,9 @@ class ExerciseList extends Component {
 		}
 		if (exercise.type === "MATCHING_PAIR") {
 			this.props.history.push("/play/match", { exercise: exercise });
+		}
+		if (exercise.type === "WORD_PUZZLE") {
+			this.props.history.push("/play/wordpuzzle", { exercise: exercise });
 		}
 	};
 

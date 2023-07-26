@@ -18,6 +18,8 @@ export const GROUP_ASSIGNMENT_TEMPLATE_STRING =
 	"Build an exercise with questions that needs to be placed in the correct group.";
 export const FREE_TEXT_INPUT_TEMPLATE_STRING =
 	"Build an exercise with questions that have answers in text format.";
+export const WORD_PUZZLE_STRING =
+	"Build a word puzzle to find answers to questions.";
 export const MATCHING_PAIR_STRING =
 	"Build an exercise to match questions with answers.";
 export const CHOOSE = "Choose";
@@ -26,6 +28,13 @@ export const REORDER_LIST = "Reorder List";
 export const GROUP_ASSIGNMENT = "Group Assignment";
 export const FREE_TEXT_INPUT = "Free Text Input";
 export const MATCHING_PAIR = "Matching Pair";
+export const WORD_PUZZLE = "Word Puzzle";                                                                    
+
+// WORD PUZZLE
+export const STANDARD = "Standard";
+export const DIFFICULT = "Difficult";
+export const STANDARD_DESC = "Horizontal & Vertical words";
+export const DIFFICULT_DESC = "Horizontal, Vertical & Diagonal words";
 
 // FORM VIEW
 

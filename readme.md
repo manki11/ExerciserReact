@@ -22,6 +22,8 @@ Build an exercise with questions that need to be placed in the correct group.
 Build an exercise with questions that have answers in text format.
 6. **Matching Pair -**  
 Build an exercise to match questions with answers. Here the user is supposed to match one item in the left column to its corresponding item in the right column by connecting their two points.
+7. **Word Puzzle -**  
+Build a word puzzle to find answers to questions. Here the users discover hidden words by using hints given in the questions.
 
 ### Steps to run project
 
@@ -81,6 +83,10 @@ Restart Sugarizer.
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin feature/feature_name`)
 5. Create a new Pull Request
+
+## Credits
+
+- [Generating Word Search Puzzles](https://weblog.jamisbuck.org/2015/9/26/generating-word-search-puzzles.html) by Jamis Buck
 
 ## LICENSE
 

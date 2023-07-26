@@ -60,6 +60,12 @@
     background-size: cover;
 }
 
+.background-word-puzzle{
+    background: url("../media/template/word_puzzle_image.svg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
 .button-choose{
     width: 50%;
     background-color: #808080;

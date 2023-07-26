@@ -49,6 +49,7 @@ export function QuestionJSX(props) {
 				id="question"
 				value={questionData}
 				onChange={handleChangeQues}
+				autoFocus
 			/>
 		);
 	if (questionType === MULTIMEDIA.image)
@@ -74,6 +75,7 @@ export function QuestionJSX(props) {
 					id="question"
 					value={questionData}
 					onChange={handleChangeQues}
+					autoFocus
 				/>
 				<button className="btn button-finish button-speaker button-off"
 					onClick={(e) => { speak(e, questionData) }}>
