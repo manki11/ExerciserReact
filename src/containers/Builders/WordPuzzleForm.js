@@ -394,7 +394,7 @@ class WordPuzzleForm extends Component {
 																	className="input-mcq"
 																	type="text"
 																	value={obj.answer}
-																	maxLength={50}
+																	maxLength={20}
 																	onChange={(e) => this.handleChangeAns(i, e)}
 																/>
 															</div>
