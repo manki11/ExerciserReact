@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import ReactDOM from "react-dom";
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 // a little function to help us with reordering the result
@@ -10,6 +11,8 @@ const reorder = (list, startIndex, endIndex) => {
 	return result;
 };
 
+// portal for dragging items
+const portal = document.getElementById("drag-list-item");
 const grid = 8;
 
 const getItemStyle = (isDragging, draggableStyle) => ({
@@ -92,27 +95,19 @@ export default class DragList extends Component {
 						>
 							{this.state.items.map((item, index) => (
 								<Draggable key={item.id} draggableId={item.id} index={index}>
-									{(provided, snapshot) => (
-										<div
-											ref={provided.innerRef}
-											{...provided.draggableProps}
-											style={getItemStyle(
-												snapshot.isDragging,
-												provided.draggableProps.style
-											)}
-										>
-											<div style={{display:'flex',width:'95%'}} {...provided.dragHandleProps}
-												className="handler">
-												<img style={{ width: '1.5em', objectFit: 'contain' }}
-													src={require("../icons/exercise/reorder-drag.png")}
-													alt="handler"
-												></img>
-													<div style={getContentStyle}>
-												{item.content}
+									{(provided, snapshot) => {
+										const child = (
+											<div ref={provided.innerRef} {...provided.draggableProps} style={getItemStyle(snapshot.isDragging, provided.draggableProps.style)}>
+												<div style={{ display: "flex", width: "95%" }} {...provided.dragHandleProps} className="handler">
+													<img style={{ width: "1.5em", objectFit: "contain" }} src={require("../icons/exercise/reorder-drag.png")} alt="handler"></img>
+													<div style={getContentStyle}>{item.content}</div>
 												</div>
 											</div>
-										</div>
-									)}
+										);
+										if (!snapshot.isDragging) return child;
+										// if dragging - put the item in a portal so parent css scale property won't afftect it
+										return ReactDOM.createPortal(child, portal);
+									}}
 								</Draggable>
 							))}
 							{provided.placeholder}
